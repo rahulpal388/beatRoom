@@ -1,8 +1,12 @@
-import { MoveUpRight } from "lucide-react";
+'use client'
 
+import { MoveUpRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
 export function Hero() {
+
+    const router = useRouter()
 
     return <>
 
@@ -19,7 +23,12 @@ export function Hero() {
                     </button>
                 </div>
                 <div>
-                    <button className="bg-red-800 px-4 py-2 rounded-lg  ">SignUp for free</button>
+
+                    <button className="bg-red-800 px-4 py-2 rounded-lg cursor-pointer "
+                        onClick={() => {
+                            router.push("signin")
+                        }}
+                    >SignUp for free</button>
                 </div>
             </div>
         </div>

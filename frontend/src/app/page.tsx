@@ -8,7 +8,7 @@ export default function App() {
 
   return <>
 
-    <div className=" px-24 py-4 bg-background h-screen w-screen text-white ">
+    <div className=" px-24 py-4  h-screen w-screen  ">
       <NavBar />
       <Hero />
     </div>

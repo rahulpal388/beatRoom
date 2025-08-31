@@ -1,8 +1,12 @@
+"use client"
 import { Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 
 
 export function NavBar() {
+
+    const router = useRouter()
 
     return <>
 
@@ -24,7 +28,11 @@ export function NavBar() {
                     <span>Create Room</span>
                 </button>
 
-                <button className=" cursor-pointer bg-red-800  px-4 py-1 rounded shadow-xs shadow-green-400   ">Login</button>
+                <button className=" cursor-pointer bg-red-800  px-4 py-1 rounded shadow-xs shadow-green-400   "
+                    onClick={() => {
+                        router.push("/login")
+                    }}
+                >Login</button>
             </div>
         </div>
 

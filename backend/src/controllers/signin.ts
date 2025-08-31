@@ -5,12 +5,21 @@ import { TOTP } from "totp-generator";
 import Jwt from "jsonwebtoken";
 import { signinType, verifyOtpType } from "../zodTypes/authType";
 import { encode } from "hi-base32";
+import { sendEmail } from "../utils/nodeMailer";
 
 
+// task : delete the storing the otp and then verifying
+
+export let verify_otp = "";
+
+const expire_otp = () => {
+    setTimeout(() => {
+        verify_otp = "";
+    }, 90000);
+}
 
 
-
-export const signin = (req: Request, res: Response) => {
+export const signin = async (req: Request, res: Response) => {
     console.log(req.body)
     try {
 
@@ -38,14 +47,30 @@ export const signin = (req: Request, res: Response) => {
         console.log(`the otp is ${otp}`)
         console.log(process.env.NODE_EN)
 
-        const generateOtp = process.env.NODE_EN === "dev" ? "123456" : otp;
 
         // task 1.  send the otp to email
 
 
+
+        const isEmailSended = await sendEmail(
+            data.email,
+            `Your OTP is ${otp}. It will expire in 5 minutes.`,
+            `<p>Your OTP is <b>${otp}</b></p><p>It expires in 5 minutes.</p>`
+        );
+
+        if (!isEmailSended) {
+            res.status(500).json({
+                message: "server error"
+            })
+            return;
+        }
+
+        // task 1: delete it 
+        verify_otp = otp;
+        expire_otp();
         res.status(200).json({
             message: "check your email for six digits OTP",
-            generateOtp
+            otp
         })
 
     } catch (error) {
@@ -57,51 +82,3 @@ export const signin = (req: Request, res: Response) => {
     }
 }
 
-
-export const verifyOtp_signin = (req: Request, res: Response) => {
-
-    try {
-        const { success, data } = verifyOtpType.safeParse(req.body);
-
-        if (!success) {
-            res.status(411).json({
-                message: "Invalid input"
-            })
-
-            return;
-        }
-
-        const { otp } = TOTP.generate(encode(data.email + process.env.OTP_SECRET));
-        console.log(`verification email otp is ${otp}`);
-        const generateOtp = process.env.NODE_EN === "dev" ? "123456" : otp;
-
-        if (generateOtp === data.otp) {
-            // insert the user in the DB
-
-            // create the token
-            const token = Jwt.sign({
-                email: data.email
-            }, process.env.JWT_SECRET!)
-
-            res.status(200).json({
-                message: "user account is created",
-                token
-            })
-
-            return
-        }
-
-        res.status(400).json({
-            message: "Invalid otp"
-        })
-
-
-    } catch (error) {
-        console.log(error)
-        res.status(411).json({
-            message: "can't verify otp"
-        })
-
-    }
-
-}

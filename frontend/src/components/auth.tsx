@@ -28,9 +28,9 @@ export function AuthPage() {
                 hello world
             </div>
             <div className="col-span-1 max-xs:col-span-2 flex items-center justify-center px-12 ">
-                <div className="border  border-black rounded p-4 min-w-60 ">
-                    {isForm ?
-                        <AnimatePresence>
+                <div className="border overflow-hidden border-black  rounded p-4 min-w-60 max-w-96 h-[26rem] flex items-center justify-center ">
+                    <AnimatePresence>
+                        {isForm &&
 
                             <motion.div
                                 initial={{
@@ -38,9 +38,14 @@ export function AuthPage() {
                                     x: 0,
                                 }}
                                 exit={{
-                                    x: -120,
+                                    x: -300,
                                     opacity: 0,
                                 }}
+                                transition={{
+                                    duration: 0.5,
+                                    ease: "easeInOut"
+                                }}
+                                className=" min-w-full "
 
                             >
 
@@ -86,9 +91,29 @@ export function AuthPage() {
                                 </form>
 
                             </motion.div>
-                        </AnimatePresence>
-                        :
-                        <div >
+                        }
+                    </AnimatePresence>
+
+
+                    {!isForm &&
+                        <motion.div
+
+                            initial={{
+                                x: 300,
+                                opacity: 0
+
+                            }}
+
+                            animate={{
+                                x: 0,
+                                opacity: 1
+                            }}
+
+                            transition={{
+                                duration: 1,
+                                ease: "easeInOut"
+                            }}
+                        >
                             <h1 className="text-center text-2xl font-bold text-neutral-8001 ">Enter the OTP</h1>
                             <p className="text-center text-sm text-neutral-700 font-medium  ">Enter the 6 digits OTP sent to your email to complete verification.</p>
                             <div className="flex gap-3 mt-10 justify-center ">
@@ -104,7 +129,7 @@ export function AuthPage() {
                                     setIsForm(true)
                                 }}
                             >Verify otp</button>
-                        </div>
+                        </motion.div>
                     }
                 </div>
             </div>

@@ -8,7 +8,7 @@ export default function Login() {
 
     return <>
 
-        <div className="bg-gray-400 h-screen flex items-center justify-center  ">
+        <div className="bg-gray-400 h-screen ">
             <AuthPage />
         </div>
 

@@ -1,3 +1,4 @@
+import { MouseEventHandler } from "react"
 
 
 
@@ -19,11 +20,11 @@ export function Button({ type, btnType, name, icon, className, onClick }: {
     name: string,
     icon?: React.ReactNode,
     className?: string,
-    onClick?: () => void
+    onClick?: MouseEventHandler<HTMLButtonElement>
 }) {
 
     return <>
-        <button type={type} className={`${buttonStyle[btnType]} ${className} cursor-pointer `} onClick={onClick} >{icon}{name}</button>
+        <button type={type} className={`${buttonStyle[btnType]} ${className} cursor-pointer text-white `} onClick={onClick} >{icon}{name}</button>
     </>
 
 

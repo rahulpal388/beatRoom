@@ -28,8 +28,14 @@ export function RoomCard({ name, link, createdAt }: IRoom) {
 
                 <div className=" absolute bottom-4 flex items-center justify-between ">
                     <div className="flex gap-4">
-                        <Button btnType="Secondary" name="Join Room" />
-                        <Button btnType="Primary" name="Delete" />
+                        <Button btnType="Secondary" name="Join Room" onClick={() => {
+                            console.log("join room")
+                        }} />
+                        <Button btnType="Primary" name="Delete"
+                            onClick={() => {
+                                console.log("delete")
+                            }}
+                        />
                     </div>
                 </div>
             </div>

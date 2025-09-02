@@ -1,31 +1,29 @@
 'use client'
-import { X } from "lucide-react";
-import { Dispatch, SetStateAction } from "react"
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Dispatch, SetStateAction } from "react";
 import { motion } from "motion/react"
+import { X } from "lucide-react";
+import { Button } from "./ui/button";
 import { SubmitHandler, useForm } from "react-hook-form";
 
-type ICreateRoom = {
-    userName: string,
-    roomName: string
+
+type IRoom = {
+    link: string
 }
 
-export function CreateRoomCard({ setCreateRoom }: {
-    setCreateRoom: Dispatch<SetStateAction<boolean>>;
+export function JoinRoomCard({ setJoinRoom }: {
+    setJoinRoom: Dispatch<SetStateAction<boolean>>
 }) {
+    const { handleSubmit, register } = useForm<IRoom>();
 
-    const { handleSubmit, register } = useForm<ICreateRoom>()
-
-
-    const onSubmit: SubmitHandler<ICreateRoom> = (data) => {
-        console.log(data);
+    const onSubmit: SubmitHandler<IRoom> = (data) => {
+        console.log("joooo")
+        console.log(`Room link => ${data.link}`)
     }
 
     return <>
         <div className="absolute top-0 left-0 bg-transparent backdrop-blur-[0.5px]  h-screen w-screen  flex items-center justify-center px-10 "
             onClick={(e) => {
-                setCreateRoom(false);
+                setJoinRoom(false);
             }}
         >
             <motion.div
@@ -52,7 +50,7 @@ export function CreateRoomCard({ setCreateRoom }: {
                 <div className="flex items-center justify-end">
                     <X className=" cursor-pointer size-8 stroke-[1px] "
                         onClick={() => {
-                            setCreateRoom(false);
+                            setJoinRoom(false);
                         }}
                     />
                 </div>
@@ -63,15 +61,11 @@ export function CreateRoomCard({ setCreateRoom }: {
                 <div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="flex gap-1 flex-col mt-4 ">
-                            <label htmlFor="username" className="text-lg">Username</label>
-                            <input className="bg-black px-2 py-1 rounded border-[0.5px] border-white" type="text" id="username" placeholder="Enter username" {...register("userName", { required: true })} />
-                        </div>
-                        <div className="flex gap-1 flex-col mt-4 ">
-                            <label htmlFor="roomName" className="text-lg">Room Name</label>
-                            <input className="bg-black px-2 py-1 rounded border-[0.5px] border-white" type="text" id="roomName" placeholder="Enter room name" {...register("roomName", { required: true })} />
+                            <label htmlFor="roomLink" className="text-lg">Room Link</label>
+                            <input className="bg-black px-2 py-1 rounded border-[0.5px] border-white" id="roomLink" placeholder="Enter room link" type="text"  {...register("link", { required: true })} />
                         </div>
                         <div className="flex justify-center">
-                            <Button type="submit" btnType="Primary" name="Create Room" className="mt-8  " />
+                            <Button type="submit" btnType="Primary" name="Join Room" className="mt-8  " />
                         </div>
                     </form>
                 </div>
@@ -81,4 +75,3 @@ export function CreateRoomCard({ setCreateRoom }: {
     </>
 
 }
-

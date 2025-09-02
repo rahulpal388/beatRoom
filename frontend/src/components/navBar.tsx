@@ -25,9 +25,9 @@ export function NavBar() {
                     <h1 className="cursor-pointer">Feature</h1>
                 </div>
             </div>
-            <div className="flex items-center gap-8 max-lg:hidden ">
+            <div className="flex items-center gap-8  ">
 
-                <button className=" cursor-pointer flex items-center gap-2 justify-center border-[1px] border-secondary-btn-border text-secondary-btn-text  bg-secondary-btn-background px-4 py-1 rounded  "
+                <button className=" cursor-pointer max-sm:text-xs flex items-center sm:gap-2 justify-center border-[1px] border-secondary-btn-border text-secondary-btn-text  bg-secondary-btn-background lg:px-4 px-1 py-1 rounded  "
                     onClick={() => {
                         setCreateRoom(true);
                     }}
@@ -42,7 +42,7 @@ export function NavBar() {
                 </AnimatePresence>
 
 
-                <button className=" cursor-pointer bg-red-800  px-4 py-1 rounded shadow-xs shadow-green-400   "
+                <button className="max-lg:hidden cursor-pointer bg-red-800  px-4 py-1 rounded shadow-xs shadow-green-400   "
                     onClick={() => {
                         router.push("/login")
                     }}

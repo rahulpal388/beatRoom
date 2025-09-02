@@ -12,14 +12,15 @@ export function Hero() {
 
 
         <div className=" mt-28 w-full text-center  ">
-            <h1 className=" text-6xl font-bold ">Stream. Share. Vibe with Friends</h1>
-            <h4 className="mt-6 text-lg ">Sync your favorite tracks from YouTube, Spotify & more — listen, vibe, and connect in real time.</h4>
+            <h1 className=" text-6xl font-bold tracking-tighter ">Your room. Your beat. A space to Connect.</h1>
+            {/* Stream. Vibe. Together. */}
+            <h4 className="mt-6 text-5xl font-medium text-center text-neutral-600 ">BeatRoom lets you listen to music, watch videos, and hang out with friends in real-time with chat, voice, and video.</h4>
 
-            <div className="flex items-center gap-28 justify-center mt-16 ">
+            <div className="flex items-center gap-20 justify-center mt-16 ">
                 <div>
                     <button className="flex gap-2 bg-secondary-btn-background border-[0.5px] border-secondary-btn-border text-secondary-btn-text px-4 py-2 rounded-lg cursor-pointer hover:text-secondary-btn-hover   ">
-                        <span>Try Now</span>
-                        <MoveUpRight className="stroke-[0.9px] " />
+                        <span>Join Room</span>
+
                     </button>
                 </div>
                 <div>
@@ -28,7 +29,7 @@ export function Hero() {
                         onClick={() => {
                             router.push("signin")
                         }}
-                    >SignUp for free</button>
+                    >Sign Up</button>
                 </div>
             </div>
         </div>

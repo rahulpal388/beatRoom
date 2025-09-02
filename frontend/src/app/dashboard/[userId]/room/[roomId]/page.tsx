@@ -2,6 +2,7 @@
 
 import { NavBar } from "@/components/navBar";
 import { RoomChat } from "@/components/roomChat";
+import { Video } from "@/components/video";
 import { useParams } from "next/navigation"
 
 
@@ -33,7 +34,9 @@ export default function RoomPage() {
                         <div className="  w-[25rem] bg-neutral-500 h-full flex items-center justify-center  ">
                             video streaming later
                         </div>
-                        <div className=" h-[18rem] w-[32rem] bg-neutral-800 flex items-center justify-center "> video play</div>
+                        <div className=" h-[18rem] w-[32rem] bg-neutral-800 flex items-center justify-center ">
+                            <Video />
+                        </div>
                     </div>
                 </div>
                 <div className="col-span-2 border-l-[1.5px] border-border  ">

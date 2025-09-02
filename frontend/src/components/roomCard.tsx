@@ -3,6 +3,8 @@ import { IRoom } from "@/app/dashboard/[userId]/page";
 import { Check, Copy, EllipsisVertical } from "lucide-react";
 import { initScriptLoader } from "next/script";
 import { useState } from "react";
+import { Button } from "./ui/button";
+import Image from "next/image";
 
 
 
@@ -11,36 +13,27 @@ export function RoomCard({ name, link, createdAt }: IRoom) {
     const [isCoped, setIsCoped] = useState<boolean>(false);
 
     return <>
-        <div className=" relative border-[1px] border-border p-2  rounded-md flex justify-between items-center  ">
-            <div>
-                <h1 className="text-xl">{name}</h1>
-                <p className="text-xs mt-2 ">Created At {createdAt.toLocaleDateString()} </p>
-            </div>
-            <div className="flex gap-6 items-center cursor-pointer ">
-                {isCoped ?
-                    <Check />
-                    : <Copy onClick={async () => {
-                        await navigator.clipboard.writeText(link);
-                        setIsCoped(true);
-                        setTimeout(() => {
-                            setIsCoped(false);
-                        }, 2000)
-
-                    }} />}
-                <EllipsisVertical className="hover:bg-gray-600 h-12 rounded cursor-pointer " onClick={(e) => {
-
-                    setRoomName(roomName === name ? null : name)
-                    console.log(e)
-                }} />
+        <div className="w-full h-[17rem] rounded-lg  grid grid-rows-5 bg-card-foreground  ">
+            <div className=" row-span-3 h-full w-full   ">
+                {/* <Image src="/beatroom-music.jpg" alt="image" fill className="object-contain w-full h-auto " /> */}
+                <img src="/beatroom-music.jpg" alt="image" className="object-cover h-full w-full rounded-lg " />
             </div>
 
-            {roomName === name && <div className="z-50 absolute -right-28 flex flex-col gap-2 top-8 h-20 w-30 bg-gray-600 rounded p-2 ">
-                <button className="hover:bg-neutral-500 w-full rounded " >Copy</button>
-                <button className="hover:bg-neutral-500 w-full rounded " >Delete</button>
+            <div className="relative row-span-2 px-4 py-2   ">
+                <div className="flex  justify-between">
+                    <h1 className="text-xl">{name}</h1>
+                    <p className="text-xs">Created At {createdAt.toLocaleDateString()}</p>
+                </div>
 
-            </div>}
+
+                <div className=" absolute bottom-4 flex items-center justify-between ">
+                    <div className="flex gap-4">
+                        <Button btnType="Secondary" name="Join Room" />
+                        <Button btnType="Primary" name="Delete" />
+                    </div>
+                </div>
+            </div>
         </div>
-
     </>
 
 }

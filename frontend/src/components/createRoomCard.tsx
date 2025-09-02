@@ -23,7 +23,7 @@ export function CreateRoomCard({ setCreateRoom }: {
     }
 
     return <>
-        <div className="absolute top-0 left-0 bg-transparent backdrop-blur-[0.5px]  h-screen w-screen  flex items-center justify-center px-10 "
+        <div className="absolute top-0 left-0 bg-transparent backdrop-blur-[0.px]  h-screen w-screen  flex items-center justify-center px-10 "
             onClick={(e) => {
                 setCreateRoom(false);
             }}
@@ -46,7 +46,7 @@ export function CreateRoomCard({ setCreateRoom }: {
                     opacity: 0
                 }}
 
-                className=" bg-card-foreground shadow-2xl shadow-black rounded-lg  w-96 py-4 px-6 "
+                className="z-50 bg-card-foreground shadow-2xl shadow-black rounded-lg  w-96 py-4 px-6 "
                 onClick={(e) => { e.stopPropagation() }}
             >
                 <div className="flex items-center justify-end">

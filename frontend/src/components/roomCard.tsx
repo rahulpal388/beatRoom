@@ -22,7 +22,7 @@ export function RoomCard({ name, link, createdAt }: IRoom) {
             <div className="relative row-span-2 px-4 py-2   ">
                 <div className="flex  justify-between">
                     <h1 className="text-xl">{name}</h1>
-                    <p className="text-xs">Created At {createdAt.toLocaleDateString()}</p>
+                    <p className="text-xs">Created At {new Date(createdAt).toLocaleTimeString()}</p>
                 </div>
 
 

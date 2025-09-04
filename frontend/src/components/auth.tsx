@@ -3,6 +3,9 @@ import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form"
 import { motion, AnimatePresence } from "motion/react"
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 
 type IInputForm = {
@@ -15,10 +18,15 @@ type IInputForm = {
 export function AuthPage() {
     const [viewPassowrd, setViewPassword] = useState<boolean>(false);
     const [isForm, setIsForm] = useState<boolean>(true);
+    const [otp, setOtp] = useState<string>("");
+    const [user, setUser] = useState<IInputForm | null>(null)
     const { register, handleSubmit } = useForm<IInputForm>();
+    const router = useRouter()
 
-    const onSubmit: SubmitHandler<IInputForm> = (data) => {
-        console.log(data)
+    const onSubmit: SubmitHandler<IInputForm> = async (data) => {
+        setUser(data);
+        const response = await axios.post(`http://localhost:8080/api/v1/user/signin`, data)
+        console.log(response);
         setIsForm(false)
     }
 
@@ -117,16 +125,41 @@ export function AuthPage() {
                             <h1 className="text-center text-2xl font-bold text-neutral-8001 ">Enter the OTP</h1>
                             <p className="text-center text-sm text-neutral-700 font-medium  ">Enter the 6 digits OTP sent to your email to complete verification.</p>
                             <div className="flex gap-3 mt-10 justify-center ">
-                                <div className="border border-black rounded p-2 w-8 h-10"></div>
-                                <div className="border border-black rounded p-2 w-8 h-10"></div>
-                                <div className="border border-black rounded p-2 w-8 h-10"></div>
-                                <div className="border border-black rounded p-2 w-8 h-10"></div>
-                                <div className="border border-black rounded p-2 w-8 h-10"></div>
+                                <InputOTP
+                                    maxLength={6}
+                                    value={otp}
+                                    onChange={(value) => {
+                                        setOtp(value);
+                                    }}
+                                >
+                                    <InputOTPGroup>
+                                        <InputOTPSlot id="0" index={0} />
+                                        <InputOTPSlot id="1" index={1} />
+                                        <InputOTPSlot id="2" index={2} />
+                                        <InputOTPSlot id="3" index={3} />
+                                        <InputOTPSlot id="4" index={4} />
+                                        <InputOTPSlot id="5" index={5} />
+                                    </InputOTPGroup>
+                                </InputOTP>
                             </div>
                             <p className="mt-4">Timing : 1:50</p>
                             <button className="mt-6 w-full bg-green-600 rounded py-1 text-white cursor-pointer  "
-                                onClick={() => {
-                                    setIsForm(true)
+                                onClick={async () => {
+                                    if (otp.length === 6 && user) {
+                                        // task 1 : call the API to verify the user
+                                        const response = await axios.post(`http://localhost:8080/api/v1/user/verify_otp_sigin`, {
+                                            email: user.email,
+                                            username: user.username,
+                                            password: user.password,
+                                            otp
+                                        })
+                                        console.log(response.data)
+                                        if (response.status === 200) {
+                                            localStorage.setItem("token", response.data.token)
+                                            router.push(`/dashboard/${response.data.userId}`)
+                                        }
+
+                                    }
                                 }}
                             >Verify otp</button>
                         </motion.div>

@@ -21,7 +21,13 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
         const verifyToken = Jwt.verify(token, process.env.JWT_SECRET!);
 
-        if (verifyToken) {
+        const decode = Jwt.decode(token);
+
+        if (!(typeof verifyToken === "string")) {
+            console.log(decode)
+            console.log(verifyToken)
+            console.log(`token => ${token}`)
+            // req.body.userId = verifyToken.userId
             next();
         }
 

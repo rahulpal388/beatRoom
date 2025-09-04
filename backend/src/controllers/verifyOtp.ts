@@ -24,10 +24,12 @@ export const verifyOtp_signin = (req: Request, res: Response) => {
 
 
             const token = Jwt.sign({
+                userId: "12asd123asd",
                 email: data.email // task 2: user id not the email
             }, process.env.JWT_SECRET!)
 
             res.status(200).json({
+                userId: "12asd123asd",
                 message: "user account is created",
                 token
             })

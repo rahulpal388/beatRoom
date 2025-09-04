@@ -5,9 +5,7 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
     const token = req.headers.authorization?.split(" ")[1];
 
-    console.log(`authorization token ${token}`);
-
-    // check if the token exist or not
+    console.log(`token is ${token}`);
 
     if (!token) {
 
@@ -19,22 +17,22 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
 
     }
 
-    // verify the token
-    const verifyToken = Jwt.verify(token, process.env.JWT_SECRET!);
+    try {
 
-    // if token verified call the next function
-    if (verifyToken) {
+        const verifyToken = Jwt.verify(token, process.env.JWT_SECRET!);
 
+        if (verifyToken) {
+            next();
+        }
 
-        next();
+    } catch (error) {
 
+        res.status(411).json({
+            message: "Invalid token"
+        })
     }
 
-    res.status(411).json({
-        message: "Invalid token"
-    })
 
-    return;
 
 
 

@@ -18,24 +18,13 @@ export const verifyOtp_signin = (req: Request, res: Response) => {
             return;
         }
 
-        const { otp } = TOTP.generate(encode(data.email + process.env.OTP_SECRET), {
-            digits: 6,
-            algorithm: "SHA-512",
-        });
-
-
-
-
-        console.log(`verification email otp is ${otp}`);
-
-
-
         if (verify_otp === data.otp) {
-            // insert the user in the DB
+            // task 1 :  insert the user in the DB
 
-            // create the token
+
+
             const token = Jwt.sign({
-                email: data.email
+                email: data.email // task 2: user id not the email
             }, process.env.JWT_SECRET!)
 
             res.status(200).json({

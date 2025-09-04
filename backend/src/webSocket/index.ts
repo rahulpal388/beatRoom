@@ -19,6 +19,7 @@ const ws = new WebSocketServer({ port: 8000 }, () => {
 
 ws.on("connection", (socket, req) => {
     const url = req.url;
+
     console.log("New connection:", url);
 
 

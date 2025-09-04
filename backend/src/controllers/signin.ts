@@ -48,10 +48,6 @@ export const signin = async (req: Request, res: Response) => {
         console.log(process.env.NODE_EN)
 
 
-        // task 1.  send the otp to email
-
-
-
         const isEmailSended = await sendEmail(
             data.email,
             `Your OTP is ${otp}. It will expire in 5 minutes.`,
@@ -67,6 +63,7 @@ export const signin = async (req: Request, res: Response) => {
 
         // task 1: delete it 
         verify_otp = otp;
+        // after creating the OTP timer will start and delete the otp 
         expire_otp();
         res.status(200).json({
             message: "check your email for six digits OTP",

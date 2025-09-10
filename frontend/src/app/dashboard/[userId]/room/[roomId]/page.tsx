@@ -3,16 +3,20 @@
 import { NavBar } from "@/components/navBar";
 import { RoomChat } from "@/components/roomChat";
 import { Video } from "@/components/video";
-import { Search } from "lucide-react";
+import { PanelLeftClose, PanelRightClose, Search } from "lucide-react";
 import { useParams } from "next/navigation"
+import { useEffect, useState } from "react";
 
 
 
 
 export default function RoomPage() {
+    const [isOpen, setIsOpen] = useState<boolean>(true);
     const param = useParams();
     const roomId = param.roomId;
     const userId = param.userId
+
+
 
 
     return <>
@@ -34,20 +38,21 @@ export default function RoomPage() {
                     <div className="size-12 rounded-full text-white flex items-center justify-center font-bold text-2xl bg-card-foreground ">R</div>
                 </div>
             </div>
-            <div className="grid grid-cols-8 flex-1 ">
-                <div className="col-span-6 flex flex-col px-1 ">
-                    <div className="grid grid-cols-6 flex-1    mt-4 ">
-                        <div className=" col-span-3   bg-neutral-500 h-full flex items-center justify-center  ">
-                            video streaming later
-                        </div>
-                        <div className="col-span-3 h-[18rem]  bg-neutral-800 flex items-center justify-center ">
-                            <Video />
-                        </div>
+
+            <div className="bg-red-700 h-full flex ">
+                <div className=" flex-1 h-full flex items-center justify-center  ">
+                    <div className="flex flex-1 h-full items-center justify-center bg-pink-600  ">
+                        video Streaming
+                    </div>
+                    <div className="flex flex-1 h-full items-center justify-center bg-amber-500 ">
+                        song Streaming
                     </div>
                 </div>
-                <div className="col-span-2 border-l-[1.5px] border-border  ">
-                    <RoomChat />
+                <div className={`bg-blue-600 min-w-10  h-full  ${isOpen ? "w-72" : "w-10"}  `}>
+                    <RoomChat setIsOpen={setIsOpen} isOpen={isOpen} />
                 </div>
+
+
             </div>
 
         </div>

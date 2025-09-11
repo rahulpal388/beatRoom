@@ -15,15 +15,15 @@ import z from "zod";
 
 export const joinRoomType = z.object({
     action: z.enum(["join"]),
-    roomId: z.string(),
-    roomName: z.string()
+    roomId: z.string()
 })
 
 
 
-export const streamRoomType = z.object({
-    action: z.enum(["stream"]),
+export const chatRoomType = z.object({
+    action: z.enum(["chat"]),
     roomId: z.string(),
+    username: z.string(),
     message: z.string()
 })
 

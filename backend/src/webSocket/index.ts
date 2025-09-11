@@ -1,9 +1,8 @@
-import { joinRoomType, streamRoomType } from "../zodTypes/wsType";
+import { chatRoomType, joinRoomType } from "../zodTypes/wsType";
 import { WebSocket, WebSocketServer } from "ws";
-
+import Jwt from "jsonwebtoken";
 
 export interface IRoomSocket {
-    roomName: string
     roomId: string,
     socket: WebSocket[]
 
@@ -18,9 +17,28 @@ const ws = new WebSocketServer({ port: 8000 }, () => {
 
 
 ws.on("connection", (socket, req) => {
-    const url = req.url;
+    const token = req.headers["authorization"]?.split(" ")[1];
 
-    console.log("New connection:", url);
+    console.log("New connection:", token);
+
+    try {
+
+        // if (!token) {
+        //     socket.send("No authorization token found ")
+        //     return
+        // }
+
+        // const isValidToken = Jwt.verify(token, process.env.JWT_SECRET || "secret");
+        const isValidToken = true;
+
+        if (!isValidToken) {
+            socket.send("Invalid token or token has been expired")
+            socket.close();
+        }
+    } catch (error) {
+        console.log("invalid token")
+        socket.close()
+    }
 
 
     socket.on("message", (msg) => {
@@ -51,7 +69,6 @@ ws.on("connection", (socket, req) => {
 
                 roomSocket.push({
                     roomId: data.roomId,
-                    roomName: data.roomName,
                     socket: [socket]
                 })
 
@@ -60,11 +77,12 @@ ws.on("connection", (socket, req) => {
 
         }
 
-        if (message.action === "stream") {
+        if (message.action === "chat") {
+            console.log(`total number of rooms${roomSocket.length}`)
 
-            const { success, data } = streamRoomType.safeParse(message);
+            const { success, data } = chatRoomType.safeParse(message);
 
-
+            console.log(data)
             if (!success) {
 
                 socket.send("Provide the correct input for the stream")
@@ -78,9 +96,15 @@ ws.on("connection", (socket, req) => {
                 socket.send("Invalid input")
                 return;
             }
+            console.log(`total number of member in a room ${room.socket.length}`)
+
             room.socket.forEach(x => {
                 if (x !== socket) {
-                    x.send(data.message);
+                    x.send(JSON.stringify({
+                        type: "chat",
+                        username: data.username,
+                        message: data.message
+                    }));
                 }
             })
 
@@ -99,6 +123,9 @@ ws.on("connection", (socket, req) => {
 
     })
 
+    socket.on("close", () => {
+
+    })
 
 
 

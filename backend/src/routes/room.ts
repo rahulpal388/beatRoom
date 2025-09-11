@@ -8,7 +8,9 @@ import { getRooms } from "../controllers/getRooms";
 
 const roomRouter = Router();
 
-roomRouter.post("/create", verifyToken, createRoom);
-roomRouter.get("/get_rooms", verifyToken, getRooms);
+// later add verification
+
+roomRouter.post("/create", createRoom);
+roomRouter.get("/get_rooms", getRooms);
 
 export default roomRouter;

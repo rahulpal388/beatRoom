@@ -5,7 +5,11 @@ import roomRouter from "./routes/room";
 import cors from "cors"
 
 
-
+export const roomDB: {
+    username: string,
+    roomname: string,
+    roomId: string
+}[] = []
 
 dotenv.config();
 const PORT = process.env.PORT || 8081;

@@ -5,7 +5,6 @@ import { SongQue } from "./songQue"
 import { AskAI } from "./askAi"
 import { Button } from "./ui/button"
 import { BotMessageSquare, ListMusic, MessageCircle, PanelLeftClose, PanelRightClose } from "lucide-react"
-import { div } from "motion/react-client"
 
 
 type IChat = "Chat" | "Queue" | "AI"
@@ -18,6 +17,7 @@ export function RoomChat({ setIsOpen, isOpen }: {
 }) {
     const [chatType, setChatType] = useState<IChat>("Chat")
     const [isChat, setIsChat] = useState<boolean>(false);
+
 
     return <>
         <div className={`bg-card-foreground text-white flex flex-col h-full  `} >

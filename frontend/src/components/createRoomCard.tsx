@@ -5,6 +5,9 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { motion } from "motion/react"
 import { SubmitHandler, useForm } from "react-hook-form";
+import axios from "axios";
+import { BASE_URL } from "@/lib/baseUrl";
+import { useRouter } from "next/navigation";
 
 type ICreateRoom = {
     userName: string,
@@ -16,10 +19,22 @@ export function CreateRoomCard({ setCreateRoom }: {
 }) {
 
     const { handleSubmit, register } = useForm<ICreateRoom>()
+    const router = useRouter();
 
 
-    const onSubmit: SubmitHandler<ICreateRoom> = (data) => {
+    const onSubmit: SubmitHandler<ICreateRoom> = async (data) => {
         console.log(data);
+        const response = await axios.post(`${BASE_URL}/room/create`, {
+            username: data.userName,
+            roomname: data.roomName
+        })
+
+        const message = response.data
+        console.log(message)
+        if (response.status === 200) {
+            router.push(`/dashboard/${data.userName}/room/${message.roomId}`);
+        }
+
     }
 
     return <>

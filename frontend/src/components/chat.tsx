@@ -1,24 +1,52 @@
 import { Send } from "lucide-react";
 import { Input } from "./ui/input";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { div } from "motion/react-client";
 import Preview from "react-player/Preview";
+import { useWebSocket } from "@/context/socket";
+import { useParams } from "next/navigation";
 
-type TChats = {
+export type TChats = {
     username: string,
     message: string
 }
 
 export function Chat() {
     const [chats, setChats] = useState<TChats[]>([])
-    const inputRef = useRef<HTMLInputElement>(null)
+    const inputRef = useRef<HTMLInputElement>(null);
+    const param = useParams();
+    const username = param.userId?.toString();
+    const roomId = param.roomId?.toString();
+    const { socket, isConnected, sendMessage } = useWebSocket();
+
+    useEffect(() => {
+        if (!socket) {
+            return;
+        }
+
+        const handleMesssage = (e: MessageEvent) => {
+            const data = JSON.parse(e.data);
+            console.log(data)
+            if (data.type === "chat") {
+                setChats(prev => [...prev, { username: data.username, message: data.message }])
+
+            }
+        }
+
+        socket.addEventListener("message", handleMesssage)
+
+
+        return () => {
+            socket.removeEventListener("message", handleMesssage)
+        }
+    }, [])
 
 
     return <>
 
         <div className="grid grid-rows-12  h-full ">
             <div className=" row-span-11 relative  overflow-y-scroll   ">
-                {!chats ?
+                {chats.length === 0 ?
                     <div className="flex justify-center items-center text-xl text-neutral-500 h-full  ">
                         No Message  Yet
                     </div>
@@ -45,7 +73,19 @@ export function Chat() {
                                 return;
                             }
                             const message = inputRef.current.value;
-                            setChats(prev => [...prev, { username: "rahul", message: message }])
+                            console.log({
+                                action: "chat",
+                                username,
+                                roomId,
+                                message
+                            })
+                            sendMessage({
+                                action: "chat",
+                                username,
+                                roomId,
+                                message
+                            })
+                            setChats(prev => [...prev, { username: username!, message: message }])
                         }}
                     >
                         <Send />

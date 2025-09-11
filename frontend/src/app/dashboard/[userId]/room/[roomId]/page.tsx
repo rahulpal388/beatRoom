@@ -2,7 +2,7 @@
 
 import { NavBar } from "@/components/navBar";
 import { RoomChat } from "@/components/roomChat";
-import { Video } from "@/components/video";
+import { YTVideo } from "@/components/video/video";
 import { WebSocketProvider } from "@/context/socket";
 import { PanelLeftClose, PanelRightClose, Search } from "lucide-react";
 import { useParams } from "next/navigation"
@@ -41,13 +41,13 @@ export default function RoomPage() {
                     </div>
                 </div>
 
-                <div className="bg-red-700 h-full flex ">
+                <div className=" h-full flex ">
                     <div className=" flex-1 h-full flex items-center justify-center  ">
                         <div className="flex flex-1 h-full items-center justify-center bg-pink-600  ">
-                            video Streaming
+                            No video Streaming
                         </div>
-                        <div className="flex flex-1 h-full items-center justify-center bg-amber-500 ">
-                            song Streaming
+                        <div className="flex flex-1  h-full  ">
+                            <YTVideo />
                         </div>
                     </div>
                     <div className={`bg-blue-600 min-w-10  h-full  ${isOpen ? "w-72" : "w-10"}  `}>

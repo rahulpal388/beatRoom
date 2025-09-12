@@ -161,8 +161,8 @@ export function YTVideo() {
     return <>
         <div className="  flex-1 flex flex-col ">
 
-            <div className="flex-2">
-                <div className="h-full w-full">
+            <div className="md:flex-2 flex-1">
+                <div className="h-full  w-full">
                     <ReactPlayer
                         ref={playerRef}
                         src="https://youtu.be/-YlmnPh-6rE?si=8SqO0ZVufyZRhioq"
@@ -190,7 +190,7 @@ export function YTVideo() {
                     />
                 </div>
             </div>
-            <div className="flex-1 grid grid-cols-3  gap-2 py-4 px-4 overflow-y-scroll  ">
+            <div className="flex-1 grid sm:grid-cols-3 grid-cols-2   gap-2 py-4 px-4 overflow-y-scroll  ">
                 {videos.map((x, i) => (
                     <YTVideoSuggestion key={i} title={x.title} thumbnailUrl={x.thumbnailUrl} />
                 ))}

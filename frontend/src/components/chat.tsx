@@ -59,12 +59,12 @@ export function Chat() {
                     </div>
                 }
             </div>
-            <div className="row-span-1  bottom-0 left-0 w-full h-10 border-t-[1px] border-border px-px py-px  ">
-                <div className="flex h-full items-center justify-left gap-4 border-[1px] rounded-sm border-border overflow-hidden ">
-                    <div>
-                        <input ref={inputRef} type="text" id="message" placeholder="send message.........." className="  outline-none rounded px-2   " autoComplete="off" />
+            <div className="row-span-1  bottom-0 left-0 w-full  h-10 border-t-[1px] border-border px-2 py-px  ">
+                <div className="flex h-full items-center   gap-4 border-[1px] rounded-sm border-border overflow-hidden ">
+                    <div className="flex-1">
+                        <input ref={inputRef} type="text" id="message" placeholder="send message.........." className="  outline-none rounded px-2  flex-1 " autoComplete="off" />
                     </div>
-                    <div className=" hover:bg-neutral-800 cursor-pointer border-l-[1px] border-border h-full  flex items-center justify-center  w-full  "
+                    <div className=" w-12  hover:bg-neutral-800 cursor-pointer border-l-[1px] border-border h-full  flex items-center justify-center   "
 
                         onClick={() => {
                             if (!inputRef.current) {

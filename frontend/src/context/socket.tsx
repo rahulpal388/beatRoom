@@ -19,7 +19,7 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode, roomId: st
         socketRef.current.onopen = (e) => {
             setConnected(true);
             console.log("ws connected");
-            socketRef.current?.send(JSON.stringify({ action: "join", roomId }))
+            socketRef.current?.send(JSON.stringify({ type: "join", roomId }))
         }
 
         socketRef.current.onclose = (e) => {

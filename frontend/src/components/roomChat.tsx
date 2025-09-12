@@ -11,55 +11,25 @@ type IChat = "Chat" | "Queue" | "AI"
 
 const btn: IChat[] = ["Chat", "Queue", "AI"]
 
-export function RoomChat({ setIsOpen, isOpen }: {
-    setIsOpen: Dispatch<SetStateAction<boolean>>
-    isOpen: boolean
-}) {
+export function RoomChat() {
     const [chatType, setChatType] = useState<IChat>("Chat")
-    const [isChat, setIsChat] = useState<boolean>(false);
 
 
     return <>
-        <div className={`bg-card-foreground text-white flex flex-col h-full  `} >
-            <div className={`flex gap-4  items-center justify-center border-b-[1.5px]  border-border  py-2 overflow-hidden ${!isOpen && "flex-col"}`}>
-                {isOpen ?
-                    <PanelRightClose className=" cursor-pointer " onClick={() => { setIsOpen(prev => prev = !prev) }} />
-                    :
-                    <PanelLeftClose className="cursor-pointer  " onClick={() => setIsOpen(prev => prev = !prev)} />
-                }
+        <div className={` bg-card-foreground text-white flex flex-col h-full  `} >
 
-                <div >
-                    {isOpen ?
-                        <div className="flex gap-4">
-                            {btn.map((x, i) => (
-                                <Button key={i} btnType="Secondary" name={x} className="text-sm " onClick={() => setChatType(x)} />
-                            ))}
-                        </div>
-                        :
-                        <div className="flex gap-4 flex-col mt-6 ">
-                            <MessageCircle className={`stroke-red-900 cursor-pointer`} onClick={() => {
-                                setIsOpen(true);
-                                setChatType("Chat")
-                            }} />
-                            <ListMusic className={`stroke-red-900  cursor-pointer `} onClick={() => {
-                                setIsOpen(true)
-                                setChatType("Queue")
-                            }} />
-                            <BotMessageSquare className={`stroke-red-900  cursor-pointer `} onClick={() => {
-                                setIsOpen(true)
-                                setChatType("AI")
-                            }} />
-                        </div>
 
-                    }
-                </div>
+            <div className="flex py-2 justify-evenly border-b-[1px] border-border ">
+                {btn.map((x, i) => (
+                    <Button key={i} btnType="Secondary" name={x} className="text-sm " onClick={() => setChatType(x)} />
+                ))}
             </div>
-            <div className={`flex-1  ${!isOpen && "hidden"}`}>
+            <div className="flex-1  ">
                 {chatType === "Chat" && <Chat />}
                 {chatType === "Queue" && <SongQue />}
                 {chatType === "AI" && <AskAI />}
             </div>
-        </div>
+        </div >
     </>
 
 }

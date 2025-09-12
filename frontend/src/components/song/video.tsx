@@ -1,6 +1,9 @@
 import ReactPlayer from "react-player"
 import { ReactPlayerProps } from "react-player/types"
 import { YTVideoSuggestion } from "./yt_video_suggestion";
+import { useWebSocket } from "@/context/socket";
+import { useEffect, useRef } from "react";
+import { useParams } from "next/navigation";
 
 
 
@@ -66,6 +69,36 @@ const videos: VideoInfo[] = [
         url: "https://www.youtube.com/watch?v=VIDEO_ID9",
         thumbnailUrl: "https://img.youtube.com/vi/Ddb2vx-Oa3M/hqdefault.jpg",
         publishedAgo: "X time ago",
+    },
+    {
+        title: "Title 5",
+        url: "https://www.youtube.com/watch?v=VIDEO_ID5",
+        thumbnailUrl: "https://img.youtube.com/vi/Ddb2vx-Oa3M/hqdefault.jpg",
+        publishedAgo: "X time ago",
+    },
+    {
+        title: "Title 6",
+        url: "https://www.youtube.com/watch?v=VIDEO_ID6",
+        thumbnailUrl: "https://img.youtube.com/vi/Ddb2vx-Oa3M/hqdefault.jpg",
+        publishedAgo: "X time ago",
+    },
+    {
+        title: "Title 7",
+        url: "https://www.youtube.com/watch?v=VIDEO_ID7",
+        thumbnailUrl: "https://img.youtube.com/vi/Ddb2vx-Oa3M/hqdefault.jpg",
+        publishedAgo: "X time ago",
+    },
+    {
+        title: "Title 8",
+        url: "https://www.youtube.com/watch?v=VIDEO_ID8",
+        thumbnailUrl: "https://img.youtube.com/vi/Ddb2vx-Oa3M/hqdefault.jpg",
+        publishedAgo: "X time ago",
+    },
+    {
+        title: "Title 9",
+        url: "https://www.youtube.com/watch?v=VIDEO_ID9",
+        thumbnailUrl: "https://img.youtube.com/vi/Ddb2vx-Oa3M/hqdefault.jpg",
+        publishedAgo: "X time ago",
     }
 ];
 
@@ -73,38 +106,85 @@ const videos: VideoInfo[] = [
 
 export function YTVideo() {
 
+    const { socket, sendMessage } = useWebSocket();
+    const param = useParams();
+    const roomId = param.roomId;
+    const playerRef = useRef<HTMLVideoElement | null>(null);
+
+    useEffect(() => {
+
+        if (!socket) {
+            console.log("no socket")
+            return;
+        }
+
+        const handleVideo = (e: MessageEvent) => {
+
+            const data = JSON.parse(e.data)
+            console.log(data)
+            if (data.type === "youtube") {
+                if (!playerRef.current) {
+                    return;
+                }
+
+                if (data.action === "play") {
+                    playerRef.current.play()
+                }
+                if (data.action === "pause") {
+                    playerRef.current.pause();
+                }
+
+
+            }
+
+        }
+
+        socket.addEventListener("message", handleVideo)
+
+        return () => {
+            socket.removeEventListener("message", handleVideo)
+        }
+
+    }, [socket])
+
     const onSeeked: ReactPlayerProps["onSeeking"] = (second) => {
-        console.log(second)
+        // console.log(second)
     }
 
 
-    const onProgress: ReactPlayerProps["onProgress"] = (state) => {
-        const a = state.currentTarget; // e.g. 25
-        console.log(a)
+
+    const handleProgress: ReactPlayerProps["onProgress"] = (state) => {
+        const a = state
+        // console.log(a)
     }
 
     return <>
-        <div className=" max-w-[45rem] flex-1 flex flex-col ">
+        <div className="  flex-1 flex flex-col ">
 
-            <div className="flex-1">
+            <div className="flex-2">
                 <div className="h-full w-full">
                     <ReactPlayer
+                        ref={playerRef}
                         src="https://youtu.be/-YlmnPh-6rE?si=8SqO0ZVufyZRhioq"
                         style={{
                             width: "100%",
                             height: "100%"
                         }}
                         onPlay={() => {
-                            console.log("video playing")
+                            sendMessage({
+                                type: "youtube",
+                                roomId: roomId,
+                                action: "play"
+                            })
                         }}
                         onPause={() => {
-                            console.log("video paused")
+                            sendMessage({
+                                type: "youtube",
+                                roomId,
+                                action: "pause"
+                            })
                         }}
-                        onSeeking={onSeeked}
-                        onProgress={onProgress}
-                        onTimeUpdate={(e) => {
-                            // console.log(e)
-                        }}
+                        onProgress={handleProgress}
 
                         controls
                     />

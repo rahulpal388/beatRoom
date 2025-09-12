@@ -32,7 +32,7 @@ export function MusicVideoFeature() {
     return (
         <div className="mt-24 ">
             <h1 className="text-3xl text-center text-neutral-300 ">Music & Video Feature</h1>
-            <div className="grid grid-cols-3 gap-12 mt-12 ">
+            <div className="grid md:grid-cols-3  md:gap-12 gap-8 mt-12 ">
                 {Card.map((x, i) => (
                     <MVCard key={i} heading={x.heading} description={x.description} element={x.element} />
                 ))}

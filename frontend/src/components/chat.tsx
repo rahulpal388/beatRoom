@@ -1,8 +1,5 @@
 import { Send } from "lucide-react";
-import { Input } from "./ui/input";
 import React, { useEffect, useRef, useState } from "react";
-import { div } from "motion/react-client";
-import Preview from "react-player/Preview";
 import { useWebSocket } from "@/context/socket";
 import { useParams } from "next/navigation";
 
@@ -17,7 +14,7 @@ export function Chat() {
     const param = useParams();
     const username = param.userId?.toString();
     const roomId = param.roomId?.toString();
-    const { socket, isConnected, sendMessage } = useWebSocket();
+    const { socket, sendMessage } = useWebSocket();
 
     useEffect(() => {
         if (!socket) {
@@ -25,6 +22,7 @@ export function Chat() {
         }
 
         const handleMesssage = (e: MessageEvent) => {
+            console.log("from chat")
             const data = JSON.parse(e.data);
             console.log(data)
             if (data.type === "chat") {
@@ -39,7 +37,7 @@ export function Chat() {
         return () => {
             socket.removeEventListener("message", handleMesssage)
         }
-    }, [])
+    }, [socket])
 
 
     return <>
@@ -51,11 +49,11 @@ export function Chat() {
                         No Message  Yet
                     </div>
                     :
-                    <div className=" absolute bottom-0 left-0 px-px  ">
+                    <div className=" absolute bottom-0 left-0 px-px pl-1 pb-4 flex flex-col gap-2 ">
                         {chats.map((x, i) => (
-                            <div key={i} className="flex gap-4 items-center  " >
-                                <h1 className="text-md">{x.username}</h1>
-                                <p className=" text-xs " >{x.message}</p>
+                            <div key={i} className="flex gap-2 items-center   " >
+                                <h1 className="text-md rounded px-1 bg-neutral-800  ">{x.username}</h1>
+                                <p className=" text-sm " >{x.message}</p>
                             </div>
                         ))}
                     </div>
@@ -74,13 +72,13 @@ export function Chat() {
                             }
                             const message = inputRef.current.value;
                             console.log({
-                                action: "chat",
+                                type: "chat",
                                 username,
                                 roomId,
                                 message
                             })
                             sendMessage({
-                                action: "chat",
+                                type: "chat",
                                 username,
                                 roomId,
                                 message

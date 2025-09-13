@@ -40,7 +40,7 @@ export function SongQueCard({ song, artist }: {
 
     return (
 
-        <div className="w-full bg-neutral-800 rounded  pr-4 flex gap-4 items-center justify-between overflow-hidden ">
+        <div className="w-full h-10 bg-neutral-200 rounded  pr-4 flex gap-4 items-center justify-between overflow-hidden ">
             <div className="flex items-center justify-between gap-2 ">
 
                 <div>

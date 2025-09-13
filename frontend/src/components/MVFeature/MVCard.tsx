@@ -12,8 +12,8 @@ export function MVCard({ heading, description, element }: {
 }) {
 
     return (
-        <div className=" rounded-sm  w-full border-[1px] bg-neutral-950 border-white   overflow-hidden ">
-            <div className="flex items-center  justify-center bg-neutral-600 h-48 ">
+        <div className=" rounded-lg  w-full  bg-card overflow-hidden border-[1px] bg-blur-lg dark:bg-card shadow-[0_4px_16px_rgba(0,0,0,0.12)]  ">
+            <div className="flex items-center  justify-center bg-neutral-100 h-48 ">
                 <div className="w-full px-4 flex flex-col gap-2 ">
                     {element}
 
@@ -21,8 +21,8 @@ export function MVCard({ heading, description, element }: {
 
             </div>
             <div className=" p-4 ">
-                <h1 className="text-2xl font-medium text-neutral-200 ">{heading}</h1>
-                <p className=" mt-2 text-sm text-neutral-500  "> {description} </p>
+                <h1 className="text-2xl font-medium  text-foreground dark:text-background  ">{heading}</h1>
+                <p className=" mt-2 text-[16px] text-neutral-500  "> {description} </p>
             </div>
         </div >
     )

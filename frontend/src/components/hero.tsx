@@ -6,6 +6,7 @@ import { AnimatePresence } from "motion/react";
 import { useState } from "react";
 import { JoinRoomCard } from "./joinRoomCard";
 import Image from "next/image";
+import { TextTransition } from "./animation/textTransition";
 
 
 export function Hero() {
@@ -19,11 +20,8 @@ export function Hero() {
         <div className=" mt-36  w-full text-center flex flex-col items-center  gap-6  ">
 
             <div className="max-w-[50rem] ">
-
-
-                <h1 className=" md:text-7xl text-5xl text-neutral-300 font-bold tracking-tighter ">Your room. Your beat. A space to <span className="text-red-800/80">Connect.</span></h1>
-                {/* Stream. Vibe. Together. */}
-                <h4 className="mt-6 lg:text-2xl  text-3xl  font-medium text-center text-neutral-600 ">BeatRoom lets you listen to music, watch videos, and hang out with friends in real-time with chat, voice, and video.</h4>
+                <TextTransition />
+                <h4 className="mt-6   md:text-3xl xm:text-2xl text-xl   font-medium font-body text-center text-neutral-600 ">BeatRoom lets you listen to music, watch videos, and hang out with friends in real-time with chat, voice, and video.</h4>
 
 
 

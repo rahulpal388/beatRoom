@@ -22,10 +22,11 @@ const Song = [
 
 export function SongQueue() {
     return (
-        <div className="flex flex-col gap-2">
-            {Song.map((x, i) => (
+        <div className="flex flex-col h-full justify-center items-center   gap-2">
+            <Image src="/song_queue.png" alt="image" height={100} width={100} className=" lg:w-full h-full w-[23rem] " />
+            {/* {Song.map((x, i) => (
                 <SongQueCard key={i} song={x.song} artist={x.artist} />
-            ))}
+            ))} */}
         </div>
     )
 }
@@ -56,6 +57,7 @@ export function SongQueCard({ song, artist }: {
 
                 <Button btnType="Primary" name="add" />
             </div>
+
         </div>
 
     )

@@ -1,17 +1,14 @@
 'use client'
 
-import { NavBar } from "@/components/navBar";
-import { RoomCard } from "@/components/roomCard";
-import { Button } from "@/components/ui/button";
-import { Plus, X } from "lucide-react";
-import { useParams } from "next/navigation"
-import { useEffect, useState } from "react";
-import { AnimatePresence } from "motion/react";
-import { CreateRoomCard } from "@/components/createRoomCard";
-import { JoinRoomCard } from "@/components/joinRoomCard";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { div } from "motion/react-client";
+import { Customize } from "@/components/dashboard/customize"
+import { Friends } from "@/components/dashboard/friends"
+import { Musics } from "@/components/dashboard/music"
+import { Notification } from "@/components/dashboard/notification"
+import { Rooms } from "@/components/dashboard/rooms"
+import { Bell, GitPullRequestDraft, Handshake, HousePlus, Music, PanelLeftClose, PanelRightClose } from "lucide-react"
+import React, { useState } from "react"
+
+
 
 
 export type IRoom = {
@@ -21,96 +18,93 @@ export type IRoom = {
 }
 
 
+type TSideBarItems = {
+    name: string,
+    logo: React.ReactNode,
+    link: TCurrentItem
+}
 
+const sideBarItems: TSideBarItems[] = [
+    {
+        name: "Music",
+        logo: <Music className="xl:size-4  " />,
+        link: "Music"
+    },
+    {
+        name: "Rooms",
+        logo: <HousePlus className="xl:size-4 " />,
+        link: "Rooms"
+    },
+    {
+        name: "Friends",
+        logo: <Handshake className="xl:size-4 " />,
+        link: "Friends"
+    },
+    {
+        name: "Notification",
+        logo: <Bell className="xl:size-4 " />,
+        link: "Notification"
+    },
+    {
+        name: "Customize",
+        logo: <GitPullRequestDraft className="xl:size-4 " />,
+        link: "Customize"
+    }
+]
+
+type TCurrentItem = "Music" | "Rooms" | "Friends" | "Notification" | "Customize"
 
 
 export default function DashBoardPage() {
-
-    const [isCreatRoom, setCreateRoom] = useState<boolean>(false)
-    const [isJoinRoom, setJoinRoom] = useState<boolean>(false)
-    const [rooms, setRooms] = useState<IRoom[]>([])
-    const param = useParams();
-    const userId = param.userId
-    const router = useRouter()
+    const [isSideWindow, setSideWindow] = useState<boolean>(true);
+    const [currentItem, setCurrentItem] = useState<TCurrentItem>("Music");
 
 
 
-
-    useEffect(() => {
-        const token = localStorage.getItem("token")
-
-        // if token continue and if not rediret to main page
-
-        if (!token) {
-
-            router.push("/")
-            return;
-        }
-
-        axios.get(`http://localhost:8080/api/v1/room/get_rooms`, {
-            headers: {
-                Authorization: `Bearear ${token}`
-            }
-        }).then(response => {
-            setRooms(response.data.rooms)
-            console.log(response.data.rooms);
-        })
-
-
-
-
-
-
-    }, [])
 
     return <>
-        <div className="md:px-24 sm:px-12 px-6 flex flex-col text-white   " >
+        <div className=" flex h-screen  " >
+            <div className={` max-md:hidden   py-2  border-r-[1px] border-bg-neutral-100 ${isSideWindow ? " xl:w-[12rem] px-4 " : "w-20 px-2 "} `}>
+                <div className="flex justify-end ">
+                    {isSideWindow ?
+                        <PanelLeftClose className=" cursor-pointer size-8 "
+                            onClick={() => {
+                                setSideWindow(false);
+                            }}
+                        />
+                        :
+                        <PanelRightClose className=" cursor-pointer size-8 "
+                            onClick={() => {
+                                setSideWindow(true);
+                            }}
+                        />
+                    }
+                </div>
+                <div className=" mt-20 flex flex-col gap-2 ">
+                    {sideBarItems.map((items, index) => (
+                        <div key={index} className={` px-4 py-2 rounded flex items-center gap-4 dark:hover:bg-blue-200 hover:bg-neutral-200 cursor-pointer  ${currentItem === items.link && "bg-neutral-200 dark:bg-blue-200 "} `}
+                            onClick={() => { setCurrentItem(items.link) }}
+                        >
+                            {items.logo}
 
-            <AnimatePresence>
-                {isCreatRoom && <CreateRoomCard setCreateRoom={setCreateRoom} />}
-                {isJoinRoom && <JoinRoomCard setJoinRoom={setJoinRoom} />}
-            </AnimatePresence>
+                            <h1 className={`xl:text-xl ${!isSideWindow && "hidden"} `} >{items.name}</h1>
 
 
-
-            <div className=" py-4 flex items-center justify-between ">
-                <h1 className="text-xl  text-red-800 font-extrabold  ">BeatRoom</h1>
-                <Button btnType="Primary" name="Login" onClick={() => {
-                    console.log("/login")
-                }} />
-
-            </div>
-            <div>
-                <div className="flex gap-4 justify-end  mt-10 ">
-                    <button className=" cursor-pointer flex items-center gap-1 border-[0.5px] border-white px-4 py-2 rounded  "
-
-                        onClick={() => {
-                            setCreateRoom(true)
-                        }}
-                    >
-                        <Plus />
-                        <span>Create room</span>
-                    </button>
-                    <button className="cursor-pointer font-semibold bg-primary text-primary-foreground rounded px-4 py-1 shadow-2xl shadow-background "
-                        onClick={() => {
-                            setJoinRoom(true)
-                        }}
-                    >Join room</button>
+                        </div>
+                    ))}
                 </div>
             </div>
-            <div className=" -z-40  mt-12">
-                {rooms.length === 0 ? (
-                    <div>
-                        <h1 className="text-3xl text-center">No Room found</h1>
-                    </div>
-                )
-                    :
-                    (<div className=" flex-1 grid  md:grid-cols-3 sm:grid-cols-2 gap-4 ">
-                        {rooms.map((x, i) => (<RoomCard key={i} name={x.name} link={x.link} createdAt={x.createdAt} />))}
-                    </div>
-                    )
-                }
+            <div className="   flex-1   ">
+                <div className=" h-12 border-b-[1px] bg-neutral-200 w-full  ">
+
+                </div>
+                {currentItem === "Music" && <Musics />}
+                {currentItem === "Friends" && <Friends />}
+                {currentItem === "Rooms" && <Rooms />}
+                {currentItem === "Notification" && <Notification />}
+                {currentItem === "Customize" && <Customize />}
             </div>
+
         </div>
 
     </>

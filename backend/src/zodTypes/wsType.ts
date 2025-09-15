@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { xid } from "zod";
 
 
 
@@ -14,17 +14,25 @@ import z from "zod";
 // }
 
 export const joinRoomType = z.object({
-    action: z.enum(["join"]),
+    type: z.enum(["join"]),
     roomId: z.string()
 })
 
 
 
-export const chatRoomType = z.object({
-    action: z.enum(["chat"]),
-    roomId: z.string(),
-    username: z.string(),
-    message: z.string()
-})
 
+
+export const stream = z.discriminatedUnion("type", [
+    z.object({
+        type: z.literal("chat"),
+        roomId: z.string(),
+        username: z.string(),
+        message: z.string()
+    }),
+    z.object({
+        type: z.literal("youtube"),
+        roomId: z.string(),
+        action: z.enum(["play", "pause"])
+    })
+])
 

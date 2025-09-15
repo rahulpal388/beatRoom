@@ -1,4 +1,4 @@
-import { chatRoomType, joinRoomType } from "../zodTypes/wsType";
+import { joinRoomType, stream } from "../zodTypes/wsType";
 import { WebSocket, WebSocketServer } from "ws";
 import Jwt from "jsonwebtoken";
 
@@ -46,7 +46,7 @@ ws.on("connection", (socket, req) => {
         const message = JSON.parse(msg.toString());
 
 
-        if (message.action === "join") {
+        if (message.type === "join") {
 
 
             const { success, data } = joinRoomType.safeParse(message);
@@ -77,22 +77,23 @@ ws.on("connection", (socket, req) => {
 
         }
 
-        if (message.action === "chat") {
+        if (message.type === "chat" || message.type === "youtube") {
             console.log(`total number of rooms${roomSocket.length}`)
 
-            const { success, data } = chatRoomType.safeParse(message);
+            const { success, data } = stream.safeParse(message);
 
-            console.log(data)
             if (!success) {
-
+                console.log("failed")
                 socket.send("Provide the correct input for the stream")
                 return;
             }
-
+            console.log("sdf")
             const room = roomSocket.find(x => x.roomId === data.roomId);
 
 
             if (!room) {
+                console.log("no room id")
+                console.log(data.roomId + "  =?>.>")
                 socket.send("Invalid input")
                 return;
             }
@@ -100,11 +101,24 @@ ws.on("connection", (socket, req) => {
 
             room.socket.forEach(x => {
                 if (x !== socket) {
-                    x.send(JSON.stringify({
-                        type: "chat",
-                        username: data.username,
-                        message: data.message
-                    }));
+                    if (data.type === "chat") {
+                        x.send(JSON.stringify({
+                            type: "chat",
+                            username: data.username,
+                            message: data.message
+                        }));
+                        console.log(data)
+                    }
+
+                    if (data.type === "youtube") {
+                        x.send(JSON.stringify({
+                            type: "youtube",
+                            roomId: data.roomId,
+                            action: data.action
+                        }))
+
+                        console.log(data)
+                    }
                 }
             })
 

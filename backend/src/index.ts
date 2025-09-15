@@ -3,6 +3,7 @@ import dotenv from "dotenv"
 import authRouter from "./routes/auth";
 import roomRouter from "./routes/room";
 import cors from "cors"
+import useSong from "./routes/songs";
 
 
 export const roomDB: {
@@ -21,7 +22,8 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/api/v1/user", authRouter);
-app.use("/api/v1/room", roomRouter)
+app.use("/api/v1/room", roomRouter);
+app.use("/api/v1/song", useSong);
 
 
 app.listen(PORT, () => {

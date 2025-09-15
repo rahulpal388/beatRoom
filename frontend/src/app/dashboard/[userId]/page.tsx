@@ -63,7 +63,7 @@ export default function DashBoardPage() {
 
 
     return <>
-        <div className=" flex h-screen  " >
+        <div className=" flex h-screen   " >
             <div className={` max-md:hidden   py-2  border-r-[1px] border-bg-neutral-100 ${isSideWindow ? " xl:w-[12rem] px-4 " : "w-20 px-2 "} `}>
                 <div className="flex justify-end ">
                     {isSideWindow ?
@@ -98,11 +98,13 @@ export default function DashBoardPage() {
                 <div className=" h-12 border-b-[1px] bg-neutral-200 w-full  ">
 
                 </div>
-                {currentItem === "Music" && <Musics />}
-                {currentItem === "Friends" && <Friends />}
-                {currentItem === "Rooms" && <Rooms />}
-                {currentItem === "Notification" && <Notification />}
-                {currentItem === "Customize" && <Customize />}
+                <div className="flex-1">
+                    {currentItem === "Music" && <Musics />}
+                    {currentItem === "Friends" && <Friends />}
+                    {currentItem === "Rooms" && <Rooms />}
+                    {currentItem === "Notification" && <Notification />}
+                    {currentItem === "Customize" && <Customize />}
+                </div>
             </div>
 
         </div>

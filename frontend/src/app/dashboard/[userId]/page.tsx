@@ -94,11 +94,11 @@ export default function DashBoardPage() {
                     ))}
                 </div>
             </div>
-            <div className="   flex-1   ">
+            <div className="   h-screen   w-full  ">
                 <div className=" h-12 border-b-[1px] bg-neutral-200 w-full  ">
 
                 </div>
-                <div className="flex-1">
+                <div className="h-[calc(100vh-3rem)]  ">
                     {currentItem === "Music" && <Musics />}
                     {currentItem === "Friends" && <Friends />}
                     {currentItem === "Rooms" && <Rooms />}

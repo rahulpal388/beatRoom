@@ -43,8 +43,9 @@
 }
 
 .dark{
-  --color-foreground:oklch(94.04% 0.026 288.32);
+  /* --color-foreground:oklch(94.04% 0.026 288.32); */
   --color-background:oklch(17.81% 0.002 286.19);
+  --color-foreground:#FFF8DC;
   --color-card: oklch(27% 0.01 286)
 
 }

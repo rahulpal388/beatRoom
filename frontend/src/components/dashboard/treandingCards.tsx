@@ -12,7 +12,7 @@ export function TrendingCards({ song, artist, image }: {
 
     return <>
         <div>
-            <div className="relative size-32 rounded overflow-hidden group cursor-pointer ">
+            <div className="relative w-32 rounded overflow-hidden group cursor-pointer ">
                 <Image src={image} alt="image" height={100} width={100} className="w-full h-full  " />
                 <div className=" absolute bottom-2 right-2 bg-green-800 size-10 rounded-full hidden group-hover:flex items-center justify-center  ">
                     <Play className=" " />

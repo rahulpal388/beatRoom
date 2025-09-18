@@ -1,10 +1,12 @@
+"use client"
 import Image from "next/image";
 import { PlaylistCards } from "./queueCard";
-import { Copy, Play } from "lucide-react";
+import { Copy, Play, SkipBack, SkipForward } from "lucide-react";
 import { TrendingCards } from "./treandingCards";
 import { MusicBanner } from "./musicBanner";
 import { CurrentMusic } from "./currentMusic";
 import { ArtistPlaylist, artistPlaylist } from "./artistPlaylist";
+import { useEffect, useRef, useState } from "react";
 
 
 
@@ -54,18 +56,69 @@ const playlistItems = [
 
 
 export function Musics() {
+    const [sideQueue, setSideQueue] = useState<boolean>(true);
+    const musciSectionRef = useRef<HTMLDivElement | null>(null)
 
+    useEffect(() => {
+        if (sideQueue && musciSectionRef.current) {
+            musciSectionRef.current.classList.remove("overflow-y-auto")
+            musciSectionRef.current.classList.add("overflow-hidden");
+
+        } else {
+            musciSectionRef.current?.classList.remove("overflow-hidden")
+            musciSectionRef.current?.classList.add("overflow-y-auto")
+        }
+    }, [sideQueue])
 
     return <>
 
         <div className=" h-full grid grid-cols-8 overflow-hidden   ">
-            <div className="overflow-y-auto  col-span-6  px-6 pt-4 flex flex-col gap-4  pb-36 ">
-                <div className=" flex flex-col gap-4  ">
-                    <div className="flex items-center justify-end   ">
+            <div ref={musciSectionRef} className=" overflow-y-auto  col-span-6 max-xl:col-span-8  pt-4 flex flex-col gap-4  pb-36 ">
+                <div className="fixed  bottom-0 flex items-center  sm:gap-18 gap-6  z-50 py-2 px-8 w-full dark:bg-accent-foreground shadow-2xl rounded  xl:hidden ">
+                    <div className=" flex items-center gap-2 ">
+                        <Image src={"https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"} alt="poster" height={30} width={30} className=" h-full w-16 rounded " />
+                        <div>
+                            <h1 className=" text-lg ">Beliver</h1>
+                            <p className=" text-xs text-neutral-600 ">Imagine Dragons</p>
+                        </div>
+                    </div>
+                    <div className=" flex max-lg:flex-col justify-center items-center  lg:gap-10 gap-2 ">
+                        <div className="flex  gap-4 items-center ">
+                            <SkipBack />
+                            <Play />
+                            <SkipForward />
+                        </div>
+                        <div>
+                            <input type="range" name="" id="progress" className=" sm:w-64 w-40 " />
+                        </div>
+                    </div>
+
+                </div>
+                {
+                    sideQueue &&
+                    <div className="absolute top-30 right-0 bottom-0 z-30 h-[calc(100%-9rem)] px-4 dark:bg-foreground xl:hidden ">
+                        <div className=" mt-4 flex flex-col gap-2 h-full  overflow-y-auto ">
+                            <h1 className=" text-lg fond-bold font-heading ">Song Queue</h1>
+                            {playlistItems.map((item, index) => (
+                                <PlaylistCards key={index} name={item.name} artist={item.artist} image={item.image} />
+                            ))}
+
+                        </div>
+                    </div>
+                }
+
+                <div className=" flex flex-col gap-4 px-4  ">
+                    <div className="flex items-center gap-4 justify-end   ">
                         <button className=" cursor-pointer dark:shadow-xl dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground px-4 py-2 rounded text-muted flex gap-2 items-center ">
                             Invite friends
                             <Copy />
                         </button>
+                        <button className=" cursor-pointer dark:shadow-xl dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground px-4 py-2 rounded text-muted xl:hidden "
+                            onClick={() => {
+                                setSideQueue(prev => prev = !prev)
+
+                            }}
+                        >Queue Songs</button>
                     </div>
                     <div className=" h-[18rem] dark:shadow-2xl   rounded-lg overflow-hidden ">
                         <MusicBanner />
@@ -90,7 +143,7 @@ export function Musics() {
                     </div>
                     <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
                         <h1 className=" text-xl font-bold font-heading ">Artist Playlist</h1>
-                        <div className="mt-2 w-full grid grid-cols-2 items-center gap-6 justify-between   ">
+                        <div className="mt-2 w-full grid lg:grid-cols-2 grid-cols-1  items-center gap-6 justify-between   ">
                             {artistPlaylist.map((item, index) => (
                                 <ArtistPlaylist key={index} name={item.name} image={item.photo} type={item.type} />
                             ))}
@@ -102,15 +155,10 @@ export function Musics() {
 
 
             {/* current playing music and playlist */}
-            <div className="mt-4 col-span-2 px-2 py-4  h-full   dark:shadow-2xl  rounded dark:bg-foreground " >
-                <div className="h-[16rem]  row-span-2 rounded-lg  w-full overflow-y-scroll ">
+            <div className="mt-4 col-span-2 px-2 py-4  h-full   dark:shadow-2xl  rounded dark:bg-foreground max-xl:hidden " >
+                <div className="xl:h-[14rem] h-[18rem]  row-span-2 rounded-lg  w-full ">
                     <CurrentMusic />
-                    <div className="mt-4 h-6">
-                        <button className="  bg-accent text-muted flex gap-2 items-center ">
-                            Invite friends
-                            <Copy />
-                        </button>
-                    </div>
+
                 </div>
                 <div className="  mt-12 h-[calc(100vh-3rem-14rem)]  ">
                     <h1 className=" text-lg fond-bold font-heading ">Song Queue</h1>

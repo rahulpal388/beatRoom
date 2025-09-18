@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PlaylistCards } from "./playlistCard";
+import { PlaylistCards } from "./queueCard";
 import { Copy, Play } from "lucide-react";
 import { TrendingCards } from "./treandingCards";
 import { MusicBanner } from "./musicBanner";
@@ -70,7 +70,7 @@ export function Musics() {
                     <div className=" h-[18rem] dark:shadow-2xl   rounded-lg overflow-hidden ">
                         <MusicBanner />
                     </div>
-                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl dark:bg-foreground ">
+                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
                         <h1 className=" text-xl font-bold font-heading ">Recommended Songs</h1>
                         <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
                             {playlistItems.map((item, index) => (
@@ -79,7 +79,7 @@ export function Musics() {
                         </div>
 
                     </div>
-                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl dark:bg-foreground ">
+                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
                         <h1 className=" text-xl font-bold font-heading ">Trending Songs</h1>
                         <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
 
@@ -88,7 +88,7 @@ export function Musics() {
                             ))}
                         </div>
                     </div>
-                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl dark:bg-foreground ">
+                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
                         <h1 className=" text-xl font-bold font-heading ">Artist Playlist</h1>
                         <div className="mt-2 w-full grid grid-cols-2 items-center gap-6 justify-between   ">
                             {artistPlaylist.map((item, index) => (

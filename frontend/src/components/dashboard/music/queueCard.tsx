@@ -19,8 +19,7 @@ export function PlaylistCards({ name, artist, image }: {
                     <p className=" text-xs  dark:text-neutral-600 ">{artist}</p>
                 </div>
             </div>
-            <div className="flex gap-2 ">
-                <Play className="  stroke-primary cursor-pointer " />
+            <div className=" ">
                 <Trash2 className=" stroke-destructive cursor-pointer " />
             </div>
         </div>

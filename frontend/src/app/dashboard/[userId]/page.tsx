@@ -2,7 +2,7 @@
 
 import { Customize } from "@/components/dashboard/customize"
 import { Friends } from "@/components/dashboard/friends"
-import { Musics } from "@/components/dashboard/music"
+import { Musics } from "@/components/dashboard/music/music"
 import { Notification } from "@/components/dashboard/notification"
 import { Rooms } from "@/components/dashboard/rooms"
 import { Bell, GitPullRequestDraft, Handshake, HousePlus, Music, PanelLeftClose, PanelRightClose } from "lucide-react"

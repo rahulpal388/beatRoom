@@ -62,11 +62,11 @@ export function ArtistPlaylist({ name, image, type }: {
 }) {
 
     return <>
-        <div className="  flex gap-2 cursor-pointer hover:bg-sidebar-accent-foreground py-[4px] px-2 rounded-lg overflow-hidden items-center  ">
+        <div className="  flex gap-2 cursor-pointer py-[4px] px-2 rounded-lg overflow-hidden items-center dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground   ">
             <Image src={image} alt="artist" height={30} width={30} className="rounded-lg h-full w-12 " />
             <div className="">
-                <h1 className=" text-xl ">{name}</h1>
-                <p className=" text-xs ">{type}</p>
+                <h1 className=" text-lg hover:underline ">{name}</h1>
+                <p className=" text-[0.7rem] ">{type}</p>
             </div>
         </div>
     </>

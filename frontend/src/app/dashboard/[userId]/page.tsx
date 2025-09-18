@@ -82,7 +82,7 @@ export default function DashBoardPage() {
                 </div>
                 <div className=" mt-20 flex flex-col gap-2 ">
                     {sideBarItems.map((items, index) => (
-                        <div key={index} className={` px-4 py-2 rounded flex items-center gap-4 dark:hover:bg-blue-200 hover:bg-neutral-200 cursor-pointer  ${currentItem === items.link && "bg-neutral-200 dark:bg-blue-200 "} `}
+                        <div key={index} className={` px-4 py-2 rounded flex items-center gap-4   cursor-pointer  ${currentItem === items.link ? " bg-primary dark:bg-primary " : "dark:hover:bg-accent-foreground "} `}
                             onClick={() => { setCurrentItem(items.link) }}
                         >
                             {items.logo}

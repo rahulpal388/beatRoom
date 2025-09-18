@@ -1,5 +1,5 @@
 
-import { Play } from "lucide-react";
+import { Play, Trash2 } from "lucide-react";
 import Image from "next/image";
 
 
@@ -10,7 +10,7 @@ export function PlaylistCards({ name, artist, image }: {
 }) {
 
     return <>
-        <div className="  flex items-center justify-between hover:bg-[oklch(32%_0.04_280)] rounded-lg py-1 px-2 font-body  shadow-[0_4px_12px_oklch(12%_0.005_286.19_/_0.5)] ">
+        <div className="  flex items-center justify-between  rounded-lg py-1 px-2 font-body  dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground dark:shadow-2xl ">
             <div className="flex items-center gap-2">
 
                 <Image src={image} alt="image" height={30} width={30} />
@@ -19,8 +19,9 @@ export function PlaylistCards({ name, artist, image }: {
                     <p className=" text-xs ">{artist}</p>
                 </div>
             </div>
-            <div>
-                <Play />
+            <div className="flex gap-2 ">
+                <Play className="  stroke-primary cursor-pointer " />
+                <Trash2 className=" stroke-red-400/50 cursor-pointer " />
             </div>
         </div>
     </>

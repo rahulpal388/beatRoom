@@ -16,12 +16,12 @@ export function PlaylistCards({ name, artist, image }: {
                 <Image src={image} alt="image" height={30} width={30} />
                 <div>
                     <h1 className="text-md ">{name}</h1>
-                    <p className=" text-xs ">{artist}</p>
+                    <p className=" text-xs  dark:text-neutral-600 ">{artist}</p>
                 </div>
             </div>
             <div className="flex gap-2 ">
                 <Play className="  stroke-primary cursor-pointer " />
-                <Trash2 className=" stroke-red-400/50 cursor-pointer " />
+                <Trash2 className=" stroke-destructive cursor-pointer " />
             </div>
         </div>
     </>

@@ -8,7 +8,7 @@ export function CurrentMusic() {
     const [isPlaying, setIsPlaying] = useState<boolean>(false)
 
     return <>
-        <div className="relative  h-full rounded overflow-hidden  ">
+        <div className="relative   rounded overflow-hidden  ">
             <Image src={"https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"} alt="image" height={100} width={100} className=" object-cover w-full h-full " />
             <div className=" absolute left-0 bottom-2   w-full   px-2  " >
                 <div className=" backdrop-blur-sm py-2 px-2 rounded-md ">

@@ -66,7 +66,7 @@ export function ArtistPlaylist({ name, image, type }: {
             <Image src={image} alt="artist" height={30} width={30} className="rounded-lg h-full w-12 " />
             <div className="">
                 <h1 className=" text-lg hover:underline ">{name}</h1>
-                <p className=" text-[0.7rem] ">{type}</p>
+                <p className=" text-xs dark:text-neutral-600  ">{type}</p>
             </div>
         </div>
     </>

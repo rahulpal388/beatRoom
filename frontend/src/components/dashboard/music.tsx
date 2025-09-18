@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { PlaylistCards } from "./playlistCard";
-import { Play } from "lucide-react";
+import { Copy, Play } from "lucide-react";
 import { TrendingCards } from "./treandingCards";
 import { MusicBanner } from "./musicBanner";
 import { CurrentMusic } from "./currentMusic";
@@ -59,9 +59,14 @@ export function Musics() {
     return <>
 
         <div className=" h-full grid grid-cols-8 overflow-hidden   ">
-            <div className="overflow-y-auto  col-span-6  px-6 pt-4 flex flex-col gap-4  pb-28 ">
+            <div className="overflow-y-auto  col-span-6  px-6 pt-4 flex flex-col gap-4  pb-36 ">
                 <div className=" flex flex-col gap-4  ">
-
+                    <div className="flex items-center justify-end   ">
+                        <button className=" cursor-pointer dark:shadow-xl dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground px-4 py-2 rounded text-muted flex gap-2 items-center ">
+                            Invite friends
+                            <Copy />
+                        </button>
+                    </div>
                     <div className=" h-[18rem] dark:shadow-2xl   rounded-lg overflow-hidden ">
                         <MusicBanner />
                     </div>
@@ -85,7 +90,7 @@ export function Musics() {
                     </div>
                     <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl dark:bg-foreground ">
                         <h1 className=" text-xl font-bold font-heading ">Artist Playlist</h1>
-                        <div className="mt-6 w-full grid grid-cols-2 items-center gap-6 justify-between   ">
+                        <div className="mt-2 w-full grid grid-cols-2 items-center gap-6 justify-between   ">
                             {artistPlaylist.map((item, index) => (
                                 <ArtistPlaylist key={index} name={item.name} image={item.photo} type={item.type} />
                             ))}
@@ -98,8 +103,14 @@ export function Musics() {
 
             {/* current playing music and playlist */}
             <div className="mt-4 col-span-2 px-2 py-4  h-full   dark:shadow-2xl  rounded dark:bg-foreground " >
-                <div className="h-[14rem] row-span-2 rounded-lg  w-full overflow-y-scroll ">
+                <div className="h-[16rem]  row-span-2 rounded-lg  w-full overflow-y-scroll ">
                     <CurrentMusic />
+                    <div className="mt-4 h-6">
+                        <button className="  bg-accent text-muted flex gap-2 items-center ">
+                            Invite friends
+                            <Copy />
+                        </button>
+                    </div>
                 </div>
                 <div className="  mt-12 h-[calc(100vh-3rem-14rem)]  ">
                     <h1 className=" text-lg fond-bold font-heading ">Song Queue</h1>

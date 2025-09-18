@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "lastfm.freetls.fastly.net"
+      },
+      {
+        protocol: "https",
+        hostname: "upload.wikimedia.org"
       }
     ]
   }

@@ -64,16 +64,16 @@ export default function DashBoardPage() {
 
     return <>
         <div className=" flex h-screen   " >
-            <div className={` max-md:hidden   py-2  border-r-[1px] border-bg-neutral-100 ${isSideWindow ? " xl:w-[12rem] px-4 " : "w-20 px-2 "} `}>
+            <div className={` max-md:hidden   py-2  dark:shadow-2xl ${isSideWindow ? " xl:w-[12rem] px-4 " : "w-20 px-2 "} `}>
                 <div className="flex justify-end ">
                     {isSideWindow ?
-                        <PanelLeftClose className=" cursor-pointer size-8 "
+                        <PanelLeftClose className=" cursor-pointer size-6 "
                             onClick={() => {
                                 setSideWindow(false);
                             }}
                         />
                         :
-                        <PanelRightClose className=" cursor-pointer size-8 "
+                        <PanelRightClose className=" cursor-pointer size-6 "
                             onClick={() => {
                                 setSideWindow(true);
                             }}
@@ -95,7 +95,7 @@ export default function DashBoardPage() {
                 </div>
             </div>
             <div className="   h-screen   w-full  ">
-                <div className=" h-12 border-b-[1px] bg-neutral-200 w-full  ">
+                <div className=" h-12  dark:bg-foreground dark:shadow-2xl w-full  ">
 
                 </div>
                 <div className="h-[calc(100vh-3rem)]  ">

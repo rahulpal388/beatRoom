@@ -4,6 +4,7 @@ import { Play } from "lucide-react";
 import { TrendingCards } from "./treandingCards";
 import { MusicBanner } from "./musicBanner";
 import { CurrentMusic } from "./currentMusic";
+import { ArtistPlaylist, artistPlaylist } from "./artistPlaylist";
 
 
 
@@ -58,23 +59,37 @@ export function Musics() {
     return <>
 
         <div className=" h-full grid grid-cols-8 overflow-hidden   ">
-            <div className="overflow-y-auto  col-span-6  px-6 pt-4 flex flex-col gap-4   ">
-                <div className="   ">
+            <div className="overflow-y-auto  col-span-6  px-6 pt-4 flex flex-col gap-4  pb-28 ">
+                <div className=" flex flex-col gap-4  ">
 
-                    <div className=" h-[18rem] bg-neutral-400  rounded-lg overflow-hidden ">
+                    <div className=" h-[18rem] dark:shadow-2xl   rounded-lg overflow-hidden ">
                         <MusicBanner />
                     </div>
-                    <div className="    rounded-lg  px-4 py-2   shadow-[0_6px_20px_oklch(10%_0.01_286.19_/_0.6)] bg-[oklch(20%_0.04_280)] ">
-                        <h1 className=" text-xl font-bold font-heading ">Top 5 Trending Songs</h1>
+                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl dark:bg-foreground ">
+                        <h1 className=" text-xl font-bold font-heading ">Recommended Songs</h1>
                         <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
                             {playlistItems.map((item, index) => (
                                 <TrendingCards key={index} song={item.name} artist={item.artist} image={item.image} />
                             ))}
                         </div>
 
-
                     </div>
-                    <div className="w-full h-[50rem] bg-red-800 ">
+                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl dark:bg-foreground ">
+                        <h1 className=" text-xl font-bold font-heading ">Trending Songs</h1>
+                        <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
+
+                            {playlistItems.map((item, index) => (
+                                <TrendingCards key={index} song={item.name} artist={item.artist} image={item.image} />
+                            ))}
+                        </div>
+                    </div>
+                    <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl dark:bg-foreground ">
+                        <h1 className=" text-xl font-bold font-heading ">Artist Playlist</h1>
+                        <div className="mt-6 w-full grid grid-cols-2 items-center gap-6 justify-between   ">
+                            {artistPlaylist.map((item, index) => (
+                                <ArtistPlaylist key={index} name={item.name} image={item.photo} type={item.type} />
+                            ))}
+                        </div>
 
                     </div>
                 </div>
@@ -82,15 +97,13 @@ export function Musics() {
 
 
             {/* current playing music and playlist */}
-            <div className=" col-span-2 px-2 py-4  h-full   shadow-[0_6px_20px_oklch(10%_0.01_286.19_/_0.6)]  bg-[oklch(20%_0.04_280)] " >
-                <div className="h-[14rem] row-span-2 rounded-lg  w-full ">
+            <div className="mt-4 col-span-2 px-2 py-4  h-full   dark:shadow-2xl  rounded dark:bg-foreground " >
+                <div className="h-[14rem] row-span-2 rounded-lg  w-full overflow-y-scroll ">
                     <CurrentMusic />
                 </div>
                 <div className="  mt-12 h-[calc(100vh-3rem-14rem)]  ">
-                    <h1 className=" text-lg fond-bold font-heading ">Playlist</h1>
+                    <h1 className=" text-lg fond-bold font-heading ">Song Queue</h1>
                     <div className=" mt-4 flex flex-col gap-2 h-full  overflow-y-auto ">
-
-
                         {playlistItems.map((item, index) => (
                             <PlaylistCards key={index} name={item.name} artist={item.artist} image={item.image} />
                         ))}

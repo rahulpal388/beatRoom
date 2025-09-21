@@ -1,16 +1,21 @@
 
 import { Play, Trash2 } from "lucide-react";
 import Image from "next/image";
+import { Dispatch, SetStateAction } from "react";
+import { TQueueSong } from "./music";
+import { div } from "motion/react-client";
 
 
-export function PlaylistCards({ name, artist, image }: {
+export function QueueCards({ name, artist, image, setQueueSongs }: {
     name: string,
     artist: string,
-    image: string
+    image: string,
+    setQueueSongs: Dispatch<SetStateAction<TQueueSong[]>>
 }) {
 
     return <>
         <div className="  flex items-center justify-between  rounded-lg py-1 px-2 font-body  dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground dark:shadow-2xl ">
+
             <div className="flex items-center gap-2">
 
                 <Image src={image} alt="image" height={30} width={30} />
@@ -20,8 +25,12 @@ export function PlaylistCards({ name, artist, image }: {
                 </div>
             </div>
             <div className=" ">
-                <Trash2 className=" stroke-destructive cursor-pointer " />
+                <Trash2 className=" stroke-destructive cursor-pointer " onClick={() => {
+                    setQueueSongs(prev => prev.filter(x => x.name != name))
+                }} />
             </div>
+
+
         </div>
     </>
 

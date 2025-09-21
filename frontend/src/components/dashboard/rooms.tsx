@@ -10,7 +10,7 @@ export function Rooms() {
             <div className="  mt-4 flex items-center justify-end ">
                 <button className=" px-4 py-2 dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground cursor-pointer rounded " >Create Room</button>
             </div>
-            <div className="   mt-6 grid grid-cols-3 gap-12  overflow-y-scroll pb-12 px-2  ">
+            <div className="   mt-6 grid lg:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-12  overflow-y-scroll pb-12 px-2  ">
                 <RoomCard />
                 <RoomCard />
                 <RoomCard />

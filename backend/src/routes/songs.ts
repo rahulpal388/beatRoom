@@ -90,6 +90,7 @@ useSong.get("/search", async (req, res) => {
 
     const query = req.query
     const song = query.song;
+    const playlistName = "trending now india";
     const album = query.album
 
 
@@ -111,7 +112,7 @@ useSong.get("/search", async (req, res) => {
                 "X-RapidAPI-Host": process.env.RAPIDAPIHOST
             }
         })
-        const playlist = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/playlists?query=${song}`, {
+        const playlist = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search?query=${playlistName}`, {
             headers: {
                 "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
                 "X-RapidAPI-Host": process.env.RAPIDAPIHOST
@@ -151,22 +152,23 @@ useSong.get("/search", async (req, res) => {
 
         // playlist
 
-        const playlistData = playlist.data.data.results as TPlaylist[]
-        const playlistResult = playlistData.map(x => {
-            return {
-                id: x.id,
-                name: x.name,
-                image: [x.image[0], x.image[1]]
-            }
-        })
+        // const playlistData = playlist.data.data.results as TPlaylist[]
+        // const playlistResult = playlistData.map(x => {
+        //     return {
+        //         id: x.id,
+        //         name: x.name,
+        //         image: [x.image[0], x.image[1]]
+        //     }
+        // })
 
 
         res.status(200).json({
-            songResult,
-            albumResult,
-            playlistResult
+            // songResult,
+            // albumResult,
+            // playlisResult
 
-            // message: songData.id
+
+            message: playlist.data
         })
 
 

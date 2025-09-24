@@ -2,7 +2,7 @@
 
 import { Customize } from "@/components/dashboard/customize"
 import { Friends } from "@/components/dashboard/friends"
-import { Musics } from "@/components/dashboard/music/music"
+import { MusicSection } from "@/components/dashboard/music/musicSection"
 import { Notification } from "@/components/dashboard/notification"
 import { Rooms } from "@/components/dashboard/rooms"
 import { Bell, GitPullRequestDraft, Handshake, HousePlus, Music, PanelLeftClose, PanelRightClose } from "lucide-react"
@@ -99,7 +99,7 @@ export default function DashBoardPage() {
 
                 </div>
                 <div className="h-[calc(100vh-3rem)]  ">
-                    {currentItem === "Music" && <Musics />}
+                    {currentItem === "Music" && <MusicSection />}
                     {currentItem === "Friends" && <Friends />}
                     {currentItem === "Rooms" && <Rooms />}
                     {currentItem === "Notification" && <Notification />}

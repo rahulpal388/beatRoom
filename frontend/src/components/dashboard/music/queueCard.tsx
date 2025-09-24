@@ -2,7 +2,7 @@
 import { Play, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
-import { TQueueSong } from "./music";
+import { TQueueSong } from "./musicSection";
 import { div } from "motion/react-client";
 
 

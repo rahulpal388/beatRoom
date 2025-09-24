@@ -1,0 +1,1249 @@
+{
+  "success": true,
+  "data": {
+    "total": 948,
+    "start": -9,
+    "results": [
+      {
+        "id": "1078585",
+        "name": "1920 Evil Returns",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/1920-evil-returns/,o6Q-8eKSTA_",
+        "year": 2012,
+        "type": "album",
+        "playCount": null,
+        "language": "hindi",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "1198730",
+              "name": "Chirantann Bhatt",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/chirantann-bhatt-songs/edN8JZVtcaw_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "1198730",
+              "name": "Chirantann Bhatt",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/chirantann-bhatt-songs/edN8JZVtcaw_"
+            },
+            {
+              "id": "459320",
+              "name": "Arijit Singh",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/arijit-singh-songs/LlRWpHzy3Hk_"
+            },
+            {
+              "id": "455782",
+              "name": "KK",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/kk-songs/K,5uNVM,qpM_"
+            },
+            {
+              "id": "456200",
+              "name": "Suzanne D'Mello",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/suzanne-dmello-songs/g8an8nf,m90_"
+            },
+            {
+              "id": "455251",
+              "name": "Mahalakshmi Iyer",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/mahalakshmi-iyer-songs/u3X6hmsd80E_"
+            },
+            {
+              "id": "461985",
+              "name": "Amit Mishra",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/amit-mishra-songs/eJ1hVRIG4Xw_"
+            },
+            {
+              "id": "455125",
+              "name": "Sonu Nigam",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/sonu-nigam-songs/,kuQK6K6u0I_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/256/1920-Evil-Returns-Hindi-2012-20221213041144-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/256/1920-Evil-Returns-Hindi-2012-20221213041144-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/256/1920-Evil-Returns-Hindi-2012-20221213041144-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "37566395",
+        "name": "Nindu Punammi Vela",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/nindu-punammi-vela/BMmNe,JRLPs_",
+        "year": 2022,
+        "type": "album",
+        "playCount": null,
+        "language": "telugu",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "11938140",
+              "name": "Suman Badanakal",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/suman-badanakal-songs/YCsfJQMMhww_"
+            },
+            {
+              "id": "13004548",
+              "name": "Srinidhi Nerella",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/srinidhi-nerella-songs/PNyIES9q8qY_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "11938140",
+              "name": "Suman Badanakal",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/suman-badanakal-songs/YCsfJQMMhww_"
+            },
+            {
+              "id": "13004548",
+              "name": "Srinidhi Nerella",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/srinidhi-nerella-songs/PNyIES9q8qY_"
+            },
+            {
+              "id": "9944342",
+              "name": "Kalyan Keys",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/kalyan-keys-songs/sV0Drw5hfmI_"
+            },
+            {
+              "id": "459320",
+              "name": "Arijit Singh",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/arijit-singh-songs/LlRWpHzy3Hk_"
+            },
+            {
+              "id": "455782",
+              "name": "KK",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/kk-songs/K,5uNVM,qpM_"
+            },
+            {
+              "id": "456200",
+              "name": "Suzanne D'Mello",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/suzanne-dmello-songs/g8an8nf,m90_"
+            },
+            {
+              "id": "455251",
+              "name": "Mahalakshmi Iyer",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/mahalakshmi-iyer-songs/u3X6hmsd80E_"
+            },
+            {
+              "id": "461985",
+              "name": "Amit Mishra",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/amit-mishra-songs/eJ1hVRIG4Xw_"
+            },
+            {
+              "id": "455125",
+              "name": "Sonu Nigam",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/sonu-nigam-songs/,kuQK6K6u0I_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/466/Nindu-Punammi-Vela-Telugu-2022-20220823135133-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/466/Nindu-Punammi-Vela-Telugu-2022-20220823135133-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/466/Nindu-Punammi-Vela-Telugu-2022-20220823135133-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "35043566",
+        "name": "AVALA HEJJE",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/avala-hejje/R8B8WUJU5Gw_",
+        "year": 1981,
+        "type": "album",
+        "playCount": null,
+        "language": "kannada",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "455323",
+              "name": "Rajan",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/rajan-songs/g,7AI9r1ViU_"
+            },
+            {
+              "id": "463992",
+              "name": "Nagendra",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/nagendra-songs/IA7b-MQ6E-o_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "455844",
+              "name": "S. Janaki",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/s.-janaki-songs/h54PSVBwE4M_"
+            },
+            {
+              "id": "455323",
+              "name": "Rajan",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/rajan-songs/g,7AI9r1ViU_"
+            },
+            {
+              "id": "463992",
+              "name": "Nagendra",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/nagendra-songs/IA7b-MQ6E-o_"
+            },
+            {
+              "id": "741999",
+              "name": "S. P. Balasubrahmanyam",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/s.-p.-balasubrahmanyam-songs/Ix5AC5h7LSg_"
+            },
+            {
+              "id": "459320",
+              "name": "Arijit Singh",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/arijit-singh-songs/LlRWpHzy3Hk_"
+            },
+            {
+              "id": "455782",
+              "name": "KK",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/kk-songs/K,5uNVM,qpM_"
+            },
+            {
+              "id": "456200",
+              "name": "Suzanne D'Mello",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/suzanne-dmello-songs/g8an8nf,m90_"
+            },
+            {
+              "id": "455251",
+              "name": "Mahalakshmi Iyer",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/mahalakshmi-iyer-songs/u3X6hmsd80E_"
+            },
+            {
+              "id": "461985",
+              "name": "Amit Mishra",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/amit-mishra-songs/eJ1hVRIG4Xw_"
+            },
+            {
+              "id": "455125",
+              "name": "Sonu Nigam",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/sonu-nigam-songs/,kuQK6K6u0I_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/314/AVALA-HEJJE-Kannada-1981-20220517183418-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/314/AVALA-HEJJE-Kannada-1981-20220517183418-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/314/AVALA-HEJJE-Kannada-1981-20220517183418-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "58897969",
+        "name": "DNW Vol. 1",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/dnw-vol.-1/ISHuJOga6eQ_",
+        "year": 2024,
+        "type": "album",
+        "playCount": null,
+        "language": "haryanvi",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "8812560",
+              "name": "Dhanda Nyoliwala",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/dhanda-nyoliwala-songs/QigrV5leMIs_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "8812560",
+              "name": "Dhanda Nyoliwala",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/dhanda-nyoliwala-songs/QigrV5leMIs_"
+            },
+            {
+              "id": "8812560",
+              "name": "Dhanda Nyoliwala",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/dhanda-nyoliwala-songs/QigrV5leMIs_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/511/DNW-Vol-1-Hindi-2024-20241017154112-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/511/DNW-Vol-1-Hindi-2024-20241017154112-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/511/DNW-Vol-1-Hindi-2024-20241017154112-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "1053005",
+        "name": "Vaalee",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/vaalee/Fal6HMXxes4_",
+        "year": 1999,
+        "type": "album",
+        "playCount": null,
+        "language": "telugu",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "455219",
+              "name": "Deva",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/deva-songs/twMxVF52rYk_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "455219",
+              "name": "Deva",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/deva-songs/twMxVF52rYk_"
+            },
+            {
+              "id": "455162",
+              "name": "Hariharan",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/hariharan-songs/Z2qyrGA65Yo_"
+            },
+            {
+              "id": "489176",
+              "name": "Srinivasa Murthy",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/srinivasa-murthy-songs/YhomBaHWviU_"
+            },
+            {
+              "id": "2606753",
+              "name": "Savitha Reddy",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/savitha-reddy-songs/Nk64bVUhHzU_"
+            },
+            {
+              "id": "455270",
+              "name": "Mano",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/mano-songs/4wKto0-DIr0_"
+            },
+            {
+              "id": "455221",
+              "name": "Anuradha Sriram",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/anuradha-sriram-songs/6xkXYbhksdo_"
+            },
+            {
+              "id": "586086",
+              "name": "P. Unnikrishnan",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/p.-unnikrishnan-songs/uxOVQWd0,QM_"
+            },
+            {
+              "id": "455177",
+              "name": "Harini",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/harini-songs/gIPV28YSZs0_"
+            },
+            {
+              "id": "455558",
+              "name": "Swarnalatha",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/swarnalatha-songs/ensjdSpXKAQ_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/null/Vaalee-Telugu-1999-20190904185410-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/null/Vaalee-Telugu-1999-20190904185410-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/null/Vaalee-Telugu-1999-20190904185410-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "1141585",
+        "name": "YRF Jugalbandi Vol. 2",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/yrf-jugalbandi-vol.-2/PrhDvdIbfVM_",
+        "year": 2013,
+        "type": "album",
+        "playCount": null,
+        "language": "hindi",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "455494",
+              "name": "Various Artists",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/various-artists-songs/ztKx8IUBme8_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "459880",
+              "name": "Vishal & Shekhar",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/vishal-shekhar-songs/8swM0KpGBus_"
+            },
+            {
+              "id": "456323",
+              "name": "Pritam",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/pritam-songs/OaFg9HPZgq8_"
+            },
+            {
+              "id": "461323",
+              "name": "Uttam Singh",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/uttam-singh-songs/oNUhFwf,KLc_"
+            },
+            {
+              "id": "455534",
+              "name": "Jatin-Lalit",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/jatin-lalit-songs/f,PLP1qFeqc_"
+            },
+            {
+              "id": "455280",
+              "name": "Shankar-Ehsaan-Loy",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/shankar-ehsaan-loy-songs/gaOQwwdJkNo_"
+            },
+            {
+              "id": "456338",
+              "name": "Anu Malik",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/anu-malik-songs/mkfUaI-GTLM_"
+            },
+            {
+              "id": "455949",
+              "name": "Rahul Sharma",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/rahul-sharma-songs/KrI8XEMxcgs_"
+            },
+            {
+              "id": "456269",
+              "name": "A.R. Rahman",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/a.r.-rahman-songs/HhFyPLvlKN0_"
+            },
+            {
+              "id": "456778",
+              "name": "Amartya Rahut",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/amartya-rahut-songs/YSs4dSHx44A_"
+            },
+            {
+              "id": "455125",
+              "name": "Sonu Nigam",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/sonu-nigam-songs/,kuQK6K6u0I_"
+            },
+            {
+              "id": "455251",
+              "name": "Mahalakshmi Iyer",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/mahalakshmi-iyer-songs/u3X6hmsd80E_"
+            },
+            {
+              "id": "455782",
+              "name": "KK",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/kk-songs/K,5uNVM,qpM_"
+            },
+            {
+              "id": "455148",
+              "name": "Shilpa Rao",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/shilpa-rao-songs/IVd,BmJX7sA_"
+            },
+            {
+              "id": "455129",
+              "name": "Sunidhi Chauhan",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/sunidhi-chauhan-songs/ZIyMwJzHJwI_"
+            },
+            {
+              "id": "455709",
+              "name": "Hard Kaur",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/hard-kaur-songs/LGjdTf0oYj0_"
+            },
+            {
+              "id": "456144",
+              "name": "Raja Hasan",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/raja-hasan-songs/fKnNcUKL5wY_"
+            },
+            {
+              "id": "455136",
+              "name": "Kunal Ganjawala",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/kunal-ganjawala-songs/ZWT5fTzDyqI_"
+            },
+            {
+              "id": "457651",
+              "name": "Vasundhara Das",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/vasundhara-das-songs/qnVUXmmS4aQ_"
+            },
+            {
+              "id": "458158",
+              "name": "Alisha Chinai",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/alisha-chinai-songs/UgqNz7yU508_"
+            },
+            {
+              "id": "455109",
+              "name": "Lata Mangeshkar",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/lata-mangeshkar-songs/FCtl69DObYg_"
+            },
+            {
+              "id": "455127",
+              "name": "Udit Narayan",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/udit-narayan-songs/kLtmb7Vh8Rs_"
+            },
+            {
+              "id": "455120",
+              "name": "Alka Yagnik",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/alka-yagnik-songs/uqRkqsl4ZnQ_"
+            },
+            {
+              "id": "456037",
+              "name": "Babul Supriyo",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/babul-supriyo-songs/Y1m3OKrSgtQ_"
+            },
+            {
+              "id": "455669",
+              "name": "Vishal Dadlani",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/vishal-dadlani-songs/6o-AMde03I8_"
+            },
+            {
+              "id": "458805",
+              "name": "Abhijeet",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/abhijeet-songs/W75ouX6ktas_"
+            },
+            {
+              "id": "455166",
+              "name": "Asha Bhosle",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/asha-bhosle-songs/aejlQXLa1TI_"
+            },
+            {
+              "id": "455240",
+              "name": "Karthik",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/karthik-songs/KTA5BIxJOFM_"
+            },
+            {
+              "id": "466247",
+              "name": "Raghav Mathur",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/raghav-mathur-songs/nuMA8KkXk9w_"
+            },
+            {
+              "id": "669601",
+              "name": "Sasheh Aagha",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/sasheh-aagha-songs/3IJ5QVW0S6A_"
+            },
+            {
+              "id": "456775",
+              "name": "Ram Sampath",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/ram-sampath-songs/fLt,9HDD4xM_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/241/YRF-Jugalbandi-Vol-2-2013-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/241/YRF-Jugalbandi-Vol-2-2013-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/241/YRF-Jugalbandi-Vol-2-2013-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "3122091",
+        "name": "M. S. Subbulakshmi Sings For Tirupati Lord Balaji Vol. 2",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/m.-s.-subbulakshmi-sings-for-tirupati-lord-balaji-vol.-2/xwC5ei1s75A_",
+        "year": 2010,
+        "type": "album",
+        "playCount": null,
+        "language": "sanskrit",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "490839",
+              "name": "M.S. Subbulakshmi",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/m.s.-subbulakshmi-songs/4deXqzegDXw_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "459880",
+              "name": "Vishal & Shekhar",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/vishal-shekhar-songs/8swM0KpGBus_"
+            },
+            {
+              "id": "456323",
+              "name": "Pritam",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/pritam-songs/OaFg9HPZgq8_"
+            },
+            {
+              "id": "461323",
+              "name": "Uttam Singh",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/uttam-singh-songs/oNUhFwf,KLc_"
+            },
+            {
+              "id": "455534",
+              "name": "Jatin-Lalit",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/jatin-lalit-songs/f,PLP1qFeqc_"
+            },
+            {
+              "id": "455280",
+              "name": "Shankar-Ehsaan-Loy",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/shankar-ehsaan-loy-songs/gaOQwwdJkNo_"
+            },
+            {
+              "id": "456338",
+              "name": "Anu Malik",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/anu-malik-songs/mkfUaI-GTLM_"
+            },
+            {
+              "id": "455949",
+              "name": "Rahul Sharma",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/rahul-sharma-songs/KrI8XEMxcgs_"
+            },
+            {
+              "id": "456269",
+              "name": "A.R. Rahman",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/a.r.-rahman-songs/HhFyPLvlKN0_"
+            },
+            {
+              "id": "456778",
+              "name": "Amartya Rahut",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/amartya-rahut-songs/YSs4dSHx44A_"
+            },
+            {
+              "id": "490839",
+              "name": "M.S. Subbulakshmi",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/m.s.-subbulakshmi-songs/4deXqzegDXw_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/610/M-S-Subbulakshmi-Sings-For-Tirupati-Lord-Balaji-Vol-2-Sanskrit-2010-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/610/M-S-Subbulakshmi-Sings-For-Tirupati-Lord-Balaji-Vol-2-Sanskrit-2010-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/610/M-S-Subbulakshmi-Sings-For-Tirupati-Lord-Balaji-Vol-2-Sanskrit-2010-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "32153988",
+        "name": "Rettai Vaal Kuruvi",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/rettai-vaal-kuruvi/lUJ1cOV52rY_",
+        "year": 2022,
+        "type": "album",
+        "playCount": null,
+        "language": "tamil",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "457536",
+              "name": "Ilaiyaraaja",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/ilaiyaraaja-songs/ciCHe-IFG1w_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "457536",
+              "name": "Ilaiyaraaja",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/ilaiyaraaja-songs/ciCHe-IFG1w_"
+            },
+            {
+              "id": "457536",
+              "name": "Ilaiyaraaja",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/ilaiyaraaja-songs/ciCHe-IFG1w_"
+            },
+            {
+              "id": "458475",
+              "name": "K.J. Yesudas",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/k.j.-yesudas-songs/VFBN06xAHig_"
+            },
+            {
+              "id": "455844",
+              "name": "S. Janaki",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/s.-janaki-songs/h54PSVBwE4M_"
+            },
+            {
+              "id": "457530",
+              "name": "P. Susheela",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/p.-susheela-songs/5J,1Tavnvvk_"
+            },
+            {
+              "id": "483224",
+              "name": "K. S. Chithra",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/k.-s.-chithra-songs/doElLvdHCyk_"
+            },
+            {
+              "id": "457973",
+              "name": "P. Jayachandran",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/p.-jayachandran-songs/lRrYkO,NsqI_"
+            },
+            {
+              "id": "460822",
+              "name": "Saibaba",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/saibaba-songs/B9NZAIyUy3Y_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/336/Rettai-Vaal-Kuruvi-Original-Motion-Picture-Soundtrack--Tamil-1987-20220113202636-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/336/Rettai-Vaal-Kuruvi-Original-Motion-Picture-Soundtrack--Tamil-1987-20220113202636-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/336/Rettai-Vaal-Kuruvi-Original-Motion-Picture-Soundtrack--Tamil-1987-20220113202636-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "39688479",
+        "name": "Choot Vol. 1",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/choot-vol.-1/8l7gHeZDziM_",
+        "year": 2021,
+        "type": "album",
+        "playCount": null,
+        "language": "hindi",
+        "explicitContent": true,
+        "artists": {
+          "primary": [
+            {
+              "id": "476178",
+              "name": "Honey",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/honey-songs/WRGum-yx9V0_"
+            },
+            {
+              "id": "456863",
+              "name": "Badshah",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/badshah-songs/d4OwAaEcnD0_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "476178",
+              "name": "Honey",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/honey-songs/WRGum-yx9V0_"
+            },
+            {
+              "id": "456863",
+              "name": "Badshah",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/badshah-songs/d4OwAaEcnD0_"
+            },
+            {
+              "id": "457536",
+              "name": "Ilaiyaraaja",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/ilaiyaraaja-songs/ciCHe-IFG1w_"
+            },
+            {
+              "id": "458475",
+              "name": "K.J. Yesudas",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/k.j.-yesudas-songs/VFBN06xAHig_"
+            },
+            {
+              "id": "455844",
+              "name": "S. Janaki",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/s.-janaki-songs/h54PSVBwE4M_"
+            },
+            {
+              "id": "457530",
+              "name": "P. Susheela",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/p.-susheela-songs/5J,1Tavnvvk_"
+            },
+            {
+              "id": "483224",
+              "name": "K. S. Chithra",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/k.-s.-chithra-songs/doElLvdHCyk_"
+            },
+            {
+              "id": "457973",
+              "name": "P. Jayachandran",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/p.-jayachandran-songs/lRrYkO,NsqI_"
+            },
+            {
+              "id": "460822",
+              "name": "Saibaba",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/saibaba-songs/B9NZAIyUy3Y_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/024/Choot-Vol-1-Hindi-2021-20231102002851-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/024/Choot-Vol-1-Hindi-2021-20231102002851-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/024/Choot-Vol-1-Hindi-2021-20231102002851-500x500.jpg"
+          }
+        ]
+      },
+      {
+        "id": "2162224",
+        "name": "Aval Oru Thodarkathai",
+        "description": "",
+        "url": "https://www.jiosaavn.com/album/aval-oru-thodarkathai/7msmvmUS9k4_",
+        "year": 1974,
+        "type": "album",
+        "playCount": null,
+        "language": "tamil",
+        "explicitContent": false,
+        "artists": {
+          "primary": [
+            {
+              "id": "492656",
+              "name": "M.S. Viswanathan",
+              "role": "primary_artists",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/m.s.-viswanathan-songs/pC3rVjGDht4_"
+            }
+          ],
+          "featured": [],
+          "all": [
+            {
+              "id": "492656",
+              "name": "M.S. Viswanathan",
+              "role": "music",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/m.s.-viswanathan-songs/pC3rVjGDht4_"
+            },
+            {
+              "id": "455844",
+              "name": "S. Janaki",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/s.-janaki-songs/h54PSVBwE4M_"
+            },
+            {
+              "id": "457530",
+              "name": "P. Susheela",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/p.-susheela-songs/5J,1Tavnvvk_"
+            },
+            {
+              "id": "458475",
+              "name": "K.J. Yesudas",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/k.j.-yesudas-songs/VFBN06xAHig_"
+            },
+            {
+              "id": "741999",
+              "name": "S.P. Balasubrahmanyam",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/s.p.-balasubrahmanyam-songs/Ix5AC5h7LSg_"
+            },
+            {
+              "id": "460822",
+              "name": "Saibaba",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/saibaba-songs/B9NZAIyUy3Y_"
+            },
+            {
+              "id": "1426225",
+              "name": "Pattom Sadan",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/pattom-sadan-songs/mHFJ66bv1bI_"
+            },
+            {
+              "id": "459354",
+              "name": "L.R. Eswari",
+              "role": "singers",
+              "image": [],
+              "type": "artist",
+              "url": "https://www.jiosaavn.com/artist/l.r.-eswari-songs/RuXobLxGS3k_"
+            }
+          ]
+        },
+        "image": [
+          {
+            "quality": "50x50",
+            "url": "https://c.saavncdn.com/085/Aval-Oru-Thodarkathai-Tamil-1974-50x50.jpg"
+          },
+          {
+            "quality": "150x150",
+            "url": "https://c.saavncdn.com/085/Aval-Oru-Thodarkathai-Tamil-1974-150x150.jpg"
+          },
+          {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/085/Aval-Oru-Thodarkathai-Tamil-1974-500x500.jpg"
+          }
+        ]
+      }
+    ]
+  }
+}

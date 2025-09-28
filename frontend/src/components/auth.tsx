@@ -25,9 +25,21 @@ export function AuthPage() {
 
     const onSubmit: SubmitHandler<IInputForm> = async (data) => {
         setUser(data);
-        const response = await axios.post(`http://localhost:8080/api/v1/user/signin`, data)
-        console.log(response);
-        setIsForm(false)
+        console.log(data)
+        try {
+            console.log("------------------------------------------")
+            const response = await axios.post(`http://localhost:8080/api/v1/auth/signin`, data)
+            console.log(response);
+            setIsForm(false)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const onClick = async () => {
+
+        window.location.href = "http://localhost:8080/api/v1/auth/signin/google"
+
     }
 
     return <>
@@ -36,7 +48,7 @@ export function AuthPage() {
                 hello world
             </div>
             <div className="col-span-1 max-xs:col-span-2 flex items-center justify-center px-12 ">
-                <div className="border overflow-hidden border-black  rounded p-4 min-w-60 max-w-96 h-[26rem] flex items-center justify-center ">
+                <div className="border overflow-hidden border-black  rounded p-4 min-w-60 max-w-96 h-[30rem] flex items-center justify-center ">
                     <AnimatePresence>
                         {isForm &&
 
@@ -59,6 +71,11 @@ export function AuthPage() {
 
                                 <h1 className="text-center text-3xl font-bold text-neutral-800  ">Create an Account</h1>
                                 <p className="text-center text-sm text-neutral-600 " >Enter username, email, password to create BeatRoom account.</p>
+                                <div className=" mt-4 ">
+                                    <button className="cursor-pointer bg-green-800 text-black px-6 py-2 rounded-lg  "
+                                        onClick={onClick}
+                                    >Google</button>
+                                </div>
 
                                 <form onSubmit={handleSubmit(onSubmit)}>
 
@@ -147,7 +164,7 @@ export function AuthPage() {
                                 onClick={async () => {
                                     if (otp.length === 6 && user) {
                                         // task 1 : call the API to verify the user
-                                        const response = await axios.post(`http://localhost:8080/api/v1/user/verify_otp_sigin`, {
+                                        const response = await axios.post(`http://localhost:8080/api/v1/auth/verify_otp_sigin`, {
                                             email: user.email,
                                             username: user.username,
                                             password: user.password,

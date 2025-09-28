@@ -10,7 +10,7 @@ import { sendEmail } from "../utils/nodeMailer";
 
 // task : delete the storing the otp and then verifying
 
-export let verify_otp = "";
+export let verify_otp = "123456";
 
 const expire_otp = () => {
     setTimeout(() => {

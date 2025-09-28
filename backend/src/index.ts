@@ -4,6 +4,10 @@ import authRouter from "./routes/auth";
 import roomRouter from "./routes/room";
 import cors from "cors"
 import useSong from "./routes/songs";
+import session from "express-session"
+import passport from "passport";
+import LocalPassport from "passport-local"
+import GooglePassport from "passport-google-oauth20"
 
 
 export const roomDB: {
@@ -17,11 +21,69 @@ const PORT = process.env.PORT || 8081;
 
 
 const app = express();
+const LocalStrategy = LocalPassport.Strategy;
+const GoogleStartegy = GooglePassport.Strategy
 
-app.use(cors())
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}))
+
+app.use(session({
+    secret: process.env.SESSION_SECRET!,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax"
+    }
+}))
+
+app.use(passport.initialize())
+app.use(passport.session());
+
+passport.use(new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
+    console.log(email)
+    console.log(password);
+
+    return done(null, {
+        email,
+        password
+    })
+}))
+
+
+passport.serializeUser((user, done) => {
+    done(null, user);
+})
+
+passport.deserializeUser((user: any, done) => {
+    done(null, user);
+})
+
+
+
+console.log(process.env.GOOGLE_CLIENT_ID!)
+console.log(process.env.GOOGLE_SECRET_ID!)
+passport.use(new GoogleStartegy({
+    clientID: process.env.GOOGLE_CLIENT_ID!,
+    clientSecret: process.env.GOOGLE_SECRET_ID!,
+    callbackURL: "http://localhost:8080/api/v1/auth/signin/google/callback"
+}, (accessToken, refreshToken, profile, done) => {
+
+    console.log(profile)
+    done(null, profile);
+
+}))
+
+
+
 app.use(express.json())
 
-app.use("/api/v1/user", authRouter);
+
+
+app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/room", roomRouter);
 app.use("/api/v1/song", useSong);
 

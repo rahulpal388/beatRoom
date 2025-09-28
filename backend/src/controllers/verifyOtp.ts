@@ -6,6 +6,7 @@ import Jwt from "jsonwebtoken"
 import { verify_otp } from "./signin";
 
 export const verifyOtp_signin = (req: Request, res: Response) => {
+    console.log(req.body)
 
     try {
         const { success, data } = verifyOtpType.safeParse(req.body);
@@ -21,11 +22,11 @@ export const verifyOtp_signin = (req: Request, res: Response) => {
         if (verify_otp === data.otp) {
             // task 1 :  insert the user in the DB
 
-
+            console.log(req.session)
 
             const token = Jwt.sign({
                 userId: "12asd123asd",
-                email: data.email // task 2: user id not the email
+                email: "email" // task 2: user id not the email
             }, process.env.JWT_SECRET!)
 
             res.status(200).json({

@@ -8,5 +8,6 @@ export const signinType = z.object({
 
 
 export const verifyOtpType = z.object({
+    email: z.email(),
     otp: z.string().length(6)
 })

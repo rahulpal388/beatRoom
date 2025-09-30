@@ -6,14 +6,10 @@ import cors from "cors"
 import useSong from "./routes/songs";
 import session from "express-session"
 import passport from "passport";
-import LocalPassport from "passport-local"
-import GooglePassport from "passport-google-oauth20"
 import connectPgSimple from "connect-pg-simple";
 import pg from "pg"
-import { generateKey } from "crypto";
-import { generateUniqueUserId } from "./utils/generateUniqueId";
-import { DBClient } from "./db/index";
-import { hashPassword } from "./utils/bcryptPassword";
+import { LocalSignInStrategy, LocalSignUpStrategy } from "./passportStrategy/localStrategy";
+import { googleAuthStartegy } from "./passportStrategy/googleStrategy";
 
 
 
@@ -28,8 +24,7 @@ const PORT = process.env.PORT || 8081;
 
 
 const app = express();
-const LocalStrategy = LocalPassport.Strategy;
-const GoogleStartegy = GooglePassport.Strategy
+
 const pgSession = connectPgSimple(session);
 
 
@@ -46,6 +41,9 @@ app.use(session({
             host: process.env.DATABASE_HOST,
             port: Number(process.env.DATABASE_PORT) || 5432,
             database: process.env.DATABASE_DB,
+            ssl: {
+                rejectUnauthorized: true
+            }
         }),
         tableName: "session",
         createTableIfMissing: true
@@ -63,45 +61,8 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session());
 
-passport.use("signup", new LocalStrategy({ usernameField: "email", passReqToCallback: true }, async (req, email, password, done) => {
-
-
-    try {
-
-
-        const isUser = await DBClient.user.findFirst({
-            where: {
-                email: email,
-            }
-        })
-
-        if (!isUser) {
-            const userId = generateUniqueUserId(email);
-            const passwordHash = hashPassword(password)
-
-            const user = await DBClient.user.create({
-                data: {
-                    email: email,
-                    password: passwordHash,
-                    UserId: userId
-                }
-            })
-
-            console.log("user id is  => ", user.id);
-
-            return done(null, user.id)
-        }
-
-
-
-    } catch (error) {
-        console.log("db error")
-        done(error)
-    }
-
-
-
-}))
+passport.use("signup", LocalSignUpStrategy);
+passport.use("login", LocalSignInStrategy);
 
 
 
@@ -109,43 +70,16 @@ passport.serializeUser((id, done) => {
     done(null, id);
 })
 
-passport.deserializeUser(async (id: any, done) => {
-    try {
+passport.deserializeUser((user: any, done) => {
+    done(null, user)
 
-        const user = await DBClient.user.findFirst({
-            where: {
-                id: id
-            },
-            select: {
-                id: true,
-                email: true,
-                UserId: true,
-                profile: true
-
-            }
-        })
-
-        done(null, user)
-
-    } catch (error) {
-        done(error)
-    }
 })
 
 
 
 console.log(process.env.GOOGLE_CLIENT_ID!)
 console.log(process.env.GOOGLE_SECRET_ID!)
-passport.use(new GoogleStartegy({
-    clientID: process.env.GOOGLE_CLIENT_ID!,
-    clientSecret: process.env.GOOGLE_SECRET_ID!,
-    callbackURL: "http://localhost:8080/api/v1/auth/signin/google/callback"
-}, (accessToken, refreshToken, profile, done) => {
-
-    console.log(profile)
-    done(null, profile);
-
-}))
+// passport.use(googleAuthStartegy);
 
 
 

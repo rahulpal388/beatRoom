@@ -28,7 +28,7 @@ export function AuthPage() {
         console.log(data)
         try {
             console.log("------------------------------------------")
-            const response = await axios.post(`http://localhost:8080/api/v1/auth/signin`, data)
+            const response = await axios.post(`http://localhost:8080/api/v1/auth/signup`, data)
             console.log(response);
             setIsForm(false)
         } catch (error) {
@@ -166,8 +166,6 @@ export function AuthPage() {
                                         // task 1 : call the API to verify the user
                                         const response = await axios.post(`http://localhost:8080/api/v1/auth/verify_otp_sigin`, {
                                             email: user.email,
-                                            username: user.username,
-                                            password: user.password,
                                             otp
                                         })
                                         console.log(response.data)

@@ -5,7 +5,9 @@ import { Friends } from "@/components/dashboard/friends"
 import { MusicSection } from "@/components/dashboard/music/musicSection"
 import { Notification } from "@/components/dashboard/notification"
 import { Rooms } from "@/components/dashboard/rooms"
+import axios from "axios"
 import { Bell, GitPullRequestDraft, Handshake, HousePlus, Music, PanelLeftClose, PanelRightClose } from "lucide-react"
+import { useRouter } from "next/navigation"
 import React, { useState } from "react"
 
 
@@ -58,13 +60,22 @@ type TCurrentItem = "Music" | "Rooms" | "Friends" | "Notification" | "Customize"
 export default function DashBoardPage() {
     const [isSideWindow, setSideWindow] = useState<boolean>(true);
     const [currentItem, setCurrentItem] = useState<TCurrentItem>("Music");
+    const router = useRouter();
 
+    const onLogout = async () => {
+        const response = await axios.get("http://localhost:8080/api/v1/auth/logout", { withCredentials: true })
 
+        console.log(response.data);
+
+        if (response.status === 200) {
+            router.push("/")
+        }
+    }
 
 
     return <>
         <div className=" flex h-screen   " >
-            <div className={` max-md:hidden   py-2  dark:shadow-2xl ${isSideWindow ? " xl:w-[12rem] px-4 " : "w-20 px-2 "} `}>
+            <div className={`relative max-md:hidden   py-2  dark:shadow-2xl ${isSideWindow ? " xl:w-[12rem] px-4 " : "w-20 px-2 "} `}>
                 <div className="flex justify-end ">
                     {isSideWindow ?
                         <PanelLeftClose className=" cursor-pointer size-6 "
@@ -91,9 +102,20 @@ export default function DashBoardPage() {
 
 
                         </div>
+
+
                     ))}
+
+
+                    <div className=" absolute bottom-12 left-8 ">
+                        <button className=" bg-red-800 text-white px-6 py-2 rounded  "
+                            onClick={onLogout}
+                        >Logout</button>
+                    </div>
                 </div>
             </div>
+
+
             <div className="   h-screen   w-full  ">
                 <div className=" h-12  dark:bg-foreground dark:shadow-2xl w-full  ">
 

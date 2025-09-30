@@ -8,6 +8,13 @@ import session from "express-session"
 import passport from "passport";
 import LocalPassport from "passport-local"
 import GooglePassport from "passport-google-oauth20"
+import connectPgSimple from "connect-pg-simple";
+import pg from "pg"
+import { generateKey } from "crypto";
+import { generateUniqueUserId } from "./utils/generateUniqueId";
+import { DBClient } from "./db/index";
+import { hashPassword } from "./utils/bcryptPassword";
+
 
 
 export const roomDB: {
@@ -23,6 +30,8 @@ const PORT = process.env.PORT || 8081;
 const app = express();
 const LocalStrategy = LocalPassport.Strategy;
 const GoogleStartegy = GooglePassport.Strategy
+const pgSession = connectPgSimple(session);
+
 
 app.use(cors({
     origin: "http://localhost:3000",
@@ -30,6 +39,17 @@ app.use(cors({
 }))
 
 app.use(session({
+    store: new pgSession({
+        pool: new pg.Pool({
+            user: process.env.DATABASE_USERNAME,
+            password: process.env.DATABASE_PASSWORD,
+            host: process.env.DATABASE_HOST,
+            port: Number(process.env.DATABASE_PORT) || 5432,
+            database: process.env.DATABASE_DB,
+        }),
+        tableName: "session",
+        createTableIfMissing: true
+    }),
     secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
@@ -43,23 +63,73 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session());
 
-passport.use(new LocalStrategy({ usernameField: "email" }, async (email, password, done) => {
-    console.log(email)
-    console.log(password);
+passport.use("signup", new LocalStrategy({ usernameField: "email", passReqToCallback: true }, async (req, email, password, done) => {
 
-    return done(null, {
-        email,
-        password
-    })
+
+    try {
+
+
+        const isUser = await DBClient.user.findFirst({
+            where: {
+                email: email,
+            }
+        })
+
+        if (!isUser) {
+            const userId = generateUniqueUserId(email);
+            const passwordHash = hashPassword(password)
+
+            const user = await DBClient.user.create({
+                data: {
+                    email: email,
+                    password: passwordHash,
+                    UserId: userId
+                }
+            })
+
+            console.log("user id is  => ", user.id);
+
+            return done(null, user.id)
+        }
+
+
+
+    } catch (error) {
+        console.log("db error")
+        done(error)
+    }
+
+
+
 }))
 
 
-passport.serializeUser((user, done) => {
-    done(null, user);
+
+passport.serializeUser((id, done) => {
+    done(null, id);
 })
 
-passport.deserializeUser((user: any, done) => {
-    done(null, user);
+passport.deserializeUser(async (id: any, done) => {
+    try {
+
+        const user = await DBClient.user.findFirst({
+            where: {
+                id: id
+            },
+            select: {
+                id: true,
+                email: true,
+                UserId: true,
+                profile: true
+
+            }
+        })
+
+        done(null, user)
+
+    } catch (error) {
+        done(error)
+    }
 })
 
 

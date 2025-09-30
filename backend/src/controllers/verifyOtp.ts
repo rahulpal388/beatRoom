@@ -4,9 +4,10 @@ import { encode } from "hi-base32";
 import { TOTP } from "totp-generator";
 import Jwt from "jsonwebtoken"
 import { verify_otp } from "./signin";
+import { userInfo } from "os";
 
 export const verifyOtp_signin = (req: Request, res: Response) => {
-    console.log(req.body)
+    // console.log(req.body)
 
     try {
         const { success, data } = verifyOtpType.safeParse(req.body);
@@ -29,13 +30,31 @@ export const verifyOtp_signin = (req: Request, res: Response) => {
                 email: "email" // task 2: user id not the email
             }, process.env.JWT_SECRET!)
 
-            res.status(200).json({
-                userId: "12asd123asd",
-                message: "user account is created",
-                token
+            const user = {
+                name: "rahul",
+                email: "rahulschoolemail59@gmail.com"
+            }
+
+            req.login(user, (err) => {
+                if (err) {
+                    res.status(500).json({
+                        message: "something went wrong"
+                    })
+                    return;
+                }
+
+                res.status(200).json({
+                    userId: "12asd123asd",
+                    message: "user account is created",
+                    token
+                })
+
+                return;
+
             })
 
-            return
+
+            return;
         }
 
         res.status(400).json({

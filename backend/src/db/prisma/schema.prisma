@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
 }
 
 datasource db {
@@ -15,4 +14,11 @@ model User {
   UserId     String  @unique
   isVerified Boolean @default(false)
   profile    String?
+}
+
+model Otp {
+  id        String   @id @default(uuid())
+  otp       String
+  createdAt DateTime
+  expireAt  DateTime
 }

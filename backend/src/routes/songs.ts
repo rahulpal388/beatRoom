@@ -189,13 +189,14 @@ useSong.get("/suggestions", async (req, res) => {
     const options = {
         method: "GET",
         // url: "https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/songs",
-        url: `https://jiosaavn-api-unofficial.p.rapidapi.com/search?query=${search}&type=song&limit=5`,
+        url: `https://jiosaavn-api-unofficial.p.rapidapi.com/search?query=${search}&type=song&limit=10`,
         // params: { query: "Dhun" }, // query params
         headers: {
             "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
             "X-RapidAPI-Host": process.env.RAPIDAPIHOST
         }
     };
+
 
     axios.request(options)
         .then(response => {
@@ -207,6 +208,8 @@ useSong.get("/suggestions", async (req, res) => {
                 artists: string,
                 album: string
             }[] = [];
+
+            console.log(response.data.data.songs.results)
 
             results.forEach(element => {
                 data.push({

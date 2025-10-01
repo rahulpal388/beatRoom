@@ -9,8 +9,8 @@ import googlePassport from "passport-google-oauth20"
 const GoogleStartegy = googlePassport.Strategy;
 
 export const googleAuthStartegy = new GoogleStartegy({
-    clientID: process.env.GOOGLE_CLIENT_ID! || "309559492466-799m5diunjhbeo64mqi4ov949pu7slpc.apps.googleusercontent.com",
-    clientSecret: process.env.GOOGLE_SECRET_ID! || "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",
+    clientID: process.env.GOOGLE_CLIENT_ID!,
+    clientSecret: process.env.GOOGLE_SECRET_ID!,
     callbackURL: "http://localhost:8080/api/v1/auth/signin/google/callback"
 
 }, async (accessToken, refreshToken, profile, done) => {

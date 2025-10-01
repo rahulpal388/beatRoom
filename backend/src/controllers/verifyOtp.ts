@@ -30,8 +30,8 @@ export const verifyOtp_signin = async (req: Request, res: Response) => {
         if (dbOtp?.otp === data.otp) {
             const passwordHash = hashPassword(data.password);
             const userId = generateUniqueUserId(data.email)
-            const accessToken = createAccessToken({ email: data.email });
-            const refreshToken = createRefreshToken({ email: data.email });
+            const accessToken = createAccessToken({ email: data.email, userId: userId });
+            const refreshToken = createRefreshToken({ email: data.email, userId: userId });
 
             const user = await DBClient.user.create({
                 data: {

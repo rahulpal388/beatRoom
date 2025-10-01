@@ -7,6 +7,7 @@ import useSong from "./routes/songs";
 import passport from "passport";
 import { googleAuthStartegy } from "./passportStrategy/googleStrategy";
 import cookieParser from "cookie-parser"
+import { nextError } from "./middleware/errorHandler";
 
 
 
@@ -64,23 +65,14 @@ app.use(passport.initialize())
 
 
 
-passport.serializeUser((id, done) => {
-    done(null, id);
-})
-
-passport.deserializeUser((user: any, done) => {
-    done(null, user)
-
-})
-
 
 
 console.log(process.env.GOOGLE_CLIENT_ID!)
 console.log(process.env.GOOGLE_SECRET_ID!)
-// passport.use(googleAuthStartegy);
+passport.use(googleAuthStartegy);
 
 
-
+app.use(nextError)
 app.use(express.json())
 
 

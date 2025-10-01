@@ -1,7 +1,7 @@
 import { sendEmail } from "../utils/nodeMailer";
 import { Router } from "express";
 import { verifyOtp_signin } from "../controllers/verifyOtp";
-import passport from "passport";
+import passport, { use } from "passport";
 import { TOTP } from "totp-generator";
 import { encode } from "hi-base32";
 import { DBClient } from "../db/index";
@@ -14,8 +14,9 @@ const authRouter = Router();
 
 authRouter.post("/signup", async (req, res) => {
     const { data, success } = signinType.safeParse(req.body);
-
     if (!success) {
+        console.log(req.body)
+
         return res.status(401).json({
             message: "invalid input",
         });
@@ -86,19 +87,46 @@ The BeatRoom Team`;
 
 
 
-
-
 authRouter.get(
     "/signin/google",
-    passport.authenticate("google", { scope: ["profile", "email"] })
+    passport.authenticate("google", { scope: ["profile", "email"], session: false })
 );
 
-authRouter.get(
-    "/signin/google/callback",
+authRouter.get("/signin/google/callback", (req, res, next) => {
     passport.authenticate("google", {
         failureRedirect: "http://localhost:3000/login",
-        successRedirect: "http://localhost:3000/dashboard/sundram",
-    })
+        session: false
+    }, (err, user) => {
+        if (err) {
+            return next(err)
+        }
+        req.user = user
+        next()
+    })(req, res, next)
+},
+    (req, res) => {
+        const user = req.user as { accessToken: string, refreshToken: string, userId: string }
+        if (user) {
+
+            console.log("access token ====> ", user?.accessToken);
+            console.log("refresh token ====> ", user?.refreshToken);
+            console.log("user id ====> ", user?.userId);
+        }
+
+
+        res.cookie("accessToken", user.accessToken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production" ? true : false,
+            sameSite: process.env.NODE_ENV === "production" ? "strict" : "none",
+            maxAge: 1000 * 60 * 15
+        })
+            .cookie("refreshToken", user.refreshToken, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production" ? true : false,
+                sameSite: process.env.NODE_ENV === "production" ? "strict" : "none"
+            })
+            .redirect(`http://localhost:3000/dashboard/${user.userId}`)
+    }
 );
 
 authRouter.post("/verify_otp_sigin", verifyOtp_signin);

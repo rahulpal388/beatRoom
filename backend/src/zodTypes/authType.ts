@@ -1,7 +1,7 @@
 import { email, z } from "zod"
 
 export const signinType = z.object({
-    username: z.string().min(3).max(8),
+    username: z.string().min(3).max(10),
     email: z.email(),
     password: z.string().min(6).max(10)
 })

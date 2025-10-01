@@ -3,12 +3,12 @@ import Jwt from "jsonwebtoken";
 
 
 
-export const createAccessToken = (data: { email: string }) => {
+export const createAccessToken = (data: { email: string, userId: string }) => {
     return Jwt.sign(data, process.env.JWT_SECRET!, { expiresIn: "15m" }); // valid for 15 min
 }
 
 
-export const createRefreshToken = (data: { email: string }) => {
+export const createRefreshToken = (data: { email: string, userId: string }) => {
     return Jwt.sign(data, process.env.JWT_SECRET!, { expiresIn: "7d" }); // valid for 7 days
 }
 
@@ -16,7 +16,8 @@ export const createRefreshToken = (data: { email: string }) => {
 export const verifyJwtToken = (data: { token: string }): {
     verify: boolean,
     data: {
-        email: string
+        email: string,
+        userId: string
     } | null
 } => {
 
@@ -27,7 +28,9 @@ export const verifyJwtToken = (data: { token: string }): {
         return {
             verify: true,
             data: {
-                email: token.id
+                email: token.email,
+                userId: token.userId
+
             }
         }
 

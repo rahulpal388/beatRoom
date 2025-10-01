@@ -26,14 +26,21 @@ export function AuthPage() {
     const onSubmit: SubmitHandler<IInputForm> = async (data) => {
         setUser(data);
         console.log(data)
-        try {
-            console.log("------------------------------------------")
-            const response = await axios.post(`http://localhost:8080/api/v1/auth/signup`, data)
-            console.log(response);
-            setIsForm(false)
-        } catch (error) {
-            console.log(error)
-        }
+
+        console.log("------------------------------------------")
+        await axios.post(`http://localhost:8080/api/v1/auth/signup`, data)
+            .then((response) => {
+                setIsForm(false)
+
+            }).catch(error => {
+                const response = error.response
+                if (response.status === 401) {
+                    router.push(response.data.redirect)
+
+                }
+            })
+
+
     }
 
     const onClick = async () => {
@@ -165,12 +172,13 @@ export function AuthPage() {
                                     if (otp.length === 6 && user) {
                                         // task 1 : call the API to verify the user
                                         const response = await axios.post(`http://localhost:8080/api/v1/auth/verify_otp_sigin`, {
+                                            username: user.username,
+                                            password: user.password,
                                             email: user.email,
                                             otp
-                                        })
-                                        console.log(response.data)
+                                        }, { withCredentials: true })
+                                        console.log(response)
                                         if (response.status === 200) {
-                                            localStorage.setItem("token", response.data.token)
                                             router.push(`/dashboard/${response.data.userId}`)
                                         }
 

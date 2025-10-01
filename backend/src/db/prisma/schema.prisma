@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  id         String  @id @default(uuid())
-  username   String
-  email      String  @unique
-  password   String  @default("null")
-  UserId     String  @unique
-  isVerified Boolean @default(false)
-  profile    String?
+  id           String  @id @default(uuid())
+  username     String
+  email        String  @unique
+  password     String  @default("null")
+  userId       String  @unique
+  refreshToken String
+  isVerified   Boolean @default(false)
+  profile      String?
 }
 
 model Otp {

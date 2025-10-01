@@ -44,7 +44,7 @@ export function Hero() {
 
                         <button className="bg-red-800 sm:px-4 px-2 py-2 rounded-lg cursor-pointer "
                             onClick={() => {
-                                router.push("signin")
+                                router.push("signup")
                             }}
                         >Sign Up</button>
                     </div>

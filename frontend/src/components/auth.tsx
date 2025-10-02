@@ -7,6 +7,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { useAuth } from "@/context/authContext";
 
 
 type IInputSignUPForm = {
@@ -31,6 +32,7 @@ export function AuthPage({ type }: {
     const [user, setUser] = useState<IInputSignUPForm | null>(null)
     const { register, handleSubmit } = useForm<IInputSignUPForm>();
     const router = useRouter()
+    const { setCurrentUser, setAuthenticated } = useAuth()
 
     const onSubmit: SubmitHandler<IInputSignUPForm> = async (data) => {
         setUser(data);
@@ -48,6 +50,13 @@ export function AuthPage({ type }: {
                 }
                 console.log(response)
                 if (response.status === 200) {
+                    const { username, userId, profile } = response.data
+                    setCurrentUser({
+                        username,
+                        userId,
+                        profile
+                    })
+                    setAuthenticated(true);
                     router.push(`/dashboard/${response.data.userId}`)
                 }
             }).catch(error => {

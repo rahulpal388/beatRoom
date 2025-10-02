@@ -5,10 +5,11 @@ import { Friends } from "@/components/dashboard/friends"
 import { MusicSection } from "@/components/dashboard/music/musicSection"
 import { Notification } from "@/components/dashboard/notification"
 import { Rooms } from "@/components/dashboard/rooms"
+import { useAuth } from "@/context/authContext"
 import axios from "axios"
 import { Bell, GitPullRequestDraft, Handshake, HousePlus, Music, PanelLeftClose, PanelRightClose } from "lucide-react"
 import { useRouter } from "next/navigation"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 
 
 
@@ -54,6 +55,8 @@ const sideBarItems: TSideBarItems[] = [
     }
 ]
 
+
+
 type TCurrentItem = "Music" | "Rooms" | "Friends" | "Notification" | "Customize"
 
 
@@ -61,6 +64,7 @@ export default function DashBoardPage() {
     const [isSideWindow, setSideWindow] = useState<boolean>(true);
     const [currentItem, setCurrentItem] = useState<TCurrentItem>("Music");
     const router = useRouter();
+    const { currentUser, isAuthenticated, setAuthenticated, setCurrentUser } = useAuth();
 
     const onLogout = async () => {
         const response = await axios.get("http://localhost:8080/api/v1/auth/logout", { withCredentials: true })
@@ -68,8 +72,27 @@ export default function DashBoardPage() {
         console.log(response.data);
 
         if (response.status === 200) {
+            setAuthenticated(false);
+            setCurrentUser(null);
             router.push("/")
         }
+    }
+
+    // useEffect(() => {
+
+    //     if (!isAuthenticated) {
+    //         router.push("/login");
+    //     }
+
+    // }, [isAuthenticated])
+
+    if (!isAuthenticated) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <div className="w-14 h-14 border-4 green-t-blue-500 border-gray-200 rounded-full animate-spin"></div>
+            </div>
+        );
+
     }
 
 
@@ -117,7 +140,14 @@ export default function DashBoardPage() {
 
 
             <div className="   h-screen   w-full  ">
-                <div className=" h-12  dark:bg-foreground dark:shadow-2xl w-full  ">
+                <div className=" h-12  dark:bg-foreground dark:shadow-2xl w-full flex justify-end items-center gap-4 px-8 ">
+                    <div className=" flex flex-col items-center justify-end ">
+                        <h1 className=" text-sm ">{currentUser?.username}</h1>
+                        <p className=" text-[10px] ">{currentUser?.userId}</p>
+                    </div>
+                    <div className="font-bold bg-green-700 size-9 rounded-full shadow-2xl flex items-center justify-center " >
+                        {currentUser?.username[0].toLocaleUpperCase()}
+                    </div>
 
                 </div>
                 <div className="h-[calc(100vh-3rem)]  ">

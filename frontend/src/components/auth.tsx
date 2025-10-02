@@ -49,15 +49,18 @@ export function AuthPage({ type }: {
                     setIsForm(false);
                 }
                 console.log(response)
-                if (response.status === 200) {
-                    const { username, userId, profile } = response.data
-                    setCurrentUser({
-                        username,
-                        userId,
-                        profile
-                    })
-                    setAuthenticated(true);
-                    router.push(`/dashboard/${response.data.userId}`)
+                if (type === "login") {
+
+                    if (response.status === 200) {
+                        const { username, userId, profile } = response.data
+                        setCurrentUser({
+                            username,
+                            userId,
+                            profile
+                        })
+                        setAuthenticated(true);
+                        router.push(`/dashboard/${response.data.userId}`)
+                    }
                 }
             }).catch(error => {
                 const response = error.response
@@ -213,6 +216,13 @@ export function AuthPage({ type }: {
                                         }, { withCredentials: true })
                                         console.log(response)
                                         if (response.status === 200) {
+                                            const { username, userId, profile } = response.data
+                                            setCurrentUser({
+                                                userId,
+                                                username,
+                                                profile
+                                            })
+                                            setAuthenticated(true);
                                             router.push(`/dashboard/${response.data.userId}`)
                                         }
 

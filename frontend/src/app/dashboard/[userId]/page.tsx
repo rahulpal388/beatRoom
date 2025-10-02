@@ -7,7 +7,8 @@ import { Notification } from "@/components/dashboard/notification"
 import { Rooms } from "@/components/dashboard/rooms"
 import { useAuth } from "@/context/authContext"
 import axios from "axios"
-import { Bell, GitPullRequestDraft, Handshake, HousePlus, Music, PanelLeftClose, PanelRightClose } from "lucide-react"
+import { Bell, GitPullRequestDraft, Handshake, HousePlus, LogOut, Music, PanelLeftClose, PanelRightClose } from "lucide-react"
+import { div } from "motion/react-client"
 import { useRouter } from "next/navigation"
 import React, { useEffect, useState } from "react"
 
@@ -30,27 +31,27 @@ type TSideBarItems = {
 const sideBarItems: TSideBarItems[] = [
     {
         name: "Music",
-        logo: <Music className="xl:size-4  " />,
+        logo: <Music className="xl:size-6  " />,
         link: "Music"
     },
     {
         name: "Rooms",
-        logo: <HousePlus className="xl:size-4 " />,
+        logo: <HousePlus className="xl:size-6 " />,
         link: "Rooms"
     },
     {
         name: "Friends",
-        logo: <Handshake className="xl:size-4 " />,
+        logo: <Handshake className="xl:size-6 " />,
         link: "Friends"
     },
     {
         name: "Notification",
-        logo: <Bell className="xl:size-4 " />,
+        logo: <Bell className="xl:size-6  " />,
         link: "Notification"
     },
     {
         name: "Customize",
-        logo: <GitPullRequestDraft className="xl:size-4 " />,
+        logo: <GitPullRequestDraft className="xl:size-6 " />,
         link: "Customize"
     }
 ]
@@ -116,7 +117,9 @@ export default function DashBoardPage() {
                 </div>
                 <div className=" mt-20 flex flex-col gap-2 ">
                     {sideBarItems.map((items, index) => (
-                        <div key={index} className={` px-4 py-2 rounded flex items-center gap-4   cursor-pointer  ${currentItem === items.link ? " bg-primary dark:bg-primary " : "dark:hover:bg-accent-foreground "} `}
+                        <div key={index} className={`   py-2 rounded flex items-center gap-4   cursor-pointer 
+                            ${!isSideWindow ? " justify-center " : " px-2 "}
+                             ${currentItem === items.link ? " bg-primary dark:bg-primary text-accent-foreground " : "dark:hover:bg-accent-foreground "} `}
                             onClick={() => { setCurrentItem(items.link) }}
                         >
                             {items.logo}
@@ -130,10 +133,18 @@ export default function DashBoardPage() {
                     ))}
 
 
-                    <div className=" absolute bottom-12 left-8 ">
-                        <button className=" bg-red-800 text-white px-6 py-2 rounded  "
-                            onClick={onLogout}
-                        >Logout</button>
+                    <div className=" absolute bottom-12 left-4 ">
+                        {isSideWindow ?
+                            <button className=" bg-red-800 text-white px-6 py-2 rounded cursor-pointer "
+                                onClick={onLogout}
+                            >Logout</button>
+                            :
+                            <div className=" bg-red-800 w-12 h-8 flex justify-center items-center rounded cursor-pointer  "
+                                onClick={onLogout}
+                            >
+                                <LogOut />
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

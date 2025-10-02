@@ -69,7 +69,7 @@ app.use(passport.initialize())
 
 console.log(process.env.GOOGLE_CLIENT_ID!)
 console.log(process.env.GOOGLE_SECRET_ID!)
-passport.use(googleAuthStartegy);
+// passport.use(googleAuthStartegy);
 
 
 app.use(nextError)

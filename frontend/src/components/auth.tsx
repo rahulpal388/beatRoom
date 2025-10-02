@@ -1,40 +1,58 @@
 "use client"
 import { Eye, EyeOff } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form"
 import { motion, AnimatePresence } from "motion/react"
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "./ui/input-otp";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 
-type IInputForm = {
-    username: string,
+type IInputSignUPForm = {
+    username?: string,
     email: string,
     password: string
 }
+type AuthType = "signup" | "login"
 
 
-export function AuthPage() {
+
+
+
+
+export function AuthPage({ type }: {
+    type: AuthType
+
+}) {
     const [viewPassowrd, setViewPassword] = useState<boolean>(false);
     const [isForm, setIsForm] = useState<boolean>(true);
     const [otp, setOtp] = useState<string>("");
-    const [user, setUser] = useState<IInputForm | null>(null)
-    const { register, handleSubmit } = useForm<IInputForm>();
+    const [user, setUser] = useState<IInputSignUPForm | null>(null)
+    const { register, handleSubmit } = useForm<IInputSignUPForm>();
     const router = useRouter()
 
-    const onSubmit: SubmitHandler<IInputForm> = async (data) => {
+    const onSubmit: SubmitHandler<IInputSignUPForm> = async (data) => {
         setUser(data);
         console.log(data)
 
-        console.log("------------------------------------------")
-        await axios.post(`http://localhost:8080/api/v1/auth/signup`, data)
-            .then((response) => {
-                setIsForm(false)
+        const endpoint = type === "signup" ? "signup" : "login";
 
+
+
+
+        await axios.post(`http://localhost:8080/api/v1/auth/${endpoint}`, data, { withCredentials: true })
+            .then((response) => {
+                if (type === "signup") {
+                    setIsForm(false);
+                }
+                console.log(response)
+                if (response.status === 200) {
+                    router.push(`/dashboard/${response.data.userId}`)
+                }
             }).catch(error => {
                 const response = error.response
-                if (response.status === 401) {
+                if (response.status === 302) {
                     router.push(response.data.redirect)
 
                 }
@@ -50,12 +68,9 @@ export function AuthPage() {
     }
 
     return <>
-        <div className=" grid grid-cols-2  h-full " >
-            <div className="col-span-1 h-full bg-red-400 max-xs:hidden ">
-                hello world
-            </div>
-            <div className="col-span-1 max-xs:col-span-2 flex items-center justify-center px-12 ">
-                <div className="border overflow-hidden border-black  rounded p-4 min-w-60 max-w-96 h-[30rem] flex items-center justify-center ">
+        <div className="  h-full flex items-center justify-center dark:shadow-accent-foreground " >
+            <div className=" max-xs:col-span-2  px-12 ">
+                <div className="border overflow-hidden border-black dark:bg-accent-foreground/40 rounded p-4 min-w-60 max-w-96  flex items-center justify-center ">
                     <AnimatePresence>
                         {isForm &&
 
@@ -76,29 +91,39 @@ export function AuthPage() {
 
                             >
 
-                                <h1 className="text-center text-3xl font-bold text-neutral-800  ">Create an Account</h1>
-                                <p className="text-center text-sm text-neutral-600 " >Enter username, email, password to create BeatRoom account.</p>
-                                <div className=" mt-4 ">
-                                    <button className="cursor-pointer bg-green-800 text-black px-6 py-2 rounded-lg  "
-                                        onClick={onClick}
-                                    >Google</button>
+                                <h1 className="text-center text-3xl font-bold dark:text-accent  ">
+                                    {type === "signup" ? "Create an Account" : "Login to Account"}
+                                </h1>
+                                <p className="text-center text-sm dark:text-accent/70 " >
+                                    {type === "signup" ? "Enter username, email, password to create BeatRoom account."
+                                        :
+                                        "Enter email and password to login to your account."
+                                    }
+                                </p>
+                                <div className=" mt-4 flex w-full flex-col gap-4 justify-center items-center ">
+                                    <a href="http://localhost:8080/api/v1/auth/signin/google" className="cursor-pointer  text-black px-6 py-px rounded-lg bg-background  flex justify-center items-center "
+
+                                    >
+                                        <Image src="/google.png" alt="image" height={50} width={50} className=" rounded p-2  " />
+                                    </a>
+                                    <p className=" font-bold ">OR</p>
                                 </div>
 
                                 <form onSubmit={handleSubmit(onSubmit)}>
 
-                                    <div className="mt-10  px-4 flex flex-col gap-4 ">
-                                        <div >
+                                    <div className="mt-4  px-4 flex flex-col gap-4 ">
+                                        {type === "signup" && <div >
                                             <label htmlFor="username" className="text-lg font-medium " >Username</label>
-                                            <input className="px-2 py-px rounded w-full border border-black outline-blue-900 h-8 " type="text" id="username" placeholder="Enter username "  {...register("username", { required: true })} />
-                                        </div>
+                                            <input className="px-2 py-px rounded w-full border dark:border-background outline-none  h-8 " type="text" id="username" placeholder="Enter username "  {...register("username", { required: true })} />
+                                        </div>}
                                         <div >
-                                            <label htmlFor="email" className="text-lg font-medium " >email</label>
-                                            <input className="px-2 py-px rounded w-full border border-black outline-blue-900 h-8 " type="text" id="email" placeholder="Enter email " {...register("email", { required: true })} />
+                                            <label htmlFor="email" className="text-lg font-medium " >Email</label>
+                                            <input className="px-2 py-px rounded w-full border dark:border-background outline-none  h-8 " type="text" id="email" placeholder="Enter email " {...register("email", { required: true })} />
                                         </div>
                                         <div >
 
-                                            <label htmlFor="password" className="text-lg font-medium " >password</label>
-                                            <div className="flex gap-1 items-center border border-black px-2 rounded ">
+                                            <label htmlFor="password" className="text-lg font-medium " >Password</label>
+                                            <div className="flex gap-1 items-center border  border-background px-2 rounded ">
 
                                                 <input className=" py-px rounded w-full  outline-none h-8 " type={viewPassowrd ? "text" : "password"} id="password" placeholder="Enter password "{...register("password", { required: true })} />
                                                 {viewPassowrd ?

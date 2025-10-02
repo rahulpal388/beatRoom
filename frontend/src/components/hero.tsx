@@ -17,14 +17,11 @@ export function Hero() {
     return <>
 
 
-        <div className=" mt-36  w-full text-center flex flex-col items-center  gap-6  ">
+        <div className=" mt-44  w-full text-center flex flex-col items-center  gap-6  ">
 
-            <div className="max-w-[50rem] ">
+            <div className="max-w-[55rem] ">
                 <TextTransition />
                 <h4 className="mt-6   md:text-3xl xm:text-2xl text-xl   font-medium font-body text-center text-neutral-600 ">BeatRoom lets you listen to music, watch videos, and hang out with friends in real-time with chat, voice, and video.</h4>
-
-
-
                 <AnimatePresence>
                     {isJoinRoom && <JoinRoomCard setJoinRoom={setJoinRoom} />}
                 </AnimatePresence>

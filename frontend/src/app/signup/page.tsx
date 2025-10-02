@@ -2,14 +2,14 @@ import { AuthPage } from "@/components/auth";
 
 
 
-export default function Login() {
+export default function SingUp() {
 
 
 
     return <>
 
-        <div className="bg-gray-400 h-screen ">
-            <AuthPage />
+        <div className=" dark:bg-froground dark:text-background  h-screen ">
+            <AuthPage type="signup" />
         </div>
 
     </>

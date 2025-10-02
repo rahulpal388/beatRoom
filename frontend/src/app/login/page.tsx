@@ -1,12 +1,13 @@
+import { AuthPage } from "@/components/auth";
 
 
 
-export default function SignIn() {
+export default function Login() {
 
     return <>
 
-        <div>
-            login page
+        <div className=" dark:bg-froground dark:text-background  h-screen ">
+            <AuthPage type="login" />
         </div>
 
     </>

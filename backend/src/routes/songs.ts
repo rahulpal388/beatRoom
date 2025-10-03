@@ -1,7 +1,8 @@
 
 
 import axios from "axios";
-import { Router } from "express";
+import { scrapPlaylist } from "../srcaping/playlist";
+import { response, Router } from "express";
 import { date } from "zod";
 import { id } from "zod/v4/locales/index.cjs";
 
@@ -86,102 +87,102 @@ type TPlaylist = {
 const useSong = Router();
 
 
-useSong.get("/search", async (req, res) => {
+// useSong.get("/search", async (req, res) => {
 
-    const query = req.query
-    const song = query.song;
-    const playlistName = "trending now india";
-    const album = query.album
-
-
-    try {
+//     const query = req.query
+//     const song = query.song;
+//     const playlistName = "trending now india";
+//     const album = query.album
 
 
-        // id , name, album, image[50,150] , songUrl,
-        // inside suggestions => [id, name,artist,images[50,150]]
-
-        const songs = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/songs?query=${song}`, {
-            headers: {
-                "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
-                "X-RapidAPI-Host": process.env.RAPIDAPIHOST
-            }
-        })
-        const songAlbum = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/albums?query=${album}`, {
-            headers: {
-                "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
-                "X-RapidAPI-Host": process.env.RAPIDAPIHOST
-            }
-        })
-        const playlist = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search?query=${playlistName}`, {
-            headers: {
-                "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
-                "X-RapidAPI-Host": process.env.RAPIDAPIHOST
-            }
-        })
+//     try {
 
 
-        // songs
-        const songData = songs.data.data.results[0];
-        const songResult = {
-            id: songData.id,
-            name: songData.name,
-            releasedDate: songData.releasedDate,
-            duration: songData.duration,
-            language: songData.language,
-            image: [
-                songData.image[0],
-                songData.image[1]
-            ],
-            url: songData.downloadUrl[3]
-        }
+//         // id , name, album, image[50,150] , songUrl,
+//         // inside suggestions => [id, name,artist,images[50,150]]
 
-        // song album
-        const albumData = songAlbum.data.data.results as TAlbum[];
-        const albumResult: TAlbum[] = albumData.map(x => {
-            return {
-                id: x.id,
-                name: x.name,
-                artists: {
-                    primary: x.artists.primary.map(x => ({ name: x.name })),
-                    all: x.artists.all.map(x => ({ name: x.name }))
-                },
-                image: [x.image[0], x.image[1]]
-            }
-
-        })
-
-        // playlist
-
-        // const playlistData = playlist.data.data.results as TPlaylist[]
-        // const playlistResult = playlistData.map(x => {
-        //     return {
-        //         id: x.id,
-        //         name: x.name,
-        //         image: [x.image[0], x.image[1]]
-        //     }
-        // })
+//         const songs = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/songs?query=${song}`, {
+//             headers: {
+//                 "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
+//                 "X-RapidAPI-Host": process.env.RAPIDAPIHOST
+//             }
+//         })
+//         const songAlbum = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/albums?query=${album}`, {
+//             headers: {
+//                 "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
+//                 "X-RapidAPI-Host": process.env.RAPIDAPIHOST
+//             }
+//         })
+//         const playlist = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search?query=${playlistName}`, {
+//             headers: {
+//                 "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
+//                 "X-RapidAPI-Host": process.env.RAPIDAPIHOST
+//             }
+//         })
 
 
-        res.status(200).json({
-            // songResult,
-            // albumResult,
-            // playlisResult
+//         // songs
+//         const songData = songs.data.data.results[0];
+//         const songResult = {
+//             id: songData.id,
+//             name: songData.name,
+//             releasedDate: songData.releasedDate,
+//             duration: songData.duration,
+//             language: songData.language,
+//             image: [
+//                 songData.image[0],
+//                 songData.image[1]
+//             ],
+//             url: songData.downloadUrl[3]
+//         }
+
+//         // song album
+//         const albumData = songAlbum.data.data.results as TAlbum[];
+//         const albumResult: TAlbum[] = albumData.map(x => {
+//             return {
+//                 id: x.id,
+//                 name: x.name,
+//                 artists: {
+//                     primary: x.artists.primary.map(x => ({ name: x.name })),
+//                     all: x.artists.all.map(x => ({ name: x.name }))
+//                 },
+//                 image: [x.image[0], x.image[1]]
+//             }
+
+//         })
+
+//         // playlist
+
+//         // const playlistData = playlist.data.data.results as TPlaylist[]
+//         // const playlistResult = playlistData.map(x => {
+//         //     return {
+//         //         id: x.id,
+//         //         name: x.name,
+//         //         image: [x.image[0], x.image[1]]
+//         //     }
+//         // })
 
 
-            message: playlist.data
-        })
+//         res.status(200).json({
+//             // songResult,
+//             // albumResult,
+//             // playlisResult
 
 
-    } catch (error) {
-        console.log(error)
-        res.status(500).json({
-            message: " server error  "
-        })
-    }
+//             message: playlist.data
+//         })
+
+
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             message: " server error  "
+//         })
+//     }
 
 
 
-})
+// })
 
 useSong.get("/suggestions", async (req, res) => {
 
@@ -189,7 +190,7 @@ useSong.get("/suggestions", async (req, res) => {
     const options = {
         method: "GET",
         // url: "https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/songs",
-        url: `https://jiosaavn-api-unofficial.p.rapidapi.com/search?query=${search}&type=song&limit=10`,
+        url: `https://jiosaavn-api-unofficial.p.rapidapi.com/playlists?id=1134768973`,
         // params: { query: "Dhun" }, // query params
         headers: {
             "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
@@ -200,35 +201,49 @@ useSong.get("/suggestions", async (req, res) => {
 
     axios.request(options)
         .then(response => {
-            const results: TSearchResult[] = response.data.data.songs.results
-            const data: {
-                id: string,
-                title: string,
-                image: string,
-                artists: string,
-                album: string
-            }[] = [];
+            // const results: TSearchResult[] = response.data.data.songs.results
+            // const data: {
+            //     id: string,
+            //     title: string,
+            //     image: string,
+            //     artists: string,
+            //     album: string
+            // }[] = [];
 
-            console.log(response.data.data.songs.results)
+            // console.log(response.data.data.songs.results)
 
-            results.forEach(element => {
-                data.push({
-                    id: element.id,
-                    title: element.title,
-                    image: element.image[0].url,
-                    artists: element.singers,
-                    album: element.album
-                })
-            });
+            // results.forEach(element => {
+            //     data.push({
+            //         id: element.id,
+            //         title: element.title,
+            //         image: element.image[0].url,
+            //         artists: element.singers,
+            //         album: element.album
+            //     })
+            // });
+
+            console.log(response.data)
 
             res.json({
-                results: data
+                results: response.data
             })
         })
         .catch(err => console.error(err));
 
 
 
+
+})
+
+
+useSong.get("/playlist", async (req, res) => {
+    const url = req.body.url as string;
+
+    const playlist = await scrapPlaylist(url);
+
+    res.status(200).json({
+        playlist
+    })
 
 })
 

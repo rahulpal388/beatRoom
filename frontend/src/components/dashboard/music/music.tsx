@@ -21,7 +21,7 @@ export function Music({ setQueueSongs, type, recommended }: {
                 }
             </div>
             <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
-                <h1 className=" text-xl font-bold font-heading ">Recommended Songs</h1>
+                <h1 className=" text-xl font-bold font-heading ">Indie Mix</h1>
                 <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
                     {recommended.map((item, index) => (
                         <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
@@ -30,7 +30,25 @@ export function Music({ setQueueSongs, type, recommended }: {
 
             </div>
             <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
-                <h1 className=" text-xl font-bold font-heading ">Trending Songs</h1>
+                <h1 className=" text-xl font-bold font-heading ">Punjabi Songs</h1>
+                <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
+
+                    {recommended.map((item, index) => (
+                        <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
+                    ))}
+                </div>
+            </div>
+            <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
+                <h1 className=" text-xl font-bold font-heading ">Romantic Songs</h1>
+                <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
+
+                    {recommended.map((item, index) => (
+                        <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
+                    ))}
+                </div>
+            </div>
+            <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
+                <h1 className=" text-xl font-bold font-heading ">Bhojupuri Songs</h1>
                 <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
 
                     {recommended.map((item, index) => (

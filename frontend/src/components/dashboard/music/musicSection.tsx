@@ -6,13 +6,14 @@ import { SongCards } from "./songCard";
 import { MusicBanner } from "./musicBanner";
 import { CurrentMusic } from "./currentMusic";
 import { ArtistPlaylist, artistPlaylist } from "./artistPlaylist";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { p } from "motion/react-client";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
 import { Debounce } from "@/lib/debounce";
 import { Music, TSong } from "./music";
 import { SearchedMusic } from "./searchedMusic";
+import { TCurrentSong } from "@/app/dashboard/[userId]/page";
 
 
 
@@ -45,57 +46,59 @@ export type TSearchSuggestion = {
 // ]
 
 
-export const playlistItems: TSong[] = [
-    {
-        "name": "Blinding Lights",
-        "artist": "The Weeknd",
-        "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-    },
-    {
-        "name": "Shape of You",
-        "artist": "Ed Sheeran",
-        "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-    },
-    {
-        "name": "Levitating",
-        "artist": "Dua Lipa",
-        "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-    },
-    {
-        "name": "Believer",
-        "artist": "Imagine Dragons",
-        "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-    },
-    {
-        "name": "Stay",
-        "artist": "The Kid LAROI, Justin Bieber",
-        "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-    },
-    {
-        "name": "Bad Guy",
-        "artist": "Billie Eilish",
-        "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-    },
-    {
-        "name": "Someone You Loved",
-        "artist": "Lewis Capaldi",
-        "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-    },
-    {
-        "name": "Happier",
-        "artist": "Marshmello, Bastille",
-        "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-    }
-]
+// export const playlistItems: TSong[] = [
+//     {
+//         "name": "Blinding Lights",
+//         "artist": "The Weeknd",
+//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+//     },
+//     {
+//         "name": "Shape of You",
+//         "artist": "Ed Sheeran",
+//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+//     },
+//     {
+//         "name": "Levitating",
+//         "artist": "Dua Lipa",
+//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+//     },
+//     {
+//         "name": "Believer",
+//         "artist": "Imagine Dragons",
+//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+//     },
+//     {
+//         "name": "Stay",
+//         "artist": "The Kid LAROI, Justin Bieber",
+//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+//     },
+//     {
+//         "name": "Bad Guy",
+//         "artist": "Billie Eilish",
+//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+//     },
+//     {
+//         "name": "Someone You Loved",
+//         "artist": "Lewis Capaldi",
+//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+//     },
+//     {
+//         "name": "Happier",
+//         "artist": "Marshmello, Bastille",
+//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+//     }
+// ]
 
 
 
-export function MusicSection({ playerRef, setProgressValue, progressValue, isPlaying, setIsPlaying }: {
+export function MusicSection({ playerRef, setProgressValue, progressValue, isPlaying, setIsPlaying, setCurrentSong, currentSong }: {
     playerRef: React.RefObject<HTMLVideoElement | null>,
     setProgressValue: React.Dispatch<React.SetStateAction<number>>,
     progressValue: number,
     isPlaying: boolean,
-    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
+    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
+    setCurrentSong: React.Dispatch<React.SetStateAction<TCurrentSong>>,
+    currentSong: TSong
 }) {
     const [sideQueue, setSideQueue] = useState<boolean>(false);
     const [queueSongs, setQueueSongs] = useState<TSong[]>([]);
@@ -216,7 +219,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                         isQueueOn ?
                             <SearchedMusic setQueueSongs={setQueueSongs} />
                             :
-                            <Music setQueueSongs={setQueueSongs} type="notSearched" />
+                            <Music setQueueSongs={setQueueSongs} type="notSearched" setCurrentSong={setCurrentSong} setIsPlaying={setIsPlaying} />
                     }
                 </div>
             </div>
@@ -227,7 +230,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                 {/* muisc playing */}
 
                 <div className="xl:h-[14rem] h-[18rem]  row-span-2 rounded-lg  w-full ">
-                    <CurrentMusic playerRef={playerRef} setIsPlaying={setIsPlaying} isPlaying={isPlaying} progressValue={progressValue} setProgressValue={setProgressValue} />
+                    <CurrentMusic playerRef={playerRef} setIsPlaying={setIsPlaying} isPlaying={isPlaying} progressValue={progressValue} setProgressValue={setProgressValue} currentSong={currentSong} />
                 </div>
                 <div className="  mt-12 h-[calc(100vh-3rem-14rem)]  ">
                     <div className=" flex items-center justify-between  ">

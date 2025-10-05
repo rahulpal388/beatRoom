@@ -4,6 +4,7 @@ import { MusicBanner } from "./musicBanner";
 import { SongCards, SongsSection } from "./songCard";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
+import { TCurrentSong } from "@/app/dashboard/[userId]/page";
 
 export type TSong = {
     name: string,
@@ -19,9 +20,11 @@ type TPlaylist = {
 }
 
 
-export function Music({ setQueueSongs, type }: {
+export function Music({ setQueueSongs, type, setCurrentSong, setIsPlaying }: {
     setQueueSongs: Dispatch<SetStateAction<TSong[]>>,
     type: "searched" | "notSearched",
+    setCurrentSong: React.Dispatch<React.SetStateAction<TCurrentSong>>,
+    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
 
 }) {
 
@@ -59,10 +62,10 @@ export function Music({ setQueueSongs, type }: {
                     type === "notSearched" && <MusicBanner />
                 }
             </div>
-            <SongsSection setQueueSongs={setQueueSongs} heading="Indi Songs" songs={playlist?.indiePlaylist} />
-            <SongsSection setQueueSongs={setQueueSongs} heading="Punjabi Songs" songs={playlist?.punjabiPlaylist} />
-            <SongsSection setQueueSongs={setQueueSongs} heading="Romantic Songs" songs={playlist?.romanticPlaylist} />
-            <SongsSection setQueueSongs={setQueueSongs} heading="Bhojpuri Songs" songs={playlist?.bhojpuriPlaylist} />
+            <SongsSection setIsPlaying={setIsPlaying} setCurrentSong={setCurrentSong} setQueueSongs={setQueueSongs} heading="Indi Songs" songs={playlist?.indiePlaylist} />
+            <SongsSection setIsPlaying={setIsPlaying} setCurrentSong={setCurrentSong} setQueueSongs={setQueueSongs} heading="Punjabi Songs" songs={playlist?.punjabiPlaylist} />
+            <SongsSection setIsPlaying={setIsPlaying} setCurrentSong={setCurrentSong} setQueueSongs={setQueueSongs} heading="Romantic Songs" songs={playlist?.romanticPlaylist} />
+            <SongsSection setIsPlaying={setIsPlaying} setCurrentSong={setCurrentSong} setQueueSongs={setQueueSongs} heading="Bhojpuri Songs" songs={playlist?.bhojpuriPlaylist} />
             <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
                 <h1 className=" text-xl font-bold font-heading ">Artist Playlist</h1>
                 <div className="mt-2 w-full grid lg:grid-cols-2 grid-cols-1  items-center gap-6 justify-between   ">

@@ -1,15 +1,17 @@
 import { Pause, Play, SkipBackIcon, SkipForward } from "lucide-react";
 import Image from "next/image";
 import { RefObject } from "react";
+import { TSong } from "./music";
 
 
 
-export function CurrentMusic({ playerRef, setProgressValue, progressValue, isPlaying, setIsPlaying }: {
+export function CurrentMusic({ playerRef, setProgressValue, progressValue, isPlaying, setIsPlaying, currentSong }: {
     playerRef: RefObject<HTMLVideoElement | null>,
     setProgressValue: React.Dispatch<React.SetStateAction<number>>,
     progressValue: number,
     isPlaying: boolean,
-    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
+    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
+    currentSong: TSong
 }) {
 
 
@@ -17,11 +19,11 @@ export function CurrentMusic({ playerRef, setProgressValue, progressValue, isPla
 
     return <>
         <div className="relative h-full  rounded overflow-hidden  ">
-            <Image src={"https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"} alt="image" height={100} width={100} className=" object-cover w-full h-full " />
+            <Image src={`${currentSong.image}`} alt="image" height={100} width={100} className=" object-cover w-full h-full " />
             <div className=" absolute left-0 bottom-2   w-full   px-2  " >
                 <div className=" backdrop-blur-sm py-2 px-2 rounded-md ">
-                    <h1 className=" text-lg text-center ">Hamari Adhuri Kahani</h1>
-                    <p className="text-center text-sm text-neutral-400   ">Arijit singh</p>
+                    <h1 className=" text-lg text-center ">{currentSong.name}</h1>
+                    <p className="text-center text-sm text-neutral-400   ">{currentSong.artist}</p>
                     <input type="range" id="music" className=" cursor-pointer w-full " value={progressValue} onChange={(e) => {
 
                         setProgressValue(Number(e.currentTarget.value));

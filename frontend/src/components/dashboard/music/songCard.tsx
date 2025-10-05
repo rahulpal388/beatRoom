@@ -1,24 +1,45 @@
 import { Play } from "lucide-react";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { TSong } from "./music";
+import { TCurrentSong } from "@/app/dashboard/[userId]/page";
+import axios from "axios";
+import { BASE_URL } from "@/lib/baseUrl";
+import { Ruge_Boogie } from "next/font/google";
 
 
 
-export function SongCards({ song, artist, image, setQueueSongs }: {
+export function SongCards({ song, artist, image, setQueueSongs, setCurrentSong, setIsPlaying }: {
     song: string,
     artist: string,
     image: string,
-    setQueueSongs: Dispatch<SetStateAction<TSong[]>>
+    setQueueSongs: Dispatch<SetStateAction<TSong[]>>,
+    setCurrentSong: React.Dispatch<React.SetStateAction<TCurrentSong>>,
+    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
 }) {
 
+    const getSong = async () => {
+        const response = await axios.get(`${BASE_URL}/song?query=${song}${artist}`);
+
+        if (response.status === 200) {
+            setCurrentSong({
+                quality: response.data.quality,
+                url: response.data.url,
+                image,
+                name: song,
+                artist
+            })
+            setIsPlaying(true)
+        }
+
+    }
 
     return <>
         <div className="hover:shadow-2xl dark:text-card dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground  px-4 py-4  h-[15rem] rounded ">
             <div className=" mb-2 relative w-32 rounded overflow-hidden group cursor-pointer ">
                 <Image src={image} alt="image" height={100} width={100} className="w-full h-full  " />
                 <div className=" absolute bottom-2 right-2  bg-green-800 size-10 rounded-full hidden group-hover:flex items-center justify-center  "
-                    onClick={() => { setQueueSongs(prev => [...prev, { name: song, artist: artist, image: image }]) }}
+                    onClick={getSong}
                 >
                     <Play />
                 </div>
@@ -30,10 +51,12 @@ export function SongCards({ song, artist, image, setQueueSongs }: {
 }
 
 
-export function SongsSection({ setQueueSongs, heading, songs }: {
+export function SongsSection({ setQueueSongs, heading, songs, setCurrentSong, setIsPlaying }: {
     setQueueSongs: Dispatch<SetStateAction<TSong[]>>,
     heading: string,
     songs: TSong[] | undefined,
+    setCurrentSong: React.Dispatch<React.SetStateAction<TCurrentSong>>,
+    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
 
 }) {
 
@@ -48,7 +71,7 @@ export function SongsSection({ setQueueSongs, heading, songs }: {
                 <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto overflow-y-hidden ">
                     {
                         songs.map((item, index) => (
-                            <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
+                            <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} setCurrentSong={setCurrentSong} setIsPlaying={setIsPlaying} />
                         ))
                     }
                 </div>

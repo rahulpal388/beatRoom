@@ -9,7 +9,8 @@ import { googleAuthStartegy } from "./passportStrategy/googleStrategy";
 import cookieParser from "cookie-parser"
 import { nextError } from "./middleware/errorHandler";
 
-
+import dns from "dns";
+dns.setDefaultResultOrder("ipv4first");
 
 
 export const roomDB: {

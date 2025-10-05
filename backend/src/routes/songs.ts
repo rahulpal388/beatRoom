@@ -5,6 +5,9 @@ import { scrapPlaylist } from "../srcaping/playlist";
 import { Router } from "express";
 import { allPlaylist } from "../config/playlist";
 
+import https from "https";
+
+const agent = new https.Agent({ family: 4 }); // force IPv4
 
 interface TSearchResult {
     "id": string,
@@ -91,16 +94,12 @@ useSong.get("/", async (req, res) => {
     const { query } = req.query
     const songQuery = encodeURIComponent(query as string)
     try {
-        console.log(songQuery)
-        const response = await axios.get(`https://saavn.dev/api/search/songs?query=Sorry%20Sorry%20pawan%2C%20singh`);
+        const response = await axios.get(`https://saavn.dev/api/search/songs?query=${songQuery}`, { httpsAgent: agent, timeout: 10000 });
 
-        console.log(response.data)
         const songs = response.data.data.results;
 
         const url = songs[0].downloadUrl[3]
-        res.status(200).json({
-            url
-        })
+        res.status(200).json({ ...url })
 
     } catch (error) {
         console.log(error)

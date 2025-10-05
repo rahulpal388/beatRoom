@@ -59,7 +59,13 @@ const sideBarItems: TSideBarItems[] = [
 
 
 type TCurrentItem = "Music" | "Rooms" | "Friends" | "Notification" | "Customize"
-
+export type TCurrentSong = {
+    name: string,
+    artist: string,
+    quality: string,
+    url: string,
+    image: string
+}
 
 export default function DashBoardPage() {
     const [isSideWindow, setSideWindow] = useState<boolean>(true);
@@ -71,11 +77,21 @@ export default function DashBoardPage() {
     const [progressValue, setProgressValue] = useState<number>(0);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
+    // while loggin it will get the previous song
+    const [currentSong, setCurrentSong] = useState<TCurrentSong>({
+        name: "Sorry Sorry",
+        artist: "Pawan Singh",
+        url: "https://aac.saavncdn.com/936/910eed4451c290f342100823b7b80bbb_160.mp4",
+        quality: "160kps",
+        image: "https://c.saavncdn.com/936/Bhojpuriya-Raja-Bhojpuri-2016-500x500.jpg"
+    })
+
 
 
     useEffect(() => {
 
         if (isPlaying) {
+            playerRef.current?.play();
             intervalRef.current = setInterval(() => {
                 // change the progressbar
                 const player = playerRef.current;
@@ -101,7 +117,7 @@ export default function DashBoardPage() {
             }
         }
 
-    }, [isPlaying])
+    }, [isPlaying, currentSong])
 
     const onLogout = async () => {
         const response = await axios.get("http://localhost:8080/api/v1/auth/logout", { withCredentials: true })
@@ -137,7 +153,7 @@ export default function DashBoardPage() {
         <div className=" flex h-screen   " >
 
             <div>
-                <video ref={playerRef} src={"https://aac.saavncdn.com/015/50758ec6f8e38922c56e6e473091490f_320.mp4"} className=" h-0 w-0" />
+                <video ref={playerRef} src={`${currentSong?.url}`} className=" h-0 w-0" />
             </div>
 
             {/* side bar */}
@@ -203,7 +219,7 @@ export default function DashBoardPage() {
 
                 </div>
                 <div className="h-[calc(100vh-3rem)]  ">
-                    {currentItem === "Music" && <MusicSection playerRef={playerRef} setIsPlaying={setIsPlaying} isPlaying={isPlaying} progressValue={progressValue} setProgressValue={setProgressValue} />}
+                    {currentItem === "Music" && <MusicSection playerRef={playerRef} setIsPlaying={setIsPlaying} isPlaying={isPlaying} progressValue={progressValue} setProgressValue={setProgressValue} setCurrentSong={setCurrentSong} currentSong={currentSong} />}
                     {currentItem === "Friends" && <Friends />}
                     {currentItem === "Rooms" && <Rooms />}
                     {currentItem === "Notification" && <Notification />}

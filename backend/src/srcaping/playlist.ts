@@ -1,9 +1,9 @@
 import puppeteer, { Page } from "puppeteer";
 
 export type TScrapedSong = {
-    imgSrc: string,
+    image: string,
     name: string,
-    singer: string
+    artist: string
 }
 
 async function autoScroll(page: Page) {
@@ -25,7 +25,7 @@ async function autoScroll(page: Page) {
     });
 }
 
-export const scrapPlaylist = async (jioSaavnPlaylistUrl: string): Promise<TScrapedSong[] | null> => {
+export const scrapPlaylist = async (jioSaavnPlaylistUrl: string, limit: number): Promise<TScrapedSong[] | null> => {
     let browser;
     const playlist: TScrapedSong[] = [];
 
@@ -48,10 +48,16 @@ export const scrapPlaylist = async (jioSaavnPlaylistUrl: string): Promise<TScrap
             const singer = await fig.$eval("p > a", el => el.textContent);
 
             playlist.push({
-                imgSrc: imgSrc!,
+                image: imgSrc!,
                 name: name!,
-                singer: singer!
+                artist: singer!
             })
+
+            if (playlist.length === limit) {
+                console.log(playlist);
+                return playlist;
+
+            }
 
         }
         return playlist;

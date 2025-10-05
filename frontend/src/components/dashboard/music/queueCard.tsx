@@ -2,15 +2,14 @@
 import { Play, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
-import { TQueueSong } from "./musicSection";
-import { div } from "motion/react-client";
+import { TSong } from "./music";
 
 
 export function QueueCards({ name, artist, image, setQueueSongs }: {
     name: string,
     artist: string,
     image: string,
-    setQueueSongs: Dispatch<SetStateAction<TQueueSong[]>>
+    setQueueSongs: Dispatch<SetStateAction<TSong[]>>
 }) {
 
     return <>

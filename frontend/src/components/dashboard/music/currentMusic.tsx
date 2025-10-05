@@ -1,47 +1,17 @@
-import { FastForwardIcon, Paperclip, Pause, Play, SkipBack, SkipBackIcon, SkipForward } from "lucide-react";
+import { Pause, Play, SkipBackIcon, SkipForward } from "lucide-react";
 import Image from "next/image";
-import { RefObject, useEffect, useRef, useState } from "react";
+import { RefObject } from "react";
 
 
 
-export function CurrentMusic({ playerRef }: {
-    playerRef: RefObject<HTMLVideoElement | null>
+export function CurrentMusic({ playerRef, setProgressValue, progressValue, isPlaying, setIsPlaying }: {
+    playerRef: RefObject<HTMLVideoElement | null>,
+    setProgressValue: React.Dispatch<React.SetStateAction<number>>,
+    progressValue: number,
+    isPlaying: boolean,
+    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
 }) {
-    const [isPlaying, setIsPlaying] = useState<boolean>(false);
-    const [progressValue, setProgressValue] = useState<number>(0);
-    const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-
-
-    useEffect(() => {
-
-        if (isPlaying) {
-            intervalRef.current = setInterval(() => {
-                // change the progressbar
-                const player = playerRef.current;
-                if (!player) {
-                    return;
-                }
-                const progress = ((player.currentTime / player.duration) * 100)
-                setProgressValue(progress);
-                if (progress === 100) {
-                    setIsPlaying(false)
-                    setProgressValue(0)
-                }
-            }, 1000)
-        }
-
-        if (!isPlaying && intervalRef.current) {
-            clearInterval(intervalRef.current);
-        }
-
-        return () => {
-            if (intervalRef.current) {
-                clearInterval(intervalRef.current);
-            }
-        }
-
-    }, [isPlaying])
 
 
 

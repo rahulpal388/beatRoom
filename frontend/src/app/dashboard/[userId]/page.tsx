@@ -10,7 +10,7 @@ import axios from "axios"
 import { Bell, GitPullRequestDraft, Handshake, HousePlus, LogOut, Music, PanelLeftClose, PanelRightClose } from "lucide-react"
 import { div } from "motion/react-client"
 import { useRouter } from "next/navigation"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 
 
 
@@ -64,8 +64,44 @@ type TCurrentItem = "Music" | "Rooms" | "Friends" | "Notification" | "Customize"
 export default function DashBoardPage() {
     const [isSideWindow, setSideWindow] = useState<boolean>(true);
     const [currentItem, setCurrentItem] = useState<TCurrentItem>("Music");
+    const playerRef = useRef<HTMLVideoElement | null>(null);
     const router = useRouter();
     const { currentUser, isAuthenticated, setAuthenticated, setCurrentUser } = useAuth();
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
+    const [progressValue, setProgressValue] = useState<number>(0);
+    const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+
+
+    useEffect(() => {
+
+        if (isPlaying) {
+            intervalRef.current = setInterval(() => {
+                // change the progressbar
+                const player = playerRef.current;
+                if (!player) {
+                    return;
+                }
+                const progress = ((player.currentTime / player.duration) * 100)
+                setProgressValue(progress);
+                if (progress === 100) {
+                    setIsPlaying(false)
+                    setProgressValue(0)
+                }
+            }, 1000)
+        }
+
+        if (!isPlaying && intervalRef.current) {
+            clearInterval(intervalRef.current);
+        }
+
+        return () => {
+            if (intervalRef.current) {
+                clearInterval(intervalRef.current);
+            }
+        }
+
+    }, [isPlaying])
 
     const onLogout = async () => {
         const response = await axios.get("http://localhost:8080/api/v1/auth/logout", { withCredentials: true })
@@ -90,7 +126,7 @@ export default function DashBoardPage() {
     if (!isAuthenticated) {
         return (
             <div className="flex items-center justify-center h-screen">
-                <div className="w-14 h-14 border-4 green-t-blue-500 border-gray-200 rounded-full animate-spin"></div>
+                <div className="w-14 h-14 border-2 border-t-blue-800  border-gray-200 rounded-full animate-spin"></div>
             </div>
         );
 
@@ -99,6 +135,12 @@ export default function DashBoardPage() {
 
     return <>
         <div className=" flex h-screen   " >
+
+            <div>
+                <video ref={playerRef} src={"https://aac.saavncdn.com/015/50758ec6f8e38922c56e6e473091490f_320.mp4"} className=" h-0 w-0" />
+            </div>
+
+            {/* side bar */}
             <div className={`relative max-md:hidden   py-2  dark:shadow-2xl ${isSideWindow ? " xl:w-[12rem] px-4 " : "w-20 px-2 "} `}>
                 <div className="flex justify-end ">
                     {isSideWindow ?
@@ -148,8 +190,7 @@ export default function DashBoardPage() {
                     </div>
                 </div>
             </div>
-
-
+            {/* sections */}
             <div className="   h-screen   w-full  ">
                 <div className=" h-12  dark:bg-foreground dark:shadow-2xl w-full flex justify-end items-center gap-4 px-8 ">
                     <div className=" flex flex-col items-center justify-end ">
@@ -162,7 +203,7 @@ export default function DashBoardPage() {
 
                 </div>
                 <div className="h-[calc(100vh-3rem)]  ">
-                    {currentItem === "Music" && <MusicSection />}
+                    {currentItem === "Music" && <MusicSection playerRef={playerRef} setIsPlaying={setIsPlaying} isPlaying={isPlaying} progressValue={progressValue} setProgressValue={setProgressValue} />}
                     {currentItem === "Friends" && <Friends />}
                     {currentItem === "Rooms" && <Rooms />}
                     {currentItem === "Notification" && <Notification />}

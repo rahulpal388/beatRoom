@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { QueueCards } from "./queueCard";
 import { Copy, Play, Search, SkipBack, SkipForward, ToggleLeft, ToggleRight } from "lucide-react";
-import { SongCards } from "./song";
+import { SongCards } from "./songCard";
 import { MusicBanner } from "./musicBanner";
 import { CurrentMusic } from "./currentMusic";
 import { ArtistPlaylist, artistPlaylist } from "./artistPlaylist";
@@ -11,14 +11,10 @@ import { p } from "motion/react-client";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
 import { Debounce } from "@/lib/debounce";
-import { Music } from "./music";
+import { Music, TSong } from "./music";
 import { SearchedMusic } from "./searchedMusic";
 
-export type TQueueSong = {
-    name: string,
-    artist: string,
-    image: string
-}
+
 
 export type TSearchSuggestion = {
     id: string,
@@ -49,7 +45,7 @@ export type TSearchSuggestion = {
 // ]
 
 
-export const playlistItems: TQueueSong[] = [
+export const playlistItems: TSong[] = [
     {
         "name": "Blinding Lights",
         "artist": "The Weeknd",
@@ -94,13 +90,19 @@ export const playlistItems: TQueueSong[] = [
 
 
 
-export function MusicSection() {
+export function MusicSection({ playerRef, setProgressValue, progressValue, isPlaying, setIsPlaying }: {
+    playerRef: React.RefObject<HTMLVideoElement | null>,
+    setProgressValue: React.Dispatch<React.SetStateAction<number>>,
+    progressValue: number,
+    isPlaying: boolean,
+    setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
+}) {
     const [sideQueue, setSideQueue] = useState<boolean>(false);
-    const [queueSongs, setQueueSongs] = useState<TQueueSong[]>([]);
+    const [queueSongs, setQueueSongs] = useState<TSong[]>([]);
     const [searchSuggestion, setSearchSuggestion] = useState<TSearchSuggestion[]>([]);
     const [isQueueOn, setIsQueueOn] = useState<boolean>(false);
     const musciSectionRef = useRef<HTMLDivElement | null>(null);
-    const playerRef = useRef<HTMLVideoElement | null>(null);
+
     const inputRef = useRef<HTMLInputElement | null>(null);
 
 
@@ -212,9 +214,9 @@ export function MusicSection() {
                     {/*  music section display  */}
                     {
                         isQueueOn ?
-                            <Music setQueueSongs={setQueueSongs} recommended={playlistItems} type="notSearched" />
-                            :
                             <SearchedMusic setQueueSongs={setQueueSongs} />
+                            :
+                            <Music setQueueSongs={setQueueSongs} type="notSearched" />
                     }
                 </div>
             </div>
@@ -223,9 +225,9 @@ export function MusicSection() {
             {/* current playing music and playlist */}
             <div className="mt-4 col-span-2 px-2 py-4  h-full   dark:shadow-2xl  rounded dark:bg-foreground max-xl:hidden " >
                 {/* muisc playing */}
-                <video ref={playerRef} src={"https://aac.saavncdn.com/015/50758ec6f8e38922c56e6e473091490f_320.mp4"} className=" h-0 w-0" />
+
                 <div className="xl:h-[14rem] h-[18rem]  row-span-2 rounded-lg  w-full ">
-                    <CurrentMusic playerRef={playerRef} />
+                    <CurrentMusic playerRef={playerRef} setIsPlaying={setIsPlaying} isPlaying={isPlaying} progressValue={progressValue} setProgressValue={setProgressValue} />
                 </div>
                 <div className="  mt-12 h-[calc(100vh-3rem-14rem)]  ">
                     <div className=" flex items-center justify-between  ">

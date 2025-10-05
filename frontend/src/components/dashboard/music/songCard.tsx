@@ -1,7 +1,7 @@
 import { Play } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
-import { TQueueSong } from "./musicSection";
+import { TSong } from "./music";
 
 
 
@@ -9,7 +9,7 @@ export function SongCards({ song, artist, image, setQueueSongs }: {
     song: string,
     artist: string,
     image: string,
-    setQueueSongs: Dispatch<SetStateAction<TQueueSong[]>>
+    setQueueSongs: Dispatch<SetStateAction<TSong[]>>
 }) {
 
 
@@ -28,3 +28,34 @@ export function SongCards({ song, artist, image, setQueueSongs }: {
         </div>
     </>
 }
+
+
+export function SongsSection({ setQueueSongs, heading, songs }: {
+    setQueueSongs: Dispatch<SetStateAction<TSong[]>>,
+    heading: string,
+    songs: TSong[] | undefined,
+
+}) {
+
+    return <>
+        <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
+            <h1 className=" text-xl font-bold font-heading ">{heading}</h1>
+            {!songs ?
+                <div className=" flex items-center justify-center   ">
+                    <div className="w-14 h-14 border-2 border-t-blue-800  border-gray-200 rounded-full animate-spin"></div>
+                </div>
+                :
+                <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto overflow-y-hidden ">
+                    {
+                        songs.map((item, index) => (
+                            <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
+                        ))
+                    }
+                </div>
+            }
+
+        </div>
+    </>
+}
+
+

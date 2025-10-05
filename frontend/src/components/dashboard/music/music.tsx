@@ -1,17 +1,56 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ArtistPlaylist, artistPlaylist } from "./artistPlaylist";
 import { MusicBanner } from "./musicBanner";
-import { playlistItems, TQueueSong } from "./musicSection";
-import { SongCards } from "./song";
+import { SongCards, SongsSection } from "./songCard";
+import axios from "axios";
+import { BASE_URL } from "@/lib/baseUrl";
+
+export type TSong = {
+    name: string,
+    artist: string,
+    image: string
+}
+
+type TPlaylist = {
+    indiePlaylist: TSong[],
+    punjabiPlaylist: TSong[],
+    romanticPlaylist: TSong[],
+    bhojpuriPlaylist: TSong[]
+}
 
 
-
-export function Music({ setQueueSongs, type, recommended }: {
-    setQueueSongs: Dispatch<SetStateAction<TQueueSong[]>>,
+export function Music({ setQueueSongs, type }: {
+    setQueueSongs: Dispatch<SetStateAction<TSong[]>>,
     type: "searched" | "notSearched",
-    recommended: TQueueSong[],
 
 }) {
+
+    const [playlist, setPlaylist] = useState<TPlaylist | null>(null);
+
+    useEffect(() => {
+
+        const getPlaylist = async () => {
+
+            const response = await axios.post(`${BASE_URL}/song/playlist/all`,
+                {
+                    indie: "https://www.jiosaavn.com/featured/best-of-indie-hindi/jnjK2XTv9-3uCJW60TJk1Q__",
+                    punjabi: "https://www.jiosaavn.com/featured/punjabi-india-superhits-top-50/wSwarbl2bQSrB59Sr2unUQ__",
+                    romantic: "https://www.jiosaavn.com/featured/most-streamed-love-songs-hindi/RQKZhDpGh8uAIonqf0gmcg__",
+                    bhojpuri: "https://www.jiosaavn.com/featured/bhojpuri-india-superhits-top-50/8c-UE,,iBhN8497ZNqIDKA__"
+                },
+                { withCredentials: true }
+            );
+
+            console.log(response.data);
+
+            setPlaylist(response.data);
+
+
+        }
+
+        getPlaylist();
+
+    }, [])
 
     return (
         <>
@@ -20,42 +59,10 @@ export function Music({ setQueueSongs, type, recommended }: {
                     type === "notSearched" && <MusicBanner />
                 }
             </div>
-            <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
-                <h1 className=" text-xl font-bold font-heading ">Indie Mix</h1>
-                <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
-                    {recommended.map((item, index) => (
-                        <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
-                    ))}
-                </div>
-
-            </div>
-            <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
-                <h1 className=" text-xl font-bold font-heading ">Punjabi Songs</h1>
-                <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
-
-                    {recommended.map((item, index) => (
-                        <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
-                    ))}
-                </div>
-            </div>
-            <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
-                <h1 className=" text-xl font-bold font-heading ">Romantic Songs</h1>
-                <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
-
-                    {recommended.map((item, index) => (
-                        <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
-                    ))}
-                </div>
-            </div>
-            <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
-                <h1 className=" text-xl font-bold font-heading ">Bhojupuri Songs</h1>
-                <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto ">
-
-                    {recommended.map((item, index) => (
-                        <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
-                    ))}
-                </div>
-            </div>
+            <SongsSection setQueueSongs={setQueueSongs} heading="Indi Songs" songs={playlist?.indiePlaylist} />
+            <SongsSection setQueueSongs={setQueueSongs} heading="Punjabi Songs" songs={playlist?.punjabiPlaylist} />
+            <SongsSection setQueueSongs={setQueueSongs} heading="Romantic Songs" songs={playlist?.romanticPlaylist} />
+            <SongsSection setQueueSongs={setQueueSongs} heading="Bhojpuri Songs" songs={playlist?.bhojpuriPlaylist} />
             <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
                 <h1 className=" text-xl font-bold font-heading ">Artist Playlist</h1>
                 <div className="mt-2 w-full grid lg:grid-cols-2 grid-cols-1  items-center gap-6 justify-between   ">

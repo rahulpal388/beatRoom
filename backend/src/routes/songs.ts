@@ -2,9 +2,8 @@
 
 import axios from "axios";
 import { scrapPlaylist } from "../srcaping/playlist";
-import { response, Router } from "express";
-import { date } from "zod";
-import { id } from "zod/v4/locales/index.cjs";
+import { Router } from "express";
+import { allPlaylist } from "../config/playlist";
 
 
 interface TSearchResult {
@@ -87,102 +86,30 @@ type TPlaylist = {
 const useSong = Router();
 
 
-// useSong.get("/search", async (req, res) => {
+useSong.get("/", async (req, res) => {
 
-//     const query = req.query
-//     const song = query.song;
-//     const playlistName = "trending now india";
-//     const album = query.album
+    const { query } = req.query
+    const songQuery = encodeURIComponent(query as string)
+    try {
+        console.log(songQuery)
+        const response = await axios.get(`https://saavn.dev/api/search/songs?query=Sorry%20Sorry%20pawan%2C%20singh`);
 
+        console.log(response.data)
+        const songs = response.data.data.results;
 
-//     try {
+        const url = songs[0].downloadUrl[3]
+        res.status(200).json({
+            url
+        })
 
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            message: "error"
+        })
+    }
 
-//         // id , name, album, image[50,150] , songUrl,
-//         // inside suggestions => [id, name,artist,images[50,150]]
-
-//         const songs = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/songs?query=${song}`, {
-//             headers: {
-//                 "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
-//                 "X-RapidAPI-Host": process.env.RAPIDAPIHOST
-//             }
-//         })
-//         const songAlbum = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search/albums?query=${album}`, {
-//             headers: {
-//                 "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
-//                 "X-RapidAPI-Host": process.env.RAPIDAPIHOST
-//             }
-//         })
-//         const playlist = await axios.get(`https://full-jio-saavn-data-api-with-streams-download-etc1.p.rapidapi.com/search?query=${playlistName}`, {
-//             headers: {
-//                 "X-RapidAPI-Key": process.env.RAPIDAPIKEY,
-//                 "X-RapidAPI-Host": process.env.RAPIDAPIHOST
-//             }
-//         })
-
-
-//         // songs
-//         const songData = songs.data.data.results[0];
-//         const songResult = {
-//             id: songData.id,
-//             name: songData.name,
-//             releasedDate: songData.releasedDate,
-//             duration: songData.duration,
-//             language: songData.language,
-//             image: [
-//                 songData.image[0],
-//                 songData.image[1]
-//             ],
-//             url: songData.downloadUrl[3]
-//         }
-
-//         // song album
-//         const albumData = songAlbum.data.data.results as TAlbum[];
-//         const albumResult: TAlbum[] = albumData.map(x => {
-//             return {
-//                 id: x.id,
-//                 name: x.name,
-//                 artists: {
-//                     primary: x.artists.primary.map(x => ({ name: x.name })),
-//                     all: x.artists.all.map(x => ({ name: x.name }))
-//                 },
-//                 image: [x.image[0], x.image[1]]
-//             }
-
-//         })
-
-//         // playlist
-
-//         // const playlistData = playlist.data.data.results as TPlaylist[]
-//         // const playlistResult = playlistData.map(x => {
-//         //     return {
-//         //         id: x.id,
-//         //         name: x.name,
-//         //         image: [x.image[0], x.image[1]]
-//         //     }
-//         // })
-
-
-//         res.status(200).json({
-//             // songResult,
-//             // albumResult,
-//             // playlisResult
-
-
-//             message: playlist.data
-//         })
-
-
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).json({
-//             message: " server error  "
-//         })
-//     }
-
-
-
-// })
+})
 
 useSong.get("/suggestions", async (req, res) => {
 
@@ -236,14 +163,33 @@ useSong.get("/suggestions", async (req, res) => {
 })
 
 
-useSong.get("/playlist", async (req, res) => {
+useSong.post("/playlist", async (req, res) => {
     const url = req.body.url as string;
 
-    const playlist = await scrapPlaylist(url);
-
+    const playlist = await scrapPlaylist(url, 10);
+    console.log(playlist);
     res.status(200).json({
         playlist
     })
+
+})
+
+useSong.post("/playlist/all", async (req, res) => {
+
+    const { indie, punjabi, romantic, bhojpuri } = req.body;
+    // const indiePlaylist = await scrapPlaylist(indie, 10);
+    // const punjabiPlaylist = await scrapPlaylist(punjabi, 10)
+    // const romanticPlaylist = await scrapPlaylist(romantic, 10)
+    // const bhojpuriPlaylist = await scrapPlaylist(bhojpuri, 10)
+
+    res.status(200).json({
+        // indiePlaylist,
+        // punjabiPlaylist,
+        // romanticPlaylist,
+        // bhojpuriPlaylist
+        ...allPlaylist
+    })
+
 
 })
 

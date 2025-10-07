@@ -17,77 +17,29 @@ import { TCurrentSong } from "@/app/dashboard/[userId]/page";
 
 
 
-export type TSearchSuggestion = {
-    id: string,
-    title: string,
-    artists: string,
-    image: string
+type ISearchSong = {
+    "id": string,
+    "name": string,
+    "type": string,
+    "artists": {
+        "primary": {
+            "name": string,
+
+        }[],
+
+    },
+    "image":
+    {
+        "quality": string,
+        "url": string
+    }[],
+    "downloadUrl":
+    {
+        "quality": string,
+        "url": string
+    }[]
+
 }
-
-// const searchSuggestion: TSearchSuggestion[] = [
-//     {
-//         "id": "K8GXHF5k",
-//         "title": "Dhun",
-//         "artists": "Mithoon, Arijit Singh",
-//         "image": "https://c.saavncdn.com/598/Saiyaara-Hindi-2025-20250703061754-50x50.jpg"
-//     },
-//     {
-//         "id": "U9amhr5-",
-//         "title": "Dhundhala",
-//         "artists": "Yashraj, Dropped Out, Talwiinder",
-//         "image": "https://c.saavncdn.com/598/Saiyaara-Hindi-2025-20250703061754-50x50.jpg"
-//     },
-//     {
-//         "id": "bfG8irJT",
-//         "title": "Dhun",
-//         "artists": "Mithoon, Arijit Singh",
-//         "image": "https://c.saavncdn.com/598/Saiyaara-Hindi-2025-20250703061754-50x50.jpg"
-//     }
-// ]
-
-
-// export const playlistItems: TSong[] = [
-//     {
-//         "name": "Blinding Lights",
-//         "artist": "The Weeknd",
-//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-//     },
-//     {
-//         "name": "Shape of You",
-//         "artist": "Ed Sheeran",
-//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-//     },
-//     {
-//         "name": "Levitating",
-//         "artist": "Dua Lipa",
-//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-//     },
-//     {
-//         "name": "Believer",
-//         "artist": "Imagine Dragons",
-//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-//     },
-//     {
-//         "name": "Stay",
-//         "artist": "The Kid LAROI, Justin Bieber",
-//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-//     },
-//     {
-//         "name": "Bad Guy",
-//         "artist": "Billie Eilish",
-//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-//     },
-//     {
-//         "name": "Someone You Loved",
-//         "artist": "Lewis Capaldi",
-//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-//     },
-//     {
-//         "name": "Happier",
-//         "artist": "Marshmello, Bastille",
-//         "image": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
-//     }
-// ]
 
 
 
@@ -102,8 +54,10 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
 }) {
     const [sideQueue, setSideQueue] = useState<boolean>(false);
     const [queueSongs, setQueueSongs] = useState<TSong[]>([]);
-    const [searchSuggestion, setSearchSuggestion] = useState<TSearchSuggestion[]>([]);
+    const [searchSuggestion, setSearchSuggestion] = useState<ISearchSong[]>([]);
+    const [isSearching, setIsSearching] = useState<boolean>(false);
     const [isQueueOn, setIsQueueOn] = useState<boolean>(false);
+    const [songSearched, setSongSearched] = useState<boolean>(false);
     const musciSectionRef = useRef<HTMLDivElement | null>(null);
 
     const inputRef = useRef<HTMLInputElement | null>(null);
@@ -113,7 +67,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
         // reguest to the api for search suggestion
 
         try {
-            const response = (await axios.get(`${BASE_URL}/song/suggestions?search=${searchSuggestion}`)).data;
+            const response = (await axios.get(`${BASE_URL}/song/search?query=${searchSuggestion}`)).data;
             const data = response.results
             console.log(data)
             setSearchSuggestion([...data])
@@ -141,6 +95,8 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
         <div className=" h-full grid grid-cols-8 overflow-hidden   ">
             <div ref={musciSectionRef} className=" overflow-y-auto  col-span-6 max-xl:col-span-8  pt-4 flex flex-col gap-4  pb-36 ">
                 <div className="fixed  bottom-0 flex items-center  sm:gap-18 gap-6  z-50 py-2 px-8 w-full dark:bg-accent-foreground shadow-2xl rounded  xl:hidden ">
+
+                    {/* small screen current player */}
                     <div className=" flex items-center gap-2 ">
                         <Image src={"https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"} alt="poster" height={30} width={30} className=" h-full w-16 rounded " />
                         <div>
@@ -174,27 +130,42 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                 }
 
                 {/* search bar and invite friends */}
-                <div className=" flex flex-col gap-4 px-4  ">
+                <div className="  flex flex-col gap-4 px-4  ">
                     <div className=" relative flex items-center gap-4 justify-end   ">
                         <div className=" rounded-sm overflow-hidden flex gap-2 justify-center items-center bg-accent-foreground ">
-                            <input ref={inputRef} type="text" id="search" placeholder="Search songs....." className=" w-[18rem] bg-accent-foreground outline-none shadow-2xl px-2 h-8 " autoComplete="off" onChange={(e) => {
-                                // 1.  call the debounce function
-                                console.log("calling the suggestion function")
-                                if (e.currentTarget.value) {
-                                    onSearchInputChange(e.currentTarget.value);
-                                }
-                            }} />
+                            <input ref={inputRef} type="text" id="search" placeholder="Search songs....." className=" w-[18rem] bg-accent-foreground outline-none shadow-2xl px-2 h-8 " autoComplete="off"
+                                onChange={(e) => {
+                                    if (e.currentTarget.value) {
+                                        onSearchInputChange(e.currentTarget.value);
+                                    }
+                                }}
+                                onFocus={() => { setIsSearching(true) }}
+                                onBlur={() => { setIsSearching(false) }}
+                            />
                             <Search className=" w-12 cursor-pointer " />
                             {
-                                searchSuggestion.length > 0 && inputRef.current?.value !== "" &&
-                                <div className=" absolute top-10 z-50 w-[21.5rem] p-2 flex flex-col gap-2 rounded-sm dark:bg-neutral-700  " >
+                                searchSuggestion.length > 0 && isSearching &&
+                                <div className=" max-h-[30rem] absolute top-10 z-50 w-[21.5rem] p-2 flex flex-col gap-2 rounded-sm dark:bg-neutral-700 overflow-x-scroll  " >
                                     {searchSuggestion.map((item, index) => (
-                                        <div key={index} className=" cursor-pointer px-4 py-2 rounded-sm dark:hover:bg-accent-foreground  group  flex items-center justify-between " >
+                                        <div key={index} className=" cursor-pointer px-4 py-2 rounded-sm dark:hover:bg-accent-foreground bg-red-800  group  flex items-center justify-between "
+                                            onMouseDown={(e) => {
+                                                e.stopPropagation()
+                                                console.log("searching song")
+                                                console.log(item)
+                                                setSongSearched(true);
+                                            }}
+                                            onChange={(e) => { e.stopPropagation() }}
+                                            onMouseEnter={() => {
+                                                console.log("fuck uou")
+                                            }}
+                                        >
                                             <div>
-                                                <h1 className="text-lg ">{item.title}</h1>
-                                                <p className=" text-xs dark:group-hover:text-neutral-500 dark:text-neutral-400 " >{item.artists}</p>
+                                                <h1 className="text-lg ">{item.name}</h1>
+                                                <p className=" text-xs dark:group-hover:text-neutral-500 dark:text-neutral-400 " >
+                                                    {item.artists.primary.map(({ name }) => name).join(", ")}
+                                                </p>
                                             </div>
-                                            <Image src={item.image} alt="image" height={50} width={50} className="rounded-sm " />
+                                            <Image src={item.image[0].url} alt="image" height={50} width={50} className="rounded-sm " />
                                         </div>
                                     ))}
                                 </div>
@@ -216,8 +187,8 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
 
                     {/*  music section display  */}
                     {
-                        isQueueOn ?
-                            <SearchedMusic setQueueSongs={setQueueSongs} />
+                        songSearched ?
+                            <SearchedMusic setSongSearched={setSongSearched} />
                             :
                             <Music setQueueSongs={setQueueSongs} type="notSearched" setCurrentSong={setCurrentSong} setIsPlaying={setIsPlaying} />
                     }

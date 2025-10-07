@@ -34,6 +34,11 @@ export const scrapPlaylist = async (jioSaavnPlaylistUrl: string, limit: number):
         const page = await browser.newPage();
         await page.goto(jioSaavnPlaylistUrl, { waitUntil: 'networkidle2' });
         await page.setViewport({ width: 1080, height: 1024 })
+        const songs = await page.evaluate(() => {
+            return (window as any).__INITIAL_STATE__ || [];
+        });
+
+        console.log(songs);
 
         await autoScroll(page);
 
@@ -46,6 +51,7 @@ export const scrapPlaylist = async (jioSaavnPlaylistUrl: string, limit: number):
 
             const name = await fig.$eval('h2 > a', el => el.textContent);
             const singer = await fig.$eval("p > a", el => el.textContent);
+
 
             playlist.push({
                 image: imgSrc!,

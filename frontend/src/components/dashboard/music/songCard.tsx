@@ -9,26 +9,21 @@ import { Ruge_Boogie } from "next/font/google";
 
 
 
-export function SongCards({ song, artist, image, setQueueSongs, setCurrentSong, setIsPlaying }: {
+export function SongCards({ song, artist, image, id, setQueueSongs, setCurrentSong, setIsPlaying }: {
     song: string,
     artist: string,
     image: string,
+    id: String,
     setQueueSongs: Dispatch<SetStateAction<TSong[]>>,
     setCurrentSong: React.Dispatch<React.SetStateAction<TCurrentSong>>,
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>
 }) {
 
     const getSong = async () => {
-        const response = await axios.get(`${BASE_URL}/song?query=${song}${artist}`);
+        const response = await axios.get(`${BASE_URL}/song/play/${id}`);
 
         if (response.status === 200) {
-            setCurrentSong({
-                quality: response.data.quality,
-                url: response.data.url,
-                image,
-                name: song,
-                artist
-            })
+            setCurrentSong(response.data)
             setIsPlaying(true)
         }
 
@@ -44,8 +39,8 @@ export function SongCards({ song, artist, image, setQueueSongs, setCurrentSong, 
                     <Play />
                 </div>
             </div >
-            <h1 className=" fond-bold text-neutral-200  ">{song}</h1>
-            <p className=" text-xs dark:text-neutral-600  ">{artist}</p>
+            <h1 className=" fond-bold text-neutral-200 line-clamp-2 ">{song}</h1>
+            <p className=" text-xs dark:text-neutral-600 line-clamp-2 ">{artist}</p>
         </div>
     </>
 }
@@ -71,7 +66,7 @@ export function SongsSection({ setQueueSongs, heading, songs, setCurrentSong, se
                 <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto overflow-y-hidden ">
                     {
                         songs.map((item, index) => (
-                            <SongCards key={index} song={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} setCurrentSong={setCurrentSong} setIsPlaying={setIsPlaying} />
+                            <SongCards key={index} id={item.id} song={item.title} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} setCurrentSong={setCurrentSong} setIsPlaying={setIsPlaying} />
                         ))
                     }
                 </div>

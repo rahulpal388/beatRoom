@@ -18,27 +18,15 @@ import { TCurrentSong } from "@/app/dashboard/[userId]/page";
 
 
 type ISearchSong = {
-    "id": string,
-    "name": string,
-    "type": string,
-    "artists": {
-        "primary": {
-            "name": string,
-
-        }[],
-
+    id: string,
+    title: string,
+    image: {
+        quality: string,
+        url: string
     },
-    "image":
-    {
-        "quality": string,
-        "url": string
-    }[],
-    "downloadUrl":
-    {
-        "quality": string,
-        "url": string
-    }[]
-
+    album: string,
+    type: string,
+    artist: string
 }
 
 
@@ -50,7 +38,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
     isPlaying: boolean,
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
     setCurrentSong: React.Dispatch<React.SetStateAction<TCurrentSong>>,
-    currentSong: TSong
+    currentSong: TCurrentSong
 }) {
     const [sideQueue, setSideQueue] = useState<boolean>(false);
     const [queueSongs, setQueueSongs] = useState<TSong[]>([]);
@@ -122,7 +110,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                         <div className=" mt-4 flex flex-col gap-2 h-full  overflow-y-auto ">
                             <h1 className=" text-lg fond-bold font-heading ">Song Queue</h1>
                             {queueSongs.map((item, index) => (
-                                <QueueCards key={index} name={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
+                                <QueueCards key={index} name={item.title} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
                             ))}
 
                         </div>
@@ -147,7 +135,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                                 searchSuggestion.length > 0 && isSearching &&
                                 <div className=" max-h-[30rem] absolute top-10 z-50 w-[21.5rem] p-2 flex flex-col gap-2 rounded-sm dark:bg-neutral-700 overflow-x-scroll  " >
                                     {searchSuggestion.map((item, index) => (
-                                        <div key={index} className=" cursor-pointer px-4 py-2 rounded-sm dark:hover:bg-accent-foreground bg-red-800  group  flex items-center justify-between "
+                                        <div key={index} className=" cursor-pointer px-4 py-2 rounded-sm dark:hover:bg-accent-foreground   group  flex items-center justify-between "
                                             onMouseDown={(e) => {
                                                 e.stopPropagation()
                                                 console.log("searching song")
@@ -160,12 +148,12 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                                             }}
                                         >
                                             <div>
-                                                <h1 className="text-lg ">{item.name}</h1>
-                                                <p className=" text-xs dark:group-hover:text-neutral-500 dark:text-neutral-400 " >
-                                                    {item.artists.primary.map(({ name }) => name).join(", ")}
+                                                <h1 className="text-lg truncate w-[12rem] ">{item.title}</h1>
+                                                <p className=" text-xs dark:group-hover:text-neutral-500 dark:text-neutral-400 truncate w-[12rem] " >
+                                                    {item.artist}
                                                 </p>
                                             </div>
-                                            <Image src={item.image[0].url} alt="image" height={50} width={50} className="rounded-sm " />
+                                            <Image src={item.image.url} alt="image" height={50} width={50} className="rounded-sm " />
                                         </div>
                                     ))}
                                 </div>
@@ -234,7 +222,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                             :
                             <div className=" mt-4 flex flex-col gap-2 h-full  overflow-y-auto ">
                                 {queueSongs.map((item, index) => (
-                                    <QueueCards key={index} name={item.name} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
+                                    <QueueCards key={index} name={item.title} artist={item.artist} image={item.image} setQueueSongs={setQueueSongs} />
                                 ))}
 
                             </div>

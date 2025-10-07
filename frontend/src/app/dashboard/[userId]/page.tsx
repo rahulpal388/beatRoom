@@ -60,11 +60,19 @@ const sideBarItems: TSideBarItems[] = [
 
 type TCurrentItem = "Music" | "Rooms" | "Friends" | "Notification" | "Customize"
 export type TCurrentSong = {
-    name: string,
+    id: string,
+    title: string,
+    type: string,
+    duration: number,
     artist: string,
-    quality: string,
-    url: string,
-    image: string
+    image: {
+        quality: string,
+        url: string
+    },
+    downloadUrl: {
+        quality: string,
+        url: string
+    },
 }
 
 export default function DashBoardPage() {
@@ -79,11 +87,19 @@ export default function DashBoardPage() {
 
     // while loggin it will get the previous song
     const [currentSong, setCurrentSong] = useState<TCurrentSong>({
-        name: "Sorry Sorry",
-        artist: "Pawan Singh",
-        url: "https://aac.saavncdn.com/936/910eed4451c290f342100823b7b80bbb_160.mp4",
-        quality: "160kps",
-        image: "https://c.saavncdn.com/936/Bhojpuriya-Raja-Bhojpuri-2016-500x500.jpg"
+        "id": "rpr0UQVP",
+        "title": "AZUL",
+        "artist": "Lavish Dhiman, Guru Randhawa, Gurjit Gill",
+        "type": "song",
+        "duration": 138,
+        "image": {
+            "quality": "500x500",
+            "url": "https://c.saavncdn.com/825/AZUL-Punjabi-2025-20250806163206-500x500.jpg"
+        },
+        "downloadUrl": {
+            "quality": "320kbps",
+            "url": "https://aac.saavncdn.com/825/a3e97c6c24c0cae199463ae91dda7666_320.mp4"
+        }
     })
 
 
@@ -153,7 +169,7 @@ export default function DashBoardPage() {
         <div className=" flex h-screen   " >
 
             <div>
-                <video ref={playerRef} src={`${currentSong?.url}`} className=" h-0 w-0" />
+                <video ref={playerRef} src={`${currentSong?.downloadUrl.url}`} className=" h-0 w-0" />
             </div>
 
             {/* side bar */}

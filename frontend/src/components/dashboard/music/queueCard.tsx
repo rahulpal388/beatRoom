@@ -25,7 +25,7 @@ export function QueueCards({ name, artist, image, setQueueSongs }: {
             </div>
             <div className=" ">
                 <Trash2 className=" stroke-destructive cursor-pointer " onClick={() => {
-                    setQueueSongs(prev => prev.filter(x => x.name != name))
+                    setQueueSongs(prev => prev.filter(x => x.title != name))
                 }} />
             </div>
 

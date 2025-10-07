@@ -5,18 +5,22 @@ import { SongCards, SongsSection } from "./songCard";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
 import { TCurrentSong } from "@/app/dashboard/[userId]/page";
+import Preview from "react-player/Preview";
 
 export type TSong = {
-    name: string,
-    artist: string,
-    image: string
+    id: string,
+    title: string,
+    type: string,
+    image: string,
+    duration: string,
+    artist: string
 }
 
 type TPlaylist = {
-    indiePlaylist: TSong[],
-    punjabiPlaylist: TSong[],
-    romanticPlaylist: TSong[],
-    bhojpuriPlaylist: TSong[]
+    indiePlaylist?: TSong[],
+    punjabiPlaylist?: TSong[],
+    romanticPlaylist?: TSong[],
+    bhojpuriPlaylist?: TSong[]
 }
 
 
@@ -31,22 +35,35 @@ export function Music({ setQueueSongs, type, setCurrentSong, setIsPlaying }: {
     const [playlist, setPlaylist] = useState<TPlaylist | null>(null);
 
     useEffect(() => {
+        // 107605145 => indie
+        // 1134543511 => punjabi
+        // 1134768973 => bhojpuri
+        // 1139074020 => romantic
 
         const getPlaylist = async () => {
+            const page = 0;
+            const limit = 10;
+            const indie = 107605145
+            const punjabi = 1134543511
+            const romantic = 1139074020
+            const bhojpuri = 1134768973
 
-            const response = await axios.post(`${BASE_URL}/song/playlist/all`,
-                {
-                    indie: "https://www.jiosaavn.com/featured/best-of-indie-hindi/jnjK2XTv9-3uCJW60TJk1Q__",
-                    punjabi: "https://www.jiosaavn.com/featured/punjabi-india-superhits-top-50/wSwarbl2bQSrB59Sr2unUQ__",
-                    romantic: "https://www.jiosaavn.com/featured/most-streamed-love-songs-hindi/RQKZhDpGh8uAIonqf0gmcg__",
-                    bhojpuri: "https://www.jiosaavn.com/featured/bhojpuri-india-superhits-top-50/8c-UE,,iBhN8497ZNqIDKA__"
-                },
-                { withCredentials: true }
-            );
+            const indiePlaylist = (await axios.get(`${BASE_URL}/song/playlist/${indie}?page=${page}&limit=${limit}`, { withCredentials: true })).data.songs
 
-            console.log(response.data);
+            const punjabiPlaylist = (await axios.get(`${BASE_URL}/song/playlist/${punjabi}?page=${page}&limit=${limit}`, { withCredentials: true })).data.songs
 
-            setPlaylist(response.data);
+            const romanticPlaylist = (await axios.get(`${BASE_URL}/song/playlist/${romantic}?page=${page}&limit=${limit}`, { withCredentials: true })).data.songs
+
+            const bhojpuriPlaylist = await (await axios.get(`${BASE_URL}/song/playlist/${bhojpuri}?page=${page}&limit=${limit}`, { withCredentials: true })).data.songs
+
+            setPlaylist({
+                indiePlaylist,
+                punjabiPlaylist,
+                romanticPlaylist,
+                bhojpuriPlaylist
+            })
+
+
 
 
         }

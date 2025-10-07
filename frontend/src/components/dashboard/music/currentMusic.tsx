@@ -2,6 +2,7 @@ import { Pause, Play, SkipBackIcon, SkipForward } from "lucide-react";
 import Image from "next/image";
 import { RefObject } from "react";
 import { TSong } from "./music";
+import { TCurrentSong } from "@/app/dashboard/[userId]/page";
 
 
 
@@ -11,7 +12,7 @@ export function CurrentMusic({ playerRef, setProgressValue, progressValue, isPla
     progressValue: number,
     isPlaying: boolean,
     setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>,
-    currentSong: TSong
+    currentSong: TCurrentSong
 }) {
 
 
@@ -19,10 +20,10 @@ export function CurrentMusic({ playerRef, setProgressValue, progressValue, isPla
 
     return <>
         <div className="relative h-full  rounded overflow-hidden  ">
-            <Image src={`${currentSong.image}`} alt="image" height={100} width={100} className=" object-cover w-full h-full " />
+            <Image src={`${currentSong.image.url}`} alt="image" height={100} width={100} className=" object-cover w-full h-full " />
             <div className=" absolute left-0 bottom-2   w-full   px-2  " >
                 <div className=" backdrop-blur-sm py-2 px-2 rounded-md ">
-                    <h1 className=" text-lg text-center ">{currentSong.name}</h1>
+                    <h1 className=" text-lg text-center ">{currentSong.title}</h1>
                     <p className="text-center text-sm text-neutral-400   ">{currentSong.artist}</p>
                     <input type="range" id="music" className=" cursor-pointer w-full " value={progressValue} onChange={(e) => {
 

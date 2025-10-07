@@ -25,16 +25,19 @@ export function CurrentMusic({ playerRef, setProgressValue, progressValue, isPla
                 <div className=" backdrop-blur-sm py-2 px-2 rounded-md ">
                     <h1 className=" text-lg text-center ">{currentSong.title}</h1>
                     <p className="text-center text-sm text-neutral-400   ">{currentSong.artist}</p>
-                    <input type="range" id="music" className=" cursor-pointer w-full " value={progressValue} onChange={(e) => {
+                    <input type="range" id="music" style={{
+                        background: `linear-gradient(to right, #22c55e ${progressValue}%, #3f3f46 ${progressValue}%)`,
+                    }}
+                        className=" w-full h-2 bg-neutral-600 rounded-lg appearance-none cursor-pointer " value={progressValue} onChange={(e) => {
 
-                        setProgressValue(Number(e.currentTarget.value));
-                        console.log(e.currentTarget.value)
-                        if (playerRef.current) {
-                            const time = (Number(e.currentTarget.value) * playerRef.current.duration) / 100;
+                            setProgressValue(Number(e.currentTarget.value));
+                            console.log(e.currentTarget.value)
+                            if (playerRef.current) {
+                                const time = (Number(e.currentTarget.value) * playerRef.current.duration) / 100;
 
-                            playerRef.current.currentTime = time;
-                        }
-                    }} />
+                                playerRef.current.currentTime = time;
+                            }
+                        }} />
                     <div className=" flex items-center justify-center gap-4 mt-px ">
                         <SkipBackIcon className=" cursor-pointer " />
                         {

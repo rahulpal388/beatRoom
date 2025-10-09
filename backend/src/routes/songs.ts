@@ -5,10 +5,14 @@ import { scrapPlaylist } from "../srcaping/playlist";
 import { Router } from "express";
 import { allPlaylist } from "../config/playlist";
 
-import https from "https";
-import { playlistType } from "../zodTypes/playlist";
 
-const agent = new https.Agent({ family: 4 }); // force IPv4
+import { playlistType } from "../zodTypes/playlist";
+import getTrendingSong from "../controllers/song/getTending";
+import httpAgentAndTimeOut from "../utils/httpAgent";
+import getAlbumSong from "../controllers/song/getAlbumSong";
+import getSong from "../controllers/song/getSong";
+
+
 
 
 
@@ -31,7 +35,8 @@ type TSearchSuggestion = {
     image: { quality: string, url: string }[],
     album: string,
     type: string,
-    singers: string
+    singers: string,
+    language: string
 }
 
 export type TSong = {
@@ -58,7 +63,7 @@ const useSong = Router();
 useSong.get("/play/:id", async (req, res) => {
     const id = req.params.id;
     try {
-        const response = await axios.get(`https://saavn.dev/api/songs/${id}`, { httpsAgent: agent, timeout: 10000 });
+        const response = await axios.get(`https://saavn.dev/api/songs/${id}`, httpAgentAndTimeOut);
 
         const songs = response.data.data as TSong[];
 
@@ -91,7 +96,7 @@ useSong.get("/search", async (req, res) => {
     const { query } = req.query;
     try {
 
-        const response = await axios.get(`https://saavn.dev/api/search?query=${encodeURIComponent(query as string)}`, { httpsAgent: agent, timeout: 10000 });
+        const response = await axios.get(`https://saavn.dev/api/search?query=${encodeURIComponent(query as string)}`, httpAgentAndTimeOut);
 
 
 
@@ -104,7 +109,8 @@ useSong.get("/search", async (req, res) => {
                 image: x.image[2],
                 album: x.album,
                 artist: x.singers,
-                type: x.type
+                type: x.type,
+                language: x.language
             }
         })
 
@@ -123,6 +129,14 @@ useSong.get("/search", async (req, res) => {
 
 })
 
+// get the more info about the song
+useSong.get("/:id", getSong)
+
+// to get the trending song based on the language
+useSong.get("/trending", getTrendingSong)
+
+// get the list of album song based on the token ( token is the last album url id )
+useSong.get("/albums", getAlbumSong)
 
 useSong.get("/playlist/:id", async (req, res) => {
     const page = Number(req.query.page);

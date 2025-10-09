@@ -1,3 +1,4 @@
+import httpAgentAndTimeOut from "../../utils/httpAgent";
 import axios from "axios";
 import { Request, Response } from "express";
 import z from "zod";
@@ -5,28 +6,55 @@ import z from "zod";
 
 type IAlbumSongs = {
     id: string,
-    title: string,
+    name: string,
     type: string,
     language: string,
-    list: {
-        id: string,
-        title: string,
-        image: string,
-        type: string,
-        language: string,
-        more_info: {
-            album_id: string,
-            album: string,
-            duration: string,
-            album_url: string,
-            artistMap: {
-                primary_artists: {
-                    id: string,
-                    name: string,
-                    type: string
-                }[]
-            }
+    artists: {
+        primary: {
+            id: string,
+            name: string,
+            role: string,
+            image: {
+                quality: string,
+                url: string
+            }[]
+            ,
+            type: string,
+            url: string
         }
+    },
+    image: {
+        quality: string,
+        url: string
+    }[],
+    songs: {
+        id: string,
+        name: string,
+        type: string,
+        duration: number,
+        language: string,
+        album: {
+            id: string,
+            name: string,
+        },
+        artists: {
+            primary: {
+                id: string,
+                name: string,
+                role: string,
+                image: {
+                    quality: string,
+                    url: string
+                }[]
+                ,
+                type: string,
+                url: string
+            }
+        },
+        image: {
+            quality: string,
+            url: string
+        }[]
     }[]
 }
 
@@ -35,7 +63,8 @@ type IAlbumSongs = {
 
 const getAlbumSong = async (req: Request, res: Response) => {
 
-    const { success, data } = z.object({ token: z.string() }).safeParse(req.query);
+    const { success, data } = z.object({ id: z.string() }).safeParse(req.params);
+
 
     if (!success) {
         return res.status(200).json({
@@ -45,47 +74,45 @@ const getAlbumSong = async (req: Request, res: Response) => {
 
     try {
 
-        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=webapi.get&api_version=4&_format=json&_marker=0&token=${data.token}&type=album`);
 
-        const songs = response.data as IAlbumSongs;
 
+        const response = await axios.get(`https://saavn.dev/api/albums?id=${data.id}`, { ...httpAgentAndTimeOut });
+
+
+        const songs = response.data.data as IAlbumSongs;
         const result: IAlbumSongs = {
             id: songs.id,
-            title: songs.title,
+            name: songs.name,
             type: songs.type,
             language: songs.language,
-            list: songs.list.map(x => {
+            artists: {
+                primary: songs.artists.primary
+            },
+            image: songs.image,
+            songs: songs.songs.map(x => {
                 return {
                     id: x.id,
-                    title: x.title,
+                    name: x.name,
                     type: x.type,
-                    image: x.image,
+                    duration: x.duration,
                     language: x.language,
-                    more_info: {
-                        album_id: x.more_info.album_id,
-                        album: x.more_info.album,
-                        duration: x.more_info.duration,
-                        album_url: x.more_info.album_url,
-                        artistMap: {
-                            primary_artists: x.more_info.artistMap.primary_artists.map(({ id, name, type }) => {
-                                return {
-                                    id,
-                                    name,
-                                    type
-                                }
-                            })
-                        }
-                    }
+                    album: {
+                        id: x.album.id,
+                        name: x.album.name
+                    },
+                    artists: {
+                        primary: x.artists.primary
+                    },
+                    image: x.image
                 }
             })
+
         }
-
-
         res.status(200).json({ ...result })
 
 
     } catch (error) {
-        console.log(error)
+
         res.status(200).json({})
 
     }

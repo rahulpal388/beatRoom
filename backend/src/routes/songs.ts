@@ -133,10 +133,10 @@ useSong.get("/search", async (req, res) => {
 useSong.get("/:id", getSong)
 
 // to get the trending song based on the language
-useSong.get("/trending", getTrendingSong)
+useSong.get("/trending/:language/:page/:limit", getTrendingSong)
 
 // get the list of album song based on the token ( token is the last album url id )
-useSong.get("/albums", getAlbumSong)
+useSong.get("/albums/:id", getAlbumSong)
 
 useSong.get("/playlist/:id", async (req, res) => {
     const page = Number(req.query.page);

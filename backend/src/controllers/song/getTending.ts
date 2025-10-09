@@ -28,20 +28,19 @@ type ITrendingSong = {
 
 const getTrendingSong = async (req: Request, res: Response) => {
 
-    const { success, data } = z.object({ language: z.string(), page: z.string(), limit: z.string() }).safeParse(req.query);
 
+    const { success, data } = z.object({ language: z.string(), page: z.string(), limit: z.string() }).safeParse(req.params);
+    console.log(data?.language)
     if (!success) {
         return res.status(200).json({
             message: "invalid url"
         })
     }
-
-
     try {
         const page = Number(data.page);
         const limit = Number(data.limit);
 
-        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=${data.language}`, { ...httpAgentAndTimeOut })
+        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=bhojpuri`, { ...httpAgentAndTimeOut })
 
         const songList = response.data as ITrendingSong[];
 
@@ -74,7 +73,7 @@ const getTrendingSong = async (req: Request, res: Response) => {
 
 
     } catch (error) {
-        console.log(error)
+        // console.log(error)
         res.status(200).json({})
     }
 

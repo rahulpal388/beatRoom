@@ -14,6 +14,9 @@ import { Debounce } from "@/lib/debounce";
 import { Music, TSong } from "./music";
 import { SearchedMusic } from "./searchedMusic";
 import { TCurrentSong } from "@/app/dashboard/[userId]/page";
+import { ISong } from "@/types/searchedSongType";
+import { IAlbumSongs } from "@/types/albumType";
+import { ITrendingSong } from "@/types/trendingSongType";
 
 
 
@@ -45,9 +48,11 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
     const [searchSuggestion, setSearchSuggestion] = useState<ISearchSong[]>([]);
     const [isSearching, setIsSearching] = useState<boolean>(false);
     const [isQueueOn, setIsQueueOn] = useState<boolean>(false);
-    const [songSearched, setSongSearched] = useState<boolean>(false);
+    const [songSuggestion, setSongSuggestion] = useState<boolean>(false);
+    const [song, setSong] = useState<ISong>();
+    const [album, setAlbum] = useState<IAlbumSongs>();
+    const [trending, setTrending] = useState<ITrendingSong>();
     const musciSectionRef = useRef<HTMLDivElement | null>(null);
-
     const inputRef = useRef<HTMLInputElement | null>(null);
 
 
@@ -66,6 +71,26 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
     }
 
     const onSearchInputChange = Debounce(searchSuggestionFn, 1000);
+
+    const onSearchSong = async (id: string) => {
+        setSongSuggestion(true)
+
+        // get more information about the song
+        const getSongInfo = (await axios.get(`${BASE_URL}/song/${id}`, { withCredentials: true })).data as ISong;
+        setSong(getSongInfo);
+
+        const getAlbumSongs = (await axios.get(`${BASE_URL}/song/albums/${getSongInfo.album.id}`, { withCredentials: true })).data as IAlbumSongs;
+        setAlbum(getAlbumSongs);
+
+        const getTrendingSong = (await axios.get(`${BASE_URL}/song/trending/${getSongInfo.language}/0/10`, { withCredentials: true })).data as ITrendingSong;
+
+        setTrending({ ...getTrendingSong });
+
+        console.log(getSongInfo)
+        console.log(getAlbumSongs)
+        console.log(trending);
+
+    }
 
     useEffect(() => {
         if (sideQueue && musciSectionRef.current) {
@@ -136,16 +161,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                                 <div className=" max-h-[30rem] absolute top-10 z-50 w-[21.5rem] p-2 flex flex-col gap-2 rounded-sm dark:bg-neutral-700 overflow-x-scroll  " >
                                     {searchSuggestion.map((item, index) => (
                                         <div key={index} className=" cursor-pointer px-4 py-2 rounded-sm dark:hover:bg-accent-foreground   group  flex items-center justify-between "
-                                            onMouseDown={(e) => {
-                                                e.stopPropagation()
-                                                console.log("searching song")
-                                                console.log(item)
-                                                setSongSearched(true);
-                                            }}
-                                            onChange={(e) => { e.stopPropagation() }}
-                                            onMouseEnter={() => {
-                                                console.log("fuck uou")
-                                            }}
+                                            onMouseDown={() => onSearchSong(item.id)}
                                         >
                                             <div>
                                                 <h1 className="text-lg truncate w-[12rem] ">{item.title}</h1>
@@ -175,8 +191,8 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
 
                     {/*  music section display  */}
                     {
-                        songSearched ?
-                            <SearchedMusic setSongSearched={setSongSearched} />
+                        songSuggestion ?
+                            <SearchedMusic setSongSuggestion={setSongSuggestion} song={song} album={album} trending={trending} />
                             :
                             <Music setQueueSongs={setQueueSongs} type="notSearched" setCurrentSong={setCurrentSong} setIsPlaying={setIsPlaying} />
                     }

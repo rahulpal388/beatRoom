@@ -21,7 +21,7 @@ type IAlbumSongs = {
             ,
             type: string,
             url: string
-        }
+        }[]
     },
     image: {
         quality: string,
@@ -49,7 +49,7 @@ type IAlbumSongs = {
                 ,
                 type: string,
                 url: string
-            }
+            }[]
         },
         image: {
             quality: string,

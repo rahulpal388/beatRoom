@@ -40,8 +40,8 @@ const getTrendingSong = async (req: Request, res: Response) => {
         const page = Number(data.page);
         const limit = Number(data.limit);
 
-        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=bhojpuri`, { ...httpAgentAndTimeOut })
-
+        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=${data.language}`, { ...httpAgentAndTimeOut })
+        console.log(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=${data.language}`)
         const songList = response.data as ITrendingSong[];
 
         const result: ITrendingSong[] = songList.slice(page * limit, (page + 1) * limit).map(x => {

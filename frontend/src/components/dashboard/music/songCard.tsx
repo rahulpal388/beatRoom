@@ -6,6 +6,7 @@ import { TCurrentSong } from "@/app/dashboard/[userId]/page";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
 import { Ruge_Boogie } from "next/font/google";
+import { decodeHTML } from "@/lib/decodeHtml";
 
 
 
@@ -23,7 +24,10 @@ export function SongCards({ song, artist, image, id, setQueueSongs, setCurrentSo
         const response = await axios.get(`${BASE_URL}/song/play/${id}`);
 
         if (response.status === 200) {
-            setCurrentSong(response.data)
+            console.log(id)
+            console.log(response.data)
+            const data = response.data;
+            setCurrentSong(data)
             setIsPlaying(true)
         }
 
@@ -39,7 +43,7 @@ export function SongCards({ song, artist, image, id, setQueueSongs, setCurrentSo
                     <Play />
                 </div>
             </div >
-            <h1 className=" fond-bold text-neutral-200 line-clamp-2 ">{song}</h1>
+            <h1 className=" fond-bold text-neutral-200 line-clamp-2 ">{decodeHTML(song)}</h1>
             <p className=" text-xs dark:text-neutral-600 line-clamp-2 ">{artist}</p>
         </div>
     </>

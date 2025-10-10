@@ -51,7 +51,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
     const [songSuggestion, setSongSuggestion] = useState<boolean>(false);
     const [song, setSong] = useState<ISong>();
     const [album, setAlbum] = useState<IAlbumSongs>();
-    const [trending, setTrending] = useState<ITrendingSong>();
+    const [trending, setTrending] = useState<ITrendingSong[]>();
     const musciSectionRef = useRef<HTMLDivElement | null>(null);
     const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -82,9 +82,10 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
         const getAlbumSongs = (await axios.get(`${BASE_URL}/song/albums/${getSongInfo.album.id}`, { withCredentials: true })).data as IAlbumSongs;
         setAlbum(getAlbumSongs);
 
-        const getTrendingSong = (await axios.get(`${BASE_URL}/song/trending/${getSongInfo.language}/0/10`, { withCredentials: true })).data as ITrendingSong;
+        console.log(getSongInfo.language)
+        const getTrendingSong = (await axios.get(`${BASE_URL}/song/trending/${getSongInfo.language}/0/10`, { withCredentials: true })).data as ITrendingSong[];
 
-        setTrending({ ...getTrendingSong });
+        setTrending(getTrendingSong);
 
         console.log(getSongInfo)
         console.log(getAlbumSongs)
@@ -192,7 +193,7 @@ export function MusicSection({ playerRef, setProgressValue, progressValue, isPla
                     {/*  music section display  */}
                     {
                         songSuggestion ?
-                            <SearchedMusic setSongSuggestion={setSongSuggestion} song={song} album={album} trending={trending} />
+                            <SearchedMusic setSongSuggestion={setSongSuggestion} song={song} album={album} trending={trending} setQueueSongs={setQueueSongs} setCurrentSong={setCurrentSong} setIsPlaying={setIsPlaying} />
                             :
                             <Music setQueueSongs={setQueueSongs} type="notSearched" setCurrentSong={setCurrentSong} setIsPlaying={setIsPlaying} />
                     }

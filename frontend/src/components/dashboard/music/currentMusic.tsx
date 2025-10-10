@@ -3,6 +3,7 @@ import Image from "next/image";
 import { RefObject } from "react";
 import { TSong } from "./music";
 import { TCurrentSong } from "@/app/dashboard/[userId]/page";
+import { decodeHTML } from "@/lib/decodeHtml";
 
 
 
@@ -23,8 +24,8 @@ export function CurrentMusic({ playerRef, setProgressValue, progressValue, isPla
             <Image src={`${currentSong.image.url}`} alt="image" height={100} width={100} className=" object-cover w-full h-full " />
             <div className=" absolute left-0 bottom-2   w-full   px-2  " >
                 <div className=" backdrop-blur-sm py-2 px-2 rounded-md ">
-                    <h1 className=" text-lg text-center ">{currentSong.title}</h1>
-                    <p className="text-center text-sm text-neutral-400   ">{currentSong.artist}</p>
+                    <h1 className=" text-lg text-center line-clamp-2 ">{decodeHTML(currentSong.title)}</h1>
+                    <p className="text-center text-sm text-neutral-400 line-clamp-1   ">{currentSong.artist}</p>
                     <input type="range" id="music" style={{
                         background: `linear-gradient(to right, #22c55e ${progressValue}%, #3f3f46 ${progressValue}%)`,
                     }}

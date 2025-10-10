@@ -15,7 +15,7 @@ export type IAlbumSongs = {
             ,
             type: string,
             url: string
-        }
+        }[]
     },
     image: {
         quality: string,
@@ -43,7 +43,7 @@ export type IAlbumSongs = {
                 ,
                 type: string,
                 url: string
-            }
+            }[]
         },
         image: {
             quality: string,

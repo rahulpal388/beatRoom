@@ -25,10 +25,10 @@ export const SideBarContextProvider: React.FC<{
   );
 };
 
-export const useSideBar = (): sidebarContextType => {
-  const context = useContext(sidebarContext);
-  if (!context) {
-    throw new Error("useSideBar inside the context provider ");
-  }
-  return context;
-};
+// export const useSideBar = (): sidebarContextType => {
+//   const context = useContext(sidebarContext);
+//   if (!context) {
+//     throw new Error("useSideBar inside the context provider ");
+//   }
+//   return context;
+// };

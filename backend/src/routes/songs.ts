@@ -31,30 +31,18 @@ type TPlaylistSongs = {
 
 type TSearchSuggestion = {
     id: string,
-    title: string,
-    image: { quality: string, url: string }[],
-    album: string,
+    song: string,
+    image: string,
+    album_url: string,
     type: string,
     singers: string,
     language: string
 }
 
 export type TSong = {
-    id: string,
-    name: string,
+    duration: string,
     type: string,
-    duration: string
-    artists: {
-        primary: { name: string }[]
-    },
-    image: {
-        quality: string,
-        url: string
-    }[],
-    downloadUrl: {
-        quality: string,
-        url: string
-    }[],
+    media_url: string,
 }
 
 const useSong = Router();
@@ -62,25 +50,23 @@ const useSong = Router();
 
 useSong.get("/play/:id", async (req, res) => {
     const id = req.params.id;
+    console.log("url " + id)
     try {
-        const response = await axios.get(`https://saavn.dev/api/songs/${id}`, httpAgentAndTimeOut);
+        const response = await axios.get(`http://127.0.0.1:5100/result/?query=${id}`);
 
-        const songs = response.data.data as TSong[];
+        const songs = response.data[0] as TSong;
 
-        const result = songs.map(x => {
-            return {
-                id: x.id,
-                title: x.name,
-                artist: x.artists.primary.map(({ name }) => name).join(", "),
-                type: x.type,
-                duration: x.duration,
-                image: x.image[2],
-                downloadUrl: x.downloadUrl[4],
-            }
-        })
+        console.log(songs);
 
+        const result = {
+            duration: songs.duration,
+            type: "song",
+            downloadUrl: songs.media_url,
 
-        res.status(200).json(...result)
+        }
+        console.log(result);
+
+        res.status(200).json(result);
 
     } catch (error) {
         console.log(error)
@@ -96,24 +82,27 @@ useSong.get("/search", async (req, res) => {
     const { query } = req.query;
     try {
 
-        const response = await axios.get(`https://saavn.dev/api/search?query=${encodeURIComponent(query as string)}`, httpAgentAndTimeOut);
+        const response = await axios.get(`http://127.0.0.1:5100/song/?query=${encodeURIComponent(query as string)}`);
 
 
 
-        const suggestion = response.data.data.songs.results as TSearchSuggestion[];
+        const suggestion = response.data as TSearchSuggestion[];
+
+
+
 
         const suggestionResult = suggestion.map(x => {
             return {
                 id: x.id,
-                title: x.title,
-                image: x.image[2],
-                album: x.album,
+                title: x.song,
+                image: { quality: "320px", url: x.image },
+                album: x.album_url,
                 artist: x.singers,
                 type: x.type,
                 language: x.language
             }
         })
-
+        console.log(suggestionResult);
         res.status(200).json({
             results: suggestionResult
         })
@@ -187,7 +176,7 @@ useSong.post("/playlist/all", async (req, res) => {
     // const indiePlaylist = await scrapPlaylist(indie, 10);
     // const punjabiPlaylist = await scrapPlaylist(punjabi, 10)
     // const romanticPlaylist = await scrapPlaylist(romantic, 10)
-    const bhojpuriPlaylist = await scrapPlaylist(bhojpuri, 10)
+    // const bhojpuriPlaylist = await scrapPlaylist(bhojpuri, 10)
 
     res.status(200).json({
         // indiePlaylist,

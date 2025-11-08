@@ -15,7 +15,7 @@ import { MusicBanner } from "./musicBanner";
 import { CurrentMusic } from "./currentMusic";
 import { ArtistPlaylist, artistPlaylist } from "./artistPlaylist";
 import React, { useEffect, useRef, useState } from "react";
-import { p } from "motion/react-client";
+import { i, p } from "motion/react-client";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
 import { Debounce } from "@/lib/debounce";
@@ -39,6 +39,7 @@ type ISearchSong = {
   album: string;
   type: string;
   artist: string;
+  language: string;
 };
 
 export function MusicSection() {
@@ -59,7 +60,7 @@ export function MusicSection() {
         await axios.get(`${BASE_URL}/song/search?query=${searchSuggestion}`)
       ).data;
       const data = response.results;
-      console.log(data);
+      console.log(data[0].image);
       setSearchSuggestion([...data]);
     } catch (error) {
       throw new Error("search suggestion error");

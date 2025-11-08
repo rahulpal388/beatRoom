@@ -1,16 +1,9 @@
-import { TCurrentItem } from "@/app/dashboard/[userId]/page";
 import { useAuth } from "@/context/authContext";
-import { useState } from "react";
 import { MusicSection } from "./music/musicSection";
-import { Friends } from "./friends";
-import { Rooms } from "./rooms";
-import { Customize } from "./customize";
-import { Notification } from "./notification";
-import { useSideBar } from "@/context/sidebarContext";
 
 export function MainSection() {
   const { currentUser } = useAuth();
-  const { currentItem, setCurrentItem } = useSideBar();
+
   return (
     <>
       <div className="   h-screen   w-full  ">
@@ -24,11 +17,7 @@ export function MainSection() {
           </div>
         </div>
         <div className="h-[calc(100vh-3rem)]  ">
-          {currentItem === "Music" && <MusicSection />}
-          {currentItem === "Friends" && <Friends />}
-          {currentItem === "Rooms" && <Rooms />}
-          {currentItem === "Notification" && <Notification />}
-          {currentItem === "Customize" && <Customize />}
+          <MusicSection />
         </div>
       </div>
     </>

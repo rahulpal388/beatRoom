@@ -11,11 +11,13 @@ import { useQueue } from "@/context/queueContext";
 
 export type TSong = {
   id: string;
-  title: string;
-  type: string;
   image: string;
-  duration: string;
+  title: string;
   artist: string;
+  url: string;
+  albumid: string;
+  album_url: string;
+  language: string;
 };
 
 type TPlaylist = {
@@ -37,46 +39,24 @@ export function Music({ type }: { type: "searched" | "notSearched" }) {
     // 1139074020 => romantic
 
     const getPlaylist = async () => {
-      const page = 0;
-      const limit = 10;
-      const indie = 107605145;
-      const punjabi = 1134543511;
-      const romantic = 1139074020;
-      const bhojpuri = 1134768973;
+      // const page = 0;
+      // const limit = 10;
+      // const indie = 107605145;
+      // const punjabi = 1134543511;
+      // const romantic = 1139074020;
+      // const bhojpuri = 1134768973;
 
-      const indiePlaylist = (
-        await axios.get(
-          `${BASE_URL}/song/playlist/${indie}?page=${page}&limit=${limit}`,
-          { withCredentials: true }
-        )
-      ).data.songs;
-
-      const punjabiPlaylist = (
-        await axios.get(
-          `${BASE_URL}/song/playlist/${punjabi}?page=${page}&limit=${limit}`,
-          { withCredentials: true }
-        )
-      ).data.songs;
-
-      const romanticPlaylist = (
-        await axios.get(
-          `${BASE_URL}/song/playlist/${romantic}?page=${page}&limit=${limit}`,
-          { withCredentials: true }
-        )
-      ).data.songs;
-
-      const bhojpuriPlaylist = await (
-        await axios.get(
-          `${BASE_URL}/song/playlist/${bhojpuri}?page=${page}&limit=${limit}`,
-          { withCredentials: true }
-        )
-      ).data.songs;
+      const response = (
+        await axios.post(`${BASE_URL}/song/playlist/all`, {
+          withCredentials: true,
+        })
+      ).data;
 
       setPlaylist({
-        indiePlaylist,
-        punjabiPlaylist,
-        romanticPlaylist,
-        bhojpuriPlaylist,
+        indiePlaylist: response.indiePlaylist,
+        punjabiPlaylist: response.punjabiPlaylist,
+        romanticPlaylist: response.romanticPlaylist,
+        bhojpuriPlaylist: response.bhojpuriPlaylist,
       });
     };
 

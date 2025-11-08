@@ -80,9 +80,6 @@ app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/room", roomRouter);
 app.use("/api/v1/song", useSong);
 
-
-
-
 app.listen(PORT, () => {
     console.log(`Server is running on the ${PORT}.........`)
 })

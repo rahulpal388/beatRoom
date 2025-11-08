@@ -9,5 +9,6 @@ export const hashPassword = (password: string): string => {
 
 
 export const matchPassword = (password: string, hashPassword: string): boolean => {
+
     return bcrypt.compareSync(password, hashPassword);
 }

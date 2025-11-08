@@ -1,7 +1,6 @@
 "use client";
 import { MainSection } from "@/components/dashboard/mainSection";
 import { MusicPlayer } from "@/components/dashboard/music/musicPlayer";
-import { Sidebar } from "@/components/dashboard/sidebar";
 import { useAuth } from "@/context/authContext";
 import { CurrentSongConttextProvider } from "@/context/currentSong";
 import { QueueProvider } from "@/context/queueContext";
@@ -100,7 +99,7 @@ export default function DashBoardPage() {
           <QueueProvider>
             <div className=" flex h-screen   ">
               <MusicPlayer />
-              <Sidebar />
+
               <MainSection />
             </div>
           </QueueProvider>

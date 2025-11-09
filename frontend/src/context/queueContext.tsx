@@ -1,4 +1,4 @@
-import { TSong } from "@/components/dashboard/music/music";
+import { TSong } from "@/components/dashboard/music/MusicPages/music";
 import React, {
   createContext,
   Dispatch,

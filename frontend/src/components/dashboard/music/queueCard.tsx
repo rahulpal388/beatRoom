@@ -1,7 +1,7 @@
 import { Play, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
-import { TSong } from "./music";
+import { TSong } from "./MusicPages/music";
 
 export function QueueCards({
   name,

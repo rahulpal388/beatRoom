@@ -1,5 +1,5 @@
 import { MoveLeft } from "lucide-react";
-import { Music, TSong } from "./music";
+import { Music, TSong } from "./MusicPages/music";
 import { Dispatch, SetStateAction } from "react";
 import { ISong } from "@/types/searchedSongType";
 import { IAlbumSongs } from "@/types/albumType";
@@ -45,6 +45,7 @@ export function SearchedMusic({
         />
       </div>
       <ShowSongDetails songDetails={exampelShowDetails} />
+
     </div>
   );
 }

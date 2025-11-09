@@ -1,6 +1,6 @@
 "use client";
-import { MainSection } from "@/components/dashboard/mainSection";
 import { MusicPlayer } from "@/components/dashboard/music/musicPlayer";
+import { MusicSection } from "@/components/dashboard/music/musicSection";
 import { useAuth } from "@/context/authContext";
 import { CurrentSongConttextProvider } from "@/context/currentSong";
 import { QueueProvider } from "@/context/queueContext";
@@ -12,59 +12,12 @@ import {
   HousePlus,
   LogOut,
   Music,
-  PanelLeftClose,
-  PanelRightClose,
 } from "lucide-react";
 
-import { useRouter } from "next/navigation";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
-export type IRoom = {
-  name: string;
-  link: string;
-  createdAt: Date;
-};
 
-type TSideBarItems = {
-  name: string;
-  logo: React.ReactNode;
-  link: TCurrentItem;
-};
 
-export const sideBarItems: TSideBarItems[] = [
-  {
-    name: "Music",
-    logo: <Music className="xl:size-6  " />,
-    link: "Music",
-  },
-  {
-    name: "Rooms",
-    logo: <HousePlus className="xl:size-6 " />,
-    link: "Rooms",
-  },
-  {
-    name: "Friends",
-    logo: <Handshake className="xl:size-6 " />,
-    link: "Friends",
-  },
-  {
-    name: "Notification",
-    logo: <Bell className="xl:size-6  " />,
-    link: "Notification",
-  },
-  {
-    name: "Customize",
-    logo: <GitPullRequestDraft className="xl:size-6 " />,
-    link: "Customize",
-  },
-];
-
-export type TCurrentItem =
-  | "Music"
-  | "Rooms"
-  | "Friends"
-  | "Notification"
-  | "Customize";
 export type TCurrentSong = {
   id: string;
   title: string;
@@ -82,7 +35,7 @@ export type TCurrentSong = {
 };
 
 export default function DashBoardPage() {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, currentUser } = useAuth();
 
   if (!isAuthenticated) {
     return (
@@ -97,10 +50,22 @@ export default function DashBoardPage() {
       <CurrentSongConttextProvider>
         <SideBarContextProvider>
           <QueueProvider>
-            <div className=" flex h-screen   ">
+            <div >
               <MusicPlayer />
-
-              <MainSection />
+              <div className=" w-screen h-screen ">
+                <div className=" h-12  dark:bg-foreground dark:shadow-2xl w-full flex justify-end items-center gap-4 px-8 ">
+                  <div className=" flex flex-col items-center justify-end ">
+                    <h1 className=" text-sm ">{currentUser?.username}</h1>
+                    <p className=" text-[10px] ">{currentUser?.userId}</p>
+                  </div>
+                  <div className="font-bold bg-green-700 size-9 rounded-full shadow-2xl flex items-center justify-center ">
+                    {currentUser?.username[0].toLocaleUpperCase()}
+                  </div>
+                </div>
+                <div className="h-[calc(100%-3rem)]  ">
+                  <MusicSection />
+                </div>
+              </div>
             </div>
           </QueueProvider>
         </SideBarContextProvider>

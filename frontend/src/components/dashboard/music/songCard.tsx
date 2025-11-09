@@ -1,41 +1,32 @@
 import { Play } from "lucide-react";
 import Image from "next/image";
 import React, { Dispatch, SetStateAction } from "react";
-import { TSong } from "./music";
+import { TSong } from "./MusicPages/music";
 import { TCurrentSong } from "@/app/dashboard/[userId]/page";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
 import { decodeHTML } from "@/lib/decodeHtml";
+import { useCurrentSongDetail } from "@/context/currentSong";
 
 export function SongCards({
-  song,
+  title,
   artist,
   image,
-  id,
-  url,
-  setQueueSongs,
-  setCurrentSong,
-  setIsPlaying,
+  id
 }: {
-  song: string;
+  title: string;
   artist: string;
   image: string;
-  id: string;
-  url: string;
-  setQueueSongs: Dispatch<SetStateAction<TSong[]>>;
-  setCurrentSong: React.Dispatch<React.SetStateAction<TCurrentSong>>;
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  id: string
 }) {
+  const { setCurrentSong, setIsPlaying } = useCurrentSongDetail();
   const getSong = async () => {
-    console.log(id);
-    const response = await axios.get(`${BASE_URL}/song/play/${id}`);
+    const response = await axios.get(`${BASE_URL}/song/play/${title}`);
     if (response.status === 200) {
-      console.log(id);
-      console.log(response.data);
       const data = response.data;
       setCurrentSong({
         id,
-        title: song,
+        title: title,
         artist,
         type: data.type,
         duration: data.duration,
@@ -71,7 +62,7 @@ export function SongCards({
           </div>
         </div>
         <h1 className=" fond-bold text-neutral-200 line-clamp-2 ">
-          {decodeHTML(song)}
+          {decodeHTML(title)}
         </h1>
         <p className=" text-xs dark:text-neutral-600 line-clamp-2 ">{artist}</p>
       </div>
@@ -79,44 +70,17 @@ export function SongCards({
   );
 }
 
-export function SongsSection({
-  setQueueSongs,
-  heading,
-  songs,
-  setCurrentSong,
-  setIsPlaying,
-}: {
-  setQueueSongs: Dispatch<SetStateAction<TSong[]>>;
+export function SongsSection({ heading, children }: {
   heading: string;
-  songs: TSong[] | undefined;
-  setCurrentSong: React.Dispatch<React.SetStateAction<TCurrentSong>>;
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
+  children: React.ReactNode
 }) {
   return (
     <>
       <div className=" rounded-lg  px-4 py-2  dark:shadow-2xl  ">
         <h1 className=" text-xl font-bold font-heading ">{heading}</h1>
-        {!songs ? (
-          <div className=" flex items-center justify-center   ">
-            <div className="w-14 h-14 border-2 border-t-blue-800  border-gray-200 rounded-full animate-spin"></div>
-          </div>
-        ) : (
-          <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto overflow-y-hidden ">
-            {songs.map((item, index) => (
-              <SongCards
-                key={index}
-                id={item.id}
-                song={item.title}
-                artist={item.artist}
-                image={item.image}
-                url={item.url}
-                setQueueSongs={setQueueSongs}
-                setCurrentSong={setCurrentSong}
-                setIsPlaying={setIsPlaying}
-              />
-            ))}
-          </div>
-        )}
+        <div className="mt-2 w-full flex items-center gap-4 justify-between  overflow-x-auto overflow-y-hidden ">
+          {children}
+        </div>
       </div>
     </>
   );

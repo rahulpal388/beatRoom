@@ -1,26 +1,33 @@
+import { TrendingType } from "../../zodTypes/songs/trending";
 import httpAgentAndTimeOut from "../../utils/httpAgent";
 import axios from "axios";
 import { Request, Response } from "express";
-import z from "zod";
 
 
 type ITrendingSong = {
     id: string,
     title: string,
+    subtitle: string,
     type: string,
+    perm_url: string,
     image: string,
     language: string,
     more_info: {
         album_id: string,
         album: string,
+        album_url: string,
         duration: string,
         artistMap: {
             primary_artists: {
                 id: string,
                 name: string,
+                image: string,
+                perm_url: string,
+                role: string,
                 type: string
             }[]
-        }
+        },
+        released_date: string
     }
 }
 
@@ -29,53 +36,60 @@ type ITrendingSong = {
 const getTrendingSong = async (req: Request, res: Response) => {
 
 
-    const { success, data } = z.object({ language: z.string(), page: z.string(), limit: z.string() }).safeParse(req.params);
-    console.log(data?.language)
+    const { success, data } = TrendingType.safeParse(req.query);
+
     if (!success) {
-        return res.status(200).json({
-            message: "invalid url"
-        })
+        res.status(200).json([]);
+        return;
     }
+
+    // console.log(data);
+
     try {
-        const page = Number(data.page);
-        const limit = Number(data.limit);
 
-        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=${data.language}`, { ...httpAgentAndTimeOut })
-        console.log(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=${data.language}`)
-        const songList = response.data as ITrendingSong[];
-
-        const result: ITrendingSong[] = songList.slice(page * limit, (page + 1) * limit).map(x => {
+        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=${data.type}&entity_language=${data.language}`);
+        const trending = response.data as ITrendingSong[];
+        console.log(trending)
+        const sliceTrending = trending.slice(Number(data.page) * Number(data.limit), (Number(data.page) + 1) * Number(data.limit));
+        const result: ITrendingSong[] = sliceTrending.map(item => {
             return {
-                id: x.id,
-                title: x.title,
-                type: x.type,
-                image: x.image,
-                language: x.language,
+                id: item.id,
+                title: item.title,
+                subtitle: item.subtitle,
+                type: item.type,
+                perm_url: item.perm_url,
+                image: item.image,
+                language: item.language,
                 more_info: {
-                    album_id: x.more_info.album_id,
-                    album: x.more_info.album,
-                    duration: x.more_info.duration,
+                    album_id: item.more_info.album_id,
+                    album: item.more_info.album,
+                    album_url: item.more_info.album_url,
+                    duration: item.more_info.duration,
                     artistMap: {
-                        primary_artists: x.more_info.artistMap.primary_artists.map(({ id, name, type }) => {
+                        primary_artists: item.more_info.artistMap.primary_artists.map(artist => {
                             return {
-                                id,
-                                name,
-                                type
+                                id: artist.id,
+                                name: artist.name,
+                                image: artist.image,
+                                perm_url: artist.perm_url,
+                                role: artist.role,
+                                type: artist.type
                             }
                         })
-                    }
+                    },
+                    released_date: item.more_info.released_date
                 }
+
             }
         })
 
-
-        res.status(200).json([...result]);
-
+        res.status(200).json(result);
 
     } catch (error) {
-        // console.log(error)
-        res.status(200).json({})
+        res.status(200).json([]);
+
     }
+
 
 }
 

@@ -10,7 +10,6 @@ import { playlistType } from "../zodTypes/playlist";
 import getTrendingSong from "../controllers/song/getTending";
 import httpAgentAndTimeOut from "../utils/httpAgent";
 import getAlbumSong from "../controllers/song/getAlbumSong";
-import getSong from "../controllers/song/getSong";
 
 
 
@@ -118,11 +117,10 @@ useSong.get("/search", async (req, res) => {
 
 })
 
-// get the more info about the song
-useSong.get("/:id", getSong)
+
 
 // to get the trending song based on the language
-useSong.get("/trending/:language/:page/:limit", getTrendingSong)
+useSong.get("/trending", getTrendingSong)
 
 // get the list of album song based on the token ( token is the last album url id )
 useSong.get("/albums/:id", getAlbumSong)

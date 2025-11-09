@@ -2,7 +2,6 @@
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { CreateRoomCard } from "./createRoomCard";
 import { AnimatePresence } from "motion/react";
 
 
@@ -35,11 +34,6 @@ export function NavBar() {
                     <Plus />
                     <span>Create Room</span>
                 </button>
-
-                <AnimatePresence>
-
-                    {isCreateRoom && <CreateRoomCard setCreateRoom={setCreateRoom} />}
-                </AnimatePresence>
 
 
                 <button className="max-lg:hidden cursor-pointer bg-red-800  px-4 py-1 rounded shadow-xs shadow-green-400   "

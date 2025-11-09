@@ -1,7 +1,7 @@
 import { Pause, Play, SkipBackIcon, SkipForward } from "lucide-react";
 import Image from "next/image";
 import { RefObject } from "react";
-import { TSong } from "./music";
+import { TSong } from "./MusicPages/music";
 import { TCurrentSong } from "@/app/dashboard/[userId]/page";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { useCurrentSongDetail } from "@/context/currentSong";

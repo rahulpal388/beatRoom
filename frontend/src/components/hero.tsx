@@ -4,7 +4,7 @@ import { MoveUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { AnimatePresence } from "motion/react";
 import { useState } from "react";
-import { JoinRoomCard } from "./joinRoomCard";
+
 import Image from "next/image";
 import { TextTransition } from "./animation/textTransition";
 
@@ -28,9 +28,6 @@ export function Hero() {
             BeatRoom lets you listen to music, watch videos, and hang out with
             friends in real-time with chat, voice, and video.
           </h4>
-          <AnimatePresence>
-            {isJoinRoom && <JoinRoomCard setJoinRoom={setJoinRoom} />}
-          </AnimatePresence>
 
           <div className="flex items-center gap-20 justify-center mt-16 ">
             <div>

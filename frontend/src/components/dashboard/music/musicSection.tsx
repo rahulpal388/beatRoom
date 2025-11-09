@@ -17,14 +17,7 @@ export function MusicSection() {
         >
           <MusicBar />
           {/* search bar and invite friends */}
-          <div className="  flex flex-col gap-4 px-4  ">
-            <div className=" relative flex items-center gap-4 justify-end   ">
-              <SearchBar />
-              <button className=" cursor-pointer dark:shadow-xl dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground px-4 py-2 rounded text-muted flex gap-2 items-center ">
-                Invite friends
-                <Copy />
-              </button>
-            </div>
+          <div className="  flex flex-col gap-4   ">
             <DisplaySongs />
           </div>
         </div>

@@ -79,42 +79,6 @@ function SearchedItems({ title, artists, image }: {
     artists: string,
     image: string
 }) {
-
-
-
-    // const onSearchSong = async (id: string) => {
-    //     setSongSuggestion(true);
-
-    //     // get more information about the song
-    //     const getSongInfo = (
-    //       await axios.get(`${BASE_URL}/song/${id}`, { withCredentials: true })
-    //     ).data as ISong;
-    //     setSong(getSongInfo);
-
-    //     const getAlbumSongs = (
-    //       await axios.get(`${BASE_URL}/song/albums/${getSongInfo.album.id}`, {
-    //         withCredentials: true,
-    //       })
-    //     ).data as IAlbumSongs;
-    //     setAlbum(getAlbumSongs);
-
-    //     console.log(getSongInfo.language);
-    //     const getTrendingSong = (
-    //       await axios.get(
-    //         `${BASE_URL}/song/trending/${getSongInfo.language}/0/10`,
-    //         { withCredentials: true }
-    //       )
-    //     ).data as ITrendingSong[];
-
-    //     setTrending(getTrendingSong);
-
-    //     console.log(getSongInfo);
-    //     console.log(getAlbumSongs);
-    //     console.log(trending);
-    //   };
-
-
-
     return (
         <div
             className=" cursor-pointer px-4 py-2 rounded-sm dark:hover:bg-accent-foreground   group  flex items-center justify-between "

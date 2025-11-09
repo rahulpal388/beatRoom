@@ -34,8 +34,6 @@ export function NavBar() {
                     <Plus />
                     <span>Create Room</span>
                 </button>
-
-
                 <button className="max-lg:hidden cursor-pointer bg-red-800  px-4 py-1 rounded shadow-xs shadow-green-400   "
                     onClick={() => {
                         router.push("/login")

@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { ArtistPlaylist, artistPlaylist } from "../artistPlaylist";
-import { MusicBanner } from "../musicBanner";
+import { MusicBanner } from "./musicBanner";
 import { SongCards, SongsSection } from "../songCard";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
@@ -52,10 +52,8 @@ export function Music() {
   return (
     <>
       <div className=" flex flex-col gap-4 ">
+        <MusicBanner />
 
-        <div className=" h-[18rem] dark:shadow-2xl   rounded-lg overflow-hidden  ">
-          <MusicBanner />
-        </div>
         <SongsSection heading="Indi Songs">
           {playlist?.indiePlaylist?.map((items, index) => (
             <SongCards id={items.id} title={items.title} artist={items.artist} image={items.image} />

@@ -1,12 +1,14 @@
 "use client";
 import { MusicPlayer } from "@/components/dashboard/music/musicPlayer";
 import { MusicSection } from "@/components/dashboard/music/musicSection";
+import { SearchBar } from "@/components/dashboard/music/SearchBar";
 import { useAuth } from "@/context/authContext";
 import { CurrentSongConttextProvider } from "@/context/currentSong";
 import { QueueProvider } from "@/context/queueContext";
 import { SideBarContextProvider } from "@/context/sidebarContext";
 import {
   Bell,
+  Copy,
   GitPullRequestDraft,
   Handshake,
   HousePlus,
@@ -53,13 +55,27 @@ export default function DashBoardPage() {
             <div >
               <MusicPlayer />
               <div className=" w-screen h-screen ">
-                <div className=" h-12  dark:bg-foreground dark:shadow-2xl w-full flex justify-end items-center gap-4 px-8 ">
-                  <div className=" flex flex-col items-center justify-end ">
-                    <h1 className=" text-sm ">{currentUser?.username}</h1>
-                    <p className=" text-[10px] ">{currentUser?.userId}</p>
+                <div className=" h-12  dark:bg-foreground dark:shadow-2xl w-full flex justify-between items-center gap-4 px-8  ">
+                  <div>
+                    <h1 className=" text-xl  font-extralight italic ">beatRoom</h1>
                   </div>
-                  <div className="font-bold bg-green-700 size-9 rounded-full shadow-2xl flex items-center justify-center ">
-                    {currentUser?.username[0].toLocaleUpperCase()}
+                  <div className=" relative flex items-center gap-4 justify-end   ">
+                    <SearchBar />
+                  </div>
+                  <div className=" flex gap-12 ">
+                    <button className=" cursor-pointer dark:shadow-xl dark:bg-accent-foreground/50 dark:hover:bg-accent-foreground px-2 py-1 rounded text-muted flex gap-2 items-center ">
+                      Invite friends
+                      <Copy size={14} />
+                    </button>
+                    <div className="flex gap-4">
+                      <div className=" flex flex-col items-center justify-end ">
+                        <h1 className=" text-sm ">{currentUser?.username}</h1>
+                        <p className=" text-[10px] ">{currentUser?.userId}</p>
+                      </div>
+                      <div className="font-bold bg-green-700 size-9 rounded-full shadow-2xl flex items-center justify-center ">
+                        {currentUser?.username[0].toLocaleUpperCase()}
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div className="h-[calc(100%-3rem)]  ">

@@ -9,7 +9,7 @@ export function MusicBar() {
         <div className=" flex items-center gap-2 ">
           <Image
             src={
-              "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg"
+              "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg"
             }
             alt="poster"
             height={30}

@@ -4,42 +4,42 @@ import Image from "next/image"
 export const artistPlaylist = [
     {
         "name": "Arijit Singh",
-        "photo": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg",
+        "photo": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg",
         "type": "Playback Singer (Bollywood, Pop)"
     },
     {
         "name": "AP Dhillon",
-        "photo": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg",
+        "photo": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg",
         "type": "Singer, Rapper (Punjabi, Hip-Hop)"
     },
     {
         "name": "Taylor Swift",
-        "photo": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg",
+        "photo": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg",
         "type": "Singer-Songwriter (Pop, Country)"
     },
     {
         "name": "Drake",
-        "photo": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg",
+        "photo": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg",
         "type": "Rapper, Singer (Hip-Hop, R&B)"
     },
     {
         "name": "Shreya Ghoshal",
-        "photo": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg",
+        "photo": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg",
         "type": "Playback Singer (Bollywood, Classical, Pop)"
     },
     {
         "name": "Eminem",
-        "photo": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg",
+        "photo": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg",
         "type": "Rapper (Hip-Hop, Rap)"
     },
     {
         "name": "BTS",
-        "photo": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg",
+        "photo": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg",
         "type": "Boy Band (K-Pop)"
     },
     {
         "name": "Adele",
-        "photo": "https://lastfm.freetls.fastly.net/i/u/ar0/4583932b753c96d0d2f22fe9774e5ef3.jpg",
+        "photo": "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg",
         "type": "Singer-Songwriter (Soul, Pop)"
     },
     // {

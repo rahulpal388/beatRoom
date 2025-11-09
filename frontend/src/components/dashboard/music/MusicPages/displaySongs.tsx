@@ -1,9 +1,12 @@
+
 import { Music } from "./music";
 
 
 
 export function DisplaySongs() {
     return (
-        <Music />
+        <div className=" px-4 ">
+            <Music />
+        </div>
     )
 }

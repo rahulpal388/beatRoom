@@ -1,10 +1,10 @@
-import { TrendingType } from "../../zodTypes/songs/trending";
-import httpAgentAndTimeOut from "../../utils/httpAgent";
 import axios from "axios";
 import { Request, Response } from "express";
+import { paginationType } from "../../zodTypes/paginatipType";
+import z from "zod";
 
 
-type ITrendingSong = {
+export type ISong = {
     id: string,
     title: string,
     subtitle: string,
@@ -18,7 +18,7 @@ type ITrendingSong = {
         album_url: string,
         duration: string,
         artistMap: {
-            primary_artists: {
+            artists: {
                 id: string,
                 name: string,
                 image: string,
@@ -33,25 +33,23 @@ type ITrendingSong = {
 
 
 
+
 const getTrendingSong = async (req: Request, res: Response) => {
 
 
-    const { success, data } = TrendingType.safeParse(req.query);
+    const { success, data } = paginationType.and(z.object({ language: z.string() })).safeParse(req.query);
 
     if (!success) {
         res.status(200).json([]);
         return;
     }
 
-    // console.log(data);
-
     try {
 
-        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=${data.type}&entity_language=${data.language}`);
-        const trending = response.data as ITrendingSong[];
-        console.log(trending)
+        const response = await axios.get(`https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=${data.language}`);
+        const trending = response.data as ISong[];
         const sliceTrending = trending.slice(Number(data.page) * Number(data.limit), (Number(data.page) + 1) * Number(data.limit));
-        const result: ITrendingSong[] = sliceTrending.map(item => {
+        const result: ISong[] = sliceTrending.map(item => {
             return {
                 id: item.id,
                 title: item.title,
@@ -66,14 +64,14 @@ const getTrendingSong = async (req: Request, res: Response) => {
                     album_url: item.more_info.album_url,
                     duration: item.more_info.duration,
                     artistMap: {
-                        primary_artists: item.more_info.artistMap.primary_artists.map(artist => {
+                        artists: item.more_info.artistMap.artists.map(x => {
                             return {
-                                id: artist.id,
-                                name: artist.name,
-                                image: artist.image,
-                                perm_url: artist.perm_url,
-                                role: artist.role,
-                                type: artist.type
+                                id: x.id,
+                                name: x.name,
+                                image: x.image,
+                                perm_url: x.perm_url,
+                                role: x.role,
+                                type: x.type
                             }
                         })
                     },

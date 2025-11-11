@@ -10,7 +10,9 @@ type ITopArtist = {
 };
 
 const getTopArtits = async (req: Request, res: Response) => {
-  const { success, data } = paginationType.safeParse(req.query);
+  const { success, data } = paginationType
+    .omit({ page: true })
+    .safeParse(req.query);
 
   if (!success) {
     res.status(200).json([]);
@@ -26,14 +28,16 @@ const getTopArtits = async (req: Request, res: Response) => {
 
     const topArtists = response.top_artists as ITopArtist[];
 
-    const result: ITopArtist[] = topArtists.map((items) => {
-      return {
-        artistid: items.artistid,
-        name: items.artistid,
-        image: items.image,
-        perma_url: items.perma_url,
-      };
-    });
+    const result: ITopArtist[] = topArtists
+      .slice(0, Number(data.limit))
+      .map((items) => {
+        return {
+          artistid: items.artistid,
+          name: items.name,
+          image: items.image,
+          perma_url: items.perma_url,
+        };
+      });
 
     res.status(200).json(result);
   } catch (error) {

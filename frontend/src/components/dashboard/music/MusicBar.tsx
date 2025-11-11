@@ -4,7 +4,7 @@ import Image from "next/image";
 export function MusicBar() {
   return (
     <>
-      <div className="fixed  bottom-0 flex items-center  sm:gap-18 gap-6  z-50 py-2 px-8 w-full dark:bg-accent-foreground shadow-2xl rounded  xl:hidden ">
+      <div className=" h-16 fixed  bottom-0 flex items-center  sm:gap-18 gap-6  z-50 py-2 px-8 w-full dark:bg-bar shadow-2xl rounded  ">
         {/* small screen current player */}
         <div className=" flex items-center gap-2 ">
           <Image
@@ -12,9 +12,9 @@ export function MusicBar() {
               "https://c.saavncdn.com/740/De-De-Pyaar-De-2-Hindi-2025-20251107141020-500x500.jpg"
             }
             alt="poster"
-            height={30}
-            width={30}
-            className=" h-full w-16 rounded "
+            height={50}
+            width={50}
+            className="  rounded "
           />
           <div>
             <h1 className=" text-lg ">Beliver</h1>

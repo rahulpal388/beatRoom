@@ -1,7 +1,6 @@
 "use client";
 import { useCurrentSongDetail } from "@/context/currentSong";
 import { formateTime, formateTimePading } from "@/lib/formateTime";
-import { Button } from "@/ui/button";
 import {
   SkipBack,
   SkipForward,
@@ -9,16 +8,15 @@ import {
   Heart,
   ListMusic,
   Maximize2,
-  Ellipsis,
   Minimize2,
   Pause,
 } from "lucide-react";
 import { AnimatePresence, motion, Reorder } from "motion/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { QueueCards } from "./queueCard";
+import { useState } from "react";
 import { decodeHTML } from "@/lib/decodeHtml";
-import { useQueue } from "@/context/queueContext";
+import { QueueSongs } from "./queueSongs";
+import { MusicBarPopover } from "./musicBarPopover";
 
 export function MusicBar() {
   const { currentSong, isPlaying, setIsPlaying, progressValue, playerRef } =
@@ -63,7 +61,7 @@ export function MusicBar() {
                 delayChildren: 0.1,
                 ease: "easeInOut",
               }}
-              className=" absolute bottom-18 z-50 bg-bar w-full h-full  flex max-sm:flex-col items-center sm:justify-between md:px-36  px-4 md:gap-12 gap-4 pt-20 overflow-hidden  "
+              className=" absolute bottom-18 z-50 bg-bar w-full h-full  flex max-sm:flex-col max-sm:pb-20 items-center sm:justify-between lg:px-36  px-4 md:gap-12 gap-4 pt-20 overflow-y-auto   "
             >
               <motion.div
                 variants={child}
@@ -87,8 +85,11 @@ export function MusicBar() {
                   </p>
                 </div>
               </motion.div>
-              <motion.div variants={child} className=" w-[28rem] bg-red-600 ">
-                <h1>Queue Songs</h1>
+              <motion.div
+                variants={child}
+                className=" w-[28rem] border border-neutral-600 rounded-2xl px-4 py-2 shadow-xl bg-card  "
+              >
+                <QueueSongs />
               </motion.div>
             </motion.div>
           )}
@@ -185,7 +186,7 @@ export function MusicBar() {
               </p>
               <Heart size={30} className=" stroke-1 max-md:hidden " />
               <ViewQueueSongs />
-              <Options />
+              <MusicBarPopover />
               {open ? (
                 <Minimize2
                   size={30}
@@ -213,8 +214,6 @@ export function MusicBar() {
 
 function ViewQueueSongs() {
   const [queueOpen, setQueueOpen] = useState<boolean>(false);
-  const { queueSongs, setQueueSongs, currentIdx } = useQueue();
-  const { currentSong } = useCurrentSongDetail();
 
   return (
     <>
@@ -252,47 +251,7 @@ function ViewQueueSongs() {
                   ease: "easeInOut",
                 }}
               >
-                <div className=" flex items-center justify-between px-4 py-2 ">
-                  <div>
-                    <h1 className=" text-2xl   ">Queue</h1>
-                  </div>
-                  <div className=" flex items-center gap-4  ">
-                    <Button type="button" name="Save" btnType="Primary" />
-                    <Button type="button" name="Cancel" btnType="Secondary" />
-                  </div>
-                </div>
-                {currentSong && (
-                  <QueueCards
-                    name={currentSong.title}
-                    key={currentSong.id}
-                    artist={currentSong.more_info.artistMap.artists
-                      .map((x) => x.name)
-                      .join(", ")}
-                    image={currentSong.image}
-                  />
-                )}
-                <div>
-                  <Reorder.Group
-                    axis="y"
-                    values={queueSongs}
-                    onReorder={setQueueSongs}
-                    className=" overflow-y-auto h-[20rem]   flex flex-col gap-4 py-2 "
-                  >
-                    {queueSongs
-                      .filter((x) => x.id != currentSong.id)
-                      .map((song) => (
-                        <Reorder.Item key={song.id} value={song}>
-                          <QueueCards
-                            name={song.title}
-                            artist={song.more_info.artistMap.artists
-                              .map((x) => x.name)
-                              .join(", ")}
-                            image={song.image}
-                          />
-                        </Reorder.Item>
-                      ))}
-                  </Reorder.Group>
-                </div>
+                <QueueSongs />
               </motion.div>
             </motion.div>
           )}
@@ -302,26 +261,6 @@ function ViewQueueSongs() {
           className=" stroke-1 max-md:hidden cursor-pointer "
           onClick={() => {
             setQueueOpen(!queueOpen);
-          }}
-        />
-      </div>
-    </>
-  );
-}
-function Options() {
-  const [optionOpen, setOptionOpen] = useState<boolean>(false);
-  return (
-    <>
-      <div>
-        {optionOpen && (
-          <div className=" h-[24rem] w-[10rem] bg-bar  fixed   bottom-30 lg:bottom-18 right-4 lg:right-[2rem] max-md:hidden "></div>
-        )}
-
-        <Ellipsis
-          size={30}
-          className=" stroke-1 max-md:hidden cursor-pointer "
-          onClick={() => {
-            setOptionOpen((prev) => (prev = !prev));
           }}
         />
       </div>

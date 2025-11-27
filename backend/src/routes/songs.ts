@@ -1,10 +1,10 @@
-import axios from "axios";
 import { Router } from "express";
 import getTrendingSong from "../controllers/song/getTendingSong";
 import getNewReleasedSong from "../controllers/song/newReleasedSong";
 import { getSongReco } from "../controllers/song/getSongReco";
 import { getSong } from "../controllers/song/getSong";
 import { getSongUrl } from "../controllers/song/getSongUrl";
+import { getSearchReco } from "../controllers/song/getSearchReco";
 
 type TPlaylistSongs = {
   id: string;
@@ -39,36 +39,7 @@ const useSong = Router();
 
 useSong.post("/play", getSongUrl);
 
-useSong.get("/search", async (req, res) => {
-  const { query } = req.query;
-  try {
-    const response = await axios.get(
-      `http://127.0.0.1:5100/song/?query=${encodeURIComponent(query as string)}`
-    );
-
-    const suggestion = response.data as TSearchSuggestion[];
-
-    const suggestionResult = suggestion.map((x) => {
-      return {
-        id: x.id,
-        title: x.song,
-        image: { quality: "320px", url: x.image },
-        album: x.album_url,
-        artist: x.singers,
-        type: x.type,
-        language: x.language,
-      };
-    });
-    console.log(suggestionResult);
-    res.status(200).json({
-      results: suggestionResult,
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "server error",
-    });
-  }
-});
+useSong.get("/search", getSearchReco);
 
 // to get the trending song based on the language => use limit query
 useSong.get("/trendingSong", getTrendingSong);

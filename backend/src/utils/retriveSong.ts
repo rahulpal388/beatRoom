@@ -8,7 +8,7 @@ export const retriveSong = (songs: ISong[]): ISong[] => {
       subtitle: item.subtitle,
       type: item.type,
       perma_url: item.perma_url,
-      image: item.image,
+      image: item.image.replace("150x150", "500x500"),
       language: item.language,
       more_info: {
         album_id: item.more_info.album_id,

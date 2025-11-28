@@ -12,15 +12,66 @@
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
   --breakpoint-2xl: 1536px;
+
+
+  /* Background */
+  --color-bg: oklch(16% 0.02 262);
+  --color-bg-soft: oklch(22% 0.03 262);
+  --color-bg-hover: oklch(28% 0.04 262);
+
+
+/* fonts */
+ --font-heading:var(--font-poppins);
+ --font-body:var(--font-inter);
+
+
+  /* Cards */
+  --color-card: oklch(20% 0.02 262);
+  --color-card-hover: oklch(28% 0.03 262);
+  --color-card-border: oklch(28% 0.01 262);
+
+  /* Text */
+  --color-text-heading: oklch(92% 0.01 260);
+  --color-text-body: oklch(80% 0.015 260);
+  --color-text-muted: oklch(68% 0.01 260);
+
+  /* Accent / Primary */
+  --color-primary: oklch(71% 0.14 235);
+  --color-primary-hover: oklch(66% 0.14 235);
+  --color-primary-subtle: oklch(34% 0.08 235);
+
+  /* Secondary Accent */
+  --color-secondary: oklch(72% 0.16 45);
+
+  /* Shadows */
+  --shadow-soft: 0 4px 10px oklch(0% 0 0 / 0.4);
+  --shadow-strong: 0 8px 20px oklch(0% 0 0 / 0.6);
+
+  /* Success / Danger */
+  --color-success: oklch(75% 0.14 145);
+  --color-danger: oklch(65% 0.18 25);
 }
 
+
+
+
+
+
+
+
+
+
+
+/* 
 :root {
-  --background: oklch(0.9911 0 0);
-  --foreground: #0B0E16;
+  --foreground:oklch(97.30% 0.007 268.55);
+  --background: #0b0e16;
   --secondary-foreground:#FAFBFD;
   --bar:#1D202B;
-  --card:#181B21;
+  --bar:#293551;
+  --card:oklch(35.48% 0.061 251.99 / 0.15);
   --muted:#C1C3C7;
+
   --shadow-2xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
   --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
   --shadow-sm: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
@@ -29,12 +80,13 @@
   --shadow-lg: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 4px 6px -1px hsl(0 0% 0% / 0.17);
   --shadow-xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 8px 10px -1px hsl(0 0% 0% / 0.17);
   --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
+
+  --background :oklch(16% 0.02 262);
+  --card:oklch(22% 0.03 262);
+
 }
 
-.dark {
-  --background:var(--foreground);
-  --foreground:var(--background);
-}
+ 
 
 @theme inline {
   --color-background: var(--background);
@@ -44,6 +96,7 @@
   --color-secondary-foreground: var(--secondary-foreground);
   --color-muted:var(--muted);
 
+
   --shadow-2xs: var(--shadow-2xs);
   --shadow-xs: var(--shadow-xs);
   --shadow-sm: var(--shadow-sm);
@@ -52,7 +105,7 @@
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-2xl: var(--shadow-2xl);
-}
+} */
 
 
 body {

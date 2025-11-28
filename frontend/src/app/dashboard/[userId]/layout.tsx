@@ -27,7 +27,7 @@ export default function Layouts({ children }: { children: React.ReactNode }) {
               <PopoverContextProvider>
                 <MusicPlayer />
                 <div className=" h-screen  flex flex-col    ">
-                  <div className="  h-12 border-b-[0.5px] border-muted/20  dark:shadow-2xl  flex justify-between items-center gap-4 px-8  ">
+                  <div className=" bg-card h-14 border-b-[0.5px] border-text-muted/20  shadow-soft  flex justify-between items-center gap-4 px-8  ">
                     <div>
                       <Link
                         href={`/dashboard/${userId}`}
@@ -40,7 +40,7 @@ export default function Layouts({ children }: { children: React.ReactNode }) {
                       <SearchBar />
                     </div>
                     <div className=" flex gap-12  ">
-                      <button className="max-md:hidden cursor-pointer dark:shadow-xl dark:bg-card px-2 py-1 rounded text-muted flex gap-2 items-center ">
+                      <button className="max-md:hidden cursor-pointer shadow-soft  px-2 py-1 rounded text-text-body hover:bg-card-hover flex gap-2 items-center border-[0.5px] border-card-border ">
                         Invite friends
                         <Copy size={14} />
                       </button>

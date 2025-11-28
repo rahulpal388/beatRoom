@@ -6,7 +6,7 @@ import { BASE_URL } from "@/lib/baseUrl";
 import { INewRelease, ISong } from "@/types/songType";
 import { ITopArtist } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
-import { ArtistCard } from "./artistCard";
+import { ArtistCard, ArtistCardContaier } from "./artistCard";
 import { CardSkeleton, MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 
@@ -39,7 +39,7 @@ export function Music() {
 
   return (
     <>
-      <div className=" flex flex-col gap-4  w-full   ">
+      <div className=" flex flex-col gap-4  w-full lg:pb-20 pb-32   ">
         {newReleased.length > 0 && (
           <MusicBanner song={newReleased.slice(0, 5)} />
         )}
@@ -55,7 +55,11 @@ export function Music() {
                   id={items.id}
                   song_url={items.type === "song" ? items.perma_url : ""}
                   type={items.type}
-                  album_url={items.type === "album" ? items.perma_url : ""}
+                  album_url={
+                    items.type === "song"
+                      ? items.more_info.album_url!
+                      : items.perma_url
+                  }
                   title={items.title}
                   artist={items.more_info.artistMap.artists
                     .map((x) => x.name)
@@ -97,14 +101,14 @@ export function Music() {
                 album_url=""
                 type={items.type}
                 title={items.title}
-                artist={""}
+                artist={items.subtitle}
                 image={items.image}
               />
             ))
           )}
         </SongsSection>
         <SongsSection heading="Top Artists">
-          <div className=" mt-2 w-full grid lg:grid-cols-2 grid-cols-1  items-center gap-6 justify-between ">
+          <ArtistCardContaier>
             {topArtist.length === 0 ? (
               <MoreArtistCardSkeleton count={6} />
             ) : (
@@ -118,7 +122,7 @@ export function Music() {
                 />
               ))
             )}
-          </div>
+          </ArtistCardContaier>
         </SongsSection>
       </div>
     </>

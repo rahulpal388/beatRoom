@@ -34,13 +34,13 @@ export function SearchBar() {
   const onSearchInputChange = Debounce(searchSuggestionFn, 1000);
 
   return (
-    <div className="  overflow-hidden flex gap-2 justify-center items-center bg-accent-foreground ">
-      <div className=" bg-bar rounded-sm flex items-center border-[1px] border-neutral-100/20 ">
+    <div className="  overflow-hidden flex gap-2 justify-center items-center  ">
+      <div className=" bg-bar h-10 rounded-3xl flex items-center border-[1px] border-card-border overflow-hidden ">
         <input
           type="text"
           id="search"
           placeholder="Search songs....."
-          className="peer w-[24rem]  outline-none shadow-2xl px-2 h-8 "
+          className="peer w-[24rem] h-full  outline-none shadow-2xl px-4 "
           autoComplete="off"
           onChange={(e) => {
             if (e.currentTarget.value) {
@@ -54,7 +54,9 @@ export function SearchBar() {
             setOpen(false);
           }}
         />
-        <Search className=" w-12 cursor-pointer " />
+        <div className=" bg-card-hover h-full w-14 flex items-center justify-center cursor-pointer ">
+          <Search size={30} />
+        </div>
       </div>
       <AnimatePresence>
         {searchSuggestion && open && (

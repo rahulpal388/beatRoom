@@ -42,16 +42,18 @@ const sideBarLibraryItems: {
 export function SideBar() {
   const { userId } = useParams();
   return (
-    <div className=" max-lg:hidden dark:bg-card h-full w-[12rem] ">
+    <div className=" max-lg:hidden border-r-[1px] border-card-border bg-card h-full w-[12rem] ">
       <div className=" flex flex-col  px-10  mt-12  ">
         <div>
-          <h1 className=" text-lg opacity-60 ">Browse Music</h1>
+          <h1 className=" text-lg text-text-muted font-heading ">
+            Browse Music
+          </h1>
           <div className=" mt-4 flex flex-col gap-2 ">
             {sideBarBrowseItems.map((items, idx) => (
               <div key={idx}>
                 <Link
                   href={`/dashboard/${userId}/${items.href}`}
-                  className=" hover:text-neutral-400 "
+                  className=" text-text-heading hover:text-text-body "
                 >
                   {items.heading}
                 </Link>
@@ -60,13 +62,13 @@ export function SideBar() {
           </div>
         </div>
         <div className=" mt-12 ">
-          <h1 className=" text-lg opacity-60 ">My Library</h1>
+          <h1 className=" text-lg font-heading text-text-muted ">My Library</h1>
           <div className=" mt-4 flex flex-col gap-2 ">
             {sideBarLibraryItems.map((items, idx) => (
               <div key={idx}>
                 <Link
                   href={`/dashboard/${userId}/${items.href}`}
-                  className=" hover:text-neutral-400  flex items-center  gap-2 "
+                  className="text-text-heading hover:text-text-body  flex items-center  gap-2 "
                 >
                   {items.icon} {items.heading}
                 </Link>

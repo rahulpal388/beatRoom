@@ -5,6 +5,7 @@ import Image from "next/image";
 export function MusicBanner({ song }: { song: INewRelease[] }) {
   console.log(song);
   const songLength = song.length;
+  console.log(song[0].image);
   return (
     <>
       <div className=" relative flex h-[20rem] items-center justify-center  md:mt-8 w-full ">
@@ -79,8 +80,8 @@ function BannerImages({
       <Image
         src={image}
         alt="banner"
-        height={100}
-        width={100}
+        height={300}
+        width={300}
         className=" w-full h-full   "
       />
       {info && (

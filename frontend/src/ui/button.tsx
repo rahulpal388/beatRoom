@@ -8,7 +8,7 @@ interface IButton {
 }
 
 const buttonStyle: IButton = {
-  Primary: " bg-green-800  px-4 py-1 rounded shadow-xs shadow-green-400 ",
+  Primary: " bg-primary  px-4 py-1 rounded shadow-xs  ",
   Secondary:
     " flex items-center gap-2 justify-center border-[1px] border-secondary-btn-border text-secondary-btn-text  bg-secondary-btn-background px-4 py-1 rounded",
 };

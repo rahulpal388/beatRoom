@@ -55,6 +55,8 @@ export default function Songs() {
         <ShowSongDetails
           image={song.image}
           title={song.title}
+          song_url={song.perma_url}
+          album_url={song.more_info.album_url}
           subtitle={`${
             song.more_info.album
           } by ${song.more_info.artistMap.artists
@@ -66,13 +68,16 @@ export default function Songs() {
         />
       )}
 
-      <div className=" mt-8 flex flex-col gap-4 ">
+      <div className=" mt-8 flex flex-col gap-4  ">
         {album && (
-          <div className=" flex flex-col gap-4 px-12 mb-4 ">
-            <h1 className=" font-bold text-2xl ">More from {album?.title}</h1>
+          <div className=" flex flex-col gap-4 md:px-12 mb-4 ">
+            <h1 className=" font-bold text-2xl line-clamp-1 max-w-[30rem] ">
+              More from {album?.title}
+            </h1>
             {album?.list.map((item, index) => (
               <SongHorizontalCard
                 key={index}
+                type={item.type}
                 song_url={item.perma_url}
                 album_url={item.more_info.album_url}
                 serialNumber={index + 1}

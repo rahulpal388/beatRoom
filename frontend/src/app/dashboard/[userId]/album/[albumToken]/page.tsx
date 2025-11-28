@@ -46,6 +46,8 @@ export default function AlbumPage() {
           <ShowSongDetails
             image={album.image}
             title={album.title}
+            album_url={album.perma_url}
+            song_url=""
             subtitle={album.subtitle}
             language={album.language}
             type={album.type}
@@ -55,12 +57,15 @@ export default function AlbumPage() {
           />
         )}
       </div>
-      <div className="mt-8 px-12  ">
-        <h1 className="text-xl font-semibold  ">Songs From {album?.title}</h1>
+      <div className="mt-8 md:px-12  ">
+        <h1 className="text-xl font-semibold line-clamp-1 max-w-[30rem]  ">
+          Songs From {album?.title}
+        </h1>
         <div className="mt-4 flex flex-col gap-2 ">
           {album?.list.map((items, index) => (
             <SongHorizontalCard
               key={index}
+              type={items.type}
               serialNumber={index + 1}
               id={items.id}
               title={items.title}

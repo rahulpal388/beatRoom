@@ -1,6 +1,9 @@
 "use client";
 
-import { ArtistCard } from "@/components/dashboard/music/artistCard";
+import {
+  ArtistCard,
+  ArtistCardContaier,
+} from "@/components/dashboard/music/artistCard";
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
@@ -44,12 +47,14 @@ export default function PlaylistPage() {
   }, []);
 
   return (
-    <div className=" pb-18 px-4 ">
+    <div className=" pb-18 md:px-4 px-px ">
       <div>
         {playlist && (
           <ShowSongDetails
             image={playlist.image}
             title={playlist.title}
+            song_url={playlist.perma_url}
+            album_url=""
             subtitle={playlist.subtitle}
             language={playlist.language}
             type={playlist.type}
@@ -59,8 +64,8 @@ export default function PlaylistPage() {
           />
         )}
       </div>
-      <div className="mt-8 px-12  ">
-        <h1 className="text-xl font-semibold  ">
+      <div className="mt-8 md:px-12 px-4 ">
+        <h1 className="text-xl font-semibold line-clamp-1 max-w-[30rem]  ">
           Songs From {playlist?.title}
         </h1>
         <div className="mt-4 flex flex-col gap-2 ">
@@ -69,6 +74,7 @@ export default function PlaylistPage() {
               key={index}
               serialNumber={index + 1}
               id={items.id}
+              type={items.type}
               title={items.title}
               image={items.image}
               duration={items.more_info.duration}
@@ -120,7 +126,7 @@ export default function PlaylistPage() {
         </SongsSection>
 
         <SongsSection heading="Artists">
-          <div className=" grid grid-cols-2 w-full gap-8 ">
+          <ArtistCardContaier>
             {!playlist ? (
               <MoreArtistCardSkeleton count={6} />
             ) : (
@@ -134,7 +140,7 @@ export default function PlaylistPage() {
                 />
               ))
             )}
-          </div>
+          </ArtistCardContaier>
         </SongsSection>
       </div>
     </div>

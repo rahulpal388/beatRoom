@@ -9,6 +9,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { ISearchReco } from "@/types/searchedSongType";
 import Link from "next/link";
+import { useParams } from "next/navigation";
 
 export function SearchBar() {
   const [searchSuggestion, setSearchSuggestion] = useState<ISearchReco | null>(
@@ -82,7 +83,10 @@ export function SearchBar() {
             }}
             className={`  ${
               open ? "block" : " hidden"
-            } h-[20rem]  max-h-[30rem] absolute top-10 -left-32 z-50 w-[50rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
+            }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
+            onFocus={() => {
+              setOpen(true);
+            }}
           >
             <div>
               <h1 className=" text-lg ">Songs</h1>
@@ -156,11 +160,12 @@ function SearchedItems({
   url: string;
   album: string;
 }) {
+  const { userId } = useParams();
   const token = url.split("/").at(-1);
 
   return (
     <div
-      className="  px-4 py-2 rounded-sm dark:hover:bg-accent-foreground   group  flex items-center justify-between  gap-4 hover:bg-bar overflow-hidden "
+      className="  px-2 py-2 rounded-sm hover:bg-card-hover   group  flex items-center   gap-4 hover:bg-bar overflow-hidden "
       // onMouseDown={() => onSearchSong(item.id)}
     >
       <div>
@@ -177,188 +182,20 @@ function SearchedItems({
         )}
       </div>
       <div>
-        <Link href={``} className="text-lg truncate w-[10rem] ">
+        <Link
+          href={`${
+            type === "song"
+              ? `/dashboard/${userId}/${type}/${token}/search`
+              : `/dashboard/${userId}/${type}/${token}`
+          }`}
+          className="text-lg line-clamp-1 w-[12rem] "
+        >
           {decodeHTML(title)}
         </Link>
-        <p className=" text-xs dark:group-hover:text-neutral-500 dark:text-neutral-400 truncate w-[10rem] ">
+        <p className=" text-xs dark:group-hover:text-neutral-500 dark:text-neutral-400 line-clamp-1 w-[12rem] ">
           {decodeHTML(description)}
         </p>
       </div>
     </div>
   );
 }
-
-const tempSearchSongs = {
-  albums: {
-    data: [
-      {
-        id: "28523248",
-        title: "Barsaat Ki Dhun",
-        image:
-          "https://c.saavncdn.com/600/Barsaat-Ki-Dhun-Hindi-2021-20210720121009-50x50.jpg",
-        music: "Rochak Kohli, Jubin Nautiyal, Anu Malik",
-        url: "https://www.jiosaavn.com/album/barsaat-ki-dhun/uTF-cH4d2Bg_",
-        type: "album",
-        description:
-          "2021 · Hindi Album · Rochak Kohli, Jubin Nautiyal, Anu Malik",
-      },
-      {
-        id: "48999932",
-        title: "Dhundhala",
-        image:
-          "https://c.saavncdn.com/965/Dhundhala-Hindi-2023-20231014132506-50x50.jpg",
-        music: "Yashraj, Dropped Out, Talwiinder",
-        url: "https://www.jiosaavn.com/album/dhundhala/EgyqwFbmMrI_",
-        type: "album",
-        description: "2023 · Hindi Album · Yashraj, Dropped Out, Talwiinder",
-      },
-      {
-        id: "25240135",
-        title: "Main Jis Din Bhulaa Du",
-        image:
-          "https://c.saavncdn.com/947/Main-Jis-Din-Bhulaa-Du-Hindi-2021-20210210191001-50x50.jpg",
-        music: "Jubin Nautiyal, Tulsi Kumar, Rochak Kohli, M. Ashraf",
-        url: "https://www.jiosaavn.com/album/main-jis-din-bhulaa-du/CNEZQaYeFa0_",
-        type: "album",
-        description:
-          "2021 · Hindi Album · Jubin Nautiyal, Tulsi Kumar, Rochak Kohli, M. Ashraf",
-      },
-      {
-        id: "1463183",
-        title: "Naanum Rowdy Dhaan",
-        image:
-          "https://c.saavncdn.com/139/Naanum-Rowdy-Dhaan-Tamil-2015-50x50.jpg",
-        music: "Anirudh Ravichander",
-        url: "https://www.jiosaavn.com/album/naanum-rowdy-dhaan/Q2Fqtq0IJKM_",
-        type: "album",
-        description: "2015 · Tamil Film · Anirudh Ravichander",
-      },
-      {
-        id: "34618556",
-        title: "Dhun",
-        image:
-          "https://c.saavncdn.com/321/Dhun-Hindi-2022-20231012102053-50x50.jpg",
-        music: "Dream Note",
-        url: "https://www.jiosaavn.com/album/dhun/12lSAY5-Sl4_",
-        type: "album",
-        description: "2022 · Hindi Album · Dream Note",
-      },
-    ],
-  },
-  songs: {
-    data: [
-      {
-        id: "K8GXHF5k",
-        title: "Dhun",
-        image:
-          "https://c.saavncdn.com/598/Saiyaara-Hindi-2025-20250703061754-50x50.jpg",
-        album: "Saiyaara",
-        url: "https://www.jiosaavn.com/song/dhun/O1AsaTx2Alg",
-        type: "song",
-        description: "Saiyaara · Mithoon, Arijit Singh",
-        more_info: {
-          primary_artists: "Mithoon, Arijit Singh",
-          language: "hindi",
-        },
-      },
-      {
-        id: "bfG8irJT",
-        title: "Dhun",
-        image:
-          "https://c.saavncdn.com/141/Saiyaara-Extended-Album-Hindi-2025-20250909145935-50x50.jpg",
-        album: "Saiyaara (Extended Album)",
-        url: "https://www.jiosaavn.com/song/dhun/Eg4sCR1CfWc",
-        type: "song",
-        description: "Saiyaara (Extended Album) · Mithoon, Arijit Singh",
-        more_info: {
-          primary_artists: "Mithoon, Arijit Singh",
-          language: "hindi",
-        },
-      },
-      {
-        id: "U9amhr5-",
-        title: "Dhundhala",
-        image:
-          "https://c.saavncdn.com/965/Dhundhala-Hindi-2023-20231014132506-50x50.jpg",
-        album: "Dhundhala",
-        url: "https://www.jiosaavn.com/song/dhundhala/JVEKXBxCAh4",
-        type: "song",
-        description: "Dhundhala · Yashraj, Dropped Out, Talwiinder",
-        more_info: {
-          primary_artists: "Yashraj, Dropped Out, Talwiinder",
-          language: "hindi",
-        },
-      },
-      {
-        id: "kFX-e06P",
-        title: "Dhun (From &quot;Saiyaara&quot;)",
-        image:
-          "https://c.saavncdn.com/307/Dhun-From-Saiyaara-Hindi-2025-20250630103138-50x50.jpg",
-        album: "Dhun (From &quot;Saiyaara&quot;)",
-        url: "https://www.jiosaavn.com/song/dhun-from-saiyaara/Gy4zHBEAAWM",
-        type: "song",
-        description: "Dhun (From &quot;Saiyaara&quot;) · Mithoon, Arijit Singh",
-        more_info: {
-          primary_artists: "Mithoon, Arijit Singh",
-          language: "hindi",
-        },
-      },
-      {
-        id: "G9e-2ovU",
-        title: "Barsaat Ki Dhun",
-        image:
-          "https://c.saavncdn.com/600/Barsaat-Ki-Dhun-Hindi-2021-20210720121009-50x50.jpg",
-        album: "Barsaat Ki Dhun",
-        url: "https://www.jiosaavn.com/song/barsaat-ki-dhun/N1EOHEZfQWY",
-        type: "song",
-        description:
-          "Barsaat Ki Dhun · Rochak Kohli, Jubin Nautiyal, Anu Malik",
-        more_info: {
-          primary_artists: "Rochak Kohli, Jubin Nautiyal, Anu Malik",
-          language: "hindi",
-        },
-      },
-    ],
-  },
-  topquery: {
-    data: [
-      {
-        id: "K8GXHF5k",
-        title: "Dhun",
-        image:
-          "https://c.saavncdn.com/598/Saiyaara-Hindi-2025-20250703061754-50x50.jpg",
-        album: "Saiyaara",
-        url: "https://www.jiosaavn.com/song/dhun/O1AsaTx2Alg",
-        type: "song",
-        description: "Song by Mithoon and Arijit Singh",
-        more_info: {
-          primary_artists: "Mithoon, Arijit Singh",
-          language: "hindi",
-        },
-      },
-    ],
-  },
-  artists: {
-    data: [
-      {
-        id: "702592",
-        name: "Mithoon",
-        image:
-          "https://c.saavncdn.com/artists/Mithoon_002_20200908073735_150x150.jpg",
-        perma_url: "https://www.jiosaavn.com/artist/mithoon-songs/nQKQiNRsTKs_",
-        role: "lyricist",
-        type: "artist",
-      },
-      {
-        id: "459320",
-        name: "Arijit Singh",
-        image:
-          "https://c.saavncdn.com/artists/Arijit_Singh_004_20241118063717_150x150.jpg",
-        perma_url:
-          "https://www.jiosaavn.com/artist/arijit-singh-songs/LlRWpHzy3Hk_",
-        role: "singer",
-        type: "artist",
-      },
-    ],
-  },
-};

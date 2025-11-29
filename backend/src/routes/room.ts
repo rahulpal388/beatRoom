@@ -1,7 +1,7 @@
-import createRoom from "../controllers/createRoom";
+import createRoom from "../controllers/createRoom.js";
 import { Router } from "express";
-import verifyToken from "../middleware/verifyToken";
-import { getRooms } from "../controllers/getRooms";
+import verifyToken from "../middleware/verifyToken.js";
+import { getRooms } from "../controllers/getRooms.js";
 
 
 

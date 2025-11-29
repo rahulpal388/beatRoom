@@ -29,3 +29,41 @@ model Otp {
   createdAt DateTime
   expireAt  DateTime
 }
+
+
+// model Artists {
+//   id          String @id @default(uuid())
+//   artist_id   String
+//   name        String
+//   image       String
+//   perma_url   String
+//   role        String
+//   type        String 
+//   songId      String
+//   song        Songs @relation(fields:["songId"],reference:["id"])
+// }
+
+
+// model Songs {
+//   id              String @id @default(uuid())
+//   song_id         String 
+//   title           String
+//   subtitle        String
+//   type            String
+//   perma_url       String
+//   image           String
+//   language        String
+//   more_info       {
+//       album_id            String
+//       album               String
+//       album_url           String
+//       duration            String
+//       encrypted_media_url String
+//       release_data        String
+//       artistMap{
+//           artists Artists[] 
+//       }
+
+//   }
+// }
+

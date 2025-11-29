@@ -1,6 +1,6 @@
 
 
-import { EMAIL, EMAIL_PASS } from "../config/config";
+import { EMAIL, EMAIL_PASS } from "../config/config.js";
 import nodemailer from "nodemailer";
 
 

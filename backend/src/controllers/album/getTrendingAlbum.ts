@@ -1,8 +1,8 @@
-import { paginationType } from "../../zodTypes/paginatipType";
+import { paginationType } from "../../zodTypes/paginatipType.js";
 import axios from "axios";
 import { Request, Response } from "express";
 import z from "zod";
-import { IAlbums } from "./getAlbumReco";
+import { IAlbums } from "./getAlbumReco.js";
 
 export const getTrendingAlbum = async (req: Request, res: Response) => {
   const { success, data } = paginationType

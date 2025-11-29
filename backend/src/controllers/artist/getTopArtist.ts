@@ -1,5 +1,5 @@
 import axios from "axios";
-import { paginationType } from "../../zodTypes/paginatipType";
+import { paginationType } from "../../zodTypes/paginatipType.js";
 import { Request, Response } from "express";
 
 type ITopArtist = {

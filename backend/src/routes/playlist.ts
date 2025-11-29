@@ -1,8 +1,8 @@
-import { getTrendingPlaylist } from "../controllers/playlist/getTrendingPlaylist";
-import getTopPlaylist from "../controllers/playlist/getTopPlaylist";
+import { getTrendingPlaylist } from "../controllers/playlist/getTrendingPlaylist.js";
+import getTopPlaylist from "../controllers/playlist/getTopPlaylist.js";
 import { Router } from "express";
-import { getSongsPlaylist } from "../controllers/playlist/getSongsPlaylist";
-import { getPlaylistReco } from "../controllers/playlist/getPlaylistReco";
+import { getSongsPlaylist } from "../controllers/playlist/getSongsPlaylist.js";
+import { getPlaylistReco } from "../controllers/playlist/getPlaylistReco.js";
 
 export const usePlaylist = Router();
 

@@ -1,5 +1,5 @@
-import { getArtistInfo } from "../controllers/artist/getArtistInfo";
-import getTopArtits from "../controllers/artist/getTopArtist";
+import { getArtistInfo } from "../controllers/artist/getArtistInfo.js";
+import getTopArtits from "../controllers/artist/getTopArtist.js";
 import { Router } from "express";
 
 export const useArtist = Router();

@@ -1,6 +1,6 @@
-import { ISong } from "@controllers/song/getTendingSong";
+import { ISong } from "../controllers/song/getTendingSong.js";
 import axios from "axios";
-import { retriveSong } from "./retriveSong";
+import { retriveSong } from "./retriveSong.js";
 
 export async function getSongDetails(token: string): Promise<ISong[] | null> {
   try {

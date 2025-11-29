@@ -70,9 +70,9 @@ export function MusicBar() {
                 <Image
                   src={currentSong.image}
                   alt="image"
-                  height={100}
-                  width={100}
-                  className=" md:mb-4 mb-2 rounded-lg md:h-[16rem] md:w-[16rem] w-36 h-36  "
+                  height={300}
+                  width={300}
+                  className=" md:mb-4 mb-2 rounded-lg md:h-[16rem] md:w-[28rem] w-36 h-36  "
                 />
 
                 <h1 className="font-heading   md:text-2xl text-xl text-center line-clamp-1  ">

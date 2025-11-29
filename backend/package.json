@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsc -b && node dist/index.js",
+    "dev": "tsc -b && node dist/index.js && node dist/db/combineSchema.js",
     "start": "node dist/index.js",
     "build": "tsc -b"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "@prisma/client": "^6.16.2",
     "@types/bcrypt": "^6.0.0",

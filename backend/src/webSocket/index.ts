@@ -1,4 +1,4 @@
-import { joinRoomType, stream } from "../zodTypes/wsType";
+import { joinRoomType, stream } from "../zodTypes/wsType.js";
 import { WebSocket, WebSocketServer } from "ws";
 import Jwt from "jsonwebtoken";
 

@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { getSongDetails } from "../../utils/getSongDetails";
+import { getSongDetails } from "../../utils/getSongDetails.js";
 
 export const getSong = async (req: Request, res: Response) => {
   const token = req.params.token;

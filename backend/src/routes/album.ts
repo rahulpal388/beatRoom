@@ -1,6 +1,6 @@
-import { getTrendingAlbum } from "../controllers/album/getTrendingAlbum";
-import { getAlbumReco } from "../controllers/album/getAlbumReco";
-import { getSongAlbum } from "../controllers/album/getAlbumSong";
+import { getTrendingAlbum } from "../controllers/album/getTrendingAlbum.js";
+import { getAlbumReco } from "../controllers/album/getAlbumReco.js";
+import { getSongAlbum } from "../controllers/album/getAlbumSong.js";
 import { Router } from "express";
 
 const useAlbum = Router();

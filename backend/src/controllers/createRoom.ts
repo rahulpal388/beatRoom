@@ -1,7 +1,7 @@
-import { CreateRoomType } from "../zodTypes/createRoomType";
-import { createRoomId } from "../utils/createRoomId";
+import { CreateRoomType } from "../zodTypes/createRoomType.js";
+import { createRoomId } from "../utils/createRoomId.js";
 import { Request, Response } from "express";
-import { roomDB } from "../index";
+import { roomDB } from "../index.js";
 
 
 const createRoom = (req: Request, res: Response) => {

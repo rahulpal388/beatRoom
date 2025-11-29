@@ -1,10 +1,10 @@
 import { Router } from "express";
-import getTrendingSong from "../controllers/song/getTendingSong";
-import getNewReleasedSong from "../controllers/song/newReleasedSong";
-import { getSongReco } from "../controllers/song/getSongReco";
-import { getSong } from "../controllers/song/getSong";
-import { getSongUrl } from "../controllers/song/getSongUrl";
-import { getSearchReco } from "../controllers/song/getSearchReco";
+import getTrendingSong from "../controllers/song/getTendingSong.js";
+import getNewReleasedSong from "../controllers/song/newReleasedSong.js";
+import { getSongReco } from "../controllers/song/getSongReco.js";
+import { getSong } from "../controllers/song/getSong.js";
+import { getSongUrl } from "../controllers/song/getSongUrl.js";
+import { getSearchReco } from "../controllers/song/getSearchReco.js";
 
 type TPlaylistSongs = {
   id: string;

@@ -1,5 +1,5 @@
-import { IArtists } from "../../controllers/artist/getTopArtist";
-import { getSongDetails } from "../../utils/getSongDetails";
+import { IArtists } from "../../controllers/artist/getTopArtist.js";
+import { getSongDetails } from "../../utils/getSongDetails.js";
 import axios from "axios";
 import { Request, Response } from "express";
 

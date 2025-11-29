@@ -1,4 +1,4 @@
-import { decryptUrl } from "../../utils/decryptUrl";
+import { decryptUrl } from "../../utils/decryptUrl.js";
 import { Request, Response } from "express";
 
 export const getSongUrl = async (req: Request, res: Response) => {

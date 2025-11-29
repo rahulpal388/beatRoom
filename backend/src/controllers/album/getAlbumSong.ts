@@ -1,6 +1,6 @@
 import z from "zod";
-import { retriveSong } from "../../utils/retriveSong";
-import { ISong } from "../song/getTendingSong";
+import { retriveSong } from "../../utils/retriveSong.js";
+import { ISong } from "../song/getTendingSong.js";
 import axios from "axios";
 import { Request, Response } from "express";
 import { TimeoutError } from "puppeteer";

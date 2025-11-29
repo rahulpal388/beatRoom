@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Request, Response } from "express";
 import z from "zod";
-import { ISong } from "./getTendingSong";
-import { paginationType } from "../../zodTypes/paginatipType";
+import { ISong } from "./getTendingSong.js";
+import { paginationType } from "../../zodTypes/paginatipType.js";
 
 // album_id: item.more_info.album_id,
 //     album: item.more_info.album,

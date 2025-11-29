@@ -1,4 +1,4 @@
-import { paginationType } from "../../zodTypes/paginatipType";
+import { paginationType } from "../../zodTypes/paginatipType.js";
 import axios from "axios";
 import { Request, Response } from "express";
 

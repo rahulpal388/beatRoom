@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { verifyOtp_signin } from "../controllers/verifyOtp";
-import { SignUp } from "../controllers/signup";
-import { Login } from "../controllers/login";
-import { Logout } from "../controllers/logout";
-import { RefreshToken } from "../controllers/refreshToken";
+import { verifyOtp_signin } from "../controllers/verifyOtp.js";
+import { SignUp } from "../controllers/signup.js";
+import { Login } from "../controllers/login.js";
+import { Logout } from "../controllers/logout.js";
+import { RefreshToken } from "../controllers/refreshToken.js";
 
 const authRouter = Router();
 

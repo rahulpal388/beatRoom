@@ -1,6 +1,6 @@
-import { retriveSong } from "../../utils/retriveSong";
-import { IArtists } from "../../controllers/artist/getTopArtist";
-import { ISong } from "../../controllers/song/getTendingSong";
+import { retriveSong } from "../../utils/retriveSong.js";
+import { IArtists } from "../../controllers/artist/getTopArtist.js";
+import { ISong } from "../../controllers/song/getTendingSong.js";
 import axios from "axios";
 import { Request, Response } from "express";
 

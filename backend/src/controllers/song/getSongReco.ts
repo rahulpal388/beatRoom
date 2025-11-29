@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { ISong } from "./getTendingSong";
-import { retriveSong } from "../../utils/retriveSong";
+import { ISong } from "./getTendingSong.js";
+import { retriveSong } from "../../utils/retriveSong.js";
 
 export const getSongReco = async (req: Request, res: Response) => {
   const id = req.params.id;

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { IPlaylist } from "./getTrendingPlaylist";
-import { paginationType } from "../../zodTypes/paginatipType";
+import { IPlaylist } from "./getTrendingPlaylist.js";
+import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
 
 export const getPlaylistReco = async (req: Request, res: Response) => {

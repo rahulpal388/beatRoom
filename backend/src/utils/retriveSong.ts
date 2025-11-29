@@ -1,4 +1,4 @@
-import { ISong } from "../controllers/song/getTendingSong";
+import { ISong } from "../controllers/song/getTendingSong.js";
 
 export const retriveSong = (songs: ISong[]): ISong[] => {
   return songs.map((item) => {

@@ -1,4 +1,4 @@
-import { IArtistAlbum } from "../controllers/artist/getArtistInfo";
+import { IArtistAlbum } from "../controllers/artist/getArtistInfo.js";
 
 export const retriveArtistAlbum = (albums: IArtistAlbum[]): IArtistAlbum[] => {
   return albums.map((album) => {

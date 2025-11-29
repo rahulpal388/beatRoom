@@ -1,7 +1,7 @@
-import { ISong } from ".../../controllers/song/getTendingSong";
-import { retriveArtistAlbum } from "../../utils/retriveArtistAlbum";
-import { retriveArtistPlaylist } from "../../utils/retriveArtistPlaylist";
-import { retriveSong } from "../../utils/retriveSong";
+import { ISong } from "../../controllers/song/getTendingSong.js";
+import { retriveArtistAlbum } from "../../utils/retriveArtistAlbum.js";
+import { retriveArtistPlaylist } from "../../utils/retriveArtistPlaylist.js";
+import { retriveSong } from "../../utils/retriveSong.js";
 import axios from "axios";
 import { Request, Response } from "express";
 import z from "zod";

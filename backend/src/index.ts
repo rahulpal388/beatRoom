@@ -1,17 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
-import authRouter from "./routes/auth";
-import roomRouter from "./routes/room";
+import authRouter from "./routes/auth.js";
+import roomRouter from "./routes/room.js";
 import cors from "cors";
-import useSong from "./routes/songs";
-import passport from "passport";
+import useSong from "./routes/songs.js";
 import cookieParser from "cookie-parser";
-import { nextError } from "./middleware/errorHandler";
+import { nextError } from "./middleware/errorHandler.js";
 
 import dns from "dns";
-import { useArtist } from "./routes/artist";
-import { usePlaylist } from "./routes/playlist";
-import useAlbum from "./routes/album";
+import { useArtist } from "./routes/artist.js";
+import { usePlaylist } from "./routes/playlist.js";
+import useAlbum from "./routes/album.js";
 dns.setDefaultResultOrder("ipv4first");
 
 export const roomDB: {

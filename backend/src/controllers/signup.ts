@@ -1,6 +1,6 @@
-import { sendEmail } from "../utils/nodeMailer";
-import { signUpType } from "../zodTypes/authType";
-import { DBClient } from "../db/index";
+import { sendEmail } from "../utils/nodeMailer.js";
+import { signUpType } from "../zodTypes/authType.js";
+import { DBClient } from "../db/index.js";
 import { Request, Response } from "express";
 import { TOTP } from "totp-generator";
 

@@ -1,5 +1,5 @@
-import { createAccessToken, createRefreshToken, verifyJwtToken } from "../utils/jwtTokens";
-import { DBClient } from "../db/index";
+import { createAccessToken, createRefreshToken, verifyJwtToken } from "../utils/jwtTokens.js";
+import { DBClient } from "../db/index.js";
 import { Request, Response } from "express";
 
 

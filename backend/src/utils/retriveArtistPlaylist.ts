@@ -1,4 +1,4 @@
-import { IArtistPlaylist } from "../controllers/artist/getArtistInfo";
+import { IArtistPlaylist } from "../controllers/artist/getArtistInfo.js";
 
 export const retriveArtistPlaylist = (
   playlists: IArtistPlaylist[]

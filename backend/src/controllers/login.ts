@@ -1,9 +1,9 @@
 
-import { createAccessToken, createRefreshToken } from "../utils/jwtTokens";
-import { DBClient } from "../db/index";
-import { signinType } from "../zodTypes/authType";
+import { createAccessToken, createRefreshToken } from "../utils/jwtTokens.js";
+import { DBClient } from "../db/index.js";
+import { signinType } from "../zodTypes/authType.js";
 import { Request, Response } from "express";
-import { matchPassword } from "../utils/bcryptPassword";
+import { matchPassword } from "../utils/bcryptPassword.js";
 
 
 

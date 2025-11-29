@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { paginationType } from "../../zodTypes/paginatipType";
+import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
-import { retriveSong } from "../../utils/retriveSong";
+import { retriveSong } from "../../utils/retriveSong.js";
 
 export type ISong = {
   id: string;

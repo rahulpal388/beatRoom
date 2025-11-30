@@ -1,28 +1,32 @@
 import { verifyOtpType } from "../zodTypes/authType.js";
 import { Request, Response } from "express";
-import { DBClient } from "../db/index.js";
 import { createAccessToken, createRefreshToken } from "../utils/jwtTokens.js";
 import { hashPassword } from "../utils/bcryptPassword.js";
 import { generateUniqueUserId } from "../utils/generateUniqueId.js";
+import { optModel } from "../db/schema/otp.js";
+import { userModel } from "../db/schema/user.js";
 
 export const verifyOtp_signin = async (req: Request, res: Response) => {
   try {
     const { success, data } = verifyOtpType.safeParse(req.body);
-
     if (!success) {
       return res.status(411).json({
         message: "Invalid input",
       });
     }
 
-    const dbOtp = await DBClient.otp.findFirst({
-      where: {
-        email: data.email,
-      },
-    });
+    const dbOtp = await optModel.findOne({ email: data.email });
 
-    console.log("opt is this ======> ", dbOtp?.otp);
-    if (dbOtp?.otp === data.otp) {
+    if (!dbOtp) {
+      res.status(401).json({
+        message: "otp expire resend again ",
+      });
+      return;
+    }
+
+    console.log("opt is this ======> ", dbOtp.otp);
+
+    if (dbOtp.otp === data.otp) {
       const passwordHash = hashPassword(data.password);
       const userId = generateUniqueUserId(data.email);
       const accessToken = createAccessToken({
@@ -34,20 +38,19 @@ export const verifyOtp_signin = async (req: Request, res: Response) => {
         userId: userId,
       });
 
-      const user = await DBClient.user.create({
-        data: {
-          username: data.username,
-          email: data.email,
-          password: passwordHash,
-          userId: userId,
-          isVerified: true,
-          refreshToken,
-        },
-      });
-
-      await DBClient.otp.delete({
-        where: {
-          email: data.email,
+      const user = await userModel.create({
+        userId: userId,
+        username: data.username,
+        email: data.email,
+        password: passwordHash,
+        accessToken: accessToken,
+        refreshToken: refreshToken,
+        history: [],
+        likes: {
+          "likes.songs": [],
+          "likes.albums": [],
+          "likes.playlists": [],
+          "likes.userPlaylist": [],
         },
       });
 
@@ -71,13 +74,7 @@ export const verifyOtp_signin = async (req: Request, res: Response) => {
           username: user.username,
           profile: user.profile,
         });
-
-      return;
     }
-
-    return res.status(400).json({
-      message: "Invalid otp",
-    });
   } catch (error) {
     console.log(error);
     res.status(411).json({

@@ -49,7 +49,7 @@ export function AuthPage({ type }: { type: AuthType }) {
               profile,
             });
             setAuthenticated(true);
-            router.push(`/dashboard/${response.data.userId}`);
+            router.push(`/dashboard`);
           }
         }
       })
@@ -253,7 +253,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                           profile,
                         });
                         setAuthenticated(true);
-                        router.push(`/dashboard/${response.data.userId}`);
+                        router.push(`/dashboard`);
                       }
                     }
                   }}

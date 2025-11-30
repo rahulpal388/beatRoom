@@ -18,7 +18,7 @@ export const getTrendingPlaylist = async (req: Request, res: Response) => {
     .safeParse(req.query);
 
   if (!success) {
-    res.status(200).json([]);
+    res.status(400).json([]);
     return;
   }
 
@@ -47,6 +47,7 @@ export const getTrendingPlaylist = async (req: Request, res: Response) => {
 
     res.status(200).json(result);
   } catch (error) {
-    res.status(200).json([]);
+    console.log(error);
+    res.status(500).json([]);
   }
 };

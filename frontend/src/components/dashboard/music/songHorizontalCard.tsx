@@ -6,7 +6,6 @@ import { PlayBotton } from "@/ui/play";
 import { CirclePlay, EllipsisVertical, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 export function SongHorizontalCard({
   serialNumber,
@@ -29,7 +28,6 @@ export function SongHorizontalCard({
   album_url: string;
   type: string;
 }) {
-  const param = useParams();
   const song_token = song_url.split("/").at(-1);
   const album_token = album_url.split("/").at(-1);
   const { setCurrentSong, setIsPlaying } = useCurrentSongDetail();
@@ -62,7 +60,7 @@ export function SongHorizontalCard({
       <div className=" flex items-center justify-between flex-1  ">
         <div className=" xl:min-w-[40rem] md:min-w[32rem] min-w-[14rem]   flex xl:gap-12 xl:items-center max-xl:flex-col  ">
           <Link
-            href={`/dashboard/${param.userId}/song/${song_token}/${album_token}`}
+            href={`/dashboard/song/${song_token}/${album_token}`}
             className=" md:w-[16rem] w-[10rem] text-text-heading font-heading text-[1rem] truncate "
           >
             {decodeHTML(title)}

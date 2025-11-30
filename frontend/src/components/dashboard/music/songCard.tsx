@@ -35,9 +35,9 @@ export function SongCards({
   const param = useParams();
   const song_token = song_url?.split("/").at(-1);
   const album_token = album_url?.split("/").at(-1);
-  const songHref = `/dashboard/${param.userId}/song/${song_token}/${album_token}`;
-  const ablbumHref = `/dashboard/${param.userId}/album/${album_token}`;
-  const playlistHref = `/dashboard/${param.userId}/playlist/${song_token}`;
+  const songHref = `/dashboard/song/${song_token}/${album_token}`;
+  const ablbumHref = `/dashboard/album/${album_token}`;
+  const playlistHref = `/dashboard/playlist/${song_token}`;
 
   const { setIsPlaying, setCurrentSong } = useCurrentSongDetail();
   const { popoverRef, setCardType, setOpenPopover, openPopover } =

@@ -1,7 +1,6 @@
 "use client";
 import { History, Music2 } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 const sideBarBrowseItems = [
   {
@@ -40,7 +39,6 @@ const sideBarLibraryItems: {
 ];
 
 export function SideBar() {
-  const { userId } = useParams();
   return (
     <div className=" max-lg:hidden border-r-[1px] border-card-border bg-card h-full w-[12rem] ">
       <div className=" flex flex-col  px-10  mt-12  ">
@@ -52,7 +50,7 @@ export function SideBar() {
             {sideBarBrowseItems.map((items, idx) => (
               <div key={idx}>
                 <Link
-                  href={`/dashboard/${userId}/${items.href}`}
+                  href={`/dashboard/${items.href}`}
                   className=" text-text-heading hover:text-text-body "
                 >
                   {items.heading}
@@ -67,7 +65,7 @@ export function SideBar() {
             {sideBarLibraryItems.map((items, idx) => (
               <div key={idx}>
                 <Link
-                  href={`/dashboard/${userId}/${items.href}`}
+                  href={`/dashboard/${items.href}`}
                   className="text-text-heading hover:text-text-body  flex items-center  gap-2 "
                 >
                   {items.icon} {items.heading}

@@ -5,35 +5,13 @@ import { getSongReco } from "../controllers/song/getSongReco.js";
 import { getSong } from "../controllers/song/getSong.js";
 import { getSongUrl } from "../controllers/song/getSongUrl.js";
 import { getSearchReco } from "../controllers/song/getSearchReco.js";
+import { saveSong } from "../controllers/song/saveSong.js";
 
-type TPlaylistSongs = {
-  id: string;
-  title: string;
-  type: string;
-  image: string;
-  more_info: {
-    duration: string;
-    artistMap: {
-      primary_artists: { name: string }[];
-    };
-  };
-};
-
-type TSearchSuggestion = {
-  id: string;
-  song: string;
-  image: string;
-  album_url: string;
-  type: string;
-  singers: string;
-  language: string;
-};
-
-export type TSong = {
-  duration: string;
-  type: string;
-  media_url: string;
-};
+// export type TSong = {
+//   duration: string;
+//   type: string;
+//   media_url: string;
+// };
 
 const useSong = Router();
 
@@ -52,5 +30,7 @@ useSong.get("/reco/:id", getSongReco);
 
 // get song by token
 useSong.get("/:token", getSong);
+
+useSong.post("/save", saveSong);
 
 export default useSong;

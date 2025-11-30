@@ -75,12 +75,11 @@ export function ArtistCard({
   type: string;
   url: string;
 }) {
-  const { userId } = useParams();
   return (
     <>
       <div className=" w-[10rem]   py-[1px] px-2 rounded-lg overflow-hidden   flex flex-col items-center justify-center     ">
         <Link
-          href={`/dashboard/${userId}/artist/${url.split("/").at(-1)}`}
+          href={`/dashboard/artist/${url.split("/").at(-1)}`}
           className=" md:text-xl text-lg cursor-pointer hover:text-text-body flex flex-col items-center "
         >
           {image.length > 0 ? (

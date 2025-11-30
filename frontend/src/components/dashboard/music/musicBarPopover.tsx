@@ -3,13 +3,11 @@ import { useCurrentSongDetail } from "@/context/currentSong";
 import { ChevronLeft, ChevronRight, Ellipsis, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useState } from "react";
 
 export function MusicBarPopover() {
   const [optionOpen, setOptionOpen] = useState<boolean>(false);
   const { currentSong } = useCurrentSongDetail();
-  const { userId } = useParams();
   const songToken = currentSong.perma_url.split("/").at(-1);
   const albumToken = currentSong.more_info.album_url.split("/").at(-1);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(true);
@@ -111,7 +109,7 @@ export function MusicBarPopover() {
                     </li>
                     <li>
                       <Link
-                        href={`/dashboard/${userId}/song/${songToken}/${albumToken}`}
+                        href={`/dashboard/song/${songToken}/${albumToken}`}
                         className=" w-full block hover:bg-bar   text-start px-4 py-2   "
                         onClick={() => {
                           setOptionOpen(false);
@@ -122,7 +120,7 @@ export function MusicBarPopover() {
                     </li>
                     <li>
                       <Link
-                        href={`/dashboard/${userId}/album/${albumToken}`}
+                        href={`/dashboard/album/${albumToken}`}
                         className=" w-full block hover:bg-bar   text-start px-4 py-2   "
                         onClick={() => {
                           setOptionOpen(false);
@@ -136,7 +134,7 @@ export function MusicBarPopover() {
                       .map((artist, idx) => (
                         <li key={idx}>
                           <Link
-                            href={`/dashboard/${userId}/artist/${artist.perma_url
+                            href={`/dashboard/artist/${artist.perma_url
                               .split("/")
                               .at(-1)}`}
                             className=" w-full block hover:bg-bar   text-start px-4 py-2   "

@@ -5,11 +5,9 @@ import { ArtistCircleCardSkeleton } from "@/ui/artistCircleCardSkeletop";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function TopArtists() {
-  const { userId } = useParams();
   const [topArtist, setTopArtist] = useState<ITopArtist[]>([]);
   useEffect(() => {
     const fetchTopArtist = async () => {
@@ -48,7 +46,7 @@ export default function TopArtists() {
                     className=" rounded-full "
                   />
                   <Link
-                    href={`/dashboard/${userId}/artist/${artist.perma_url
+                    href={`/dashboard/artist/${artist.perma_url
                       .split("/")
                       .at(-1)}`}
                     className=" text-lg  "

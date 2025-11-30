@@ -160,7 +160,6 @@ function SearchedItems({
   url: string;
   album: string;
 }) {
-  const { userId } = useParams();
   const token = url.split("/").at(-1);
 
   return (
@@ -185,8 +184,8 @@ function SearchedItems({
         <Link
           href={`${
             type === "song"
-              ? `/dashboard/${userId}/${type}/${token}/search`
-              : `/dashboard/${userId}/${type}/${token}`
+              ? `/dashboard/${type}/${token}/search`
+              : `/dashboard/${type}/${token}`
           }`}
           className="text-lg line-clamp-1 w-[12rem] "
         >

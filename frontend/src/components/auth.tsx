@@ -8,6 +8,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/context/authContext";
+import { Button } from "@/ui/button";
 
 type IInputSignUPForm = {
   username?: string;
@@ -19,6 +20,7 @@ type AuthType = "signup" | "login";
 export function AuthPage({ type }: { type: AuthType }) {
   const [viewPassowrd, setViewPassword] = useState<boolean>(false);
   const [isForm, setIsForm] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>("");
   const [user, setUser] = useState<IInputSignUPForm | null>(null);
   const { register, handleSubmit } = useForm<IInputSignUPForm>();
@@ -28,7 +30,7 @@ export function AuthPage({ type }: { type: AuthType }) {
   const onSubmit: SubmitHandler<IInputSignUPForm> = async (data) => {
     setUser(data);
     console.log(data);
-
+    setLoading(true);
     const endpoint = type === "signup" ? "signup" : "login";
 
     await axios
@@ -40,7 +42,10 @@ export function AuthPage({ type }: { type: AuthType }) {
           setIsForm(false);
         }
         console.log(response);
+        setLoading(false);
+
         if (type === "login") {
+          console.log(response);
           if (response.status === 200) {
             const { username, userId, profile } = response.data;
             setCurrentUser({
@@ -48,28 +53,24 @@ export function AuthPage({ type }: { type: AuthType }) {
               userId,
               profile,
             });
-            setAuthenticated(true);
             router.push(`/dashboard`);
           }
         }
       })
       .catch((error) => {
         const response = error.response;
+        setLoading(false);
         if (response.status === 302) {
           router.push(response.data.redirect);
         }
       });
   };
 
-  const onClick = async () => {
-    window.location.href = "http://localhost:8080/api/v1/auth/signin/google";
-  };
-
   return (
     <>
       <div className="  h-full flex items-center justify-center dark:shadow-accent-foreground ">
         <div className=" max-xs:col-span-2  px-12 ">
-          <div className="border overflow-hidden border-black dark:bg-accent-foreground/40 rounded p-4 min-w-60 max-w-96  flex items-center justify-center ">
+          <div className="overflow-hidden border-[1px]  border-card-border shadow-soft rounded p-4  w-[28rem]  flex items-center justify-center ">
             <AnimatePresence>
               {isForm && (
                 <motion.div
@@ -87,44 +88,29 @@ export function AuthPage({ type }: { type: AuthType }) {
                   }}
                   className=" min-w-full "
                 >
-                  <h1 className="text-center text-3xl font-bold dark:text-accent  ">
+                  <h1 className="text-center text-text-heading text-3xl font-semibold font-heading   ">
                     {type === "signup"
                       ? "Create an Account"
                       : "Login to Account"}
                   </h1>
-                  <p className="text-center text-sm dark:text-accent/70 ">
+                  <p className=" mt-1 text-text-muted font-body text-center text-[14px] ">
                     {type === "signup"
                       ? "Enter username, email, password to create BeatRoom account."
                       : "Enter email and password to login to your account."}
                   </p>
-                  <div className=" mt-4 flex w-full flex-col gap-4 justify-center items-center ">
-                    <a
-                      href="http://localhost:8080/api/v1/auth/signin/google"
-                      className="cursor-pointer  text-black px-6 py-px rounded-lg bg-background  flex justify-center items-center "
-                    >
-                      <Image
-                        src="/google.png"
-                        alt="image"
-                        height={50}
-                        width={50}
-                        className=" rounded p-2  "
-                      />
-                    </a>
-                    <p className=" font-bold ">OR</p>
-                  </div>
 
                   <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mt-4  px-4 flex flex-col gap-4 ">
+                    <div className="mt-12  px-4 flex flex-col gap-4 ">
                       {type === "signup" && (
                         <div>
                           <label
                             htmlFor="username"
-                            className="text-lg font-medium "
+                            className="text-xl font-heading text-text-heading cursor-pointer "
                           >
                             Username
                           </label>
                           <input
-                            className="px-2 py-px rounded w-full border dark:border-background outline-none  h-8 "
+                            className="mt-1 px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
                             type="text"
                             id="username"
                             placeholder="Enter username "
@@ -133,11 +119,14 @@ export function AuthPage({ type }: { type: AuthType }) {
                         </div>
                       )}
                       <div>
-                        <label htmlFor="email" className="text-lg font-medium ">
+                        <label
+                          htmlFor="email"
+                          className="text-xl font-heading text-text-heading cursor-pointer "
+                        >
                           Email
                         </label>
                         <input
-                          className="px-2 py-px rounded w-full border dark:border-background outline-none  h-8 "
+                          className="mt-1 px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
                           type="text"
                           id="email"
                           placeholder="Enter email "
@@ -147,13 +136,13 @@ export function AuthPage({ type }: { type: AuthType }) {
                       <div>
                         <label
                           htmlFor="password"
-                          className="text-lg font-medium "
+                          className="text-xl font-heading text-text-heading cursor-pointer "
                         >
                           Password
                         </label>
-                        <div className="flex gap-1 items-center border  border-background px-2 rounded ">
+                        <div className="flex gap-1 items-center border-[1px] border-card-border focus-within:border-primary px-2 rounded ">
                           <input
-                            className=" py-px rounded w-full  outline-none h-8 "
+                            className="mt-1  py-px rounded w-full outline-none  h-8 "
                             type={viewPassowrd ? "text" : "password"}
                             id="password"
                             placeholder="Enter password "
@@ -161,14 +150,14 @@ export function AuthPage({ type }: { type: AuthType }) {
                           />
                           {viewPassowrd ? (
                             <Eye
-                              className="cursor-pointer stroke-[1.5px] "
+                              className="cursor-pointer stroke-[1.5px] stroke-primary "
                               onClick={() => {
                                 setViewPassword((prev) => (prev = !prev));
                               }}
                             />
                           ) : (
                             <EyeOff
-                              className="cursor-pointer stroke-[1.5px] "
+                              className="cursor-pointer stroke-[1.5px] stroke-primary "
                               onClick={() => {
                                 setViewPassword((prev) => (prev = !prev));
                               }}
@@ -176,12 +165,25 @@ export function AuthPage({ type }: { type: AuthType }) {
                           )}
                         </div>
                       </div>
-                      <button
-                        type="submit"
-                        className=" bg-green-600 rounded py-1 text-white cursor-pointer  "
-                      >
-                        Submit
-                      </button>
+                      {!loading ? (
+                        <Button
+                          name="Submit"
+                          type="submit"
+                          btnType="Primary"
+                          onClick={() => {}}
+                        />
+                      ) : (
+                        <Button
+                          name={
+                            type === "login"
+                              ? "Logging........."
+                              : "Sending OTP.........."
+                          }
+                          type="button"
+                          btnType="Loading"
+                          onClick={() => {}}
+                        />
+                      )}
                     </div>
                   </form>
                 </motion.div>
@@ -203,10 +205,10 @@ export function AuthPage({ type }: { type: AuthType }) {
                   ease: "easeInOut",
                 }}
               >
-                <h1 className="text-center text-2xl font-bold text-neutral-8001 ">
+                <h1 className="text-center text-text-heading text-3xl font-semibold font-heading   ">
                   Enter the OTP
                 </h1>
-                <p className="text-center text-sm text-neutral-700 font-medium  ">
+                <p className=" mt-1 text-center text-sm text-text-muted   ">
                   Enter the 6 digits OTP sent to your email to complete
                   verification.
                 </p>
@@ -219,47 +221,87 @@ export function AuthPage({ type }: { type: AuthType }) {
                     }}
                   >
                     <InputOTPGroup>
-                      <InputOTPSlot id="0" index={0} />
-                      <InputOTPSlot id="1" index={1} />
-                      <InputOTPSlot id="2" index={2} />
-                      <InputOTPSlot id="3" index={3} />
-                      <InputOTPSlot id="4" index={4} />
-                      <InputOTPSlot id="5" index={5} />
+                      <InputOTPSlot
+                        id="0"
+                        index={0}
+                        className=" border-primary "
+                      />
+                      <InputOTPSlot
+                        id="1"
+                        index={1}
+                        className=" border-primary "
+                      />
+                      <InputOTPSlot
+                        id="2"
+                        index={2}
+                        className=" border-primary "
+                      />
+                      <InputOTPSlot
+                        id="3"
+                        index={3}
+                        className=" border-primary "
+                      />
+                      <InputOTPSlot
+                        id="4"
+                        index={4}
+                        className=" border-primary "
+                      />
+                      <InputOTPSlot
+                        id="5"
+                        index={5}
+                        className=" border-primary "
+                      />
                     </InputOTPGroup>
                   </InputOTP>
                 </div>
-                <p className="mt-4">Timing : 1:50</p>
-                <button
-                  className="mt-6 w-full bg-green-600 rounded py-1 text-white cursor-pointer  "
-                  onClick={async () => {
-                    if (otp.length === 6 && user) {
-                      // task 1 : call the API to verify the user
-                      const response = await axios.post(
-                        `http://localhost:8080/api/v1/auth/verify_otp_sigin`,
-                        {
-                          username: user.username,
-                          password: user.password,
-                          email: user.email,
-                          otp,
-                        },
-                        { withCredentials: true }
-                      );
-                      console.log(response);
-                      if (response.status === 200) {
-                        const { username, userId, profile } = response.data;
-                        setCurrentUser({
-                          userId,
-                          username,
-                          profile,
-                        });
-                        setAuthenticated(true);
-                        router.push(`/dashboard`);
+                <div className=" flex justify-end items-center mt-2 ">
+                  <span className=" text-sm pr-1 ">Don't Receive OTP?</span>
+                  <button className=" underline cursor-pointer ">Resend</button>
+                </div>
+                {!loading ? (
+                  <Button
+                    name="Verify"
+                    type="button"
+                    btnType="Primary"
+                    className=" w-full mt-4 "
+                    onClick={async () => {
+                      if (otp.length === 6 && user) {
+                        // task 1 : call the API to verify the user
+                        setLoading(true);
+                        const response = await axios.post(
+                          `http://localhost:8080/api/v1/auth/verify_otp_sigin`,
+                          {
+                            username: user.username,
+                            password: user.password,
+                            email: user.email,
+                            otp,
+                          },
+                          { withCredentials: true }
+                        );
+                        console.log(response);
+                        if (response.status === 200) {
+                          const { username, userId, profile } = response.data;
+                          setCurrentUser({
+                            userId,
+                            username,
+                            profile,
+                          });
+                          setAuthenticated(true);
+                          setLoading(false);
+                          router.push(`/dashboard`);
+                        }
                       }
-                    }
-                  }}
-                >
-                  Verify otp
-                </button>
+                    }}
+                  />
+                ) : (
+                  <Button
+                    name="Verifying OTP.........."
+                    btnType="Loading"
+                    type="button"
+                    className=" w-full mt-4 "
+                    onClick={() => {}}
+                  />
+                )}
               </motion.div>
             )}
           </div>

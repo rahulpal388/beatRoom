@@ -36,7 +36,7 @@ export function SearchBar() {
 
   return (
     <div className="  overflow-hidden flex gap-2 justify-center items-center  ">
-      <div className=" bg-bar h-10 rounded-3xl flex items-center border-[1px] border-card-border overflow-hidden ">
+      <div className=" bg-bar h-10 rounded-3xl flex items-center border-[1px] border-card-border focus-within:border-primary overflow-hidden ">
         <input
           type="text"
           id="search"

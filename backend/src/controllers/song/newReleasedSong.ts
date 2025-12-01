@@ -44,8 +44,10 @@ const getNewReleasedSong = async (req: Request, res: Response) => {
         `https://www.jiosaavn.com/api.php?__call=content.getAlbums&api_version=4&_format=json&_marker=0&n=${data.limit}&p=${data.page}&ctx=web6dot0`
       )
     ).data;
-    console.log(response);
     const newSong = response.data as INewRelease[];
+
+    // check from the db that the person has liked songs or not
+
     const result: INewRelease[] = newSong.map((items) => {
       return {
         id: items.id,

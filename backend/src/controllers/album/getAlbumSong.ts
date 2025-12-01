@@ -65,7 +65,7 @@ export const getSongAlbum = async (req: Request, res: Response) => {
         image: "",
         language: responseSong.language,
         list_count: "1",
-        list: retriveSong([responseSong]),
+        list: retriveSong([responseSong], false),
         more_info: {
           artistMap: {
             primary_artists: responseSong.more_info.artistMap.artists.map(
@@ -92,7 +92,7 @@ export const getSongAlbum = async (req: Request, res: Response) => {
         image: response.image.replace("150x150", "500x500"),
         language: response.language,
         list_count: response.list_count,
-        list: retriveSong(response.list),
+        list: retriveSong(response.list, false),
         more_info: {
           artistMap: {
             primary_artists: response.more_info.artistMap.primary_artists.map(

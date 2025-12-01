@@ -37,7 +37,7 @@ export const getSongsPlaylist = async (req: Request, res: Response) => {
       language: response.list[0].language,
       perma_url: response.perma_url,
       list_count: response.list_count,
-      list: retriveSong(response.list),
+      list: retriveSong(response.list, false),
       more_info: {
         artists: response.more_info.artists.map((x) => {
           return {

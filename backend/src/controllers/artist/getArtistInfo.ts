@@ -80,7 +80,7 @@ export const getArtistInfo = async (req: Request, res: Response) => {
       image: response.image.replace("150x150", "500x500"),
       follower_count: response.follower_count,
       type: response.type,
-      topSongs: retriveSong(response.topSongs),
+      topSongs: retriveSong(response.topSongs, false),
       topAlbums: retriveArtistAlbum(response.topAlbums),
       latest_release: retriveArtistAlbum(response.latest_release),
       dedicated_artist_playlist: retriveArtistPlaylist(

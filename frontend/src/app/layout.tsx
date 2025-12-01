@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "@/context/authContext";
+import { ToastNotificationProvider } from "@/context/toastNotificationContext";
+import { ToastNotificationContainer } from "@/ui/toastNotification";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -30,7 +32,12 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${poppins.variable} font-body antialiased bg-bg text-text-heading   `}
       >
-        <AuthContextProvider>{children}</AuthContextProvider>
+        <AuthContextProvider>
+          <ToastNotificationProvider>
+            <ToastNotificationContainer />
+            {children}
+          </ToastNotificationProvider>
+        </AuthContextProvider>
       </body>
     </html>
   );

@@ -2,13 +2,13 @@ import z from "zod";
 
 export const saveSongType = z.object({
   id: z.string(),
-  userId: z.string(),
   title: z.string(),
   subtitle: z.string(),
   type: z.string(),
   perma_url: z.string(),
   image: z.string(),
   language: z.string(),
+  isLiked: z.boolean(),
   more_info: z.object({
     album_id: z.string(),
     album: z.string(),

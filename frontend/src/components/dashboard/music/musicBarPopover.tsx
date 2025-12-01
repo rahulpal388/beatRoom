@@ -44,7 +44,7 @@ export function MusicBarPopover() {
                   >
                     <div className=" flex flex-col   divide-y-[1px] divide-neutral-100/60  ">
                       <button
-                        className="hover:bg-bar  cursor-pointer text-start  px-4 py-2 flex gap-2 items-center "
+                        className="hover:bg-card-hover  cursor-pointer text-start  px-4 py-2 flex gap-2 items-center "
                         onClick={() => {
                           setShowPlaylist(false);
                         }}
@@ -52,7 +52,7 @@ export function MusicBarPopover() {
                         <ChevronLeft size={20} />
                         Back
                       </button>
-                      <button className=" flex gap-2 items-center hover:bg-bar   cursor-pointer text-start   px-4 py-2 ">
+                      <button className=" flex gap-2 items-center hover:bg-card-hover   cursor-pointer text-start   px-4 py-2 ">
                         <Plus size={20} />
                         New Playlist
                       </button>
@@ -64,7 +64,7 @@ export function MusicBarPopover() {
                           .map((items, idx) => (
                             <li
                               key={idx}
-                              className="hover:bg-bar   cursor-pointer text-start   px-4 py-2 "
+                              className="hover:bg-card-hover   cursor-pointer text-start   px-4 py-2 "
                               onClick={() => {
                                 // save the song to the playlist
                                 setOptionOpen(false);
@@ -87,7 +87,7 @@ export function MusicBarPopover() {
                   >
                     <li>
                       <button
-                        className="hover:bg-bar w-full cursor-pointer  text-start px-4 py-2 "
+                        className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 "
                         onClick={() => {
                           // save the song to library
                           setOptionOpen(false);
@@ -98,7 +98,7 @@ export function MusicBarPopover() {
                     </li>
                     <li>
                       <button
-                        className="hover:bg-bar w-full cursor-pointer  text-start px-4 py-2 flex justify-between items-center "
+                        className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 flex justify-between items-center "
                         onClick={() => {
                           setShowPlaylist(true);
                         }}
@@ -110,7 +110,7 @@ export function MusicBarPopover() {
                     <li>
                       <Link
                         href={`/dashboard/song/${songToken}/${albumToken}`}
-                        className=" w-full block hover:bg-bar   text-start px-4 py-2   "
+                        className=" w-full block hover:bg-card-hover   text-start px-4 py-2   "
                         onClick={() => {
                           setOptionOpen(false);
                         }}
@@ -121,7 +121,7 @@ export function MusicBarPopover() {
                     <li>
                       <Link
                         href={`/dashboard/album/${albumToken}`}
-                        className=" w-full block hover:bg-bar   text-start px-4 py-2   "
+                        className=" w-full block hover:bg-card-hover   text-start px-4 py-2   "
                         onClick={() => {
                           setOptionOpen(false);
                         }}
@@ -137,7 +137,7 @@ export function MusicBarPopover() {
                             href={`/dashboard/artist/${artist.perma_url
                               .split("/")
                               .at(-1)}`}
-                            className=" w-full block hover:bg-bar   text-start px-4 py-2   "
+                            className=" w-full block hover:bg-card-hover   text-start px-4 py-2   "
                             onClick={() => {
                               setOptionOpen(false);
                             }}

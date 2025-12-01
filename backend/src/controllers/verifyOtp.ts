@@ -74,6 +74,10 @@ export const verifyOtp_signin = async (req: Request, res: Response) => {
           username: user.username,
           profile: user.profile,
         });
+    } else {
+      res.status(401).json({
+        message: "Incorrect OTP",
+      });
     }
   } catch (error) {
     console.log(error);

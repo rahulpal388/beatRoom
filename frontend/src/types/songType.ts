@@ -6,6 +6,7 @@ export type ISong = {
   perma_url: string;
   image: string;
   language: string;
+  isLiked: boolean;
   more_info: {
     album_id: string;
     album: string;

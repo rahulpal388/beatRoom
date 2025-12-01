@@ -17,6 +17,8 @@ import { useState } from "react";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
+import axios from "axios";
+import { BASE_URL } from "@/lib/baseUrl";
 
 export function MusicBar() {
   const { currentSong, isPlaying, setIsPlaying, progressValue, playerRef } =
@@ -183,7 +185,30 @@ export function MusicBar() {
                     )}`
                   : "00 / 00"}
               </p>
-              <Heart size={30} className=" stroke-1 max-md:hidden " />
+              <Heart
+                size={30}
+                className=" stroke-1 max-md:hidden   cursor-pointer fill-red-800 "
+                onClick={async () => {
+                  // currentSong
+                  await axios
+                    .post(
+                      `${BASE_URL}/artist/save`,
+                      {
+                        artistid: "459320",
+                        name: "Arijit Singh",
+                        image:
+                          "https://c.saavncdn.com/artists/Arijit_Singh_004_20241118063717_500x500.jpg",
+                        perma_url:
+                          "https://www.jiosaavn.com/artist/arijit-singh-songs/LlRWpHzy3Hk_",
+                        isLiked: true,
+                      },
+                      { withCredentials: true }
+                    )
+                    .then((response) => {
+                      console.log(response.data);
+                    });
+                }}
+              />
               <ViewQueueSongs />
               <MusicBarPopover />
               {open ? (

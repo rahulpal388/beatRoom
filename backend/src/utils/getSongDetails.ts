@@ -10,7 +10,7 @@ export async function getSongDetails(token: string): Promise<ISong[] | null> {
       )
     ).data.songs;
     const song = response as ISong[];
-    return retriveSong([song[0]]);
+    return retriveSong([song[0]], false);
   } catch (error) {
     return null;
   }

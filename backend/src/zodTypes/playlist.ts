@@ -9,15 +9,12 @@ export const playlistType = z.object({
 
 export const savePlaylistType = z.object({
   id: z.string(),
-  userId: z.string(),
   title: z.string(),
   subtitle: z.string(),
   type: z.string(),
   image: z.string(),
+  isLiked: z.boolean(),
   perma_url: z.string(),
-  more_info: z.object({
-    song_count: z.string(),
-  }),
 });
 
 export const saveUserPlaylistType = z.object({

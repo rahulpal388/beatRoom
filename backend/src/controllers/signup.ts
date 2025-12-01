@@ -10,7 +10,7 @@ export const SignUp = async (req: Request, res: Response) => {
   if (!success) {
     console.log(req.body);
     return res.status(401).json({
-      message: "invalid input",
+      message: "Invalid Input",
     });
   }
   try {
@@ -19,7 +19,7 @@ export const SignUp = async (req: Request, res: Response) => {
     console.log(user);
     if (user) {
       return res.status(302).json({
-        message: "user already exist",
+        message: "User Already Exist",
         redirect: "/login",
       });
     }
@@ -41,12 +41,12 @@ export const SignUp = async (req: Request, res: Response) => {
   The BeatRoom Team`;
     await sendEmail(data.email, text, "");
     res.status(200).json({
-      message: "opt send successful",
+      message: "Opt Send",
     });
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "server error",
+      message: "Server Error",
     });
   }
 };

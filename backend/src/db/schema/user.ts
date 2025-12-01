@@ -11,6 +11,7 @@ const UserSchema = new mongoose.Schema({
   history: [{ type: mongoose.Schema.ObjectId, ref: "Songs" }],
   likes: {
     songs: [{ type: mongoose.Schema.ObjectId, ref: "Songs" }],
+    artists: [{ type: mongoose.Schema.ObjectId, ref: "Artists" }],
     albums: [{ type: mongoose.Schema.ObjectId, ref: "Albums" }],
     playlists: [{ type: mongoose.Schema.ObjectId, ref: "Playlists" }],
     userPlaylist: [{ type: mongoose.Schema.ObjectId, ref: "UserPlaylists" }],

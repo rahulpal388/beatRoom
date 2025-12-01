@@ -15,7 +15,6 @@ import { useParams } from "next/navigation";
 import { GlobalPopoverProvider } from "@/context/globalPopover";
 import { Button } from "@/ui/button";
 import { useRouter } from "next/navigation";
-import { ToastNotification } from "@/ui/toastNotification";
 
 export default function Layouts({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, currentUser } = useAuth();
@@ -28,7 +27,6 @@ export default function Layouts({ children }: { children: React.ReactNode }) {
             <PopoverContextProvider>
               <MusicPlayer />
               <div className=" h-screen  flex flex-col    ">
-                <ToastNotification />
                 <div className=" bg-card h-14 border-b-[0.5px] border-text-muted/20  shadow-soft  flex justify-between items-center gap-4 px-8  ">
                   <div>
                     <Link

@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/context/authContext";
 import { Button } from "@/ui/button";
+import { useToastNotification } from "@/context/toastNotificationContext";
 
 type IInputSignUPForm = {
   username?: string;
@@ -26,6 +27,7 @@ export function AuthPage({ type }: { type: AuthType }) {
   const { register, handleSubmit } = useForm<IInputSignUPForm>();
   const router = useRouter();
   const { setCurrentUser, setAuthenticated } = useAuth();
+  const { setMessage, setType, setNotification } = useToastNotification();
 
   const onSubmit: SubmitHandler<IInputSignUPForm> = async (data) => {
     setUser(data);
@@ -39,6 +41,9 @@ export function AuthPage({ type }: { type: AuthType }) {
       })
       .then((response) => {
         if (type === "signup") {
+          setMessage("OTP Send");
+          setNotification(true);
+          setType("success");
           setIsForm(false);
         }
         console.log(response);
@@ -53,6 +58,10 @@ export function AuthPage({ type }: { type: AuthType }) {
               userId,
               profile,
             });
+            setMessage("Logged In");
+            setType("success");
+            setNotification(true);
+            setAuthenticated(true);
             router.push(`/dashboard`);
           }
         }
@@ -62,7 +71,12 @@ export function AuthPage({ type }: { type: AuthType }) {
         setLoading(false);
         if (response.status === 302) {
           router.push(response.data.redirect);
+          setMessage(response.data.message);
+        } else {
+          setMessage(response.data.message);
         }
+        setType("error");
+        setNotification(true);
       });
   };
 
@@ -268,28 +282,37 @@ export function AuthPage({ type }: { type: AuthType }) {
                       if (otp.length === 6 && user) {
                         // task 1 : call the API to verify the user
                         setLoading(true);
-                        const response = await axios.post(
-                          `http://localhost:8080/api/v1/auth/verify_otp_sigin`,
-                          {
-                            username: user.username,
-                            password: user.password,
-                            email: user.email,
-                            otp,
-                          },
-                          { withCredentials: true }
-                        );
-                        console.log(response);
-                        if (response.status === 200) {
-                          const { username, userId, profile } = response.data;
-                          setCurrentUser({
-                            userId,
-                            username,
-                            profile,
+                        await axios
+                          .post(
+                            `http://localhost:8080/api/v1/auth/verify_otp_sigin`,
+                            {
+                              username: user.username,
+                              password: user.password,
+                              email: user.email,
+                              otp,
+                            },
+                            { withCredentials: true }
+                          )
+                          .then((response) => {
+                            const { username, userId, profile } = response.data;
+                            setCurrentUser({
+                              userId,
+                              username,
+                              profile,
+                            });
+                            setAuthenticated(true);
+                            setLoading(false);
+                            setMessage("Logged In");
+                            setType("success");
+                            setNotification(true);
+                            router.push(`/dashboard`);
+                          })
+                          .catch(() => {
+                            setLoading(false);
+                            setMessage("Incorrect OTP");
+                            setType("error");
+                            setNotification(true);
                           });
-                          setAuthenticated(true);
-                          setLoading(false);
-                          router.push(`/dashboard`);
-                        }
                       }
                     }}
                   />

@@ -5,8 +5,8 @@ const ArtistSchema = new mongoose.Schema({
   name: { type: String, required: true, trim: true },
   image: { type: String, required: true, trim: true },
   perma_url: { type: String, required: true, trim: true },
-  type: { type: String, required: true, trim: true },
-  role: { type: String, required: true, trim: true },
+  type: { type: String, required: true, trim: true, default: "" },
+  role: { type: String, required: true, trim: true, default: "" },
   isLiked: { type: Boolean, required: true },
 });
 

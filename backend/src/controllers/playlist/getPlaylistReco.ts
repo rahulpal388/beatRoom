@@ -20,7 +20,7 @@ export const getPlaylistReco = async (req: Request, res: Response) => {
       )
     ).data as IPlaylist[];
 
-    const result: IPlaylist[] = response
+    const result = response
       .slice(
         Number(data.page) * Number(data.limit),
         (Number(data.page) + 1) * Number(data.limit)
@@ -33,6 +33,7 @@ export const getPlaylistReco = async (req: Request, res: Response) => {
           type: x.type,
           perma_url: x.perma_url,
           image: x.image.replace("150x150", "500x500"),
+          isLiked: false,
         };
       });
 

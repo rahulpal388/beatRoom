@@ -29,7 +29,7 @@ export const getTrendingPlaylist = async (req: Request, res: Response) => {
       )
     ).data as IPlaylist[];
 
-    const result: IPlaylist[] = response
+    const result = response
       .slice(
         Number(data.page) * Number(data.limit),
         Number(data.limit) * (Number(data.page) + 1)
@@ -42,6 +42,7 @@ export const getTrendingPlaylist = async (req: Request, res: Response) => {
           perma_url: x.perma_url,
           image: x.image,
           type: x.type,
+          isLiked: false,
         };
       });
 

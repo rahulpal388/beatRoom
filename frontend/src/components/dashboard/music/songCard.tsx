@@ -11,6 +11,10 @@ import { useCurrentSongDetail } from "@/context/currentSong";
 import { usePopoverCard } from "@/context/popover";
 import { getSong } from "@/lib/getSong";
 import { PlayBotton } from "@/ui/play";
+import { useActiveCardPopover } from "@/context/activeCardPopover";
+import { ISong } from "@/types/songType";
+import { IPlaylist } from "@/types/playlistType";
+import { IAlbums } from "@/types/albumType";
 
 // task : url for the playlist
 
@@ -22,7 +26,8 @@ export function SongCards({
   song_url,
   album_url,
   id,
-}: {
+}: // songs,
+{
   title: string;
   artist: string;
   id: string;
@@ -30,9 +35,10 @@ export function SongCards({
   image: string;
   song_url: string;
   album_url: string;
+  // songs: ISong | IPlaylist | IAlbums;
 }) {
   const { setQueueSongs } = useQueue();
-  const param = useParams();
+  const { isActive, setIsActive } = useActiveCardPopover();
   const song_token = song_url?.split("/").at(-1);
   const album_token = album_url?.split("/").at(-1);
   const songHref = `/dashboard/song/${song_token}/${album_token}`;
@@ -43,44 +49,27 @@ export function SongCards({
   const { popoverRef, setCardType, setOpenPopover, openPopover } =
     usePopoverCard();
   const popoverElement = useRef<SVGSVGElement | null>(null);
-
-  // const getSong = async () => {
-  //   if (type === "playlist") {
-  //     const playlistSong = (
-  //       await axios.get(`${BASE_URL}/playlist/${song_token}`)
-  //     ).data;
-  //     setQueueSongs(playlistSong.list);
-  //     console.log(song_token);
-  //     setCurrentSong(playlistSong.list[0]);
-  //     console.log(playlistSong.list);
-  //   } else {
-  //     const albumSong = (
-  //       await axios.get(
-  //         `${BASE_URL}/album/?songToken=${song_token}&albumToken=${album_token}`
-  //       )
-  //     ).data;
-
-  //     setQueueSongs(albumSong.list);
-  //     setCurrentSong(albumSong.list[0]);
-  //   }
-  //   setIsPlaying(true);
-  // };
-
+  const activeCard = isActive === id;
   return (
     <>
       <div className=" relative shadow-soft   group px-4 py-4 h-[16rem] w-[10rem] rounded hover:bg-card-hover   ">
-        <div className=" absolute top-4 px-4 hidden left-1 z-20 group-hover:flex items-center justify-between w-full  ">
+        <div
+          className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full ${
+            openPopover && activeCard ? "flex" : "hidden  group-hover:flex"
+          } `}
+        >
           <Heart size={30} className="  cursor-pointer " />
           <div className="relative  ">
             <EllipsisVerticalIcon
-              ref={popoverElement}
+              // ref={(el) => (popoverElement.current = el)}
               size={30}
               className=" cursor-pointer rounded-full    "
               onClick={(e) => {
                 e.stopPropagation();
-                popoverRef.current = popoverElement.current;
-                setCardType(type);
                 setOpenPopover(!openPopover);
+                popoverRef.current = e.currentTarget;
+                setIsActive(id);
+                setCardType(type);
               }}
               onScroll={() => {
                 console.log("scrolling");

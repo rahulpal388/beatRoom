@@ -1,5 +1,6 @@
 "use client";
 import { SongCards } from "@/components/dashboard/music/songCard";
+import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 import { BASE_URL } from "@/lib/baseUrl";
 import { IPlaylist } from "@/types/playlistType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
@@ -23,7 +24,7 @@ export default function TopPlaylist() {
     <>
       <div className=" sm:px-12 px-4 py-8 pb-20 ">
         <h1 className="  text-4xl ">Top Playlist</h1>
-        <div className=" mt-4 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8 ">
+        <SongCardContaier>
           {topPlaylist.length <= 0 ? (
             <MoreSkeletonCard count={16} />
           ) : (
@@ -40,7 +41,7 @@ export default function TopPlaylist() {
               />
             ))
           )}
-        </div>
+        </SongCardContaier>
       </div>
     </>
   );

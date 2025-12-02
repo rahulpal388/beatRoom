@@ -18,13 +18,14 @@ export const getAlbumReco = async (req: Request, res: Response) => {
     );
     const album = response.data as IAlbums[];
 
-    const result: IAlbums[] = album.map((x) => {
+    const result = album.map((x) => {
       return {
         id: x.id,
         title: x.title,
         type: x.type,
         perma_url: x.perma_url,
         image: x.image.replace("150x150", "500x500"),
+        isLiked: false,
       };
     });
 

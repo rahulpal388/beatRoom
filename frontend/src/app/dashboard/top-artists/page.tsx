@@ -1,4 +1,5 @@
 "use client";
+import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 import { BASE_URL } from "@/lib/baseUrl";
 import { ITopArtist } from "@/types/artistType";
 import { ArtistCircleCardSkeleton } from "@/ui/artistCircleCardSkeletop";
@@ -24,7 +25,7 @@ export default function TopArtists() {
     <>
       <div className=" sm:px-12 px-4 py-8 pb-20 ">
         <h1 className="  text-4xl ">Top Artists</h1>
-        <div className=" mt-6 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8 ">
+        <SongCardContaier>
           {topArtist.length <= 0
             ? Array(10)
                 .fill(0)
@@ -55,7 +56,7 @@ export default function TopArtists() {
                   </Link>
                 </div>
               ))}
-        </div>
+        </SongCardContaier>
       </div>
     </>
   );

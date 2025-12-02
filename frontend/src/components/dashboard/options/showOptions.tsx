@@ -22,13 +22,12 @@ export function ShowPopover() {
   const { cardType, popoverRef, openPopover, containerRef, setOpenPopover } =
     usePopoverCard();
 
-  const { x, y, strategy, refs, update } = useFloating({
+  let { x, y, strategy, refs, update } = useFloating({
     placement: "bottom-start",
     middleware: [offset(8), flip(), shift()],
     whileElementsMounted: (reference, floating, update) => {
       return autoUpdate(reference, floating, () => {
         update();
-
         if (containerRef.current && reference) {
           const rect = reference.getBoundingClientRect();
           const containerRect = containerRef.current.getBoundingClientRect();
@@ -36,7 +35,7 @@ export function ShowPopover() {
           // If icon is OUT of visible scroll area → close the popover
           if (
             rect.right < containerRect.left ||
-            rect.left > containerRect.right
+            rect.right > containerRect.right
           ) {
             setOpenPopover(false);
           }
@@ -54,7 +53,7 @@ export function ShowPopover() {
   return (
     <>
       <div
-        className={`absolute  z-50 `}
+        className={`absolute  z-40 `}
         ref={refs.setFloating}
         style={{
           left: `${x}px`,

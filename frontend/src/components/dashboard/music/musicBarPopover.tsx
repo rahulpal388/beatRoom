@@ -1,5 +1,8 @@
 "use client";
 import { useCurrentSongDetail } from "@/context/currentSong";
+import { useToastNotification } from "@/context/toastNotificationContext";
+import { BASE_URL } from "@/lib/baseUrl";
+import axios from "axios";
 import { ChevronLeft, ChevronRight, Ellipsis, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
@@ -11,7 +14,7 @@ export function MusicBarPopover() {
   const songToken = currentSong.perma_url.split("/").at(-1);
   const albumToken = currentSong.more_info.album_url.split("/").at(-1);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(true);
-
+  const { setMessage, setType, setNotification } = useToastNotification();
   return (
     <>
       <div>
@@ -88,9 +91,17 @@ export function MusicBarPopover() {
                     <li>
                       <button
                         className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 "
-                        onClick={() => {
-                          // save the song to library
+                        onClick={async () => {
+                          const response = await axios.post(
+                            `${BASE_URL}/song/save`,
+                            { ...currentSong, isLiked: true },
+                            { withCredentials: true }
+                          );
                           setOptionOpen(false);
+                          setMessage("Song Saved");
+                          setType("success");
+                          setNotification(true);
+                          console.log(response.data);
                         }}
                       >
                         Save To Library

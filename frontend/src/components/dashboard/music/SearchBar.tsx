@@ -9,7 +9,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { ISearchReco } from "@/types/searchedSongType";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 
 export function SearchBar() {
   const [searchSuggestion, setSearchSuggestion] = useState<ISearchReco | null>(
@@ -35,8 +34,8 @@ export function SearchBar() {
   const onSearchInputChange = Debounce(searchSuggestionFn, 1000);
 
   return (
-    <div className="  overflow-hidden flex gap-2 justify-center items-center  ">
-      <div className=" bg-bar h-10 rounded-3xl flex items-center border-[1px] border-card-border focus-within:border-primary overflow-hidden ">
+    <div className="  overflow-hidden flex gap-2 justify-center items-center   ">
+      <div className=" bg-bar h-10 rounded-3xl flex items-center border-[1px]  border-card-border focus-within:border-primary overflow-hidden ">
         <input
           type="text"
           id="search"

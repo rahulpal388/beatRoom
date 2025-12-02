@@ -1,18 +1,6 @@
 import { IArtists } from "./artistType";
 import { ISong } from "./songType";
 
-export interface ITopPlaylist {
-  id: string;
-  title: string;
-  subtitle: string;
-  type: string;
-  image: string;
-  perma_url: string;
-  more_info: {
-    song_count: string;
-  };
-}
-
 export type IPlaylist = {
   id: string;
   title: string;
@@ -20,6 +8,7 @@ export type IPlaylist = {
   type: string;
   perma_url: string;
   image: string;
+  isLiked: boolean;
 };
 
 export type ISongsPlaylist = {

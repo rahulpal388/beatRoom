@@ -1,5 +1,6 @@
 "use client";
 import { SongCards } from "@/components/dashboard/music/songCard";
+import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 import { BASE_URL } from "@/lib/baseUrl";
 import { INewRelease } from "@/types/songType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
@@ -27,7 +28,7 @@ export default function NewReleased() {
     <>
       <div className=" sm:px-12 px-4 py-8 pb-20 ">
         <h1 className="  text-4xl ">New Release</h1>
-        <div className=" mt-4 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8 ">
+        <SongCardContaier>
           {newRelease.length <= 0 ? (
             <MoreSkeletonCard count={16} />
           ) : (
@@ -41,12 +42,12 @@ export default function NewReleased() {
                 artist={items.more_info.artistMap.artists
                   .map((x) => x.name)
                   .join(", ")}
-                song_url={items.perma_url}
-                album_url={items.more_info.album_url || ""}
+                song_url={items.type === "song" ? items.perma_url : ""}
+                album_url={items.type === "song" ? "" : items.perma_url}
               />
             ))
           )}
-        </div>
+        </SongCardContaier>
       </div>
     </>
   );

@@ -7,6 +7,7 @@ import { getSongUrl } from "../controllers/song/getSongUrl.js";
 import { getSearchReco } from "../controllers/song/getSearchReco.js";
 import { saveSong } from "../controllers/song/saveSong.js";
 import verifyTokenMiddleware from "../middleware/verifyToken.js";
+import { getSaveSong } from "../controllers/song/getSaveSong.js";
 
 // export type TSong = {
 //   duration: string;
@@ -29,9 +30,10 @@ useSong.get("/newReleased", getNewReleasedSong);
 // get the song reco base on the song id
 useSong.get("/reco/:id", getSongReco);
 
+useSong.get("/saveSong", verifyTokenMiddleware, getSaveSong);
+useSong.post("/save", verifyTokenMiddleware, saveSong);
+
 // get song by token
 useSong.get("/:token", getSong);
-
-useSong.post("/save", verifyTokenMiddleware, saveSong);
 
 export default useSong;

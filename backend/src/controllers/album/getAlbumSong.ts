@@ -14,6 +14,7 @@ type ISongAlbum = {
   image: string;
   language: string;
   list_count: string;
+  isLiked: boolean;
   list: ISong[];
   more_info: {
     artistMap: {
@@ -65,6 +66,7 @@ export const getSongAlbum = async (req: Request, res: Response) => {
         image: "",
         language: responseSong.language,
         list_count: "1",
+        isLiked: false,
         list: retriveSong([responseSong], false),
         more_info: {
           artistMap: {
@@ -92,6 +94,7 @@ export const getSongAlbum = async (req: Request, res: Response) => {
         image: response.image.replace("150x150", "500x500"),
         language: response.language,
         list_count: response.list_count,
+        isLiked: false,
         list: retriveSong(response.list, false),
         more_info: {
           artistMap: {

@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { IPlaylist } from "./getTrendingPlaylist.js";
+import { IPlaylist, IPlaylistResponse } from "./getTrendingPlaylist.js";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
 
@@ -20,7 +20,7 @@ export const getPlaylistReco = async (req: Request, res: Response) => {
       )
     ).data as IPlaylist[];
 
-    const result = response
+    const result: IPlaylistResponse[] = response
       .slice(
         Number(data.page) * Number(data.limit),
         (Number(data.page) + 1) * Number(data.limit)
@@ -34,6 +34,11 @@ export const getPlaylistReco = async (req: Request, res: Response) => {
           perma_url: x.perma_url,
           image: x.image.replace("150x150", "500x500"),
           isLiked: false,
+          more_info: {
+            song_count: "",
+            entity_type: "",
+            language: "",
+          },
         };
       });
 

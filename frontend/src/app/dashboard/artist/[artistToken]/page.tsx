@@ -123,35 +123,13 @@ export default function Artist() {
             <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
               {active === "song" &&
                 artistInfo.topSongs.map((song, idx) => (
-                  <SongCards
-                    key={idx}
-                    title={song.title}
-                    artist={song.more_info.artistMap.artists
-                      .map((x) => x.name)
-                      .join(",")}
-                    image={song.image}
-                    type={song.type}
-                    song_url={song.perma_url}
-                    album_url={song.more_info.album_url}
-                    id={song.id}
-                  />
+                  <SongCards key={idx} songs={song} />
                 ))}
             </div>
             <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
               {active === "album" &&
                 artistInfo.topAlbums.map((song, idx) => (
-                  <SongCards
-                    key={idx}
-                    title={song.title}
-                    artist={song.more_info.artistMap.artists
-                      .map((x) => x.name)
-                      .join(",")}
-                    image={song.image}
-                    type={song.type}
-                    song_url=""
-                    album_url={song.perma_url}
-                    id={song.id}
-                  />
+                  <SongCards key={idx} songs={song} />
                 ))}
             </div>
             <div>
@@ -161,16 +139,7 @@ export default function Artist() {
                     <h1 className=" text-2xl  ">Featured In</h1>
                     <div className=" mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.featured_artist_playlist.map((song, idx) => (
-                        <SongCards
-                          key={idx}
-                          title={song.title}
-                          artist=""
-                          image={song.image}
-                          type={song.type}
-                          song_url={song.perma_url}
-                          album_url=""
-                          id={song.id}
-                        />
+                        <SongCards key={idx} songs={song} />
                       ))}
                     </div>
                   </div>
@@ -178,16 +147,7 @@ export default function Artist() {
                     <h1 className=" text-2xl  ">Just {artistInfo.name}</h1>
                     <div className=" w-full mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.dedicated_artist_playlist.map((song, idx) => (
-                        <SongCards
-                          key={idx}
-                          title={song.title}
-                          artist=""
-                          image={song.image}
-                          type={song.type}
-                          song_url={song.perma_url}
-                          album_url=""
-                          id={song.id}
-                        />
+                        <SongCards key={idx} songs={song} />
                       ))}
                     </div>
                   </div>
@@ -198,18 +158,7 @@ export default function Artist() {
           <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
             {active === "new_release" &&
               artistInfo.latest_release.map((song, idx) => (
-                <SongCards
-                  key={idx}
-                  title={song.title}
-                  artist={song.more_info.artistMap.artists
-                    .map((x) => x.name)
-                    .join(",")}
-                  image={song.image}
-                  type={song.type}
-                  song_url=""
-                  album_url={song.perma_url}
-                  id={song.id}
-                />
+                <SongCards key={idx} songs={song} />
               ))}
           </div>
         </div>

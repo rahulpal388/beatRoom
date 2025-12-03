@@ -3,18 +3,18 @@ import { MusicBanner } from "./musicBanner";
 import { SongCards, SongsSection } from "./songCard";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
-import { INewRelease, ISong } from "@/types/songType";
-import { ITopArtist } from "@/types/artistType";
+import { ISong } from "@/types/songType";
+import { IArtists } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
 import { ArtistCard, ArtistCardContaier } from "./artistCard";
 import { CardSkeleton, MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 
 export function Music() {
-  const [newReleased, setNewReleased] = useState<INewRelease[]>([]);
+  const [newReleased, setNewReleased] = useState<ISong[]>([]);
   const [trendingSong, setTrending] = useState<ISong[]>([]);
   const [topPlaylist, setTopPlaylist] = useState<IPlaylist[]>([]);
-  const [topArtist, setTopArtist] = useState<ITopArtist[]>([]);
+  const [topArtist, setTopArtist] = useState<IArtists[]>([]);
 
   useEffect(() => {
     const getPlaylist = async () => {
@@ -49,24 +49,7 @@ export function Music() {
           ) : (
             newReleased
               .slice(5)
-              .map((items, index) => (
-                <SongCards
-                  key={items.id}
-                  id={items.id}
-                  song_url={items.type === "song" ? items.perma_url : ""}
-                  type={items.type}
-                  album_url={
-                    items.type === "song"
-                      ? items.more_info.album_url!
-                      : items.perma_url
-                  }
-                  title={items.title}
-                  artist={items.more_info.artistMap.artists
-                    .map((x) => x.name)
-                    .join(",")}
-                  image={items.image}
-                />
-              ))
+              .map((items, index) => <SongCards key={items.id} songs={items} />)
           )}
         </SongsSection>
         <SongsSection heading="Trending Song">
@@ -74,18 +57,7 @@ export function Music() {
             <MoreSkeletonCard count={10} />
           ) : (
             trendingSong.map((items, index) => (
-              <SongCards
-                key={items.id}
-                id={items.id}
-                type={items.type}
-                song_url={items.perma_url}
-                album_url={items.more_info.album_url || ""}
-                title={items.title}
-                artist={items.more_info.artistMap.artists
-                  .map((x) => x.name)
-                  .join(",")}
-                image={items.image}
-              />
+              <SongCards key={items.id} songs={items} />
             ))
           )}
         </SongsSection>
@@ -94,16 +66,7 @@ export function Music() {
             <MoreSkeletonCard count={10} />
           ) : (
             topPlaylist.map((items, index) => (
-              <SongCards
-                key={items.id}
-                id={items.id}
-                song_url={items.perma_url}
-                album_url=""
-                type={items.type}
-                title={items.title}
-                artist={items.subtitle}
-                image={items.image}
-              />
+              <SongCards key={items.id} songs={items} />
             ))
           )}
         </SongsSection>

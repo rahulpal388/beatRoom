@@ -2,13 +2,13 @@
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 import { BASE_URL } from "@/lib/baseUrl";
-import { INewRelease } from "@/types/songType";
+import { ISong } from "@/types/songType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function NewReleased() {
-  const [newRelease, setNewRelease] = useState<INewRelease[]>([]);
+  const [newRelease, setNewRelease] = useState<ISong[]>([]);
   useEffect(() => {
     const fetchNewRelease = async () => {
       const limit = 20;
@@ -33,18 +33,7 @@ export default function NewReleased() {
             <MoreSkeletonCard count={16} />
           ) : (
             newRelease.map((items, idx) => (
-              <SongCards
-                key={idx}
-                id={items.id}
-                title={items.title}
-                type={items.type}
-                image={items.image}
-                artist={items.more_info.artistMap.artists
-                  .map((x) => x.name)
-                  .join(", ")}
-                song_url={items.type === "song" ? items.perma_url : ""}
-                album_url={items.type === "song" ? "" : items.perma_url}
-              />
+              <SongCards key={idx} songs={items} />
             ))
           )}
         </SongCardContaier>

@@ -1,15 +1,16 @@
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import axios from "axios";
 import { Request, Response } from "express";
+import { IPlaylist, IPlaylistResponse } from "./getTrendingPlaylist.js";
 
-interface IPlaylist {
-  id: string;
-  title: string;
-  subtitle: string;
-  type: string;
-  image: string;
-  perma_url: string;
-}
+// interface IPlaylist {
+//   id: string;
+//   title: string;
+//   subtitle: string;
+//   type: string;
+//   image: string;
+//   perma_url: string;
+// }
 
 const getTopPlaylist = async (req: Request, res: Response) => {
   const { success, data } = paginationType.safeParse(req.query);
@@ -28,7 +29,7 @@ const getTopPlaylist = async (req: Request, res: Response) => {
 
     const playlist = response.data as IPlaylist[];
 
-    const result = playlist.map((items) => {
+    const result: IPlaylistResponse[] = playlist.map((items) => {
       return {
         id: items.id,
         title: items.title,
@@ -37,6 +38,11 @@ const getTopPlaylist = async (req: Request, res: Response) => {
         image: items.image,
         perma_url: items.perma_url,
         isLiked: false,
+        more_info: {
+          song_count: "",
+          entity_type: "",
+          language: "",
+        },
       };
     });
 

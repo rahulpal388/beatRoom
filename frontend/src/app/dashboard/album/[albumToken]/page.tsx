@@ -87,16 +87,7 @@ export default function AlbumPage() {
             <MoreSkeletonCard count={10} />
           ) : (
             recoAlbum.map((items, index) => (
-              <SongCards
-                key={index}
-                id={items.id}
-                type={items.type}
-                title={items.title}
-                artist=""
-                image={items.image}
-                song_url=""
-                album_url={items.perma_url}
-              />
+              <SongCards key={index} songs={items} />
             ))
           )}
         </SongsSection>
@@ -105,16 +96,7 @@ export default function AlbumPage() {
             <MoreSkeletonCard count={10} />
           ) : (
             trendingAlbum.map((items, index) => (
-              <SongCards
-                key={index}
-                type={items.type}
-                id={items.id}
-                title={items.title}
-                artist=""
-                image={items.image}
-                song_url=""
-                album_url={items.perma_url}
-              />
+              <SongCards key={index} songs={items} />
             ))
           )}
         </SongsSection>

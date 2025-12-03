@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
 import { retriveSong } from "../../utils/retriveSong.js";
+import { IArtists } from "@controllers/artist/getTopArtist.js";
 
 export type ISong = {
   id: string;
@@ -19,14 +20,7 @@ export type ISong = {
     duration: string;
     encrypted_media_url: string;
     artistMap: {
-      artists: {
-        id: string;
-        name: string;
-        image: string;
-        perma_url: string;
-        role: string;
-        type: string;
-      }[];
+      artists: IArtists[];
     };
     release_date: string;
   };

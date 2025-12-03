@@ -16,7 +16,6 @@ export const getSaveSong = async (req: Request, res: Response) => {
       },
     });
 
-    console.log(user?.likes?.songs);
     res.status(200).json(user?.likes?.songs);
   } catch (error) {
     console.log(error);

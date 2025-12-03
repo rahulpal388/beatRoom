@@ -97,18 +97,7 @@ export default function Songs() {
             <MoreSkeletonCard count={10} />
           ) : (
             songReco.map((item, index) => (
-              <SongCards
-                key={index}
-                id={item.id}
-                type={item.type}
-                song_url={item.perma_url}
-                album_url={item.more_info.album_url}
-                image={item.image}
-                title={item.title}
-                artist={item.more_info.artistMap.artists
-                  .map((x) => x.name)
-                  .join(",")}
-              />
+              <SongCards key={index} songs={item} />
             ))
           )}
         </SongsSection>
@@ -117,18 +106,7 @@ export default function Songs() {
             <MoreSkeletonCard count={10} />
           ) : (
             trendingSong.map((item, index) => (
-              <SongCards
-                key={index}
-                id={item.id}
-                type={item.type}
-                song_url={item.perma_url}
-                album_url={item.more_info.album_url}
-                image={item.image}
-                title={item.title}
-                artist={item.more_info.artistMap.artists
-                  .map((x) => x.name)
-                  .join(",")}
-              />
+              <SongCards key={index} songs={item} />
             ))
           )}
         </SongsSection>

@@ -29,16 +29,7 @@ export default function TopPlaylist() {
             <MoreSkeletonCard count={16} />
           ) : (
             topPlaylist.map((items, idx) => (
-              <SongCards
-                key={idx}
-                id={items.id}
-                title={items.title}
-                type={items.type}
-                image={items.image}
-                artist={items.subtitle}
-                album_url=""
-                song_url={items.perma_url}
-              />
+              <SongCards key={idx} songs={items} />
             ))
           )}
         </SongCardContaier>

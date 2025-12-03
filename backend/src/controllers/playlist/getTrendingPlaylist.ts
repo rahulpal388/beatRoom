@@ -12,6 +12,21 @@ export type IPlaylist = {
   image: string;
 };
 
+export type IPlaylistResponse = {
+  id: string;
+  title: string;
+  subtitle: string;
+  type: string;
+  image: string;
+  perma_url: string;
+  isLiked?: boolean;
+  more_info: {
+    entity_type: string;
+    song_count: string;
+    language: string;
+  };
+};
+
 export const getTrendingPlaylist = async (req: Request, res: Response) => {
   const { success, data } = paginationType
     .and(z.object({ language: z.string() }))
@@ -29,7 +44,7 @@ export const getTrendingPlaylist = async (req: Request, res: Response) => {
       )
     ).data as IPlaylist[];
 
-    const result = response
+    const result: IPlaylistResponse[] = response
       .slice(
         Number(data.page) * Number(data.limit),
         Number(data.limit) * (Number(data.page) + 1)
@@ -43,6 +58,11 @@ export const getTrendingPlaylist = async (req: Request, res: Response) => {
           image: x.image,
           type: x.type,
           isLiked: false,
+          more_info: {
+            song_count: "",
+            entity_type: "",
+            language: "",
+          },
         };
       });
 

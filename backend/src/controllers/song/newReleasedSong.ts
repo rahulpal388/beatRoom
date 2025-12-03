@@ -8,13 +8,13 @@ import { paginationType } from "../../zodTypes/paginatipType.js";
 //     album: item.more_info.album,
 //         album_url: item.more_info.album_url,\
 
-type IAlbum = {
-  id: string;
-  title: string;
-  type: string;
-  perma_url: string;
-  image: string;
-};
+// type IAlbum = {
+//   id: string;
+//   title: string;
+//   type: string;
+//   perma_url: string;
+//   image: string;
+// };
 
 type IMoreInfo = Omit<
   ISong["more_info"],
@@ -48,7 +48,7 @@ const getNewReleasedSong = async (req: Request, res: Response) => {
 
     // check from the db that the person has liked songs or not
 
-    const result: INewRelease[] = newSong.map((items) => {
+    const result: ISong[] = newSong.map((items) => {
       return {
         id: items.id,
         title: items.title,
@@ -57,12 +57,13 @@ const getNewReleasedSong = async (req: Request, res: Response) => {
         perma_url: items.perma_url,
         image: items.image.replace("150x150", "500x500"),
         language: items.language,
+        isLiked: false,
         more_info: {
-          album_id: items.more_info.album_id,
-          album: items.more_info.album,
-          album_url: items.more_info.album_url,
-          duration: items.more_info.duration,
-          encrypted_media_url: items.more_info.encrypted_media_url,
+          album_id: items.more_info.album_id || "",
+          album: items.more_info.album || "",
+          album_url: items.more_info.album_url || "",
+          duration: items.more_info.duration || "",
+          encrypted_media_url: items.more_info.encrypted_media_url || "",
           artistMap: {
             artists: items.more_info.artistMap.artists.map((artist) => {
               return {

@@ -78,18 +78,7 @@ export default function LikedSong() {
             ) : (
               <SongCardContaier>
                 {song.map((song, idx) => (
-                  <SongCards
-                    key={idx}
-                    id={song.id}
-                    title={song.title}
-                    artist={song.more_info.artistMap.artists
-                      .map((x) => x.name)
-                      .join(", ")}
-                    type={song.type}
-                    song_url={song.perma_url}
-                    album_url={song.more_info.album_url}
-                    image={song.image}
-                  />
+                  <SongCards key={idx} songs={song} />
                 ))}
               </SongCardContaier>
             ))}

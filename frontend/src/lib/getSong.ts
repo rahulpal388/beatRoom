@@ -17,6 +17,9 @@ export const getSong = async ({
   setQueueSongs: React.Dispatch<React.SetStateAction<ISong[]>>;
   setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  console.log(song_token);
+  console.log(album_token);
+
   if (type === "playlist") {
     const playlistSong = (await axios.get(`${BASE_URL}/playlist/${song_token}`))
       .data;
@@ -27,7 +30,9 @@ export const getSong = async ({
   } else {
     const albumSong = (
       await axios.get(
-        `${BASE_URL}/album/?songToken=${song_token}&albumToken=${album_token}`
+        `${BASE_URL}/album/?songToken=${song_token}&albumToken=${
+          album_token?.length === 0 ? song_token : album_token
+        }`
       )
     ).data;
 

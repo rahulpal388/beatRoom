@@ -1,7 +1,7 @@
 "use client";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 import { BASE_URL } from "@/lib/baseUrl";
-import { ITopArtist } from "@/types/artistType";
+import { IArtists } from "@/types/artistType";
 import { ArtistCircleCardSkeleton } from "@/ui/artistCircleCardSkeletop";
 import axios from "axios";
 import Image from "next/image";
@@ -9,13 +9,13 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function TopArtists() {
-  const [topArtist, setTopArtist] = useState<ITopArtist[]>([]);
+  const [topArtist, setTopArtist] = useState<IArtists[]>([]);
   useEffect(() => {
     const fetchTopArtist = async () => {
       const limit = 20;
       const response = (
         await axios.get(`${BASE_URL}/artist/topArtist/?limit=${limit}`)
-      ).data as ITopArtist[];
+      ).data as IArtists[];
 
       setTopArtist(response);
     };

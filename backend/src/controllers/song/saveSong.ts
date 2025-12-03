@@ -54,7 +54,7 @@ export const saveSong = async (req: Request, res: Response) => {
       { new: true, upsert: true }
     );
 
-    const user = await userModel.findOneAndUpdate(
+    await userModel.findOneAndUpdate(
       { userId: req.params.userId },
       { $addToSet: { "likes.songs": song._id } },
       { new: true }

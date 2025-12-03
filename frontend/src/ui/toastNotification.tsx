@@ -30,7 +30,7 @@ export function ToastNotification({
           duration: 2,
           ease: "easeInOut",
         }}
-        className="  fixed top-2 right-2  bg-[#212421]     h-[3.5rem]  rounded-lg px-4 flex items-center justify-between gap-4   "
+        className="z-50  fixed top-2 right-2  bg-[#212421]     h-[3.5rem]  rounded-lg px-4 flex items-center justify-between gap-4   "
       >
         <div className="  flex items-center justify-between gap-4  ">
           <div

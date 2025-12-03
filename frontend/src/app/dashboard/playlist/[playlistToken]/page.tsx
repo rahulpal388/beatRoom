@@ -93,16 +93,7 @@ export default function PlaylistPage() {
             <MoreSkeletonCard count={10} />
           ) : (
             playlistReco.map((items, index) => (
-              <SongCards
-                key={index}
-                id={items.id}
-                type={items.type}
-                title={items.title}
-                artist=""
-                image={items.image}
-                song_url={items.perma_url}
-                album_url=""
-              />
+              <SongCards key={index} songs={items} />
             ))
           )}
         </SongsSection>
@@ -111,16 +102,7 @@ export default function PlaylistPage() {
             <MoreSkeletonCard count={10} />
           ) : (
             playlistTrending.map((items, index) => (
-              <SongCards
-                key={index}
-                id={items.id}
-                type={items.type}
-                title={items.title}
-                artist=""
-                image={items.image}
-                song_url={items.perma_url}
-                album_url=""
-              />
+              <SongCards key={index} songs={items} />
             ))
           )}
         </SongsSection>

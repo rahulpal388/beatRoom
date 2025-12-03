@@ -26,7 +26,7 @@ export type ISongAlbum = {
 export type IAlbums = {
   id: string;
   title: string;
-  type: string;
+  type: "album";
   perma_url: string;
   image: string;
   isLiked: boolean;

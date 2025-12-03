@@ -34,18 +34,7 @@ export default function TopAlbum() {
           {topAlbum.length <= 0 ? (
             <MoreSkeletonCard count={16} />
           ) : (
-            topAlbum.map((items, idx) => (
-              <SongCards
-                key={idx}
-                id={items.id}
-                title={items.title}
-                type={items.type}
-                image={items.image}
-                artist=""
-                song_url=""
-                album_url={items.perma_url}
-              />
-            ))
+            topAlbum.map((items, idx) => <SongCards key={idx} songs={items} />)
           )}
         </SongCardContaier>
       </div>

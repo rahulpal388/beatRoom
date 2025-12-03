@@ -28,7 +28,7 @@ export function Button({
   name: string;
   icon?: React.ReactNode;
   className?: string;
-  onClick: MouseEventHandler<HTMLButtonElement>;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }) {
   return (
     <>

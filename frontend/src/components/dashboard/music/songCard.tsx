@@ -1,6 +1,13 @@
 import { EllipsisVerticalIcon, Heart, Play } from "lucide-react";
 import Image from "next/image";
-import React, { ReactHTMLElement, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  ReactHTMLElement,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
 import { decodeHTML } from "@/lib/decodeHtml";
@@ -15,41 +22,30 @@ import { useActiveCardPopover } from "@/context/activeCardPopover";
 import { ISong } from "@/types/songType";
 import { IPlaylist } from "@/types/playlistType";
 import { IAlbums } from "@/types/albumType";
-
-// task : url for the playlist
+import { IArtistAlbum } from "@/types/artistType";
+import { saveSong } from "@/lib/saveSong";
 
 export function SongCards({
-  title,
-  artist,
-  image,
-  type,
-  song_url,
-  album_url,
-  id,
-}: // songs,
-{
-  title: string;
-  artist: string;
-  id: string;
-  type: string;
-  image: string;
-  song_url: string;
-  album_url: string;
-  // songs: ISong | IPlaylist | IAlbums;
+  songs,
+}: {
+  songs: ISong | IPlaylist | IAlbums | IArtistAlbum;
 }) {
   const { setQueueSongs } = useQueue();
   const { isActive, setIsActive } = useActiveCardPopover();
-  const song_token = song_url?.split("/").at(-1);
-  const album_token = album_url?.split("/").at(-1);
+  const song_token = songs.perma_url.split("/").at(-1);
+  const album_token =
+    songs.type === "song" && "album_url" in songs.more_info
+      ? songs.more_info.album_url.split("/").at(-1)
+      : "";
   const songHref = `/dashboard/song/${song_token}/${album_token}`;
-  const ablbumHref = `/dashboard/album/${album_token}`;
+  const ablbumHref = `/dashboard/album/${song_token}`;
   const playlistHref = `/dashboard/playlist/${song_token}`;
-
+  const type = songs.type;
   const { setIsPlaying, setCurrentSong } = useCurrentSongDetail();
   const { popoverRef, setCardType, setOpenPopover, openPopover } =
     usePopoverCard();
   const popoverElement = useRef<SVGSVGElement | null>(null);
-  const activeCard = isActive === id;
+  const activeCard = isActive === songs.id;
   return (
     <>
       <div className=" relative shadow-soft   group px-4 py-4 h-[16rem] w-[10rem] rounded hover:bg-card-hover   ">
@@ -58,7 +54,21 @@ export function SongCards({
             openPopover && activeCard ? "flex" : "hidden  group-hover:flex"
           } `}
         >
-          <Heart size={30} className="  cursor-pointer " />
+          <Heart
+            size={30}
+            className="  cursor-pointer "
+            onClick={async () => {
+              if (type === "song") {
+                const response = await saveSong(songs);
+                if (response && response.status === 200) {
+                  // update the song
+                  // toastNotification
+                } else {
+                  // toastNotification
+                }
+              }
+            }}
+          />
           <div className="relative  ">
             <EllipsisVerticalIcon
               // ref={(el) => (popoverElement.current = el)}
@@ -68,8 +78,9 @@ export function SongCards({
                 e.stopPropagation();
                 setOpenPopover(!openPopover);
                 popoverRef.current = e.currentTarget;
-                setIsActive(id);
-                setCardType(type);
+                setIsActive(songs.id);
+                setCardType(songs.type);
+                console.log(songs.type);
               }}
               onScroll={() => {
                 console.log("scrolling");
@@ -79,7 +90,7 @@ export function SongCards({
         </div>
         <div className="  mb-2  w-32 rounded     ">
           <Image
-            src={image}
+            src={songs.image}
             alt="image"
             height={100}
             width={100}
@@ -111,11 +122,19 @@ export function SongCards({
           }
           className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] "
         >
-          {decodeHTML(title)}
+          {decodeHTML(songs.title)}
         </Link>
 
         <p className="  mt-1 text-[0.7rem] text-text-muted line-clamp-2  ">
-          {artist}
+          {decodeHTML(
+            songs.type === "song"
+              ? songs.more_info.artistMap.artists.map((x) => x.name).join(", ")
+              : songs.type === "playlist"
+              ? songs.subtitle
+              : songs.title === "album" && "more_info" in songs
+              ? songs.more_info.artistMap.artists.map((x) => x.name).join(", ")
+              : ""
+          )}
         </p>
       </div>
     </>

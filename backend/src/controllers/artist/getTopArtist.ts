@@ -37,14 +37,16 @@ const getTopArtits = async (req: Request, res: Response) => {
 
     const topArtists = response.top_artists as ITopArtist[];
 
-    const result: ITopArtist[] = topArtists
+    const result: IArtists[] = topArtists
       .slice(0, Number(data.limit))
       .map((items) => {
         return {
-          artistid: items.artistid,
+          id: items.artistid,
           name: items.name,
           image: items.image.replace("150x150", "500x500"),
           perma_url: items.perma_url,
+          role: "",
+          type: "",
         };
       });
 

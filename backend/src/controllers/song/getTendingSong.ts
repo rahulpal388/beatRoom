@@ -3,7 +3,8 @@ import { Request, Response } from "express";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
 import { retriveSong } from "../../utils/retriveSong.js";
-import { IArtists } from "@controllers/artist/getTopArtist.js";
+import { IArtists } from "../../controllers/artist/getTopArtist.js";
+import { getLikedSong } from "../../utils/getlikedSong.js";
 
 export type ISong = {
   id: string;
@@ -30,16 +31,19 @@ const getTrendingSong = async (req: Request, res: Response) => {
   const { success, data } = paginationType
     .and(z.object({ language: z.string() }))
     .safeParse(req.query);
-
+  const userId = req.user.userId;
   if (!success) {
     res.status(200).json([]);
     return;
   }
 
   try {
-    const response = await axios.get(
-      `https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=${data.language}`
-    );
+    const [response, likedSong] = await Promise.all([
+      axios.get(
+        `https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=song&entity_language=${data.language}`
+      ),
+      getLikedSong(userId),
+    ]);
     const trending = response.data as ISong[];
     const sliceTrending = trending.slice(
       Number(data.page) * Number(data.limit),
@@ -47,7 +51,7 @@ const getTrendingSong = async (req: Request, res: Response) => {
     );
 
     // get the liked song and ablum;
-    const result = retriveSong(sliceTrending, false);
+    const result = retriveSong(sliceTrending, likedSong);
 
     res.status(200).json(result);
   } catch (error) {

@@ -25,17 +25,28 @@ export default function Songs() {
       const [albums, songDetail] = await Promise.all([
         (
           await axios.get(
-            `${BASE_URL}/album/?songToken=${param.songToken}&albumToken=${param.albumToken}`
+            `${BASE_URL}/album/?songToken=${param.songToken}&albumToken=${param.albumToken}`,
+            { withCredentials: true }
           )
         ).data,
-        (await axios.get(`${BASE_URL}/song/${param.songToken}`)).data,
+        (
+          await axios.get(`${BASE_URL}/song/${param.songToken}`, {
+            withCredentials: true,
+          })
+        ).data,
       ]);
+      console.log(songDetail);
 
       const [songRecos, trendingSongs] = await Promise.all([
-        (await axios.get(`${BASE_URL}/song/reco/${songDetail.id}`)).data,
+        (
+          await axios.get(`${BASE_URL}/song/reco/${songDetail.id}`, {
+            withCredentials: true,
+          })
+        ).data,
         (
           await axios.get(
-            `${BASE_URL}/song/trendingSong/?limit=${limit}&page=${page}&language=${songDetail.language}`
+            `${BASE_URL}/song/trendingSong/?limit=${limit}&page=${page}&language=${songDetail.language}`,
+            { withCredentials: true }
           )
         ).data,
       ]);
@@ -77,17 +88,19 @@ export default function Songs() {
             {album?.list.map((item, index) => (
               <SongHorizontalCard
                 key={index}
-                type={item.type}
-                song_url={item.perma_url}
-                album_url={item.more_info.album_url}
                 serialNumber={index + 1}
-                id={item.id}
-                image={item.image}
-                title={item.title}
-                artist={item.more_info.artistMap.artists
-                  .map((x) => x.name)
-                  .join(",")}
-                duration={item.more_info.duration}
+                songs={item}
+                updateState={(id: string) => {
+                  setAlbum((prev) => {
+                    if (!prev) return null;
+                    return {
+                      ...prev,
+                      list: prev?.list.map((x) =>
+                        x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                      ),
+                    };
+                  });
+                }}
               />
             ))}
           </div>
@@ -97,7 +110,17 @@ export default function Songs() {
             <MoreSkeletonCard count={10} />
           ) : (
             songReco.map((item, index) => (
-              <SongCards key={index} songs={item} />
+              <SongCards
+                key={index}
+                songs={item}
+                updateState={(id: string) => {
+                  setSongReco((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongsSection>
@@ -106,7 +129,17 @@ export default function Songs() {
             <MoreSkeletonCard count={10} />
           ) : (
             trendingSong.map((item, index) => (
-              <SongCards key={index} songs={item} />
+              <SongCards
+                key={index}
+                songs={item}
+                updateState={(id: string) => {
+                  setTrendingSong((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongsSection>

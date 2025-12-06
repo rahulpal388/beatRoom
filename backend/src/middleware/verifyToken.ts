@@ -45,21 +45,13 @@ const verifyTokenMiddleware = async (
               maxAge: 1000 * 60 * 15,
             });
 
-          req.params.userId = user!.userId;
+          req.user = { userId: user!.userId };
           console.log("calling next after creating refreshToken");
           next();
-        } else {
-          // loggout user
-          res.status(200).json({
-            message: "logout invalid refreshToken ",
-          });
         }
       } else {
-        // loggout user
-        res.status(200).json({
-          message: "logout no refreshToken and accessToken ",
-        });
-        // loggout user
+        req.user = { userId: "" };
+        next();
       }
 
       return;
@@ -67,14 +59,15 @@ const verifyTokenMiddleware = async (
 
     const { verify, data } = verifyJwtToken({ token: accessToken });
 
-    if (verify) {
-      const user = await userModel.findOne({ email: data?.email });
-      req.params.userId = user!.userId;
-
+    if (verify && data) {
+      req.user = { userId: data.userId };
+      console.log(data);
       console.log("calling next after verifying accessToken");
+      console.log(req.user);
       next();
     } else {
-      res.send("asdfgh");
+      req.user = { userId: "" };
+      next();
     }
   } catch (error) {
     res.status(411).json({

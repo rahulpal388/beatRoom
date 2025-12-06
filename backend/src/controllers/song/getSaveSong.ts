@@ -2,7 +2,7 @@ import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";
 
 export const getSaveSong = async (req: Request, res: Response) => {
-  const userId = req.params.userId;
+  const userId = req.user.userId;
   console.log(userId);
   try {
     const user = await userModel.findOne({ userId }).populate({

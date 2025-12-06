@@ -5,13 +5,19 @@ import { userModel } from "../../db/schema/user.js";
 
 export const savePlaylist = async (req: Request, res: Response) => {
   const { success, data } = savePlaylistType.safeParse(req.body);
-
+  const userId = req.user.userId;
   if (!success) {
     res.status(400).json({
       message: "Invalid input",
     });
 
     return;
+  }
+
+  if (userId.length === 0) {
+    return res.status(401).json({
+      message: "log in to save playlist",
+    });
   }
 
   try {
@@ -30,8 +36,8 @@ export const savePlaylist = async (req: Request, res: Response) => {
     );
 
     await userModel.findOneAndUpdate(
-      { userId: req.params.userId },
-      { "likes.playlists": playlist._id }
+      { userId },
+      { $addToSet: { "likes.playlists": playlist._id } }
     );
 
     res.status(200).json({

@@ -1,10 +1,13 @@
-import { verifyOtpType } from "../zodTypes/authType.js";
+import { verifyOtpType } from "../../zodTypes/authType.js";
 import { Request, Response } from "express";
-import { createAccessToken, createRefreshToken } from "../utils/jwtTokens.js";
-import { hashPassword } from "../utils/bcryptPassword.js";
-import { generateUniqueUserId } from "../utils/generateUniqueId.js";
-import { optModel } from "../db/schema/otp.js";
-import { userModel } from "../db/schema/user.js";
+import {
+  createAccessToken,
+  createRefreshToken,
+} from "../../utils/jwtTokens.js";
+import { hashPassword } from "../../utils/bcryptPassword.js";
+import { generateUniqueUserId } from "../../utils/generateUniqueId.js";
+import { optModel } from "../../db/schema/otp.js";
+import { userModel } from "../../db/schema/user.js";
 
 export const verifyOtp_signin = async (req: Request, res: Response) => {
   try {

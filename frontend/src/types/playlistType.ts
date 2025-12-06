@@ -25,6 +25,7 @@ export type ISongsPlaylist = {
   image: string;
   language: string;
   list_count: string;
+  isLiked: boolean;
   list: ISong[];
   more_info: {
     artists: IArtists[];

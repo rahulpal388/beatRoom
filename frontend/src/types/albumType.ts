@@ -23,11 +23,25 @@ export type ISongAlbum = {
   };
 };
 
-export type IAlbums = {
+export type IAlbum = {
   id: string;
   title: string;
+  subtitle: string;
   type: "album";
   perma_url: string;
   image: string;
+  language: string;
   isLiked: boolean;
+  more_info: {
+    artistMap: {
+      artists: {
+        id: string;
+        name: string;
+        role: string;
+        image: string;
+        type: string;
+        perma_url: string;
+      }[];
+    };
+  };
 };

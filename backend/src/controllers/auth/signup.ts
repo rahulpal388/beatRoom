@@ -1,7 +1,7 @@
-import { optModel } from "../db/schema/otp.js";
-import { userModel } from "../db/schema/user.js";
-import { sendEmail } from "../utils/nodeMailer.js";
-import { signUpType } from "../zodTypes/authType.js";
+import { optModel } from "../../db/schema/otp.js";
+import { userModel } from "../../db/schema/user.js";
+import { sendEmail } from "../../utils/nodeMailer.js";
+import { signUpType } from "../../zodTypes/authType.js";
 import { Request, Response } from "express";
 import { TOTP } from "totp-generator";
 

@@ -12,6 +12,7 @@ import { useArtist } from "./routes/artist.js";
 import { usePlaylist } from "./routes/playlist.js";
 import useAlbum from "./routes/album.js";
 import { DBConnect } from "./db/index.js";
+import verifyTokenMiddleware from "./middleware/verifyToken.js";
 dns.setDefaultResultOrder("ipv4first");
 
 export const roomDB: {
@@ -35,7 +36,7 @@ app.use(
 
 app.use(nextError);
 app.use(express.json());
-
+app.use(verifyTokenMiddleware);
 DBConnect();
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/room", roomRouter);

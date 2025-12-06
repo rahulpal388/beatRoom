@@ -1,3 +1,4 @@
+import { IAlbum } from "./albumType";
 import { IPlaylist } from "./playlistType";
 import { ISong } from "./songType";
 
@@ -10,28 +11,6 @@ export type IArtists = {
   type: string;
 };
 
-export type IArtistAlbum = {
-  id: string;
-  title: string;
-  subtitle: string;
-  type: "album";
-  perma_url: string;
-  image: string;
-  language: string;
-  more_info: {
-    artistMap: {
-      artists: {
-        id: string;
-        name: string;
-        role: string;
-        image: string;
-        type: string;
-        perma_url: string;
-      }[];
-    };
-  };
-};
-
 export type IArtistInfo = {
   artistId: string;
   name: string;
@@ -39,9 +18,10 @@ export type IArtistInfo = {
   image: string;
   follower_count: string;
   type: string;
+  isLiked: boolean;
   topSongs: ISong[];
-  topAlbums: IArtistAlbum[];
+  topAlbums: IAlbum[];
   dedicated_artist_playlist: IPlaylist[];
   featured_artist_playlist: IPlaylist[];
-  latest_release: IArtistAlbum[];
+  latest_release: IAlbum[];
 };

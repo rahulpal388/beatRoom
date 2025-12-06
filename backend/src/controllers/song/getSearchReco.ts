@@ -47,7 +47,7 @@ type ISearchReco = ISearch & {
 // get the info about the artist
 export const getSearchReco = async (req: Request, res: Response) => {
   const { query } = req.query;
-
+  const userId = req.user.userId;
   try {
     const searchResponse = (
       await axios.get(
@@ -57,7 +57,7 @@ export const getSearchReco = async (req: Request, res: Response) => {
 
     const token = searchResponse.topquery.data[0].url.split("/").at(-1);
 
-    const songDetail = await getSongDetails(token || "");
+    const songDetail = await getSongDetails(token || "", userId);
 
     console.log(searchResponse.topquery.data[0].url);
     const artists = !songDetail

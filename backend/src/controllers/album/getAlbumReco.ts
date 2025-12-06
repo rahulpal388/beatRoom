@@ -22,10 +22,26 @@ export const getAlbumReco = async (req: Request, res: Response) => {
       return {
         id: x.id,
         title: x.title,
+        subtitle: "",
         type: x.type,
         perma_url: x.perma_url,
         image: x.image.replace("150x150", "500x500"),
+        language: "",
         isLiked: false,
+        more_info: {
+          artistMap: {
+            artists: [
+              {
+                id: "",
+                name: "",
+                role: "",
+                image: "",
+                type: "",
+                perma_url: "",
+              },
+            ],
+          },
+        },
       };
     });
 

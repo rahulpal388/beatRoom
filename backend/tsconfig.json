@@ -10,6 +10,10 @@
     "skipLibCheck": true,
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
+    "typeRoots": [
+      "./src/types",
+      "./node_modules/@types"
+    ],
     "types": [
       "node",
       "express"

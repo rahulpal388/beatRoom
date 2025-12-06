@@ -3,6 +3,8 @@ import { IArtists } from "../../controllers/artist/getTopArtist.js";
 import { ISong } from "../../controllers/song/getTendingSong.js";
 import axios from "axios";
 import { Request, Response } from "express";
+import { getLikedSong } from "../../utils/getlikedSong.js";
+import { getLikedPlaylist } from "../../utils/getLikedPlaylist.js";
 
 type ISongsPlaylist = {
   id: string;
@@ -21,25 +23,30 @@ type ISongsPlaylist = {
 
 export const getSongsPlaylist = async (req: Request, res: Response) => {
   const { token } = req.params;
+  const userId = req.user.userId;
 
   try {
-    const response = (
-      await axios.get(
+    const [response, likedSong, likedPlaylist] = await Promise.all([
+      axios.get(
         `https://www.jiosaavn.com/api.php?__call=webapi.get&api_version=4&_format=json&_marker=0&ctx=web6dot0&token=${token}&type=playlist`
-      )
-    ).data as ISongsPlaylist;
-    const result: ISongsPlaylist = {
-      id: response.id,
-      title: response.title,
-      subtitle: response.subtitle,
-      type: response.type,
-      image: response.image,
-      language: response.list[0].language,
-      perma_url: response.perma_url,
-      list_count: response.list_count,
-      list: retriveSong(response.list, false),
+      ),
+      getLikedSong(userId),
+      getLikedPlaylist(userId),
+    ]);
+    const playlist = response.data as ISongsPlaylist;
+    const result = {
+      id: playlist.id,
+      title: playlist.title,
+      subtitle: playlist.subtitle,
+      type: playlist.type,
+      image: playlist.image,
+      language: playlist.list[0].language,
+      perma_url: playlist.perma_url,
+      list_count: playlist.list_count,
+      isLiked: likedPlaylist.has(playlist.id),
+      list: retriveSong(playlist.list, likedSong),
       more_info: {
-        artists: response.more_info.artists.map((x) => {
+        artists: playlist.more_info.artists.map((x) => {
           return {
             id: x.id,
             name: x.name,

@@ -5,12 +5,14 @@ import { getSongsPlaylist } from "../controllers/playlist/getSongsPlaylist.js";
 import { getPlaylistReco } from "../controllers/playlist/getPlaylistReco.js";
 import { savePlaylist } from "../controllers/playlist/savePlaylist.js";
 import verifyTokenMiddleware from "../middleware/verifyToken.js";
+import { removePlaylist } from "../controllers/playlist/removePlaylist.js";
 
 export const usePlaylist = Router();
 
 usePlaylist.get("/", getTopPlaylist);
 
-usePlaylist.post("/save", verifyTokenMiddleware, savePlaylist);
+usePlaylist.post("/save", savePlaylist);
+usePlaylist.post("/remove", removePlaylist);
 
 // get trending playlist by language
 usePlaylist.get("/trendingPlaylist", getTrendingPlaylist);

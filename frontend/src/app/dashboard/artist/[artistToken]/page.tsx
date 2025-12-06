@@ -20,7 +20,8 @@ export default function Artist() {
     const fetchArtistInfo = async () => {
       const response = (
         await axios.get(
-          `http://localhost:8080/api/v1/artist/?artistToken=${artistToken}`
+          `http://localhost:8080/api/v1/artist/?artistToken=${artistToken}`,
+          { withCredentials: true }
         )
       ).data;
 
@@ -123,13 +124,25 @@ export default function Artist() {
             <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
               {active === "song" &&
                 artistInfo.topSongs.map((song, idx) => (
-                  <SongCards key={idx} songs={song} />
+                  <SongCards
+                    key={idx}
+                    songs={song}
+                    updateState={(id: string) => {
+                      // setArtistInfo()
+                    }}
+                  />
                 ))}
             </div>
             <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
               {active === "album" &&
                 artistInfo.topAlbums.map((song, idx) => (
-                  <SongCards key={idx} songs={song} />
+                  <SongCards
+                    key={idx}
+                    songs={song}
+                    updateState={(id: string) => {
+                      console.log(id);
+                    }}
+                  />
                 ))}
             </div>
             <div>
@@ -139,7 +152,13 @@ export default function Artist() {
                     <h1 className=" text-2xl  ">Featured In</h1>
                     <div className=" mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.featured_artist_playlist.map((song, idx) => (
-                        <SongCards key={idx} songs={song} />
+                        <SongCards
+                          key={idx}
+                          songs={song}
+                          updateState={(id: string) => {
+                            console.log(id);
+                          }}
+                        />
                       ))}
                     </div>
                   </div>
@@ -147,7 +166,13 @@ export default function Artist() {
                     <h1 className=" text-2xl  ">Just {artistInfo.name}</h1>
                     <div className=" w-full mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.dedicated_artist_playlist.map((song, idx) => (
-                        <SongCards key={idx} songs={song} />
+                        <SongCards
+                          key={idx}
+                          songs={song}
+                          updateState={(id: string) => {
+                            console.log(id);
+                          }}
+                        />
                       ))}
                     </div>
                   </div>
@@ -158,7 +183,13 @@ export default function Artist() {
           <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
             {active === "new_release" &&
               artistInfo.latest_release.map((song, idx) => (
-                <SongCards key={idx} songs={song} />
+                <SongCards
+                  key={idx}
+                  songs={song}
+                  updateState={(id: string) => {
+                    console.log(id);
+                  }}
+                />
               ))}
           </div>
         </div>

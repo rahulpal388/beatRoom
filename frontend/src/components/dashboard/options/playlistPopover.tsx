@@ -19,9 +19,9 @@ export function PlaylistPopover() {
         <button className=" hover:bg-bar text-lg hover:bg-card-hover py-1 cursor-pointer ">
           Add To Queue
         </button>
-        {/* <button className=" hover:bg-bar text-lg hover:bg-card-hover py-1 cursor-pointer ">
+        <button className=" hover:bg-bar text-lg hover:bg-card-hover py-1 cursor-pointer ">
           Add To Playlist
-        </button> */}
+        </button>
       </div>
     </>
   );

@@ -78,7 +78,13 @@ export default function LikedSong() {
             ) : (
               <SongCardContaier>
                 {song.map((song, idx) => (
-                  <SongCards key={idx} songs={song} />
+                  <SongCards
+                    key={idx}
+                    songs={song}
+                    updateState={(id: string) => {
+                      setSong((prev) => prev.filter((x) => x.id !== id));
+                    }}
+                  />
                 ))}
               </SongCardContaier>
             ))}

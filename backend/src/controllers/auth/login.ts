@@ -1,8 +1,11 @@
-import { createAccessToken, createRefreshToken } from "../utils/jwtTokens.js";
-import { signinType } from "../zodTypes/authType.js";
+import {
+  createAccessToken,
+  createRefreshToken,
+} from "../../utils/jwtTokens.js";
+import { signinType } from "../../zodTypes/authType.js";
 import { Request, Response } from "express";
-import { matchPassword } from "../utils/bcryptPassword.js";
-import { userModel } from "../db/schema/user.js";
+import { matchPassword } from "../../utils/bcryptPassword.js";
+import { userModel } from "../../db/schema/user.js";
 
 export const Login = async (req: Request, res: Response) => {
   const { data, success, error } = signinType.safeParse(req.body);

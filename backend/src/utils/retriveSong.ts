@@ -1,6 +1,6 @@
 import { ISong } from "../controllers/song/getTendingSong.js";
 
-export const retriveSong = (songs: ISong[], isLiked: boolean) => {
+export const retriveSong = (songs: ISong[], likeSong: Set<string>) => {
   return songs.map((item) => {
     return {
       id: item.id,
@@ -10,7 +10,7 @@ export const retriveSong = (songs: ISong[], isLiked: boolean) => {
       perma_url: item.perma_url,
       image: item.image.replace("150x150", "500x500"),
       language: item.language,
-      isLiked: isLiked,
+      isLiked: likeSong.has(item.id),
       more_info: {
         album_id: item.more_info.album_id,
         album: item.more_info.album,

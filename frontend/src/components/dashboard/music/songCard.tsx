@@ -21,14 +21,16 @@ import { PlayBotton } from "@/ui/play";
 import { useActiveCardPopover } from "@/context/activeCardPopover";
 import { ISong } from "@/types/songType";
 import { IPlaylist } from "@/types/playlistType";
-import { IAlbums } from "@/types/albumType";
-import { IArtistAlbum } from "@/types/artistType";
 import { saveSong } from "@/lib/saveSong";
+import { IAlbum } from "@/types/albumType";
+import { useToastNotification } from "@/context/toastNotificationContext";
 
 export function SongCards({
   songs,
+  updateState,
 }: {
-  songs: ISong | IPlaylist | IAlbums | IArtistAlbum;
+  songs: ISong | IPlaylist | IAlbum;
+  updateState: (id: string) => void;
 }) {
   const { setQueueSongs } = useQueue();
   const { isActive, setIsActive } = useActiveCardPopover();
@@ -44,39 +46,57 @@ export function SongCards({
   const { setIsPlaying, setCurrentSong } = useCurrentSongDetail();
   const { popoverRef, setCardType, setOpenPopover, openPopover } =
     usePopoverCard();
-  const popoverElement = useRef<SVGSVGElement | null>(null);
+  const { setMessage, setNotification, setType } = useToastNotification();
   const activeCard = isActive === songs.id;
   return (
     <>
-      <div className=" relative shadow-soft   group px-4 py-4 h-[16rem] w-[10rem] rounded hover:bg-card-hover   ">
+      <div
+        className={`relative shadow-soft   group px-4 py-4 h-[16rem] w-[10rem] rounded  hover:bg-card-hover`}
+      >
         <div
-          className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full ${
-            openPopover && activeCard ? "flex" : "hidden  group-hover:flex"
-          } `}
+          className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full  flex`}
         >
           <Heart
             size={30}
-            className="  cursor-pointer "
+            className={`cursor-pointer  ${
+              songs.isLiked
+                ? "fill-red-800 stroke-0 block "
+                : ` ${
+                    openPopover && activeCard
+                      ? "block"
+                      : "hidden group-hover:block"
+                  }`
+            } `}
             onClick={async () => {
-              if (type === "song") {
+              if (songs.type === "song") {
                 const response = await saveSong(songs);
-                if (response && response.status === 200) {
-                  // update the song
-                  // toastNotification
+                if (!response) {
+                  // song not saved
+                  setNotification(true);
+                  setMessage("Song Not Saved");
+                  setType("error");
                 } else {
-                  // toastNotification
+                  // song saved
+                  setNotification(true);
+                  setMessage(`Song ${songs.isLiked ? "Removed" : "Saved"}`);
+                  setType("success");
+                  updateState(songs.id);
                 }
               }
             }}
           />
-          <div className="relative  ">
+          <div
+            className={`relative ${
+              openPopover && activeCard ? "block" : "hidden group-hover:block"
+            } `}
+          >
             <EllipsisVerticalIcon
               // ref={(el) => (popoverElement.current = el)}
               size={30}
               className=" cursor-pointer rounded-full    "
               onClick={(e) => {
                 e.stopPropagation();
-                setOpenPopover(!openPopover);
+                setOpenPopover(isActive ? !openPopover : false);
                 popoverRef.current = e.currentTarget;
                 setIsActive(songs.id);
                 setCardType(songs.type);
@@ -127,13 +147,9 @@ export function SongCards({
 
         <p className="  mt-1 text-[0.7rem] text-text-muted line-clamp-2  ">
           {decodeHTML(
-            songs.type === "song"
-              ? songs.more_info.artistMap.artists.map((x) => x.name).join(", ")
-              : songs.type === "playlist"
+            songs.type === "playlist"
               ? songs.subtitle
-              : songs.title === "album" && "more_info" in songs
-              ? songs.more_info.artistMap.artists.map((x) => x.name).join(", ")
-              : ""
+              : songs.more_info.artistMap.artists.map((x) => x.name).join(", ")
           )}
         </p>
       </div>

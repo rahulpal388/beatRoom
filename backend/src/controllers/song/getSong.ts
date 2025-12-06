@@ -2,8 +2,10 @@ import { Request, Response } from "express";
 import { getSongDetails } from "../../utils/getSongDetails.js";
 
 export const getSong = async (req: Request, res: Response) => {
-  const token = req.params.token;
-  const result = await getSongDetails(token);
+  const { token } = req.params;
+  const userId = req.user.userId;
+  const result = await getSongDetails(token, userId);
+  console.log(result);
   if (!result) {
     res.status(200).json([]);
     return;

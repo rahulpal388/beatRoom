@@ -1,10 +1,7 @@
-import createRoom from "../controllers/createRoom.js";
+import createRoom from "../controllers/room/createRoom.js";
 import { Router } from "express";
 import verifyToken from "../middleware/verifyToken.js";
-import { getRooms } from "../controllers/getRooms.js";
-
-
-
+import { getRooms } from "../controllers/room/getRooms.js";
 
 const roomRouter = Router();
 

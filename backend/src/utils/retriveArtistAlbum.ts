@@ -1,6 +1,9 @@
 import { IArtistAlbum } from "../controllers/artist/getArtistInfo.js";
 
-export const retriveArtistAlbum = (albums: IArtistAlbum[]): IArtistAlbum[] => {
+export const retriveArtistAlbum = (
+  albums: IArtistAlbum[],
+  isLiked: boolean
+) => {
   return albums.map((album) => {
     return {
       id: album.id,
@@ -10,6 +13,7 @@ export const retriveArtistAlbum = (albums: IArtistAlbum[]): IArtistAlbum[] => {
       perma_url: album.perma_url,
       image: album.image.replace("150x150", "500x500"),
       language: album.language,
+      isLiked: isLiked,
       more_info: {
         artistMap: {
           artists: album.more_info.artistMap.artists.map((artist) => {

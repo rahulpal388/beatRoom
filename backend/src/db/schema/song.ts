@@ -2,6 +2,7 @@ import mongoose, { mongo } from "mongoose";
 
 const SongsSchema = new mongoose.Schema({
   id: { type: String, required: true, trim: true },
+  isPlaylist: { type: Boolean, require: true, default: false },
   title: { type: String, required: true, trim: true },
   subtitle: { type: String, required: true, trim: true },
   type: { type: String, required: true, trim: true },

@@ -1,4 +1,3 @@
-import { verifyJwtToken } from "../utils/jwtTokens.js";
 import { Request, Response } from "express";
 
 export const Logout = async (req: Request, res: Response) => {

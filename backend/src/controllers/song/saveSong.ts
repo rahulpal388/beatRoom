@@ -6,14 +6,19 @@ import { userModel } from "../../db/schema/user.js";
 
 export const saveSong = async (req: Request, res: Response) => {
   const { success, data } = saveSongType.safeParse(req.body);
-  console.log(req.body);
-
+  const userId = req.user.userId;
   if (!success) {
     res.status(400).json({
       message: "Invalid Input ",
     });
 
     return;
+  }
+
+  if (userId.length === 0) {
+    return res.status(401).json({
+      message: "log in to save song",
+    });
   }
 
   try {
@@ -29,8 +34,6 @@ export const saveSong = async (req: Request, res: Response) => {
     const artistData = await artistModel.find({
       id: { $in: data.more_info.artistMap.artists.map((x) => x.id) },
     });
-
-    console.log(data.isLiked);
 
     const song = await songModel.findOneAndUpdate(
       { id: data.id },
@@ -55,9 +58,9 @@ export const saveSong = async (req: Request, res: Response) => {
     );
 
     await userModel.findOneAndUpdate(
-      { userId: req.params.userId },
+      { userId: req.user.userId },
       { $addToSet: { "likes.songs": song._id } },
-      { new: true }
+      { new: true, upsert: true }
     );
 
     res.status(200).json({

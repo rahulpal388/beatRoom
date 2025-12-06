@@ -7,7 +7,7 @@ export const saveSong = async (
 ): Promise<AxiosResponse<any, any> | null> => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/song/save`,
+      `${BASE_URL}/song/${song.isLiked ? "remove" : "save"}`,
       { ...song, isLiked: !song.isLiked },
       { withCredentials: true }
     );

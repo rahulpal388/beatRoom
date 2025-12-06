@@ -59,16 +59,17 @@ export const getArtistInfo = async (req: Request, res: Response) => {
         `https://www.jiosaavn.com/api.php?__call=webapi.get&token=${data.artistToken}&type=artist&p=0&n_song=50&n_album=50&sub_type=&category=&sort_order=&includeMetaTags=0&ctx=web6dot0&api_version=4&_format=json&_marker=0`
       )
     ).data as IArtistInfo;
-    const result: IArtistInfo = {
+    const result = {
       artistId: response.artistId,
       name: response.name,
       subtitle: response.subtitle,
       image: response.image.replace("150x150", "500x500"),
       follower_count: response.follower_count,
       type: response.type,
-      topSongs: retriveSong(response.topSongs, false),
-      topAlbums: retriveArtistAlbum(response.topAlbums),
-      latest_release: retriveArtistAlbum(response.latest_release),
+      isLiked: false,
+      topSongs: retriveSong(response.topSongs, new Set([])),
+      topAlbums: retriveArtistAlbum(response.topAlbums, false),
+      latest_release: retriveArtistAlbum(response.latest_release, false),
       dedicated_artist_playlist: retriveArtistPlaylist(
         response.dedicated_artist_playlist,
         false

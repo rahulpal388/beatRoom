@@ -29,7 +29,7 @@ export const PopoverContextProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [cardType, setCardType] = useState<string | null>(null);
-  const [openPopover, setOpenPopover] = useState<boolean>(true);
+  const [openPopover, setOpenPopover] = useState<boolean>(false);
   const [dimension, setDimension] = useState<IDimension>({ left: 0, top: 0 });
   const popoverRef = useRef<SVGSVGElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -41,9 +41,9 @@ export const PopoverContextProvider: FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  // useEffect(() => {
-  //   updateDimension();
-  // }, [popoverRef, openPopover]);
+  useEffect(() => {
+    console.log(openPopover);
+  }, [openPopover]);
   return (
     <popoverContext.Provider
       value={{

@@ -7,7 +7,7 @@ const ArtistSchema = new mongoose.Schema({
   perma_url: { type: String, required: true, trim: true },
   type: { type: String, required: true, trim: true, default: "" },
   role: { type: String, required: true, trim: true, default: "" },
-  isLiked: { type: Boolean, required: true },
+  isLiked: { type: Boolean, required: true, default: false },
 });
 
 export const artistModel = mongoose.model("Artists", ArtistSchema);

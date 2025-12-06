@@ -19,12 +19,19 @@ export function Music() {
   useEffect(() => {
     const getPlaylist = async () => {
       const [newReleased, trending, playlist, artist] = await Promise.all([
-        axios.get(`${BASE_URL}/song/newReleased/?limit=14&page=1`),
+        axios.get(`${BASE_URL}/song/newReleased/?limit=14&page=1`, {
+          withCredentials: true,
+        }),
         axios.get(
-          `${BASE_URL}/song/trendingSong/?limit=10&page=1&language=hindi`
+          `${BASE_URL}/song/trendingSong/?limit=10&page=1&language=hindi`,
+          { withCredentials: true }
         ),
-        axios.get(`${BASE_URL}/playlist/?limit=10&page=1`),
-        axios.get(`${BASE_URL}/artist/topArtist/?limit=10`),
+        axios.get(`${BASE_URL}/playlist/?limit=10&page=1`, {
+          withCredentials: true,
+        }),
+        axios.get(`${BASE_URL}/artist/topArtist/?limit=10`, {
+          withCredentials: true,
+        }),
       ]);
 
       setNewReleased(newReleased.data);

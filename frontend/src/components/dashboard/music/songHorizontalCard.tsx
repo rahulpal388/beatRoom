@@ -1,7 +1,10 @@
 import { useCurrentSongDetail } from "@/context/currentSong";
 import { useQueue } from "@/context/queueContext";
+import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { getSong } from "@/lib/getSong";
+import { saveSong } from "@/lib/saveSong";
+import { ISong } from "@/types/songType";
 import { PlayBotton } from "@/ui/play";
 import { CirclePlay, EllipsisVertical, Heart } from "lucide-react";
 import Image from "next/image";
@@ -9,29 +12,18 @@ import Link from "next/link";
 
 export function SongHorizontalCard({
   serialNumber,
-  id,
-  title,
-  image,
-  artist,
-  duration,
-  song_url,
-  album_url,
-  type,
+  songs,
+  updateState,
 }: {
   serialNumber: number;
-  id: string;
-  title: string;
-  image: string;
-  artist: string;
-  duration: string;
-  song_url: string;
-  album_url: string;
-  type: string;
+  songs: ISong;
+  updateState: (id: string) => void;
 }) {
-  const song_token = song_url.split("/").at(-1);
-  const album_token = album_url.split("/").at(-1);
+  const song_token = songs.perma_url.split("/").at(-1);
+  const album_token = songs.more_info.album_url.split("/").at(-1);
   const { setCurrentSong, setIsPlaying } = useCurrentSongDetail();
   const { setQueueSongs } = useQueue();
+  const { setMessage, setNotification, setType } = useToastNotification();
   return (
     <div className=" group hover:bg-card-hover px-4 py-2 rounded flex gap-4 items-center ">
       <div className=" relative ">
@@ -42,7 +34,7 @@ export function SongHorizontalCard({
             getSong({
               song_token,
               album_token,
-              type,
+              type: songs.type,
               setIsPlaying,
               setCurrentSong,
               setQueueSongs,
@@ -51,7 +43,7 @@ export function SongHorizontalCard({
         />
       </div>
       <Image
-        src={image}
+        src={songs.image}
         alt="song"
         height={40}
         width={40}
@@ -63,17 +55,38 @@ export function SongHorizontalCard({
             href={`/dashboard/song/${song_token}/${album_token}`}
             className=" md:w-[16rem] w-[10rem] text-text-heading font-heading text-[1rem] truncate "
           >
-            {decodeHTML(title)}
+            {decodeHTML(songs.title)}
           </Link>
 
           <p className=" md:w-[20rem] w-[14rem] truncate text-[0.7rem] text-text-muted ">
-            {artist}
+            {songs.more_info.artistMap.artists.map((x) => x.name).join(", ")}
           </p>
         </div>
         <div className=" flex items-center gap-12 ">
-          <Heart size={20} className="cursor-pointer max-sm:hidden " />
+          <Heart
+            size={20}
+            className={`cursor-pointer max-sm:hidden ${
+              songs.isLiked ? "fill-red-700" : ""
+            }`}
+            onClick={async () => {
+              const response = await saveSong(songs);
+              if (!response) {
+                // song not saved
+                setNotification(true);
+                setMessage("Song Not Saved");
+                setType("error");
+              } else {
+                // song saved
+                setNotification(true);
+                setMessage(`Song ${songs.isLiked ? "Removed" : "Saved"}`);
+                setType("success");
+                updateState(songs.id);
+              }
+            }}
+          />
           <p className=" max-sm:hidden ">
-            {Math.floor(Number(duration) / 60)}:{Number(duration) % 60}
+            {Math.floor(Number(songs.more_info.duration) / 60)}:
+            {Number(songs.more_info.duration) % 60}
           </p>
           <EllipsisVertical size={20} className="cursor-pointer" />
         </div>

@@ -53,7 +53,7 @@ export function ShowPopover() {
   return (
     <>
       <div
-        className={`absolute  z-40 `}
+        className={`absolute  z-40 shadow-soft  `}
         ref={refs.setFloating}
         style={{
           left: `${x}px`,

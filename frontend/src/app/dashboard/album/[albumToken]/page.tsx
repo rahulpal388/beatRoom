@@ -4,7 +4,7 @@ import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
 import { BASE_URL } from "@/lib/baseUrl";
-import { IAlbums, ISongAlbum } from "@/types/albumType";
+import { IAlbum, ISongAlbum } from "@/types/albumType";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
@@ -15,20 +15,24 @@ import { useEffect, useState } from "react";
 export default function AlbumPage() {
   const token = useParams().albumToken;
   const [album, setAlbum] = useState<ISongAlbum | null>(null);
-  const [recoAlbum, setRecoAlbum] = useState<IAlbums[]>([]);
-  const [trendingAlbum, setTrendingAlbum] = useState<IAlbums[]>([]);
+  const [recoAlbum, setRecoAlbum] = useState<IAlbum[]>([]);
+  const [trendingAlbum, setTrendingAlbum] = useState<IAlbum[]>([]);
 
   useEffect(() => {
     const fetchAlbum = async () => {
       const responseAlbum = await axios.get(
-        `${BASE_URL}/album/?albumToken=${token}`
+        `${BASE_URL}/album/?albumToken=${token}`,
+        { withCredentials: true }
       );
       setAlbum(responseAlbum.data);
       console.log(responseAlbum.data);
       const [responseReco, responseTrendingAlbum] = await Promise.all([
-        await axios.get(`${BASE_URL}/album/reco/${responseAlbum.data.id}`),
+        await axios.get(`${BASE_URL}/album/reco/${responseAlbum.data.id}`, {
+          withCredentials: true,
+        }),
         axios.get(
-          `${BASE_URL}/album/trendingAlbum/?page=0&limit=10&language=hindi`
+          `${BASE_URL}/album/trendingAlbum/?page=0&limit=10&language=hindi`,
+          { withCredentials: true }
         ),
       ]);
 
@@ -65,17 +69,19 @@ export default function AlbumPage() {
           {album?.list.map((items, index) => (
             <SongHorizontalCard
               key={index}
-              type={items.type}
               serialNumber={index + 1}
-              id={items.id}
-              title={items.title}
-              image={items.image}
-              duration={items.more_info.duration}
-              song_url={items.perma_url}
-              album_url={items.more_info.album_url}
-              artist={items.more_info.artistMap.artists
-                .map((x) => x.name)
-                .join(", ")}
+              songs={items}
+              updateState={(id: string) => {
+                setAlbum((prev) => {
+                  if (!prev) return null;
+                  return {
+                    ...prev,
+                    list: prev?.list.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    ),
+                  };
+                });
+              }}
             />
           ))}
         </div>
@@ -87,7 +93,17 @@ export default function AlbumPage() {
             <MoreSkeletonCard count={10} />
           ) : (
             recoAlbum.map((items, index) => (
-              <SongCards key={index} songs={items} />
+              <SongCards
+                key={index}
+                songs={items}
+                updateState={(id: string) => {
+                  setRecoAlbum((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongsSection>
@@ -96,7 +112,17 @@ export default function AlbumPage() {
             <MoreSkeletonCard count={10} />
           ) : (
             trendingAlbum.map((items, index) => (
-              <SongCards key={index} songs={items} />
+              <SongCards
+                key={index}
+                songs={items}
+                updateState={(id: string) => {
+                  setTrendingAlbum((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongsSection>

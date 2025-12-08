@@ -15,7 +15,8 @@ export default function NewReleased() {
       const page = 1;
       const data = (
         await axios.get(
-          `${BASE_URL}/song/newReleased/?limit=${limit}&page=${page}`
+          `${BASE_URL}/song/newReleased/?limit=${limit}&page=${page}`,
+          { withCredentials: true }
         )
       ).data;
       setNewRelease(data);
@@ -33,7 +34,17 @@ export default function NewReleased() {
             <MoreSkeletonCard count={16} />
           ) : (
             newRelease.map((items, idx) => (
-              <SongCards key={idx} songs={items} />
+              <SongCards
+                key={idx}
+                songs={items}
+                updateState={(id: string) => {
+                  setNewRelease((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongCardContaier>

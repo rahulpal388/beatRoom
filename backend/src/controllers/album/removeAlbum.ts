@@ -3,7 +3,7 @@ import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";
 
 export const removeAlbum = async (req: Request, res: Response) => {
-  const userId = req.params.userId;
+  const userId = req.user.userId;
   if (userId.length === 0) {
     return res.status(401).json({
       message: "log in to remove the album",

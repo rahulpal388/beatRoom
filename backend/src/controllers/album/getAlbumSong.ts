@@ -3,8 +3,8 @@ import { retriveSong } from "../../utils/retriveSong.js";
 import { ISong } from "../song/getTendingSong.js";
 import axios from "axios";
 import { Request, Response } from "express";
-import { TimeoutError } from "puppeteer";
 import { getLikedSong } from "../../utils/getlikedSong.js";
+import { getLikedAlbum } from "../../utils/getLikedAlbum.js";
 
 export type ISongAlbum = {
   id: string;
@@ -45,11 +45,12 @@ export const getSongAlbum = async (req: Request, res: Response) => {
   }
 
   try {
-    const [response, likedSong] = await Promise.all([
+    const [response, likedSong, likedAlbum] = await Promise.all([
       axios.get(
         `https://www.jiosaavn.com/api.php?__call=webapi.get&api_version=4&_format=json&_marker=0&ctx=web6dot0&token=${data.albumToken}}&type=album`
       ),
       getLikedSong(userId),
+      getLikedAlbum(userId),
     ]);
     let result: ISongAlbum | {} = {};
     const album = response.data as ISongAlbum;
@@ -69,7 +70,7 @@ export const getSongAlbum = async (req: Request, res: Response) => {
         image: "",
         language: responseSong.language,
         list_count: "1",
-        isLiked: false,
+        isLiked: likedAlbum.has(responseSong.id),
         list: retriveSong([responseSong], likedSong),
         more_info: {
           artistMap: {
@@ -97,7 +98,7 @@ export const getSongAlbum = async (req: Request, res: Response) => {
         image: album.image.replace("150x150", "500x500"),
         language: album.language,
         list_count: album.list_count,
-        isLiked: false,
+        isLiked: likedAlbum.has(album.id),
         list: retriveSong(album.list, likedSong),
         more_info: {
           artistMap: {

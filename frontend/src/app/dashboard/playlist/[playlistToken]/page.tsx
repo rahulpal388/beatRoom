@@ -73,16 +73,18 @@ export default function PlaylistPage() {
             <SongHorizontalCard
               key={index}
               serialNumber={index + 1}
-              id={items.id}
-              type={items.type}
-              title={items.title}
-              image={items.image}
-              duration={items.more_info.duration}
-              song_url={items.perma_url}
-              album_url={items.more_info.album_url}
-              artist={items.more_info.artistMap.artists
-                .map((x) => x.name)
-                .join(", ")}
+              songs={items}
+              updateState={(id: string) => {
+                setPlaylist((prev) => {
+                  if (!prev) return prev;
+                  return {
+                    ...prev,
+                    list: prev?.list.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    ),
+                  };
+                });
+              }}
             />
           ))}
         </div>
@@ -93,7 +95,17 @@ export default function PlaylistPage() {
             <MoreSkeletonCard count={10} />
           ) : (
             playlistReco.map((items, index) => (
-              <SongCards key={index} songs={items} />
+              <SongCards
+                key={index}
+                songs={items}
+                updateState={(id: string) =>
+                  setPlaylistReco((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  )
+                }
+              />
             ))
           )}
         </SongsSection>
@@ -102,7 +114,17 @@ export default function PlaylistPage() {
             <MoreSkeletonCard count={10} />
           ) : (
             playlistTrending.map((items, index) => (
-              <SongCards key={index} songs={items} />
+              <SongCards
+                key={index}
+                songs={items}
+                updateState={(id: string) => {
+                  setPlaylistTrending((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isliked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongsSection>

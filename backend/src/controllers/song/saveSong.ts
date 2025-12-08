@@ -3,6 +3,7 @@ import { saveSongType } from "../../zodTypes/songType.js";
 import { Request, Response } from "express";
 import { songModel } from "../../db/schema/song.js";
 import { userModel } from "../../db/schema/user.js";
+import { saveArtistDb } from "../../utils/saveArtistDb.js";
 
 export const saveSong = async (req: Request, res: Response) => {
   const { success, data } = saveSongType.safeParse(req.body);
@@ -22,19 +23,8 @@ export const saveSong = async (req: Request, res: Response) => {
   }
 
   try {
-    const artists = data.more_info.artistMap.artists.map((artist) => ({
-      updateOne: {
-        filter: { id: artist.id },
-        update: { $setOnInsert: artist },
-        upsert: true,
-      },
-    }));
-
-    await artistModel.bulkWrite(artists);
-    const artistData = await artistModel.find({
-      id: { $in: data.more_info.artistMap.artists.map((x) => x.id) },
-    });
-
+    const artistData = await saveArtistDb(data.more_info.artistMap.artists);
+    const artistObjectId = artistData ? artistData.map((x) => x._id) : [];
     const song = await songModel.findOneAndUpdate(
       { id: data.id },
       {
@@ -51,7 +41,7 @@ export const saveSong = async (req: Request, res: Response) => {
         "more_info.album_url": data.more_info.album_url,
         "more_info.duration": data.more_info.duration,
         "more_info.encrypted_media_url": data.more_info.encrypted_media_url,
-        "more_info.artistMap.artists": artistData.map((x) => x._id),
+        "more_info.artistMap.artists": artistObjectId,
         "more_info.release_date": data.more_info.release_date,
       },
       { new: true, upsert: true }

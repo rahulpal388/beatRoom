@@ -68,20 +68,25 @@ export function SongCards({
                   }`
             } `}
             onClick={async () => {
-              if (songs.type === "song") {
-                const response = await saveSong(songs);
-                if (!response) {
-                  // song not saved
-                  setNotification(true);
-                  setMessage("Song Not Saved");
-                  setType("error");
-                } else {
-                  // song saved
-                  setNotification(true);
-                  setMessage(`Song ${songs.isLiked ? "Removed" : "Saved"}`);
-                  setType("success");
-                  updateState(songs.id);
-                }
+              try {
+                console.log(songs);
+                await axios.post(
+                  `${BASE_URL}/${songs.type}/${
+                    songs.isLiked ? "remove" : "save"
+                  }`,
+                  { ...songs, isLiked: !songs.isLiked },
+                  { withCredentials: true }
+                );
+                setNotification(true);
+                setMessage(
+                  `${songs.type} ${songs.isLiked ? "Removed" : "Saved"}`
+                );
+                setType("success");
+                updateState(songs.id);
+              } catch (error) {
+                setNotification(true);
+                setMessage(`${songs.type} Not Saved`);
+                setType("error");
               }
             }}
           />

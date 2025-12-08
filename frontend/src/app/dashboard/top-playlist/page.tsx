@@ -12,8 +12,11 @@ export default function TopPlaylist() {
 
   useEffect(() => {
     const fetchTopPlaylist = async () => {
-      const response = (await axios.get(`${BASE_URL}/playlist?limit=20&page=1`))
-        .data as IPlaylist[];
+      const response = (
+        await axios.get(`${BASE_URL}/playlist?limit=20&page=1`, {
+          withCredentials: true,
+        })
+      ).data as IPlaylist[];
 
       setTopPlaylist(response);
     };
@@ -29,7 +32,17 @@ export default function TopPlaylist() {
             <MoreSkeletonCard count={16} />
           ) : (
             topPlaylist.map((items, idx) => (
-              <SongCards key={idx} songs={items} />
+              <SongCards
+                key={idx}
+                songs={items}
+                updateState={(id: string) => {
+                  setTopPlaylist((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongCardContaier>

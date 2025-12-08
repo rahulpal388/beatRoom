@@ -34,7 +34,6 @@ app.use(
   })
 );
 
-app.use(nextError);
 app.use(express.json());
 app.use(verifyTokenMiddleware);
 DBConnect();

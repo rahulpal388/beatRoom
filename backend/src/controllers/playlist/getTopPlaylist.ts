@@ -32,7 +32,7 @@ const getTopPlaylist = async (req: Request, res: Response) => {
     ]);
 
     const playlist = response.data.data as IPlaylist[];
-
+    console.log(likedPlaylist);
     const result = retrivePlaylist(playlist, likedPlaylist);
 
     res.status(200).json(result);

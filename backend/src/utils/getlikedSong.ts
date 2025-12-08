@@ -10,7 +10,7 @@ export const getLikedSong = async (userId: string): Promise<Set<string>> => {
       .findOne({ userId })
       .select("likes.songs")
       .populate("likes.songs");
-
+    console.log(song);
     const idArr = song?.likes?.songs.map((x) => String(x.id)) || [];
 
     return new Set(idArr);

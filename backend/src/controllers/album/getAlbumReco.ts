@@ -1,3 +1,4 @@
+import { getLikedAlbum } from "../../utils/getLikedAlbum.js";
 import axios from "axios";
 import { Request, Response } from "express";
 
@@ -13,9 +14,12 @@ export const getAlbumReco = async (req: Request, res: Response) => {
   const id = req.params.id;
 
   try {
-    const response = await axios.get(
-      `https://www.jiosaavn.com/api.php?__call=reco.getAlbumReco&api_version=4&_format=json&_marker=0&ctx=web6dot0&albumid=${id}`
-    );
+    const [response, likedAlbum] = await Promise.all([
+      axios.get(
+        `https://www.jiosaavn.com/api.php?__call=reco.getAlbumReco&api_version=4&_format=json&_marker=0&ctx=web6dot0&albumid=${id}`
+      ),
+      getLikedAlbum(req.user.userId),
+    ]);
     const album = response.data as IAlbums[];
 
     const result = album.map((x) => {
@@ -27,7 +31,7 @@ export const getAlbumReco = async (req: Request, res: Response) => {
         perma_url: x.perma_url,
         image: x.image.replace("150x150", "500x500"),
         language: "",
-        isLiked: false,
+        isLiked: likedAlbum.has(x.id),
         more_info: {
           artistMap: {
             artists: [

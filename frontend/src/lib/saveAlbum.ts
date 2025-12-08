@@ -1,15 +1,14 @@
+import { IAlbum } from "@/types/albumType";
 import axios, { AxiosResponse } from "axios";
 import { BASE_URL } from "./baseUrl";
-import { IPlaylist } from "@/types/playlistType";
-import { tryLoadManifestWithRetries } from "next/dist/server/load-components";
 
-export const savePlaylist = async (
-  data: IPlaylist
+export const saveAlbum = async (
+  album: IAlbum
 ): Promise<AxiosResponse<any, any> | null> => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/playlist/save`,
-      { ...data, isLiked: true },
+      `${BASE_URL}/album/${album.isLiked ? "save" : "remove"}`,
+      { album },
       { withCredentials: true }
     );
 

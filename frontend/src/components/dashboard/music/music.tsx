@@ -54,9 +54,19 @@ export function Music() {
           {newReleased.length === 0 ? (
             <MoreSkeletonCard count={10} />
           ) : (
-            newReleased
-              .slice(5)
-              .map((items, index) => <SongCards key={items.id} songs={items} />)
+            newReleased.slice(5).map((items, index) => (
+              <SongCards
+                key={items.id}
+                songs={items}
+                updateState={(id: string) => {
+                  setNewReleased((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
+            ))
           )}
         </SongsSection>
         <SongsSection heading="Trending Song">
@@ -64,7 +74,17 @@ export function Music() {
             <MoreSkeletonCard count={10} />
           ) : (
             trendingSong.map((items, index) => (
-              <SongCards key={items.id} songs={items} />
+              <SongCards
+                key={items.id}
+                songs={items}
+                updateState={(id: string) => {
+                  setTrending((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongsSection>
@@ -73,7 +93,17 @@ export function Music() {
             <MoreSkeletonCard count={10} />
           ) : (
             topPlaylist.map((items, index) => (
-              <SongCards key={items.id} songs={items} />
+              <SongCards
+                key={items.id}
+                songs={items}
+                updateState={(id: string) => {
+                  setTopPlaylist((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
             ))
           )}
         </SongsSection>

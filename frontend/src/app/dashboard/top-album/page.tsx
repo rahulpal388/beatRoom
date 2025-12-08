@@ -3,13 +3,13 @@
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 import { BASE_URL } from "@/lib/baseUrl";
-import { IAlbums } from "@/types/albumType";
+import { IAlbum } from "@/types/albumType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function TopAlbum() {
-  const [topAlbum, setTopAlbum] = useState<IAlbums[]>([]);
+  const [topAlbum, setTopAlbum] = useState<IAlbum[]>([]);
 
   useEffect(() => {
     const fetchTopAlbum = async () => {
@@ -18,10 +18,12 @@ export default function TopAlbum() {
       const language = "hindi";
       const respose = (
         await axios.get(
-          `${BASE_URL}/album/trendingAlbum/?limit=${limit}&page=${page}&language=${language}`
+          `${BASE_URL}/album/trendingAlbum/?limit=${limit}&page=${page}&language=${language}`,
+          { withCredentials: true }
         )
-      ).data as IAlbums[];
+      ).data as IAlbum[];
       setTopAlbum(respose);
+      console.log(respose);
     };
     fetchTopAlbum();
   }, []);
@@ -34,7 +36,19 @@ export default function TopAlbum() {
           {topAlbum.length <= 0 ? (
             <MoreSkeletonCard count={16} />
           ) : (
-            topAlbum.map((items, idx) => <SongCards key={idx} songs={items} />)
+            topAlbum.map((items, idx) => (
+              <SongCards
+                key={idx}
+                songs={items}
+                updateState={(id: string) => {
+                  setTopAlbum((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
+            ))
           )}
         </SongCardContaier>
       </div>

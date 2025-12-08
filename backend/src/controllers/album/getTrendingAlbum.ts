@@ -3,20 +3,25 @@ import axios from "axios";
 import { Request, Response } from "express";
 import z from "zod";
 import { IAlbums } from "./getAlbumReco.js";
+import { getLikedAlbum } from "../../utils/getLikedAlbum.js";
 
 export const getTrendingAlbum = async (req: Request, res: Response) => {
   const { success, data } = paginationType
     .and(z.object({ language: z.string() }))
     .safeParse(req.query);
+
   if (!success) {
     res.status(200).json([]);
     return;
   }
 
   try {
-    const response = await axios.get(
-      `https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=album&entity_language=${data.language}`
-    );
+    const [response, likedAlbum] = await Promise.all([
+      axios.get(
+        `https://www.jiosaavn.com/api.php?__call=content.getTrending&api_version=4&_format=json&_marker=0&ctx=web6dot0&entity_type=album&entity_language=${data.language}`
+      ),
+      getLikedAlbum(req.user.userId),
+    ]);
 
     const albums = response.data as IAlbums[];
 
@@ -34,9 +39,8 @@ export const getTrendingAlbum = async (req: Request, res: Response) => {
           perma_url: x.perma_url,
           image: x.image.replace("150x150", "500x500"),
           list_count: "",
-          list: [],
           language: "",
-          isLiked: false,
+          isLiked: likedAlbum.has(x.id),
           more_info: {
             artistMap: {
               artists: [

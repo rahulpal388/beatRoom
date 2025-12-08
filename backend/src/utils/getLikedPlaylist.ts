@@ -12,8 +12,11 @@ export const getLikedPlaylist = async (
       .findOne({ userId })
       .select("likes.playlists")
       .populate("likes.playlists");
-    console.log(JSON.stringify(playlist));
-    return new Set([]);
+    const idArr = playlist
+      ? playlist.likes?.playlists.map((x) => String(x.id))
+      : [];
+    console.log(JSON.stringify(idArr));
+    return new Set(idArr);
   } catch (error) {
     return new Set([]);
   }

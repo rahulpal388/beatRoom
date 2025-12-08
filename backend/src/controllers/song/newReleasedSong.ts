@@ -3,18 +3,8 @@ import { Request, Response } from "express";
 import z from "zod";
 import { ISong } from "./getTendingSong.js";
 import { paginationType } from "../../zodTypes/paginatipType.js";
-
-// album_id: item.more_info.album_id,
-//     album: item.more_info.album,
-//         album_url: item.more_info.album_url,\
-
-// type IAlbum = {
-//   id: string;
-//   title: string;
-//   type: string;
-//   perma_url: string;
-//   image: string;
-// };
+import { getLikedAlbum } from "../../utils/getLikedAlbum.js";
+import { getLikedSong } from "../../utils/getlikedSong.js";
 
 type IMoreInfo = Omit<
   ISong["more_info"],
@@ -32,6 +22,8 @@ type INewRelease = Omit<ISong, "more_info"> & { more_info: IMoreInfo };
 const getNewReleasedSong = async (req: Request, res: Response) => {
   const { success, data } = paginationType.safeParse(req.query);
   console.log("request come");
+  const userId = req.user.userId;
+  console.log(`user iid => ${userId}`);
   if (!success) {
     res.status(200).json([]);
     return;
@@ -39,15 +31,17 @@ const getNewReleasedSong = async (req: Request, res: Response) => {
 
   try {
     console.log("getting data");
-    const response = (
-      await axios.get(
+    const [response, likedAlbum, likedSong] = await Promise.all([
+      axios.get(
         `https://www.jiosaavn.com/api.php?__call=content.getAlbums&api_version=4&_format=json&_marker=0&n=${data.limit}&p=${data.page}&ctx=web6dot0`
-      )
-    ).data;
-    const newSong = response.data as INewRelease[];
+      ),
+      getLikedAlbum(userId),
+      getLikedSong(userId),
+    ]);
 
-    // check from the db that the person has liked songs or not
-
+    const newSong = response.data.data as INewRelease[];
+    const likedId = new Set([...likedAlbum, ...likedSong]);
+    console.log(likedId);
     const result: ISong[] = newSong.map((items) => {
       return {
         id: items.id,
@@ -57,7 +51,7 @@ const getNewReleasedSong = async (req: Request, res: Response) => {
         perma_url: items.perma_url,
         image: items.image.replace("150x150", "500x500"),
         language: items.language,
-        isLiked: false,
+        isLiked: likedId.has(items.id),
         more_info: {
           album_id: items.more_info.album_id || "",
           album: items.more_info.album || "",

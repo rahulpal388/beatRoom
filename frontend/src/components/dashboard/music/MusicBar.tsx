@@ -19,10 +19,19 @@ import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
+import { saveSong } from "@/lib/saveSong";
+import { useToastNotification } from "@/context/toastNotificationContext";
 
 export function MusicBar() {
-  const { currentSong, isPlaying, setIsPlaying, progressValue, playerRef } =
-    useCurrentSongDetail();
+  const {
+    currentSong,
+    isPlaying,
+    setIsPlaying,
+    progressValue,
+    playerRef,
+    setCurrentSong,
+  } = useCurrentSongDetail();
+  const { setMessage, setNotification, setType } = useToastNotification();
   const [open, setOpen] = useState<boolean>(false);
   const parent = {
     initial: {
@@ -187,26 +196,25 @@ export function MusicBar() {
               </p>
               <Heart
                 size={30}
-                className=" stroke-1 max-md:hidden   cursor-pointer fill-red-800 "
+                className={` max-md:hidden   cursor-pointer ${
+                  currentSong.isLiked ? "stroke-0 fill-red-800" : ""
+                } `}
                 onClick={async () => {
                   // currentSong
-                  await axios
-                    .post(
-                      `${BASE_URL}/artist/save`,
-                      {
-                        artistid: "459320",
-                        name: "Arijit Singh",
-                        image:
-                          "https://c.saavncdn.com/artists/Arijit_Singh_004_20241118063717_500x500.jpg",
-                        perma_url:
-                          "https://www.jiosaavn.com/artist/arijit-singh-songs/LlRWpHzy3Hk_",
-                        isLiked: true,
-                      },
-                      { withCredentials: true }
-                    )
-                    .then((response) => {
-                      console.log(response.data);
+                  const response = await saveSong(currentSong);
+                  setNotification(true);
+                  if (response) {
+                    setMessage(
+                      `Song ${currentSong.isLiked ? "Removed" : "Saved"}`
+                    );
+                    setType("success");
+                    setCurrentSong((prev) => {
+                      return { ...prev, isLiked: !prev.isLiked };
                     });
+                  } else {
+                    setMessage("Song Not Saved");
+                    setType("error");
+                  }
                 }}
               />
               <ViewQueueSongs />

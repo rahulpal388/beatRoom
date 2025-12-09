@@ -32,10 +32,11 @@ export const getSong = async ({
       await axios.get(
         `${BASE_URL}/album/?songToken=${song_token}&albumToken=${
           album_token?.length === 0 ? song_token : album_token
-        }`
+        }`,
+        { withCredentials: true }
       )
     ).data;
-
+    console.log(albumSong.list);
     setQueueSongs(albumSong.list);
     setCurrentSong(albumSong.list[0]);
   }

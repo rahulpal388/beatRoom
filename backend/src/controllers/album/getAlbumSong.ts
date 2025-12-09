@@ -52,6 +52,10 @@ export const getSongAlbum = async (req: Request, res: Response) => {
       getLikedSong(userId),
       getLikedAlbum(userId),
     ]);
+    console.log(req.user);
+    console.log("getalbum request ");
+    console.log(likedAlbum);
+    console.log(likedSong);
     let result: ISongAlbum | {} = {};
     const album = response.data as ISongAlbum;
     if (album.id === "dsf7m88e" || album.id === "") {

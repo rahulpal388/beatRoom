@@ -5,7 +5,7 @@ import { Reorder } from "motion/react";
 import { QueueCards } from "./queueCard";
 
 export function QueueSongs() {
-  const { currentSong } = useCurrentSongDetail();
+  const { currentSong, setCurrentSong } = useCurrentSongDetail();
   const { queueSongs, setQueueSongs } = useQueue();
   return (
     <>
@@ -23,12 +23,13 @@ export function QueueSongs() {
         <div className=" pt-4 border-t-[0.5px] border-card-border">
           {currentSong && (
             <QueueCards
-              name={currentSong.title}
               key={currentSong.id}
-              artist={currentSong.more_info.artistMap.artists
-                .map((x) => x.name)
-                .join(", ")}
-              image={currentSong.image}
+              song={currentSong}
+              updateState={() => {
+                setCurrentSong((prev) => {
+                  return { ...prev, isLiked: !prev.isLiked };
+                });
+              }}
             />
           )}
           <div>
@@ -43,11 +44,14 @@ export function QueueSongs() {
                 .map((song) => (
                   <Reorder.Item key={song.id} value={song}>
                     <QueueCards
-                      name={song.title}
-                      artist={song.more_info.artistMap.artists
-                        .map((x) => x.name)
-                        .join(", ")}
-                      image={song.image}
+                      song={song}
+                      updateState={(id: string) => {
+                        setQueueSongs((prev) =>
+                          prev.map((x) =>
+                            x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                          )
+                        );
+                      }}
                     />
                   </Reorder.Item>
                 ))}

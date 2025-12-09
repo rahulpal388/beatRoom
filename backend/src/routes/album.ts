@@ -4,9 +4,11 @@ import { getSongAlbum } from "../controllers/album/getAlbumSong.js";
 import { Router } from "express";
 import { saveAlbum } from "../controllers/album/saveAlbum.js";
 import { removeAlbum } from "../controllers/album/removeAlbum.js";
+import { getSaveAlbum } from "../controllers/album/getSaveAlbum.js";
 
 const useAlbum = Router();
 
+useAlbum.get("/save", getSaveAlbum);
 useAlbum.post("/save", saveAlbum);
 useAlbum.post("/remove", removeAlbum);
 

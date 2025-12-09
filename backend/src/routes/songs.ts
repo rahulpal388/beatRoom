@@ -30,7 +30,7 @@ useSong.get("/newReleased", getNewReleasedSong);
 // get the song reco base on the song id
 useSong.get("/reco/:id", getSongReco);
 
-useSong.get("/saveSong", getSaveSong);
+useSong.get("/save", getSaveSong);
 useSong.post("/save", saveSong);
 useSong.post("/remove", removeSong);
 

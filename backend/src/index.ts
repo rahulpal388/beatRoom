@@ -34,9 +34,9 @@ app.use(
   })
 );
 
+DBConnect();
 app.use(express.json());
 app.use(verifyTokenMiddleware);
-DBConnect();
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/room", roomRouter);
 app.use("/api/v1/song", useSong);

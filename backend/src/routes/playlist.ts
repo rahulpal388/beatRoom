@@ -6,12 +6,14 @@ import { getPlaylistReco } from "../controllers/playlist/getPlaylistReco.js";
 import { savePlaylist } from "../controllers/playlist/savePlaylist.js";
 import verifyTokenMiddleware from "../middleware/verifyToken.js";
 import { removePlaylist } from "../controllers/playlist/removePlaylist.js";
+import { getSavePlaylist } from "../controllers/playlist/getSavePlaylist.js";
 
 export const usePlaylist = Router();
 
 usePlaylist.get("/", getTopPlaylist);
 
 usePlaylist.post("/save", savePlaylist);
+usePlaylist.get("/save", getSavePlaylist);
 usePlaylist.post("/remove", removePlaylist);
 
 // get trending playlist by language

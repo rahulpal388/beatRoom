@@ -1,25 +1,11 @@
 "use client";
-import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
-import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
-import { BASE_URL } from "@/lib/baseUrl";
-import { ISong } from "@/types/songType";
-import axios from "axios";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { LikedAlbum } from "@/components/dashboard/music/likedAlbum";
+import { LikedPlaylist } from "@/components/dashboard/music/likedPlaylist";
+import { LikedSong } from "@/components/dashboard/music/likedSong";
+import { useState } from "react";
 
-export default function LikedSong() {
+export default function LikePage() {
   const [active, setActive] = useState<"song" | "album" | "playlist">("song");
-  const [song, setSong] = useState<ISong[]>([]);
-
-  useEffect(() => {
-    const fetchSaveSong = async () => {
-      const response = await axios.get(`${BASE_URL}/song/saveSong`, {
-        withCredentials: true,
-      });
-      setSong(response.data);
-    };
-    fetchSaveSong();
-  }, []);
 
   return (
     <>
@@ -35,10 +21,6 @@ export default function LikedSong() {
               }  `}
               onClick={async () => {
                 setActive("song");
-                const response = await axios.get(`${BASE_URL}/song/saveSong`, {
-                  withCredentials: true,
-                });
-                setSong(response.data);
               }}
             >
               Song
@@ -49,7 +31,7 @@ export default function LikedSong() {
                   ? "border-b-2 border-neutral-700/60 "
                   : "hover:border-b-2 hover:border-neutral-700/60 "
               }  `}
-              onClick={() => {
+              onClick={async () => {
                 setActive("album");
               }}
             >
@@ -61,7 +43,7 @@ export default function LikedSong() {
                   ? "border-b-2 border-neutral-700/60 "
                   : "hover:border-b-2 hover:border-neutral-700/60 "
               }  `}
-              onClick={() => {
+              onClick={async () => {
                 setActive("playlist");
               }}
             >
@@ -69,25 +51,10 @@ export default function LikedSong() {
             </li>
           </ul>
         </div>
-        <div className="  ">
-          {active === "song" &&
-            (song.length === 0 ? (
-              <div className=" py-[4rem] flex items-center justify-center  ">
-                <h1 className=" text-lg ">Liked Song is empty!</h1>
-              </div>
-            ) : (
-              <SongCardContaier>
-                {song.map((song, idx) => (
-                  <SongCards
-                    key={idx}
-                    songs={song}
-                    updateState={(id: string) => {
-                      setSong((prev) => prev.filter((x) => x.id !== id));
-                    }}
-                  />
-                ))}
-              </SongCardContaier>
-            ))}
+        <div className=" lg:pb-24 pb-28 ">
+          {active === "song" && <LikedSong />}
+          {active === "playlist" && <LikedPlaylist />}
+          {active === "album" && <LikedAlbum />}
         </div>
       </div>
     </>

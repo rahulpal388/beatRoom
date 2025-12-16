@@ -1,12 +1,11 @@
-import { useCurrentSongDetail } from "@/context/currentSong";
 import { useQueue } from "@/context/queueContext";
 import { Button } from "@/ui/button";
 import { Reorder } from "motion/react";
 import { QueueCards } from "./queueCard";
 
 export function QueueSongs() {
-  const { currentSong, setCurrentSong } = useCurrentSongDetail();
-  const { queueSongs, setQueueSongs } = useQueue();
+  const { queueSongs, toggleLike, currentSong, updateQueueSongPosition } =
+    useQueue();
   return (
     <>
       <div className="  ">
@@ -25,10 +24,8 @@ export function QueueSongs() {
             <QueueCards
               key={currentSong.id}
               song={currentSong}
-              updateState={() => {
-                setCurrentSong((prev) => {
-                  return { ...prev, isLiked: !prev.isLiked };
-                });
+              updateState={(id: string) => {
+                toggleLike(id);
               }}
             />
           )}
@@ -36,25 +33,19 @@ export function QueueSongs() {
             <Reorder.Group
               axis="y"
               values={queueSongs}
-              onReorder={setQueueSongs}
+              onReorder={updateQueueSongPosition}
               className="  overflow-y-auto h-[20rem]   flex flex-col gap-4 py-2 "
             >
-              {queueSongs
-                .filter((x) => x.id != currentSong.id)
-                .map((song) => (
-                  <Reorder.Item key={song.id} value={song}>
-                    <QueueCards
-                      song={song}
-                      updateState={(id: string) => {
-                        setQueueSongs((prev) =>
-                          prev.map((x) =>
-                            x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                          )
-                        );
-                      }}
-                    />
-                  </Reorder.Item>
-                ))}
+              {queueSongs.map((song) => (
+                <Reorder.Item key={song.id} value={song}>
+                  <QueueCards
+                    song={song}
+                    updateState={(id: string) => {
+                      toggleLike(id);
+                    }}
+                  />
+                </Reorder.Item>
+              ))}
             </Reorder.Group>
           </div>
         </div>

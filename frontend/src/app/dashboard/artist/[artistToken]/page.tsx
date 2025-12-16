@@ -4,6 +4,7 @@ import { IArtistInfo } from "@/types/artistType";
 import { Button } from "@/ui/button";
 import axios from "axios";
 import { EllipsisVertical, Heart } from "lucide-react";
+import { div } from "motion/react-client";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -180,18 +181,22 @@ export default function Artist() {
               )}
             </div>
           </div>
-          <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
-            {active === "new_release" &&
-              artistInfo.latest_release.map((song, idx) => (
-                <SongCards
-                  key={idx}
-                  songs={song}
-                  updateState={(id: string) => {
-                    console.log(id);
-                  }}
-                />
-              ))}
-          </div>
+          {active === "new_release" && (
+            <div className=" ">
+              <h1 className=" text-2xl  ">New Released</h1>
+              <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
+                {artistInfo.latest_release.map((song, idx) => (
+                  <SongCards
+                    key={idx}
+                    songs={song}
+                    updateState={(id: string) => {
+                      console.log(id);
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -14,7 +14,6 @@ import { decodeHTML } from "@/lib/decodeHtml";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { useQueue } from "@/context/queueContext";
-import { useCurrentSongDetail } from "@/context/currentSong";
 import { usePopoverCard } from "@/context/popover";
 import { getSong } from "@/lib/getSong";
 import { PlayBotton } from "@/ui/play";
@@ -32,7 +31,6 @@ export function SongCards({
   songs: ISong | IPlaylist | IAlbum;
   updateState: (id: string) => void;
 }) {
-  const { setQueueSongs } = useQueue();
   const { isActive, setIsActive } = useActiveCardPopover();
   const song_token = songs.perma_url.split("/").at(-1);
   const album_token =
@@ -43,11 +41,12 @@ export function SongCards({
   const ablbumHref = `/dashboard/album/${song_token}`;
   const playlistHref = `/dashboard/playlist/${song_token}`;
   const type = songs.type;
-  const { setIsPlaying, setCurrentSong } = useCurrentSongDetail();
   const { popoverRef, setCardType, setOpenPopover, openPopover } =
     usePopoverCard();
-  const { setMessage, setNotification, setType } = useToastNotification();
+  const { addQueueAndSetCurrent } = useQueue();
+  const { success, error } = useToastNotification();
   const activeCard = isActive === songs.id;
+  console.log("song card");
   return (
     <>
       <div
@@ -77,16 +76,10 @@ export function SongCards({
                   { ...songs, isLiked: !songs.isLiked },
                   { withCredentials: true }
                 );
-                setNotification(true);
-                setMessage(
-                  `${songs.type} ${songs.isLiked ? "Removed" : "Saved"}`
-                );
-                setType("success");
+                success(`${songs.type} ${songs.isLiked ? "Removed" : "Saved"}`);
                 updateState(songs.id);
-              } catch (error) {
-                setNotification(true);
-                setMessage(`${songs.type} Not Saved`);
-                setType("error");
+              } catch (e) {
+                error(`${songs.type} Not Saved`);
               }
             }}
           />
@@ -124,15 +117,15 @@ export function SongCards({
 
           <PlayBotton
             className=" absolute top-[6.2rem] right-[1.2rem]  opacity-0 group-hover:opacity-100 "
-            onClick={() => {
-              getSong({
-                song_token,
-                album_token,
-                type,
-                setIsPlaying,
-                setCurrentSong,
-                setQueueSongs,
-              });
+            onClick={async () => {
+              addQueueAndSetCurrent(
+                await getSong({
+                  song_token,
+                  songId: songs.id,
+                  album_token,
+                  type,
+                })
+              );
             }}
           />
         </div>

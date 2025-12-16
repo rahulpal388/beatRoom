@@ -1,4 +1,3 @@
-import { useCurrentSongDetail } from "@/context/currentSong";
 import { useQueue } from "@/context/queueContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { formateTime } from "@/lib/formateTime";
@@ -17,6 +16,7 @@ export function ShowSongDetails({
   duration,
   album_url,
   song_url,
+  songId,
 }: {
   image: string;
   title: string;
@@ -26,9 +26,8 @@ export function ShowSongDetails({
   duration: string;
   album_url: string;
   song_url: string;
+  songId: string;
 }) {
-  const { setCurrentSong, setIsPlaying } = useCurrentSongDetail();
-  const { setQueueSongs } = useQueue();
   const song_token = song_url.split("/").at(-1);
   const album_token = album_url.split("/").at(-1);
 
@@ -63,9 +62,7 @@ export function ShowSongDetails({
                 song_token,
                 album_token,
                 type,
-                setCurrentSong,
-                setIsPlaying,
-                setQueueSongs,
+                songId,
               });
             }}
           />

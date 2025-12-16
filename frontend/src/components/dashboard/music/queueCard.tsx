@@ -12,7 +12,7 @@ export function QueueCards({
   song: ISong;
   updateState: (id: string) => void;
 }) {
-  const { setMessage, setNotification, setType } = useToastNotification();
+  const { success, error } = useToastNotification();
   return (
     <>
       <div className="  flex items-center  justify-between gap-4  hover:bg-card-hover rounded-lg py-1 px-2 font-body    shadow-md ">
@@ -41,14 +41,11 @@ export function QueueCards({
             }`}
             onClick={async () => {
               const response = await saveSong(song);
-              setNotification(true);
               if (response) {
-                setMessage("Song Saved");
-                setType("success");
+                success("Song Saved");
                 updateState(song.id);
               } else {
-                setMessage("Song Not Saved");
-                setType("error");
+                error("Song Not Saved");
               }
             }}
           />

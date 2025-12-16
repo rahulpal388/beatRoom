@@ -1,5 +1,4 @@
 "use client";
-import { useCurrentSongDetail } from "@/context/currentSong";
 import { formateTime, formateTimePading } from "@/lib/formateTime";
 import {
   SkipBack,
@@ -21,17 +20,21 @@ import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
 import { saveSong } from "@/lib/saveSong";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { useQueue } from "@/context/queueContext";
+import { useMusicPlayer } from "@/context/musicPlayerContext";
 
 export function MusicBar() {
   const {
+    queueSongs,
     currentSong,
-    isPlaying,
-    setIsPlaying,
-    progressValue,
-    playerRef,
-    setCurrentSong,
-  } = useCurrentSongDetail();
-  const { setMessage, setNotification, setType } = useToastNotification();
+    isNext,
+    isPrev,
+    prevSong,
+    nextSong,
+    toggleLike,
+  } = useQueue();
+  const { progress, isPlaying, play, pause } = useMusicPlayer();
+  const { success, error } = useToastNotification();
   const [open, setOpen] = useState<boolean>(false);
   const parent = {
     initial: {
@@ -107,19 +110,19 @@ export function MusicBar() {
         <div className="  h-18 absolute  lg:bottom-0 bottom-12   sm:gap-18 gap-6  z-50  w-full bg-card border-t-[1px] border-card-border  shadow-soft   ">
           <div
             className=" w-full h-2  cursor-pointer   flex items-center "
-            onClick={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const progress = ((e.clientX - rect.left) / rect.width) * 100;
-              const player = playerRef.current;
-              if (player) {
-                player.currentTime = (progress * player.duration) / 100;
-              }
-            }}
+            // onClick={(e) => {
+            //   const rect = e.currentTarget.getBoundingClientRect();
+            //   const progress = ((e.clientX - rect.left) / rect.width) * 100;
+            //   const player = playerRef.current;
+            //   if (player) {
+            //     player.currentTime = (progress * player.duration) / 100;
+            //   }
+            // }}
           >
             <div
               className="bg-green-400  h-1   "
               style={{
-                width: `${progressValue}%`,
+                width: `${progress}%`,
               }}
             ></div>
           </div>
@@ -159,14 +162,20 @@ export function MusicBar() {
             <div className="flex  gap-4 items-center ">
               <SkipBack
                 size={30}
-                className=" stroke-1 max-sm:size-6 cursor-pointer "
+                className={` stroke-1  max-sm:size-6  ${
+                  isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                }  `}
+                onClick={() => {
+                  prevSong();
+                }}
               />
               {isPlaying ? (
                 <Pause
                   size={30}
                   className=" stroke-1 cursor-pointer max-sm:size-6 "
                   onClick={() => {
-                    setIsPlaying(false);
+                    console.log("pause");
+                    pause();
                   }}
                 />
               ) : (
@@ -174,25 +183,31 @@ export function MusicBar() {
                   size={30}
                   className=" stroke-1 cursor-pointer max-sm:size-6 "
                   onClick={() => {
-                    setIsPlaying(true);
+                    console.log("play");
+                    play();
                   }}
                 />
               )}
 
               <SkipForward
                 size={30}
-                className=" stroke-1  max-sm:size-6 cursor-pointer"
+                className={` stroke-1  max-sm:size-6  ${
+                  isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                }  `}
+                onClick={() => {
+                  nextSong();
+                }}
               />
             </div>
             <div className=" flex items-center sm:gap-8  ">
               <p className="w-24 max-sm:hidden ">
-                {playerRef.current
+                {/* {playerRef.current
                   ? `${formateTimePading(
                       Math.trunc(playerRef.current.currentTime)
                     )} / ${formateTime(
                       `${Math.round(playerRef.current.duration)}`
                     )}`
-                  : "00 / 00"}
+                  : "00 / 00"} */}
               </p>
               <Heart
                 size={30}
@@ -202,18 +217,13 @@ export function MusicBar() {
                 onClick={async () => {
                   // currentSong
                   const response = await saveSong(currentSong);
-                  setNotification(true);
                   if (response) {
-                    setMessage(
+                    success(
                       `Song ${currentSong.isLiked ? "Removed" : "Saved"}`
                     );
-                    setType("success");
-                    setCurrentSong((prev) => {
-                      return { ...prev, isLiked: !prev.isLiked };
-                    });
+                    toggleLike(currentSong.id);
                   } else {
-                    setMessage("Song Not Saved");
-                    setType("error");
+                    error("Song Not Saved");
                   }
                 }}
               />

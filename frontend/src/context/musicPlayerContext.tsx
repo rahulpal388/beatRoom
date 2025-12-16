@@ -1,0 +1,98 @@
+import {
+  createContext,
+  FC,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useQueue } from "./queueContext";
+import axios from "axios";
+import { BASE_URL } from "@/lib/baseUrl";
+
+type TMusicPlayer = {
+  play: () => void;
+  pause: () => void;
+  isPlaying: boolean;
+  progress: number;
+  isBuffering: boolean;
+};
+
+const musicPlayerContext = createContext<TMusicPlayer | null>(null);
+
+export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
+  const { currentSong } = useQueue();
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
+  const [isBuffering, setIsBuffering] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
+  const [url, setUrl] = useState<string | undefined>(undefined);
+
+  const play = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
+  const pause = () => {
+    if (audioRef.current) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchUrl = async () => {
+      const responseUrl = await axios.post(
+        `${BASE_URL}/song/play`,
+        {
+          id: currentSong.more_info.encrypted_media_url,
+        },
+        { withCredentials: true }
+      );
+
+      setUrl(responseUrl.data.song_url);
+    };
+    fetchUrl();
+  }, [currentSong]);
+
+  return (
+    <musicPlayerContext.Provider
+      value={{ pause, play, isBuffering, isPlaying, progress }}
+    >
+      <audio
+        ref={audioRef}
+        src={url}
+        onLoadedMetadata={play}
+        onPlay={() => {
+          console.log("playing the song");
+          setIsPlaying(true);
+          setIsBuffering(false);
+        }}
+        onPause={() => {
+          console.log("pausing the song");
+          setIsPlaying(false);
+        }}
+        onWaiting={() => {
+          setIsBuffering(true);
+        }}
+        onTimeUpdate={(e) => {
+          setProgress(
+            (e.currentTarget.currentTime / e.currentTarget.duration) * 100
+          );
+        }}
+      />
+      {children}
+    </musicPlayerContext.Provider>
+  );
+};
+
+export const useMusicPlayer = (): TMusicPlayer => {
+  const context = useContext(musicPlayerContext);
+
+  if (!context) {
+    throw new Error("useMusicPlayer inside the its provider");
+  }
+  return context;
+};

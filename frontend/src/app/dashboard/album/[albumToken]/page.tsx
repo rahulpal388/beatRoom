@@ -50,6 +50,7 @@ export default function AlbumPage() {
           <ShowSongDetails
             image={album.image}
             title={album.title}
+            songId={album.id}
             album_url={album.perma_url}
             song_url=""
             subtitle={album.subtitle}

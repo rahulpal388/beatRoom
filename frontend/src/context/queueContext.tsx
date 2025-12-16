@@ -8,13 +8,20 @@ import React, {
 } from "react";
 
 type QueueContextType = {
+  prevSong: () => void;
+  nextSong: () => void;
+  addQueueSong: (song: ISong) => void;
+  updateQueueSongPosition: (song: ISong[]) => void;
+  addQueueAndSetCurrent: (song: ISong[]) => void;
+  toggleLike: (songId: string) => void;
+  removeQueueSong: (songId: string) => void;
   queueSongs: ISong[];
-  setQueueSongs: Dispatch<SetStateAction<ISong[]>>;
-  currentIdx: number;
-  setCurrendIdx: Dispatch<SetStateAction<number>>;
+  currentSong: ISong;
+  isNext: boolean;
+  isPrev: boolean;
 };
 
-const tempSong = {
+const tempSong: ISong = {
   id: "zND_RkED",
   title: "Jo Tum Mere Ho",
   subtitle: "Anuv Jain - Jo Tum Mere Ho",
@@ -23,6 +30,7 @@ const tempSong = {
   image:
     "https://c.saavncdn.com/401/Jo-Tum-Mere-Ho-Hindi-2024-20240731053953-500x500.jpg",
   language: "hindi",
+  isLiked: false,
   more_info: {
     album_id: "zND_RkED",
     album: "Jo Tum Mere Ho",
@@ -54,15 +62,62 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [queueSongs, setQueueSongs] = useState<ISong[]>([tempSong]);
-  const [currentIdx, setCurrendIdx] = useState<number>(0);
+  const [currentIdx, setCurrentIdx] = useState<number>(0);
+
+  const isNext = currentIdx < queueSongs.length - 1 ? true : false;
+  const isPrev = currentIdx === 0 ? false : true;
+  const currentSong = queueSongs[currentIdx];
+
+  const prevSong = () => {
+    setCurrentIdx((prev) => {
+      if (prev <= 0) return prev;
+      return prev - 1;
+    });
+  };
+  const nextSong = () => {
+    setCurrentIdx((prev) => {
+      if (prev >= queueSongs.length - 1) return prev;
+      return prev + 1;
+    });
+  };
+  const toggleLike = (songId: string) => {
+    setQueueSongs((prev) => [
+      ...prev.filter((x) =>
+        x.id !== songId ? x : { ...x, isLiked: !x.isLiked }
+      ),
+    ]);
+  };
+
+  const addQueueAndSetCurrent = (songs: ISong[]) => {
+    setQueueSongs(songs);
+    setCurrentIdx(0);
+  };
+
+  const addQueueSong = (song: ISong) => {
+    setQueueSongs((prev) => [...prev, song]);
+  };
+  const updateQueueSongPosition = (song: ISong[]) => {
+    setQueueSongs((prev) => [...prev.slice(0, currentIdx + 1), ...song]);
+  };
+
+  const removeQueueSong = (songId: string) => {
+    setQueueSongs((prev) => prev.filter((x) => x.id !== songId));
+  };
 
   return (
     <queueContext.Provider
       value={{
+        prevSong,
+        nextSong,
+        addQueueSong,
+        removeQueueSong,
+        updateQueueSongPosition,
+        addQueueAndSetCurrent,
+        toggleLike,
+        currentSong,
         queueSongs,
-        setQueueSongs,
-        currentIdx,
-        setCurrendIdx,
+        isNext,
+        isPrev,
       }}
     >
       {children}

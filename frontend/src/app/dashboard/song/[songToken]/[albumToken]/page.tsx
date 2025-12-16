@@ -66,6 +66,7 @@ export default function Songs() {
         <ShowSongDetails
           image={song.image}
           title={song.title}
+          songId={song.id}
           song_url={song.perma_url}
           album_url={song.more_info.album_url}
           subtitle={`${

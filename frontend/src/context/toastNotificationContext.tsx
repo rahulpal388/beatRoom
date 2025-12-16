@@ -1,49 +1,66 @@
 "use client";
-import {
-  createContext,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ToastNotification } from "@/ui/toastNotification";
+import { AnimatePresence } from "motion/react";
+import { createContext, useContext, useState } from "react";
 
-type IToastNOtification = {
-  message: string;
-  setMessage: React.Dispatch<SetStateAction<string>>;
-  type: "success" | "error";
-  setType: React.Dispatch<SetStateAction<"success" | "error">>;
-  notification: boolean;
-  setNotification: React.Dispatch<SetStateAction<boolean>>;
+type IToastNotification = {
+  success: (message: string) => void;
+  error: (message: string) => void;
 };
 
-const toastNotificationContext = createContext<IToastNOtification | null>(null);
+type IMessage = {
+  id: number;
+  message: string;
+  type: "success" | "error";
+};
+
+const toastNotificationContext = createContext<IToastNotification | null>(null);
 
 export const ToastNotificationProvider: React.FC<{
   children: React.ReactNode;
 }> = ({ children }) => {
-  const [message, setMessage] = useState<string>("");
-  const [type, setType] = useState<"success" | "error">("success");
-  const [notification, setNotification] = useState<boolean>(false);
+  const [notification, setNotification] = useState<IMessage[]>([]);
 
-  useEffect(() => {
-    if (notification) {
-      setTimeout(() => {
-        setNotification(false);
-      }, 3000);
-    }
-  }, [notification]);
+  const success = (message: string) => {
+    const newMessage: IMessage = {
+      id: Date.now(),
+      message,
+      type: "success",
+    };
+    setNotification((prev) => [newMessage, ...prev]);
+    dismissNotification(newMessage.id);
+  };
+  const error = (message: string) => {
+    const newMessage: IMessage = {
+      id: Date.now(),
+      message,
+      type: "error",
+    };
+    setNotification((prev) => [newMessage, ...prev]);
+    dismissNotification(newMessage.id);
+  };
+
+  const dismissNotification = (id: number) => {
+    setTimeout(() => {
+      setNotification((prev) => prev.filter((x) => x.id !== id));
+    }, 3000);
+  };
 
   return (
     <toastNotificationContext.Provider
       value={{
-        message,
-        setMessage,
-        type,
-        setType,
-        notification,
-        setNotification,
+        success,
+        error,
       }}
     >
+      <div className=" fixed top-2 right-2 flex flex-col gap-2  px-4 py-2 ">
+        <AnimatePresence>
+          {notification.length > 0 &&
+            notification.map((x) => (
+              <ToastNotification key={x.id} type={x.type} name={x.message} />
+            ))}
+        </AnimatePresence>
+      </div>
       {children}
     </toastNotificationContext.Provider>
   );

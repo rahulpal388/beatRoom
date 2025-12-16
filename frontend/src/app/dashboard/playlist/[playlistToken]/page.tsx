@@ -53,6 +53,7 @@ export default function PlaylistPage() {
           <ShowSongDetails
             image={playlist.image}
             title={playlist.title}
+            songId={playlist.id}
             song_url={playlist.perma_url}
             album_url=""
             subtitle={playlist.subtitle}

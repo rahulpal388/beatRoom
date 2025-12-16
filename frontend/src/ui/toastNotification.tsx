@@ -1,5 +1,3 @@
-"use client";
-import { useToastNotification } from "../context/toastNotificationContext";
 import { Check, OctagonAlert, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { AlertSvg } from "./alertSvg";
@@ -30,7 +28,7 @@ export function ToastNotification({
           duration: 2,
           ease: "easeInOut",
         }}
-        className="z-50  fixed top-2 right-2  bg-[#212421]     h-[3.5rem]  rounded-lg px-4 flex items-center justify-between gap-4   "
+        className="z-50  bg-[#212421]     h-[3.5rem]  rounded-lg px-4 flex items-center justify-between gap-4   "
       >
         <div className="  flex items-center justify-between gap-4  ">
           <div
@@ -65,19 +63,6 @@ export function ToastNotification({
           <X className=" cursor-pointer " />
         </div>
       </motion.div>
-    </>
-  );
-}
-
-export function ToastNotificationContainer() {
-  const { notification, message, type } = useToastNotification();
-  return (
-    <>
-      <div className=" fixed top-2 right-2">
-        <AnimatePresence>
-          {notification && <ToastNotification type={type} name={message} />}
-        </AnimatePresence>
-      </div>
     </>
   );
 }

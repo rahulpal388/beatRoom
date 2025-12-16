@@ -27,7 +27,7 @@ export function AuthPage({ type }: { type: AuthType }) {
   const { register, handleSubmit } = useForm<IInputSignUPForm>();
   const router = useRouter();
   const { setCurrentUser, setAuthenticated } = useAuth();
-  const { setMessage, setType, setNotification } = useToastNotification();
+  const { success, error } = useToastNotification();
 
   const onSubmit: SubmitHandler<IInputSignUPForm> = async (data) => {
     setUser(data);
@@ -41,9 +41,7 @@ export function AuthPage({ type }: { type: AuthType }) {
       })
       .then((response) => {
         if (type === "signup") {
-          setMessage("OTP Send");
-          setNotification(true);
-          setType("success");
+          success("OTP Send");
           setIsForm(false);
         }
         console.log(response);
@@ -58,9 +56,7 @@ export function AuthPage({ type }: { type: AuthType }) {
               userId,
               profile,
             });
-            setMessage("Logged In");
-            setType("success");
-            setNotification(true);
+            success("Logged In");
             setAuthenticated(true);
             router.push(`/dashboard`);
           }
@@ -71,12 +67,10 @@ export function AuthPage({ type }: { type: AuthType }) {
         setLoading(false);
         if (response.status === 302) {
           router.push(response.data.redirect);
-          setMessage(response.data.message);
+          error(response.data.message);
         } else {
-          setMessage(response.data.message);
+          success(response.data.message);
         }
-        setType("error");
-        setNotification(true);
       });
   };
 
@@ -302,16 +296,12 @@ export function AuthPage({ type }: { type: AuthType }) {
                             });
                             setAuthenticated(true);
                             setLoading(false);
-                            setMessage("Logged In");
-                            setType("success");
-                            setNotification(true);
+                            success("Logged In");
                             router.push(`/dashboard`);
                           })
                           .catch(() => {
                             setLoading(false);
-                            setMessage("Incorrect OTP");
-                            setType("error");
-                            setNotification(true);
+                            error("Incorrect OTP");
                           });
                       }
                     }}

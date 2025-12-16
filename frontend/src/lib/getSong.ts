@@ -6,27 +6,21 @@ export const getSong = async ({
   song_token,
   type,
   album_token,
-  setCurrentSong,
-  setQueueSongs,
-  setIsPlaying,
+  songId,
 }: {
   song_token: string | undefined;
   type: string;
+  songId: string;
   album_token: string | undefined;
-  setCurrentSong: React.Dispatch<React.SetStateAction<ISong>>;
-  setQueueSongs: React.Dispatch<React.SetStateAction<ISong[]>>;
-  setIsPlaying: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
-  console.log(song_token);
-  console.log(album_token);
-
+}): Promise<ISong[]> => {
   if (type === "playlist") {
-    const playlistSong = (await axios.get(`${BASE_URL}/playlist/${song_token}`))
-      .data;
-    setQueueSongs(playlistSong.list);
-    console.log(song_token);
-    setCurrentSong(playlistSong.list[0]);
-    console.log(playlistSong.list);
+    const playlistSong = (
+      await axios.get(`${BASE_URL}/playlist/${song_token}`, {
+        withCredentials: true,
+      })
+    ).data.list as ISong[];
+    const songIdx = playlistSong.findIndex((x) => x.id === songId);
+    return [...playlistSong.slice(songIdx), ...playlistSong.slice(0, songIdx)];
   } else {
     const albumSong = (
       await axios.get(
@@ -35,10 +29,15 @@ export const getSong = async ({
         }`,
         { withCredentials: true }
       )
-    ).data;
-    console.log(albumSong.list);
-    setQueueSongs(albumSong.list);
-    setCurrentSong(albumSong.list[0]);
+    ).data.list as ISong[];
+    const songIdx =
+      type === "song" ? albumSong.findIndex((x) => x.id === songId) : 0;
+    const songs =
+      type === "album"
+        ? albumSong
+        : [...albumSong.slice(songIdx), ...albumSong.slice(0, songIdx)];
+    return songs;
   }
-  setIsPlaying(true);
+
+  return [];
 };

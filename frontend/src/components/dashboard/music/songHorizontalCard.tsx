@@ -1,11 +1,8 @@
-import { useCurrentSongDetail } from "@/context/currentSong";
-import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { getSong } from "@/lib/getSong";
 import { saveSong } from "@/lib/saveSong";
 import { ISong } from "@/types/songType";
-import { PlayBotton } from "@/ui/play";
 import { CirclePlay, EllipsisVertical, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,9 +18,8 @@ export function SongHorizontalCard({
 }) {
   const song_token = songs.perma_url.split("/").at(-1);
   const album_token = songs.more_info.album_url.split("/").at(-1);
-  const { setCurrentSong, setIsPlaying } = useCurrentSongDetail();
-  const { setQueueSongs } = useQueue();
-  const { setMessage, setNotification, setType } = useToastNotification();
+  const { success, error } = useToastNotification();
+  console.log("horizontal card");
   return (
     <div className=" group hover:bg-card-hover px-4 py-2 rounded flex gap-4 items-center ">
       <div className=" relative ">
@@ -34,10 +30,8 @@ export function SongHorizontalCard({
             getSong({
               song_token,
               album_token,
+              songId: songs.id,
               type: songs.type,
-              setIsPlaying,
-              setCurrentSong,
-              setQueueSongs,
             });
           }}
         />
@@ -71,15 +65,10 @@ export function SongHorizontalCard({
             onClick={async () => {
               const response = await saveSong(songs);
               if (!response) {
-                // song not saved
-                setNotification(true);
-                setMessage("Song Not Saved");
-                setType("error");
+                error("Song Not Saved");
               } else {
                 // song saved
-                setNotification(true);
-                setMessage(`Song ${songs.isLiked ? "Removed" : "Saved"}`);
-                setType("success");
+                success(`Song ${songs.isLiked ? "Removed" : "Saved"}`);
                 updateState(songs.id);
               }
             }}

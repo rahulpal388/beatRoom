@@ -1,5 +1,5 @@
 "use client";
-import { useCurrentSongDetail } from "@/context/currentSong";
+import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { BASE_URL } from "@/lib/baseUrl";
 import axios from "axios";
@@ -10,11 +10,11 @@ import { useState } from "react";
 
 export function MusicBarPopover() {
   const [optionOpen, setOptionOpen] = useState<boolean>(false);
-  const { currentSong } = useCurrentSongDetail();
+  const { currentSong } = useQueue();
   const songToken = currentSong.perma_url.split("/").at(-1);
   const albumToken = currentSong.more_info.album_url.split("/").at(-1);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(true);
-  const { setMessage, setType, setNotification } = useToastNotification();
+  const { success, error } = useToastNotification();
   return (
     <>
       <div>
@@ -92,16 +92,19 @@ export function MusicBarPopover() {
                       <button
                         className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 "
                         onClick={async () => {
-                          const response = await axios.post(
-                            `${BASE_URL}/song/save`,
-                            { ...currentSong, isLiked: true },
-                            { withCredentials: true }
-                          );
-                          setOptionOpen(false);
-                          setMessage("Song Saved");
-                          setType("success");
-                          setNotification(true);
-                          console.log(response.data);
+                          const response = await axios
+                            .post(
+                              `${BASE_URL}/song/save`,
+                              { ...currentSong, isLiked: true },
+                              { withCredentials: true }
+                            )
+                            .then(() => {
+                              setOptionOpen(false);
+                              success("Song Saved");
+                            })
+                            .catch(() => {
+                              error("Error");
+                            });
                         }}
                       >
                         Save To Library

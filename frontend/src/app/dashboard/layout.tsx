@@ -1,13 +1,11 @@
 "use client";
 import { BottomSideBar } from "@/components/dashboard/bottomSideBar";
 import { MusicBar } from "@/components/dashboard/music/MusicBar";
-import { MusicPlayer } from "@/components/dashboard/music/musicPlayer";
 import { SearchBar } from "@/components/dashboard/music/SearchBar";
 import { ShowPopover } from "@/components/dashboard/options/showOptions";
 import { SideBar } from "@/components/dashboard/sideBar";
 import { PopoverContextProvider } from "@/context/popover";
 import { useAuth } from "@/context/authContext";
-import { CurrentSongConttextProvider } from "@/context/currentSong";
 import { QueueProvider } from "@/context/queueContext";
 import { Copy } from "lucide-react";
 import Link from "next/link";
@@ -16,18 +14,18 @@ import { GlobalPopoverProvider } from "@/context/globalPopover";
 import { Button } from "@/ui/button";
 import { useRouter } from "next/navigation";
 import { ActiveCardPopoverProvider } from "@/context/activeCardPopover";
+import { MusicPlayerProvider } from "@/context/musicPlayerContext";
 
 export default function Layouts({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, currentUser } = useAuth();
   const router = useRouter();
   return (
     <>
-      <CurrentSongConttextProvider>
-        <QueueProvider>
-          <GlobalPopoverProvider>
-            <PopoverContextProvider>
+      <QueueProvider>
+        <GlobalPopoverProvider>
+          <PopoverContextProvider>
+            <MusicPlayerProvider>
               <ActiveCardPopoverProvider>
-                <MusicPlayer />
                 <div className=" h-screen  flex flex-col    ">
                   <div className=" bg-card h-14 border-b-[0.5px] border-text-muted/20  shadow-soft  flex justify-between items-center gap-4 px-8  ">
                     <div>
@@ -81,10 +79,10 @@ export default function Layouts({ children }: { children: React.ReactNode }) {
                   </div>
                 </div>
               </ActiveCardPopoverProvider>
-            </PopoverContextProvider>
-          </GlobalPopoverProvider>
-        </QueueProvider>
-      </CurrentSongConttextProvider>
+            </MusicPlayerProvider>
+          </PopoverContextProvider>
+        </GlobalPopoverProvider>
+      </QueueProvider>
     </>
   );
 }

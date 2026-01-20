@@ -80,7 +80,7 @@ export function ArtistCard({
       <div className=" w-[10rem]   py-[1px] px-2 rounded-lg overflow-hidden   flex flex-col items-center justify-center     ">
         <Link
           href={`/dashboard/artist/${url.split("/").at(-1)}`}
-          className=" md:text-xl text-lg cursor-pointer hover:text-text-body flex flex-col items-center "
+          className=" md:text-xl text-lg cursor-pointer hover:text-text-body flex flex-col gap-2 items-center "
         >
           {image.length > 0 ? (
             <Image
@@ -95,7 +95,6 @@ export function ArtistCard({
           )}
           <span className="text-center ">{name}</span>
         </Link>
-        <p className=" text-[1rem] text-text-muted  ">{type}</p>
       </div>
     </>
   );

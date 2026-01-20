@@ -54,7 +54,7 @@ export function Music() {
           {newReleased.length === 0 ? (
             <MoreSkeletonCard count={10} />
           ) : (
-            newReleased.slice(5).map((items, index) => (
+            newReleased.slice(5).map((items) => (
               <SongCards
                 key={items.id}
                 songs={items}
@@ -73,7 +73,7 @@ export function Music() {
           {trendingSong.length === 0 ? (
             <MoreSkeletonCard count={10} />
           ) : (
-            trendingSong.map((items, index) => (
+            trendingSong.map((items ) => (
               <SongCards
                 key={items.id}
                 songs={items}
@@ -92,7 +92,7 @@ export function Music() {
           {topPlaylist.length === 0 ? (
             <MoreSkeletonCard count={10} />
           ) : (
-            topPlaylist.map((items, index) => (
+            topPlaylist.map((items ) => (
               <SongCards
                 key={items.id}
                 songs={items}
@@ -112,9 +112,9 @@ export function Music() {
             {topArtist.length === 0 ? (
               <MoreArtistCardSkeleton count={6} />
             ) : (
-              topArtist.map((item, index) => (
+              topArtist.map((item ) => (
                 <ArtistCard
-                  key={index}
+                  key={item.id}
                   name={item.name}
                   url={item.perma_url}
                   image={item.image}

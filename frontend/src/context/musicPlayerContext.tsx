@@ -23,7 +23,7 @@ const musicPlayerContext = createContext<TMusicPlayer | null>(null);
 export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { currentSong } = useQueue();
+  const { currentSong, nextSong } = useQueue();
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
@@ -43,6 +43,8 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
+    setProgress(0);
+
     const fetchUrl = async () => {
       const responseUrl = await axios.post(
         `${BASE_URL}/song/play`,
@@ -70,12 +72,19 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
           setIsPlaying(true);
           setIsBuffering(false);
         }}
+
         onPause={() => {
           console.log("pausing the song");
           setIsPlaying(false);
         }}
         onWaiting={() => {
           setIsBuffering(true);
+        }}
+        onEnded={() => {
+          console.log("song end");
+          setProgress(0);
+          setIsBuffering(false);
+          nextSong();
         }}
         onTimeUpdate={(e) => {
           setProgress(

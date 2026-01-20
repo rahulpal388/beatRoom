@@ -2,10 +2,12 @@
 import { LikedAlbum } from "@/components/dashboard/music/likedAlbum";
 import { LikedPlaylist } from "@/components/dashboard/music/likedPlaylist";
 import { LikedSong } from "@/components/dashboard/music/likedSong";
+import { useAuth } from "@/context/authContext";
 import { useState } from "react";
 
 export default function LikePage() {
   const [active, setActive] = useState<"song" | "album" | "playlist">("song");
+  const {isAuthenticated} = useAuth();
 
   return (
     <>
@@ -52,9 +54,17 @@ export default function LikePage() {
           </ul>
         </div>
         <div className=" lg:pb-24 pb-28 ">
-          {active === "song" && <LikedSong />}
-          {active === "playlist" && <LikedPlaylist />}
-          {active === "album" && <LikedAlbum />}
+          {isAuthenticated ?(
+            <div>
+              {active === "song" && <LikedSong />}
+              {active === "playlist" && <LikedPlaylist />}
+              {active === "album" && <LikedAlbum />}
+            </div>
+          ): (
+            <div className=" flex items-center justify-around py-[4rem]  text-lg">
+            Login to see liked {active} !
+          </div>
+         )}
         </div>
       </div>
     </>

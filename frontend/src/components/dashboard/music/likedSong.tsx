@@ -22,7 +22,7 @@ export function LikedSong() {
     <>
       {song.length == 0 ? (
         <div className=" py-[4rem] flex items-center justify-center  ">
-          <h1 className=" text-lg ">Liked Song is empty!</h1>
+          <h1 className=" text-lg ">Song is empty!</h1>
         </div>
       ) : (
         <SongCardContaier>

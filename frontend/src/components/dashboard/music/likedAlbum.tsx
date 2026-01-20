@@ -4,9 +4,12 @@ import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
+import { useAuth } from "@/context/authContext";
 
 export function LikedAlbum() {
   const [album, setAlbum] = useState<IAlbum[]>([]);
+ 
+  
 
   useEffect(() => {
     const fetchAlbum = async () => {
@@ -19,11 +22,14 @@ export function LikedAlbum() {
     fetchAlbum();
   }, []);
 
+
+
+
   return (
     <>
       {album.length == 0 ? (
         <div className=" py-[4rem] flex items-center justify-center  ">
-          <h1 className=" text-lg ">Liked Song is empty!</h1>
+          <h1 className=" text-lg ">Album is empty!</h1>
         </div>
       ) : (
         <SongCardContaier>

@@ -22,6 +22,7 @@ import { saveSong } from "@/lib/saveSong";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { useQueue } from "@/context/queueContext";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
+import { div } from "motion/react-client";
 
 export function MusicBar() {
   const {
@@ -33,7 +34,7 @@ export function MusicBar() {
     nextSong,
     toggleLike,
   } = useQueue();
-  const { progress, isPlaying, play, pause } = useMusicPlayer();
+  const { progress, isPlaying, play, pause, isBuffering } = useMusicPlayer();
   const { success, error } = useToastNotification();
   const [open, setOpen] = useState<boolean>(false);
   const parent = {
@@ -110,14 +111,14 @@ export function MusicBar() {
         <div className="  h-18 absolute  lg:bottom-0 bottom-12   sm:gap-18 gap-6  z-50  w-full bg-card border-t-[1px] border-card-border  shadow-soft   ">
           <div
             className=" w-full h-2  cursor-pointer   flex items-center "
-            // onClick={(e) => {
-            //   const rect = e.currentTarget.getBoundingClientRect();
-            //   const progress = ((e.clientX - rect.left) / rect.width) * 100;
-            //   const player = playerRef.current;
-            //   if (player) {
-            //     player.currentTime = (progress * player.duration) / 100;
-            //   }
-            // }}
+          // onClick={(e) => {
+          //   const rect = e.currentTarget.getBoundingClientRect();
+          //   const progress = ((e.clientX - rect.left) / rect.width) * 100;
+          //   const player = playerRef.current;
+          //   if (player) {
+          //     player.currentTime = (progress * player.duration) / 100;
+          //   }
+          // }}
           >
             <div
               className="bg-green-400  h-1   "
@@ -162,22 +163,28 @@ export function MusicBar() {
             <div className="flex  gap-4 items-center ">
               <SkipBack
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${
-                  isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                }  `}
+                className={` stroke-1  max-sm:size-6  ${isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                  }  `}
                 onClick={() => {
                   prevSong();
                 }}
               />
               {isPlaying ? (
-                <Pause
-                  size={30}
-                  className=" stroke-1 cursor-pointer max-sm:size-6 "
-                  onClick={() => {
-                    console.log("pause");
-                    pause();
-                  }}
-                />
+                <div>
+                  {isBuffering ? (
+                    <div className=" h-[30px] w-[30px] border-[1.5px] border-white/30 border-t-white rounded-full animate-spin "></div>
+                  ) : (
+                    <Pause
+                      size={30}
+                      className=" stroke-1 cursor-pointer max-sm:size-6 "
+                      onClick={() => {
+                        console.log("pause");
+                        pause();
+                      }}
+                    />
+                  )}
+                </div>
+
               ) : (
                 <Play
                   size={30}
@@ -191,9 +198,8 @@ export function MusicBar() {
 
               <SkipForward
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${
-                  isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                }  `}
+                className={` stroke-1  max-sm:size-6  ${isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                  }  `}
                 onClick={() => {
                   nextSong();
                 }}
@@ -211,9 +217,8 @@ export function MusicBar() {
               </p>
               <Heart
                 size={30}
-                className={` max-md:hidden   cursor-pointer ${
-                  currentSong.isLiked ? "stroke-0 fill-red-800" : ""
-                } `}
+                className={` max-md:hidden   cursor-pointer ${currentSong.isLiked ? "stroke-0 fill-red-800" : ""
+                  } `}
                 onClick={async () => {
                   // currentSong
                   const response = await saveSong(currentSong);

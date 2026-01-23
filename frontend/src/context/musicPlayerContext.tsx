@@ -67,8 +67,12 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
         },
         { withCredentials: true }
       );
-
-      setUrl(responseUrl.data.song_url);
+      if (responseUrl.data.song_url.length !== 0) {
+        setUrl(responseUrl.data.song_url);
+      } else {
+        pause();
+        alert("Can't paly this song")
+      }
     };
     fetchUrl();
   }, [currentSong]);

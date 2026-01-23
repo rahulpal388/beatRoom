@@ -45,13 +45,13 @@ export const Login = async (req: Request, res: Response) => {
       .status(200)
       .cookie("accessToken", accessToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production" ? true : false,
+        secure: process.env.NODE_ENV === "production" ,
         sameSite: "strict",
         maxAge: 1000 * 60 * 15,
       })
       .cookie("refreshToken", refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production" ? true : false,
+        secure: process.env.NODE_ENV === "production" ,
         sameSite: "strict",
         maxAge: 1000 * 60 * 60 * 24 * 7,
       })

@@ -5,7 +5,6 @@ export function formateTime(duration: string) {
 }
 
 export function formateTimePading(duration: number) {
-  console.log(duration)
   return `${Math.trunc(duration / 60)}:${(duration % 60)
     .toString()
     .padStart(2, "0")}`;

@@ -46,7 +46,6 @@ export function SongCards({
   const { addQueueAndSetCurrent } = useQueue();
   const { success, error } = useToastNotification();
   const activeCard = isActive === songs.id;
-  console.log("song card");
   return (
     <>
       <div
@@ -58,15 +57,14 @@ export function SongCards({
           <Heart
             size={30}
             className={`cursor-pointer  ${songs.isLiked
-                ? "fill-red-800 stroke-0 block "
-                : ` ${openPopover && activeCard
-                  ? "block"
-                  : "hidden group-hover:block"
-                }`
+              ? "fill-red-800 stroke-0 block "
+              : ` ${openPopover && activeCard
+                ? "block"
+                : "hidden group-hover:block"
+              }`
               } `}
             onClick={async () => {
               try {
-                console.log(songs);
                 await axios.post(
                   `${BASE_URL}/${songs.type}/${songs.isLiked ? "remove" : "save"
                   }`,
@@ -94,10 +92,6 @@ export function SongCards({
                 popoverRef.current = e.currentTarget;
                 setIsActive(songs.id);
                 setCardType(songs.type);
-                console.log(songs.type);
-              }}
-              onScroll={() => {
-                console.log("scrolling");
               }}
             />
           </div>
@@ -114,13 +108,14 @@ export function SongCards({
           <PlayBotton
             className=" absolute top-[6.2rem] right-[1.2rem]  opacity-0 group-hover:opacity-100 "
             onClick={async () => {
+              const song = await getSong({
+                song_token,
+                songId: songs.id,
+                album_token,
+                type,
+              })
               addQueueAndSetCurrent(
-                await getSong({
-                  song_token,
-                  songId: songs.id,
-                  album_token,
-                  type,
-                })
+                song
               );
             }}
           />

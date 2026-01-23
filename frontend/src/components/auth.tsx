@@ -62,8 +62,8 @@ export function AuthPage({ type }: { type: AuthType }) {
           }
         }
       })
-      .catch((error) => {
-        const response = error.response;
+      .catch((e) => {
+        const response = e.response;
         setLoading(false);
         if (response.status === 302) {
           router.push(response.data.redirect);
@@ -178,7 +178,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                           name="Submit"
                           type="submit"
                           btnType="Primary"
-                          onClick={() => {}}
+                          onClick={() => { }}
                         />
                       ) : (
                         <Button
@@ -189,7 +189,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                           }
                           type="button"
                           btnType="Loading"
-                          onClick={() => {}}
+                          onClick={() => { }}
                         />
                       )}
                     </div>
@@ -312,7 +312,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                     btnType="Loading"
                     type="button"
                     className=" w-full mt-4 "
-                    onClick={() => {}}
+                    onClick={() => { }}
                   />
                 )}
               </motion.div>

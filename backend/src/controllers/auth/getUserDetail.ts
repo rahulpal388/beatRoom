@@ -2,7 +2,8 @@ import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";
 
 export const getUserDetail = async (req: Request, res: Response) => {
-  const userId = req.params.userId;
+  const {userId} = req.user;
+  console.log(`userId ${userId}`)
 
   try {
     const user = await userModel.findOne(

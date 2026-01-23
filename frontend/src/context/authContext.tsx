@@ -32,12 +32,13 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     const authenticate = async () => {
-      const response = await axios
+      await axios
         .get(`${BASE_URL}/auth/getUserDetail`, {
           withCredentials: true,
         })
         .then((response) => {
           if (response.status === 200) {
+            console.log(" userdetail " + response.data)
             const { username, userId, profile } = response.data;
             setCurrentUser({
               username,

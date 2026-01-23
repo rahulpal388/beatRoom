@@ -19,6 +19,7 @@ type QueueContextType = {
   currentSong: ISong;
   isNext: boolean;
   isPrev: boolean;
+  currentIdx: number
 };
 
 const tempSong: ISong = {
@@ -61,7 +62,7 @@ const queueContext = createContext<QueueContextType | undefined>(undefined);
 export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [queueSongs, setQueueSongs] = useState<ISong[]>([tempSong]);
+  const [queueSongs, setQueueSongs] = useState<ISong[]>([]);
   const [currentIdx, setCurrentIdx] = useState<number>(0);
 
   const isNext = currentIdx < queueSongs.length - 1 ? true : false;
@@ -118,6 +119,7 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
         queueSongs,
         isNext,
         isPrev,
+        currentIdx
       }}
     >
       {children}

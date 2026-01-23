@@ -1,10 +1,10 @@
 import { IAlbum } from "@/types/albumType";
 import axios, { AxiosResponse } from "axios";
-import { BASE_URL } from "./baseUrl";
+import { BASE_URL } from "../baseUrl";
 
 export const saveAlbum = async (
   album: IAlbum
-): Promise<AxiosResponse<any, any> | null> => {
+): Promise<boolean> => {
   try {
     const response = await axios.post(
       `${BASE_URL}/album/${album.isLiked ? "save" : "remove"}`,
@@ -12,8 +12,8 @@ export const saveAlbum = async (
       { withCredentials: true }
     );
 
-    return response;
+    return response.status===200;
   } catch (error) {
-    return null;
+    return false;
   }
 };

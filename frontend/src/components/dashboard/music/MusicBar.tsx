@@ -18,15 +18,17 @@ import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
 import axios from "axios";
 import { BASE_URL } from "@/lib/baseUrl";
-import { saveSong } from "@/lib/saveSong";
+import { saveSong } from "@/lib/save/saveSong";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { useQueue } from "@/context/queueContext";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { div } from "motion/react-client";
+import { read } from "fs";
+import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
 
 export function MusicBar() {
   const {
-    queueSongs,
+
     currentSong,
     isNext,
     isPrev,
@@ -34,9 +36,10 @@ export function MusicBar() {
     nextSong,
     toggleLike,
   } = useQueue();
-  const { progress, isPlaying, play, pause, isBuffering } = useMusicPlayer();
+  const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } = useMusicPlayer();
   const { success, error } = useToastNotification();
   const [open, setOpen] = useState<boolean>(false);
+  // const [currentBar, setCurrentBar] = useState<number>(0);
   const parent = {
     initial: {
       height: 0,
@@ -110,15 +113,14 @@ export function MusicBar() {
         </AnimatePresence>
         <div className="  h-18 absolute  lg:bottom-0 bottom-12   sm:gap-18 gap-6  z-50  w-full bg-card border-t-[1px] border-card-border  shadow-soft   ">
           <div
-            className=" w-full h-2  cursor-pointer   flex items-center "
-          // onClick={(e) => {
-          //   const rect = e.currentTarget.getBoundingClientRect();
-          //   const progress = ((e.clientX - rect.left) / rect.width) * 100;
-          //   const player = playerRef.current;
-          //   if (player) {
-          //     player.currentTime = (progress * player.duration) / 100;
-          //   }
-          // }}
+            className=" w-full h-2  cursor-pointer hover:border-[1px]  hover:border-neutral-600  flex items-center "
+
+            onClick={(e) => {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const progress = ((e.clientX - rect.left) / rect.width) * 100;
+              setCurrentTime(progress)
+            }}
+
           >
             <div
               className="bg-green-400  h-1   "
@@ -142,21 +144,27 @@ export function MusicBar() {
               }}
               className=" flex items-center gap-4  "
             >
-              <Image
-                src={currentSong.image}
-                alt="poster"
-                height={50}
-                width={50}
-                className="  rounded "
-              />
+              {
+                !currentSong ? (
+                  <div className="  h-[50px] w-[50px] bg-neutral-600 rounded-lg "></div>
+                ) : (
+                  <Image
+                    src={currentSong.image}
+                    alt="poster"
+                    height={50}
+                    width={50}
+                    className="  rounded "
+                  />
+                )
+              }
               <div className="  max-w-[24rem] ">
                 <h1 className=" text-text-heading font-heading text-lg line-clamp-1 ">
-                  {decodeHTML(currentSong.title)}
+                  {decodeHTML(currentSong?.title ?? "")}
                 </h1>
                 <p className=" text-[0.7rem] text-text-muted line-clamp-1 ">
-                  {currentSong.more_info.artistMap.artists
+                  {currentSong?.more_info.artistMap.artists
                     .map((x) => x.name)
-                    .join(", ")}
+                    .join(", ") ?? ""}
                 </p>
               </div>
             </motion.div>
@@ -206,18 +214,11 @@ export function MusicBar() {
               />
             </div>
             <div className=" flex items-center sm:gap-8  ">
-              <p className="w-24 max-sm:hidden ">
-                {/* {playerRef.current
-                  ? `${formateTimePading(
-                      Math.trunc(playerRef.current.currentTime)
-                    )} / ${formateTime(
-                      `${Math.round(playerRef.current.duration)}`
-                    )}`
-                  : "00 / 00"} */}
-              </p>
+
+              <CurrentSongPlayingTime />
               <Heart
                 size={30}
-                className={` max-md:hidden   cursor-pointer ${currentSong.isLiked ? "stroke-0 fill-red-800" : ""
+                className={` max-md:hidden   cursor-pointer ${currentSong?.isLiked ? "stroke-0 fill-red-800" : ""
                   } `}
                 onClick={async () => {
                   // currentSong
@@ -315,3 +316,5 @@ function ViewQueueSongs() {
     </>
   );
 }
+
+

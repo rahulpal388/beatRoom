@@ -11,8 +11,8 @@ import { useState } from "react";
 export function MusicBarPopover() {
   const [optionOpen, setOptionOpen] = useState<boolean>(false);
   const { currentSong } = useQueue();
-  const songToken = currentSong.perma_url.split("/").at(-1);
-  const albumToken = currentSong.more_info.album_url.split("/").at(-1);
+  const songToken = currentSong?.perma_url.split("/").at(-1);
+  const albumToken = currentSong?.more_info.album_url.split("/").at(-1);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(true);
   const { success, error } = useToastNotification();
   return (

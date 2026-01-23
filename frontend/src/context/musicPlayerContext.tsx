@@ -1,6 +1,7 @@
 import {
   createContext,
   FC,
+  RefObject,
   useContext,
   useEffect,
   useRef,
@@ -16,6 +17,8 @@ type TMusicPlayer = {
   isPlaying: boolean;
   progress: number;
   isBuffering: boolean;
+  setCurrentTime: (progress: number) => void
+  audioRef: RefObject<HTMLAudioElement | null>
 };
 
 const musicPlayerContext = createContext<TMusicPlayer | null>(null);
@@ -28,6 +31,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
+
   const [url, setUrl] = useState<string | undefined>(undefined);
 
   const play = () => {
@@ -41,6 +45,16 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
       setIsPlaying(false);
     }
   };
+
+  const setCurrentTime = (progress: number) => {
+    console.log(progress)
+    if (audioRef.current) {
+      audioRef.current.currentTime = (progress * audioRef.current.duration) / 100;
+      setProgress(
+        progress
+      );
+    }
+  }
 
   useEffect(() => {
     setProgress(0);
@@ -61,7 +75,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
 
   return (
     <musicPlayerContext.Provider
-      value={{ pause, play, isBuffering, isPlaying, progress }}
+      value={{ pause, play, isBuffering, isPlaying, progress, setCurrentTime, audioRef }}
     >
       <audio
         ref={audioRef}
@@ -70,14 +84,18 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
         onPlay={() => {
           console.log("playing the song");
           setIsPlaying(true);
+        }}
+        onPlaying={() => {
           setIsBuffering(false);
         }}
-
         onPause={() => {
           console.log("pausing the song");
           setIsPlaying(false);
         }}
         onWaiting={() => {
+          setIsBuffering(true);
+        }}
+        onStalled={() => {
           setIsBuffering(true);
         }}
         onEnded={() => {

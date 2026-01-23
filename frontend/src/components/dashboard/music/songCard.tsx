@@ -20,7 +20,7 @@ import { PlayBotton } from "@/ui/play";
 import { useActiveCardPopover } from "@/context/activeCardPopover";
 import { ISong } from "@/types/songType";
 import { IPlaylist } from "@/types/playlistType";
-import { saveSong } from "@/lib/saveSong";
+import { saveSong } from "@/lib/save/saveSong";
 import { IAlbum } from "@/types/albumType";
 import { useToastNotification } from "@/context/toastNotificationContext";
 
@@ -57,21 +57,18 @@ export function SongCards({
         >
           <Heart
             size={30}
-            className={`cursor-pointer  ${
-              songs.isLiked
+            className={`cursor-pointer  ${songs.isLiked
                 ? "fill-red-800 stroke-0 block "
-                : ` ${
-                    openPopover && activeCard
-                      ? "block"
-                      : "hidden group-hover:block"
-                  }`
-            } `}
+                : ` ${openPopover && activeCard
+                  ? "block"
+                  : "hidden group-hover:block"
+                }`
+              } `}
             onClick={async () => {
               try {
                 console.log(songs);
                 await axios.post(
-                  `${BASE_URL}/${songs.type}/${
-                    songs.isLiked ? "remove" : "save"
+                  `${BASE_URL}/${songs.type}/${songs.isLiked ? "remove" : "save"
                   }`,
                   { ...songs, isLiked: !songs.isLiked },
                   { withCredentials: true }
@@ -84,9 +81,8 @@ export function SongCards({
             }}
           />
           <div
-            className={`relative ${
-              openPopover && activeCard ? "block" : "hidden group-hover:block"
-            } `}
+            className={`relative ${openPopover && activeCard ? "block" : "hidden group-hover:block"
+              } `}
           >
             <EllipsisVerticalIcon
               // ref={(el) => (popoverElement.current = el)}
@@ -135,8 +131,8 @@ export function SongCards({
             type === "song"
               ? songHref
               : type === "album"
-              ? ablbumHref
-              : playlistHref
+                ? ablbumHref
+                : playlistHref
           }
           className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] "
         >

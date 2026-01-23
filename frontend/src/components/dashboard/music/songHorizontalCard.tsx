@@ -1,7 +1,7 @@
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { getSong } from "@/lib/getSong";
-import { saveSong } from "@/lib/saveSong";
+import { saveSong } from "@/lib/save/saveSong";
 import { ISong } from "@/types/songType";
 import { CirclePlay, EllipsisVertical, Heart } from "lucide-react";
 import Image from "next/image";
@@ -59,9 +59,8 @@ export function SongHorizontalCard({
         <div className=" flex items-center gap-12 ">
           <Heart
             size={20}
-            className={`cursor-pointer max-sm:hidden ${
-              songs.isLiked ? "fill-red-700" : ""
-            }`}
+            className={`cursor-pointer max-sm:hidden ${songs.isLiked ? "fill-red-700" : ""
+              }`}
             onClick={async () => {
               const response = await saveSong(songs);
               if (!response) {
@@ -75,7 +74,7 @@ export function SongHorizontalCard({
           />
           <p className=" max-sm:hidden ">
             {Math.floor(Number(songs.more_info.duration) / 60)}:
-            {Number(songs.more_info.duration) % 60}
+            {(String(Number(songs.more_info.duration) % 60)).padStart(2, "0")}
           </p>
           <EllipsisVertical size={20} className="cursor-pointer" />
         </div>

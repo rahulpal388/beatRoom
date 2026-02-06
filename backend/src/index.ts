@@ -1,5 +1,7 @@
-import express from "express";
 import dotenv from "dotenv";
+dotenv.config();
+
+import express from "express";
 import authRouter from "./routes/auth.js";
 import roomRouter from "./routes/room.js";
 import cors from "cors";
@@ -15,21 +17,27 @@ import { DBConnect } from "./db/index.js";
 import verifyTokenMiddleware from "./middleware/verifyToken.js";
 dns.setDefaultResultOrder("ipv4first");
 
-export const roomDB: {
-  username: string;
-  roomname: string;
-  roomId: string;
-}[] = [];
 
-dotenv.config();
 const PORT = process.env.PORT || 8081;
 
 const app = express();
 
 app.use(cookieParser());
+
+
+// cors configuration
+const allowedOrigins = process.env.CROSS_ORIGIN_URL?.split(",").map(x => x.trim()) || []
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins?.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Origin not allowed"))
+      }
+    },
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   })
 );

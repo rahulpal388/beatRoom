@@ -4,6 +4,7 @@ import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
 import { BASE_URL } from "@/lib/baseUrl";
+import { decodeHTML } from "@/lib/decodeHtml";
 import { ISongAlbum } from "@/types/albumType";
 import { ISong } from "@/types/songType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
@@ -69,11 +70,10 @@ export default function Songs() {
           songId={song.id}
           song_url={song.perma_url}
           album_url={song.more_info.album_url}
-          subtitle={`${
-            song.more_info.album
-          } by ${song.more_info.artistMap.artists
-            .map((x) => x.name)
-            .join(", ")}`}
+          subtitle={`${song.more_info.album
+            } by ${song.more_info.artistMap.artists
+              .map((x) => x.name)
+              .join(", ")}`}
           language={song.language}
           type={song.type}
           duration={song.more_info.duration}
@@ -84,7 +84,7 @@ export default function Songs() {
         {album && (
           <div className=" flex flex-col gap-4 md:px-12 mb-4 ">
             <h1 className=" font-bold text-2xl line-clamp-1 max-w-[30rem] ">
-              More from {album?.title}
+              More from {decodeHTML(album?.title)}
             </h1>
             {album?.list.map((item, index) => (
               <SongHorizontalCard

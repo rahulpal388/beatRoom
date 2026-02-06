@@ -16,7 +16,7 @@ export function QueueSongs() {
           </div>
           <div className=" flex items-center gap-4   ">
             <Button type="button" name="Save" btnType="Primary" />
-            <Button type="button" name="Cancel" btnType="Secondary" />
+            {/* <Button type="button" name="Cancel" btnType="Secondary" /> */}
           </div>
         </div>
         {

@@ -1,3 +1,4 @@
+import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { getSong } from "@/lib/getSong";
@@ -19,20 +20,21 @@ export function SongHorizontalCard({
   const song_token = songs.perma_url.split("/").at(-1);
   const album_token = songs.more_info.album_url.split("/").at(-1);
   const { success, error } = useToastNotification();
-  console.log("horizontal card");
+  const { addQueueAndSetCurrent } = useQueue()
   return (
     <div className=" group hover:bg-card-hover px-4 py-2 rounded flex gap-4 items-center ">
       <div className=" relative ">
         <p className=" group-hover:opacity-0 ">{serialNumber}</p>
         <CirclePlay
           className=" absolute top-0 -right-2 cursor-pointer  opacity-0 group-hover:opacity-100 "
-          onClick={() => {
-            getSong({
+          onClick={async () => {
+            const song = await getSong({
               song_token,
               album_token,
               songId: songs.id,
               type: songs.type,
             });
+            addQueueAndSetCurrent(song)
           }}
         />
       </div>

@@ -1,7 +1,6 @@
 import { CreateRoomType } from "../../zodTypes/createRoomType.js";
 import { createRoomId } from "../../utils/createRoomId.js";
 import { Request, Response } from "express";
-import { roomDB } from "../../index.js";
 
 const createRoom = (req: Request, res: Response) => {
   const { success, data } = CreateRoomType.safeParse(req.body);
@@ -15,11 +14,11 @@ const createRoom = (req: Request, res: Response) => {
   const roomId = createRoomId();
 
   //task 1 : store the room id in the DB of the user is exist
-  roomDB.push({
-    username: data.username,
-    roomname: data.roomname,
-    roomId: roomId,
-  });
+  // roomDB.push({
+  //   username: data.username,
+  //   roomname: data.roomname,
+  //   roomId: roomId,
+  // });
 
   res.status(200).json({
     roomId,

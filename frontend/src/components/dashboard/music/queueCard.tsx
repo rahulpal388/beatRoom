@@ -1,6 +1,7 @@
 import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { decodeHTML } from "@/lib/decodeHtml";
 import { formateTime } from "@/lib/formateTime";
 import { saveSong } from "@/lib/save/saveSong";
 import { ISong } from "@/types/songType";
@@ -36,7 +37,7 @@ export function QueueCards({
 
           <div>
             <h1 className="text-md text-text-heading font-heading  max-[16rem]  line-clamp-1 cursor-pointer ">
-              {song.title}
+              {decodeHTML(song.title)}
             </h1>
             <p className=" text-[0.7rem]  text-text-muted max-w-[14rem] line-clamp-1 ">
               {song.more_info.artistMap.artists.map((x) => x.name).join(", ")}

@@ -8,6 +8,7 @@ import { getSearchReco } from "../controllers/song/getSearchReco.js";
 import { saveSong } from "../controllers/song/saveSong.js";
 import { getSaveSong } from "../controllers/song/getSaveSong.js";
 import { removeSong } from "../controllers/song/removeSong.js";
+import findUserSavedSong from "../service/songs/findUserSavedSong.js";
 
 // export type TSong = {
 //   duration: string;
@@ -16,6 +17,11 @@ import { removeSong } from "../controllers/song/removeSong.js";
 // };
 
 const useSong = Router();
+
+useSong.get("/testing", async (req, res) => {
+    const a = await findUserSavedSong("uqP8_-YO");
+    res.json(a);
+})
 
 useSong.post("/play", getSongUrl);
 

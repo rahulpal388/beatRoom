@@ -3,10 +3,9 @@ import { Request, Response } from "express";
 
 export const getSaveSong = async (req: Request, res: Response) => {
   const userId = req.user.userId;
-  console.log(userId);
   try {
     const user = await userModel.findOne({ userId }).populate({
-      path: "likes.songs",
+      path: "songs",
       model: "Songs",
       select: "-_id -__v",
       populate: {
@@ -16,7 +15,7 @@ export const getSaveSong = async (req: Request, res: Response) => {
       },
     });
 
-    res.status(200).json(user?.likes?.songs);
+    res.status(200).json(user?.songs);
   } catch (error) {
     console.log(error);
     res.status(500).json("error while finding the save song");

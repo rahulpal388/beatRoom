@@ -1,14 +1,11 @@
-import {
-  IPlaylist,
-  IPlaylistResponse,
-} from "../controllers/playlist/getTrendingPlaylist.js";
+import { ApiPlaylist, IPlaylist } from "types/playlistType.js";
 
 export const retrivePlaylist = (
-  playlist: IPlaylist[],
+  playlist: ApiPlaylist[],
   likedPlaylist: Set<String>
-): IPlaylistResponse[] => {
-  return playlist.map((x) => {
-    return {
+): IPlaylist[] => {
+  return playlist.map((x) => (
+    {
       id: x.id,
       title: x.title,
       subtitle: x.subtitle,
@@ -16,11 +13,6 @@ export const retrivePlaylist = (
       image: x.image,
       type: x.type,
       isLiked: likedPlaylist.has(x.id),
-      more_info: {
-        song_count: "",
-        entity_type: "",
-        language: "",
-      },
-    };
-  });
+    }
+  ));
 };

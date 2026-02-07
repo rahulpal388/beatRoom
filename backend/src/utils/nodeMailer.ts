@@ -1,14 +1,13 @@
 
 
-import { EMAIL, EMAIL_PASS } from "../config/config.js";
 import nodemailer from "nodemailer";
 
 
 const transpoter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-        user: EMAIL,  //  email 
-        pass: EMAIL_PASS,    // pass code for that email
+        user: process.env.EMAIL,  //  email 
+        pass: process.env.EMAIL_PASS,    // pass code for that email
     },
 })
 

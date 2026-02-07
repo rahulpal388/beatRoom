@@ -9,6 +9,7 @@ const SongsSchema = new mongoose.Schema({
   perma_url: { type: String, required: true, trim: true },
   image: { type: String, required: true, trim: true },
   language: { type: String, required: true, trim: true },
+  play_count: { type: String, required: true, trim: true },
   isLiked: { type: Boolean, required: true },
   more_info: {
     album_id: { type: String, required: true, trim: true },

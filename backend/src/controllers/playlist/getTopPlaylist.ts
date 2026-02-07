@@ -1,28 +1,22 @@
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import axios from "axios";
 import { Request, Response } from "express";
-import { IPlaylist, IPlaylistResponse } from "./getTrendingPlaylist.js";
 import { retrivePlaylist } from "../../utils/retrivePlaylist.js";
-import { getLikedPlaylist } from "../../utils/getLikedPlaylist.js";
+import { getLikedPlaylist } from "service/playlist/getLikedPlaylist.js";
+import { ApiPlaylist } from "types/playlistType.js";
 
-// interface IPlaylist {
-//   id: string;
-//   title: string;
-//   subtitle: string;
-//   type: string;
-//   image: string;
-//   perma_url: string;
-// }
+
 
 const getTopPlaylist = async (req: Request, res: Response) => {
   const { success, data } = paginationType.safeParse(req.query);
   const userId = req.user.userId;
   if (!success) {
-    res.status(200).json([]);
-    return;
+    return res.status(401).json({
+      message: "Invalid input"
+    });
+
   }
-  console.log(req.params);
-  console.log(userId.length);
+
   try {
     const [response, likedPlaylist] = await Promise.all([
       axios.get(
@@ -31,14 +25,15 @@ const getTopPlaylist = async (req: Request, res: Response) => {
       getLikedPlaylist(userId),
     ]);
 
-    const playlist = response.data.data as IPlaylist[];
-    console.log(likedPlaylist);
+    const playlist = response.data.data as ApiPlaylist[];
     const result = retrivePlaylist(playlist, likedPlaylist);
 
     res.status(200).json(result);
   } catch (error) {
     console.log(error);
-    res.status(200).json([]);
+    res.status(500).json({
+      message: "Error while finding the top playlist"
+    });
   }
 };
 

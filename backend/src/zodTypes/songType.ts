@@ -8,6 +8,7 @@ export const saveSongType = z.object({
   perma_url: z.string(),
   image: z.string(),
   language: z.string(),
+  play_count: z.string(),
   isLiked: z.boolean(),
   more_info: z.object({
     album_id: z.string(),

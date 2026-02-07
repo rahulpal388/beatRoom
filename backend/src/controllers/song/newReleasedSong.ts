@@ -1,84 +1,23 @@
-import axios from "axios";
 import { Request, Response } from "express";
-import z from "zod";
-import { ISong } from "./getTendingSong.js";
 import { paginationType } from "../../zodTypes/paginatipType.js";
-import { getLikedAlbum } from "../../utils/getLikedAlbum.js";
-import { getLikedSong } from "../../utils/getlikedSong.js";
+import { newReleasedSong } from "service/songs/newReleasedSong.js";
 
-type IMoreInfo = Omit<
-  ISong["more_info"],
-  "album_id" | "album" | "album_url" | "encrypted_media_url"
-> &
-  Partial<
-    Pick<
-      ISong["more_info"],
-      "album_id" | "album" | "album_url" | "encrypted_media_url"
-    >
-  >;
 
-type INewRelease = Omit<ISong, "more_info"> & { more_info: IMoreInfo };
 
 const getNewReleasedSong = async (req: Request, res: Response) => {
   const { success, data } = paginationType.safeParse(req.query);
-  console.log("request come");
   const userId = req.user.userId;
-  console.log(`user iid => ${userId}`);
   if (!success) {
-    res.status(200).json([]);
+    res.status(401).json({
+      message: "Invalid input"
+    });
     return;
   }
 
-  try {
-    console.log("getting data");
-    const [response, likedAlbum, likedSong] = await Promise.all([
-      axios.get(
-        `https://www.jiosaavn.com/api.php?__call=content.getAlbums&api_version=4&_format=json&_marker=0&n=${data.limit}&p=${data.page}&ctx=web6dot0`
-      ),
-      getLikedAlbum(userId),
-      getLikedSong(userId),
-    ]);
+  const newSong = await newReleasedSong(userId, data.limit, data.page);
 
-    const newSong = response.data.data as INewRelease[];
-    const likedId = new Set([...likedAlbum, ...likedSong]);
-    console.log(likedId);
-    const result: ISong[] = newSong.map((items) => {
-      return {
-        id: items.id,
-        title: items.title,
-        subtitle: items.subtitle,
-        type: items.type,
-        perma_url: items.perma_url,
-        image: items.image.replace("150x150", "500x500"),
-        language: items.language,
-        isLiked: likedId.has(items.id),
-        more_info: {
-          album_id: items.more_info.album_id || "",
-          album: items.more_info.album || "",
-          album_url: items.more_info.album_url || "",
-          duration: items.more_info.duration || "",
-          encrypted_media_url: items.more_info.encrypted_media_url || "",
-          artistMap: {
-            artists: items.more_info.artistMap.artists.map((artist) => {
-              return {
-                id: artist.id,
-                name: artist.name,
-                image: artist.image,
-                perma_url: artist.perma_url,
-                role: artist.role,
-                type: artist.type,
-              };
-            }),
-          },
-          release_date: items.more_info.release_date,
-        },
-      };
-    });
+  res.status(200).json(newSong);
 
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(200).json([]);
-  }
 };
 
 export default getNewReleasedSong;

@@ -2,39 +2,23 @@ import axios from "axios";
 import { Request, Response } from "express";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
-import { retriveSong } from "../../utils/retriveSong.js";
-import { IArtists } from "../../controllers/artist/getTopArtist.js";
-import { getLikedSong } from "../../utils/getlikedSong.js";
+import { ApiSong } from "../../types/songType.js";
+import { getLikedSong } from "../../service/songs/getLikedSong.js";
+import { retriveSong } from "service/songs/retriveSong.js";
 
-export type ISong = {
-  id: string;
-  title: string;
-  subtitle: string;
-  type: string;
-  perma_url: string;
-  image: string;
-  language: string;
-  more_info: {
-    album_id: string;
-    album: string;
-    album_url: string;
-    duration: string;
-    encrypted_media_url: string;
-    artistMap: {
-      artists: IArtists[];
-    };
-    release_date: string;
-  };
-};
+
 
 const getTrendingSong = async (req: Request, res: Response) => {
   const { success, data } = paginationType
     .and(z.object({ language: z.string() }))
     .safeParse(req.query);
   const userId = req.user.userId;
+
   if (!success) {
-    res.status(200).json([]);
-    return;
+    return res.status(401).json({
+      message: "Invalid url"
+    });
+
   }
 
   try {
@@ -44,7 +28,7 @@ const getTrendingSong = async (req: Request, res: Response) => {
       ),
       getLikedSong(userId),
     ]);
-    const trending = response.data as ISong[];
+    const trending = response.data as ApiSong[];
     const sliceTrending = trending.slice(
       Number(data.page) * Number(data.limit),
       (Number(data.page) + 1) * Number(data.limit)
@@ -55,7 +39,9 @@ const getTrendingSong = async (req: Request, res: Response) => {
 
     res.status(200).json(result);
   } catch (error) {
-    res.status(200).json([]);
+    res.status(500).json({
+      message: "Error finding trending song"
+    });
   }
 };
 

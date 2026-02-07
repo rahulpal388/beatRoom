@@ -9,7 +9,7 @@ const AlbumSchema = new mongoose.Schema({
   image: { type: String, required: true, trim: true },
   language: { type: String, required: true, trim: true },
   list_count: { type: String, required: true, trim: true },
-  isLiked: { type: Boolean, required: true },
+  isLiked: { type: Boolean, required: true, default: false },
   more_info: {
     artistMap: {
       artists: [{ type: mongoose.Schema.ObjectId, ref: "Artists" }],

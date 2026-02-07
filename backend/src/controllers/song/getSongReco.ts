@@ -1,12 +1,19 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { ISong } from "./getTendingSong.js";
-import { retriveSong } from "../../utils/retriveSong.js";
-import { getLikedSong } from "../../utils/getlikedSong.js";
+import { getLikedSong } from "service/songs/getLikedSong.js";
+import { retriveSong } from "service/songs/retriveSong.js";
+import { ApiSong } from "types/songType.js";
 
 export const getSongReco = async (req: Request, res: Response) => {
   const { id } = req.params;
   const userId = req.user.userId;
+
+  if (!id || typeof id !== "string") {
+    return res.status(401).json({
+      message: "Invalid input"
+    })
+  }
+
   try {
     const [response, likedSong] = await Promise.all([
       axios.get(
@@ -15,9 +22,11 @@ export const getSongReco = async (req: Request, res: Response) => {
       getLikedSong(userId),
     ]);
 
-    const result = retriveSong(response.data as ISong[], likedSong);
+    const result = retriveSong(response.data as ApiSong[], likedSong);
     res.status(200).json(result);
   } catch (error) {
-    res.status(200).json([]);
+    res.status(500).json({
+      message: "Can't find any song recommandation"
+    });
   }
 };

@@ -1,22 +1,10 @@
 import axios from "axios";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import { Request, Response } from "express";
+import { ApiTopArtist, IArtists } from "types/artistType.js";
 
-type ITopArtist = {
-  artistid: string;
-  name: string;
-  image: string;
-  perma_url: string;
-};
 
-export type IArtists = {
-  id: string;
-  name: string;
-  role: string;
-  image: string;
-  type: string;
-  perma_url: string;
-};
+
 
 const getTopArtits = async (req: Request, res: Response) => {
   const { success, data } = paginationType
@@ -35,7 +23,7 @@ const getTopArtits = async (req: Request, res: Response) => {
       )
     ).data;
 
-    const topArtists = response.top_artists as ITopArtist[];
+    const topArtists = response.top_artists as ApiTopArtist[];
 
     const result: IArtists[] = topArtists
       .slice(0, Number(data.limit))
@@ -45,6 +33,7 @@ const getTopArtits = async (req: Request, res: Response) => {
           name: items.name,
           image: items.image.replace("150x150", "500x500"),
           perma_url: items.perma_url,
+          isLiked: false,
           role: "",
           type: "",
         };

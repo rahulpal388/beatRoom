@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 export const removePlaylist = async (req: Request, res: Response) => {
   const userId = req.user.userId;
 
-  if (userId.length === 0) {
+  if (!userId) {
     return res.status(401).json({
       message: "log in to save playlist ",
     });

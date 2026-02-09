@@ -1,56 +1,19 @@
-import { getLikedAlbum } from "../../utils/getLikedAlbum.js";
-import axios from "axios";
 import { Request, Response } from "express";
+import { albumReco } from "../../service/album/albumReco.js";
 
-export type IAlbums = {
-  id: string;
-  title: string;
-  type: string;
-  perma_url: string;
-  image: string;
-};
+
 
 export const getAlbumReco = async (req: Request, res: Response) => {
   const id = req.params.id;
+  const userId = req.user.userId;
 
-  try {
-    const [response, likedAlbum] = await Promise.all([
-      axios.get(
-        `https://www.jiosaavn.com/api.php?__call=reco.getAlbumReco&api_version=4&_format=json&_marker=0&ctx=web6dot0&albumid=${id}`
-      ),
-      getLikedAlbum(req.user.userId),
-    ]);
-    const album = response.data as IAlbums[];
-
-    const result = album.map((x) => {
-      return {
-        id: x.id,
-        title: x.title,
-        subtitle: "",
-        type: x.type,
-        perma_url: x.perma_url,
-        image: x.image.replace("150x150", "500x500"),
-        language: "",
-        isLiked: likedAlbum.has(x.id),
-        more_info: {
-          artistMap: {
-            artists: [
-              {
-                id: "",
-                name: "",
-                role: "",
-                image: "",
-                type: "",
-                perma_url: "",
-              },
-            ],
-          },
-        },
-      };
-    });
-
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(200).json([]);
+  if (!id || typeof id !== "string") {
+    return res.status(401).json({
+      message: "Invalid input, id is missing"
+    })
   }
+
+  const response = await albumReco(id, userId);
+
+  return res.status(200).json(response)
 };

@@ -1,7 +1,7 @@
 import { userModel } from "../../db/schema/user.js";
 import { songModel } from "../../db/schema/song.js";
 import { ISong } from "../../types/songType.js";
-import { bulkSaveArtists } from "service/artists/bulkSaveArtists.js";
+import { bulkSaveArtists } from "../artists/bulkSaveArtists.js";
 
 
 

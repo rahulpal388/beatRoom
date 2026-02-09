@@ -1,4 +1,4 @@
-import { ApiSearchAlbum, ApiSearchArtist, ApiSearchPlaylist, ApiSearchSong } from "types/searchType.js";
+import { ApiSearchAlbum, ApiSearchArtist, ApiSearchPlaylist, ApiSearchSong } from "../../types/searchType.js";
 import { mapSearchAlbum } from "./mapSearchAlbum.js";
 import { mapSearchSong } from "./mapSearchSong.js";
 import { mapSearchPlaylist } from "./mapSearchPlaylist.js";

@@ -4,7 +4,7 @@ import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
 import { ApiSong } from "../../types/songType.js";
 import { getLikedSong } from "../../service/songs/getLikedSong.js";
-import { retriveSong } from "service/songs/retriveSong.js";
+import { retriveSong } from "../../service/songs/retriveSong.js";
 
 
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiSong, ISong } from "types/songType.js";
+import { ApiSong, ISong } from "../../types/songType.js";
 import { getLikedSong } from "./getLikedSong.js";
 import { retriveSong } from "./retriveSong.js";
 

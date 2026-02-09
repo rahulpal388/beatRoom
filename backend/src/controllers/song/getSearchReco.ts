@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { searchReco } from "service/songs/searchReco.js";
+import { searchReco } from "../../service/songs/searchReco.js";
 
 
 

@@ -1,10 +1,10 @@
 import axios from "axios";
-import { mapSearchAlbum } from "service/searchRecoHelper/mapSearchAlbum.js";
-import { mapSearchArtist } from "service/searchRecoHelper/mapSearchArtist.js";
-import { mapSearchPlaylist } from "service/searchRecoHelper/mapSearchPlaylist.js";
-import { mapSearchSong } from "service/searchRecoHelper/mapSearchSong.js";
-import { mapSearchTopQuery } from "service/searchRecoHelper/mapSearchTopQuery.js";
-import { ApiSearchReco } from "types/searchType.js";
+import { mapSearchAlbum } from "../searchRecoHelper/mapSearchAlbum.js";
+import { mapSearchArtist } from "../searchRecoHelper/mapSearchArtist.js";
+import { mapSearchPlaylist } from "../searchRecoHelper/mapSearchPlaylist.js";
+import { mapSearchSong } from "../searchRecoHelper/mapSearchSong.js";
+import { mapSearchTopQuery } from "../searchRecoHelper/mapSearchTopQuery.js";
+import { ApiSearchReco } from "../../types/searchType.js";
 
 
 

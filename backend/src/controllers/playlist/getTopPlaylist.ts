@@ -2,8 +2,8 @@ import { paginationType } from "../../zodTypes/paginatipType.js";
 import axios from "axios";
 import { Request, Response } from "express";
 import { retrivePlaylist } from "../../utils/retrivePlaylist.js";
-import { getLikedPlaylist } from "service/playlist/getLikedPlaylist.js";
-import { ApiPlaylist } from "types/playlistType.js";
+import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
+import { ApiPlaylist } from "../../types/playlistType.js";
 
 
 

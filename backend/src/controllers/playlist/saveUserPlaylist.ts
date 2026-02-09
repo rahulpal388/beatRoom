@@ -1,5 +1,3 @@
-import { artistModel } from "db/schema/artist.js";
-import { saveUserPlaylistType } from "../../zodTypes/playlist.js";
 import { Request, Response } from "express";
 
 export const saveUserPlaylist = async (req: Request, res: Response) => {
@@ -45,7 +43,7 @@ export const saveUserPlaylist = async (req: Request, res: Response) => {
   // } catch (error) {
   //   console.log(error);
   // }
-  res.status(500).json({
-    messsage: "error while saving the user playlist",
+  res.status(200).json({
+    messsage: "end point not working",
   });
 };

@@ -1,4 +1,4 @@
-import { ApiSearchAlbum } from "types/searchType.js";
+import { ApiSearchAlbum } from "../../types/searchType.js";
 
 
 export function mapSearchAlbum(album: ApiSearchAlbum[]): ApiSearchAlbum[] {

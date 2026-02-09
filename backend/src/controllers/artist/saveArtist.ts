@@ -1,5 +1,5 @@
-import { userModel } from "../../db/schema/user.js";
 import { artistModel } from "../../db/schema/artist.js";
+import { userModel } from "../../db/schema/user.js";
 import { saveArtistType } from "../../zodTypes/artistType.js";
 import { Request, Response } from "express";
 
@@ -29,7 +29,7 @@ export const saveArtist = async (req: Request, res: Response) => {
     console.log(req.params.userId);
     await userModel.findOneAndUpdate(
       { userId: req.params.userId },
-      { "likes.artists": artist._id }
+      { "artists": artist._id }
     );
 
     res.status(200).json({

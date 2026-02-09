@@ -12,7 +12,7 @@ export const getSavePlaylist = async (req: Request, res: Response) => {
     });
 
     console.log(JSON.stringify(playlist));
-    res.status(200).json(playlist?.likes?.playlists);
+    res.status(200).json(playlist?.playlists);
   } catch (error) {
     res.status(500).json({
       messsage: "error getting the save playlist",

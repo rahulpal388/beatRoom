@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 export const removeAlbum = async (req: Request, res: Response) => {
   const userId = req.user.userId;
-  if (userId.length === 0) {
+  if (!userId) {
     return res.status(401).json({
       message: "log in to remove the album",
     });
@@ -15,7 +15,7 @@ export const removeAlbum = async (req: Request, res: Response) => {
     await Promise.all([
       userModel.findOneAndUpdate(
         { userId },
-        { $pull: { "likes.albums": album?._id } }
+        { $pull: { "albums": album?._id } }
       ),
       albumModel.deleteOne({ _id: album?._id }),
     ]);

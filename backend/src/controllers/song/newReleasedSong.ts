@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { paginationType } from "../../zodTypes/paginatipType.js";
-import { newReleasedSong } from "service/songs/newReleasedSong.js";
+import { newReleasedSong } from "../../service/songs/newReleasedSong.js";
 
 
 

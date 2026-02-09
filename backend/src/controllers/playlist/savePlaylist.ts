@@ -14,7 +14,7 @@ export const savePlaylist = async (req: Request, res: Response) => {
     return;
   }
 
-  if (userId.length === 0) {
+  if (!userId) {
     return res.status(401).json({
       message: "log in to save playlist",
     });

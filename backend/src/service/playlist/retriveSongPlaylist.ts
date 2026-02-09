@@ -1,5 +1,5 @@
-import { retriveSong } from "service/songs/retriveSong.js";
-import { APiSongsPlaylist, ISongsPlaylist } from "types/playlistType.js";
+import { retriveSong } from "../songs/retriveSong.js";
+import { APiSongsPlaylist, ISongsPlaylist } from "../../types/playlistType.js";
 
 
 

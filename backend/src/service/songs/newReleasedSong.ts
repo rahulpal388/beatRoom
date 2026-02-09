@@ -1,7 +1,7 @@
 import axios from "axios";
-import { getLikedAlbum } from "../../service/album/getLikedAlbum.js";
+import { getLikedAlbum } from "../album/getLikedAlbum.js";
 import { getLikedSong } from "./getLikedSong.js";
-import { ApiNewRelease, INewRelease } from "types/songType.js";
+import { ApiNewRelease, INewRelease } from "../../types/songType.js";
 
 
 

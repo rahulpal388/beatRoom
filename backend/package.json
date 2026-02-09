@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc -b",
-    "dev": "npm run build && node --env-file=.env dist/index.js ",
+    "dev": "tsx watch src/index.ts ",
     "start": "node --env-file=.env dist/index.js"
   },
   "keywords": [],
@@ -46,6 +46,7 @@
     "@types/ws": "^8.18.1",
     "concurrently": "^9.2.1",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
 }

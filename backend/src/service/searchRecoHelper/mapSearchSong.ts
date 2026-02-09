@@ -1,4 +1,4 @@
-import { ApiSearchSong } from "types/searchType.js";
+import { ApiSearchSong } from "../../types/searchType.js";
 
 
 

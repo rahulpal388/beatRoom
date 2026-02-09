@@ -1,7 +1,7 @@
-import { saveUserSong } from "service/songs/saveUserSong.js";
+import { saveUserSong } from "../../service/songs/saveUserSong.js";
 import { saveSongType } from "../../zodTypes/songType.js";
 import { Request, Response } from "express";
-import { ISong } from "types/songType.js";
+import { ISong } from "../../types/songType.js";
 
 
 

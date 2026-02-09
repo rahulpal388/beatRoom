@@ -1,4 +1,3 @@
-import { artistModel } from "db/schema/artist.js";
 import { songModel } from "../../db/schema/song.js";
 import { userModel } from "../../db/schema/user.js";
 

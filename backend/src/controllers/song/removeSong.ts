@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { removeLikedSong } from "service/songs/removeLikedSong.js";
+import { removeLikedSong } from "../../service/songs/removeLikedSong.js";
 
 export const removeSong = async (req: Request, res: Response) => {
   const userId = req.user.userId;

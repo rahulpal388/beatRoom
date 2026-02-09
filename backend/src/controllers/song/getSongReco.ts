@@ -1,8 +1,8 @@
 import axios from "axios";
 import { Request, Response } from "express";
-import { getLikedSong } from "service/songs/getLikedSong.js";
-import { retriveSong } from "service/songs/retriveSong.js";
-import { ApiSong } from "types/songType.js";
+import { getLikedSong } from "../../service/songs/getLikedSong.js";
+import { retriveSong } from "../../service/songs/retriveSong.js";
+import { ApiSong } from "../../types/songType.js";
 
 export const getSongReco = async (req: Request, res: Response) => {
   const { id } = req.params;

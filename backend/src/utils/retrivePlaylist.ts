@@ -1,4 +1,4 @@
-import { ApiPlaylist, IPlaylist } from "types/playlistType.js";
+import { ApiPlaylist, IPlaylist } from "../types/playlistType.js";
 
 export const retrivePlaylist = (
   playlist: ApiPlaylist[],

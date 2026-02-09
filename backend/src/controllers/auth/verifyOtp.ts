@@ -61,13 +61,13 @@ export const verifyOtp_signin = async (req: Request, res: Response) => {
         .status(200)
         .cookie("accessToken", accessToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production" ,
+          secure: process.env.NODE_ENV === "production",
           sameSite: "strict",
           maxAge: 1000 * 60 * 15,
         })
         .cookie("refreshToken", refreshToken, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production" ,
+          secure: process.env.NODE_ENV === "production",
           sameSite: "strict",
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
@@ -75,7 +75,7 @@ export const verifyOtp_signin = async (req: Request, res: Response) => {
           message: "use logged in successful ",
           userId: user.userId,
           username: user.username,
-          profile: user.profile,
+          profile: user.image,
         });
     } else {
       res.status(401).json({

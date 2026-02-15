@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 
 const userSession = new mongoose.Schema({
-    id: { type: mongoose.SchemaTypes.ObjectId, require: true, ref: "Users" },
+    userId: { type: mongoose.SchemaTypes.ObjectId, require: true, ref: "Users" },
     refreshToken: { type: String, require: true },
     deviceId: { type: String, require: true },
     userAgent: { type: String, require: true },

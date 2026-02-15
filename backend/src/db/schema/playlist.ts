@@ -8,6 +8,6 @@ const PlaylistSchema = new mongoose.Schema({
   image: { type: String, required: true, trim: true },
   perma_url: { type: String, required: true, trim: true },
   isLiked: { type: Boolean, required: true },
-});
+}, { timestamps: true });
 
 export const playlistModel = mongoose.model("Playlists", PlaylistSchema);

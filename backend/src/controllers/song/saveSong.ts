@@ -20,17 +20,21 @@ export const saveSong = async (req: Request, res: Response) => {
       message: "log in to save song",
     });
   }
-  const isSaved = await saveUserSong(userId, data as ISong);
 
-  if (!isSaved) {
-    return res.status(500).json({
-      message: "Can't save the song"
+  try {
+
+    await saveUserSong(userId, data as ISong);
+    res.status(200).json({
+      message: "song saved"
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(500).json({
+      message: "Error saving Song"
     })
   }
 
-  res.status(200).json({
-    message: "song saved"
-  })
+
 
 
 

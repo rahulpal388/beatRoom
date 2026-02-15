@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { removeLikedSong } from "../../service/songs/removeLikedSong.js";
+import { removeUserSong } from "../../service/songs/removeUserSong.js";
 
 export const removeSong = async (req: Request, res: Response) => {
   const userId = req.user.userId;
@@ -16,16 +16,18 @@ export const removeSong = async (req: Request, res: Response) => {
     })
   }
 
-  const removed = await removeLikedSong(userId, id)
+  try {
 
-  if (removed) {
+    await removeUserSong(userId, id)
     res.status(200).json({
       message: "Song removed"
     })
-  } else {
+  } catch (error) {
+    console.error(error)
     res.status(500).json({
       message: "Error removing song"
     })
+
   }
 
 };

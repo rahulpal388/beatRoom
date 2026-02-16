@@ -2,7 +2,7 @@ import {
   createAccessToken,
   createRefreshToken,
   verifyJwtToken,
-} from "../utils/jwtTokens.js";
+} from "../service/jwtTokens.js";
 import { userModel } from "../db/schema/user.js";
 import { NextFunction, Request, Response } from "express";
 
@@ -34,13 +34,13 @@ const verifyTokenMiddleware = async (
           res
             .cookie("refreshToken", newRefreshToken, {
               httpOnly: true,
-              secure: process.env.NODE_ENV === "production" ,
+              secure: process.env.NODE_ENV === "production",
               sameSite: "strict",
               maxAge: 1000 * 60 * 60 * 24 * 7,
             })
             .cookie("accessToken", accessToken, {
               httpOnly: true,
-              secure: process.env.NODE_ENV === "production" ,
+              secure: process.env.NODE_ENV === "production",
               sameSite: "strict",
               maxAge: 1000 * 60 * 15,
             });

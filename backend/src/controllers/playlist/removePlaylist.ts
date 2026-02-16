@@ -1,4 +1,4 @@
-import { removeLikedPlaylist } from "service/playlist/removeLikedPlaylist.js";
+import { removeLikedPlaylist } from "../../service/playlist/removeLikedPlaylist.js";
 import { playlistModel } from "../../db/schema/playlist.js";
 import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";

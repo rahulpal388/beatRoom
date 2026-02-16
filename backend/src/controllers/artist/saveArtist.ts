@@ -1,4 +1,4 @@
-import { saveLikedArtist } from "service/artists/saveLikedArtist.js";
+import { saveLikedArtist } from "../../service/artists/saveLikedArtist.js";
 import { artistModel } from "../../db/schema/artist.js";
 import { userModel } from "../../db/schema/user.js";
 import { saveArtistType } from "../../zodTypes/artistType.js";

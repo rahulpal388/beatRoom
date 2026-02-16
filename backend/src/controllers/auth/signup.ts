@@ -1,45 +1,46 @@
+import { Request, Response } from "express";
 import { optModel } from "../../db/schema/otp.js";
 import { userModel } from "../../db/schema/user.js";
-import { sendEmail } from "../../utils/nodeMailer.js";
 import { signUpType } from "../../zodTypes/authType.js";
-import { Request, Response } from "express";
-import { TOTP } from "totp-generator";
+import { hashString } from "../../utils/hashString.js";
+import { generateOtp } from "../../service/genetateOtp.js";
+import { sendOtp } from "../../service/email/sendOtp.js";
 
 export const SignUp = async (req: Request, res: Response) => {
-  const { data, success } = signUpType.safeParse(req.body);
+  const { data, success, error } = signUpType.safeParse(req.body);
   if (!success) {
     console.log(req.body);
     return res.status(401).json({
-      message: "Invalid Input",
+      message: error.message,
     });
   }
+
   try {
     console.log("singup");
-    const user = await userModel.findOne({ email: data.email });
+    const user = await userModel.findOne({ email: data.email }, { email: 1, _id: 1 });
     console.log(user);
+
     if (user) {
-      return res.status(302).json({
+      return res.status(301).json({
         message: "User Already Exist",
         redirect: "/login",
       });
     }
-    const { otp } = TOTP.generate(process.env.OTP_SECRET!);
+    const otp = generateOtp();
     console.log(otp);
+    const hashOtp = hashString(otp);
 
     await optModel.findOneAndUpdate(
       { email: data.email },
-      { email: data.email, otp: otp },
+      { $set: { otp: hashOtp } },
       { upsert: true }
-    );
+    )
 
-    const text = `Hi ${data.username},
-  Your One-Time Password (OTP) is: ${otp}
-  Do not share this code with anyone for your account’s security.
-  This code is valid for the next 10 minutes.
-  If you did not request this OTP, please ignore this email.
-  Thank you,
-  The BeatRoom Team`;
-    await sendEmail(data.email, text, "");
+    const isEmailSent = await sendOtp(otp, data.username, data.email);
+
+    if (!isEmailSent) {
+      throw new Error("Email failed to send")
+    }
     res.status(200).json({
       message: "Opt Send",
     });

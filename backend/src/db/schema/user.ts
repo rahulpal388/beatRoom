@@ -7,7 +7,6 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   profile_image: { type: String, trim: true, default: null },
   session: [{ type: mongoose.Schema.ObjectId, ref: "Session" }],
-  otp: [{ type: mongoose.Schema.ObjectId, ref: "Otp" }],
   history: [{ type: mongoose.Schema.ObjectId, ref: "Songs" }],
   songs: [{ type: mongoose.Schema.ObjectId, ref: "Songs" }],
   artists: [{ type: mongoose.Schema.ObjectId, ref: "Artists" }],

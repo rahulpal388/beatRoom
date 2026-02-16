@@ -1,7 +1,7 @@
-import { savePlaylistType } from "../../zodTypes/playlist.js";
 import { Request, Response } from "express";
-import { saveLikedPlaylist } from "service/playlist/savelikedPlaylist.js";
-import { IPlaylist } from "types/playlistType.js";
+import { savePlaylistType } from "../../zodTypes/playlist.js";
+import { saveLikedPlaylist } from "../../service/playlist/savelikedPlaylist.js";
+import { IPlaylist } from "../../types/playlistType.js";
 
 export const savePlaylist = async (req: Request, res: Response) => {
   const { success, data } = savePlaylistType.safeParse(req.body);

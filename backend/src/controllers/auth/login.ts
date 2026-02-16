@@ -1,10 +1,10 @@
+import { Request, Response } from "express";
 import {
   createAccessToken,
   createRefreshToken,
-} from "../../utils/jwtTokens.js";
+} from "../../service/jwtTokens.js";
 import { signinType } from "../../zodTypes/authType.js";
-import { Request, Response } from "express";
-import { matchPassword } from "../../utils/bcryptPassword.js";
+import { matchHash } from "../../utils/hashString.js";
 import { userModel } from "../../db/schema/user.js";
 
 export const Login = async (req: Request, res: Response) => {
@@ -23,7 +23,7 @@ export const Login = async (req: Request, res: Response) => {
       });
     }
 
-    const isPasswordCorrect = matchPassword(data.password, user.password);
+    const isPasswordCorrect = matchHash(data.password, user.password);
     if (!isPasswordCorrect) {
       return res.status(401).json({
         message: "Invalid Password",

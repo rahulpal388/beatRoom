@@ -1,4 +1,4 @@
-import { removeUserAlbum } from "service/album/removeUserAlbum.js";
+import { removeUserAlbum } from "../../service/album/removeUserAlbum.js";
 import { albumModel } from "../../db/schema/album.js";
 import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";

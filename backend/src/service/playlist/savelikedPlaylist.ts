@@ -1,7 +1,6 @@
-import { playlistModel } from "db/schema/playlist.js";
-import { userModel } from "db/schema/user.js";
-import { IPlaylist } from "types/playlistType.js";
-import { pl } from "zod/locales";
+import { playlistModel } from "../../db/schema/playlist.js";
+import { userModel } from "../../db/schema/user.js";
+import { IPlaylist } from "../../types/playlistType.js";
 
 
 

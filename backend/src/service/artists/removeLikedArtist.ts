@@ -1,5 +1,5 @@
-import { artistModel } from "db/schema/artist.js";
-import { userModel } from "db/schema/user.js";
+import { artistModel } from "../../db/schema/artist.js";
+import { userModel } from "../../db/schema/user.js";
 
 
 

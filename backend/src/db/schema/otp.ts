@@ -1,8 +1,8 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 export const OtpSchema = new mongoose.Schema({
-  user_id: { type: mongoose.Schema.ObjectId, ref: "Users" },
-  otp: { type: String, required: true, trim: true },
+  email: { type: String, required: true, trim: true },
+  otp: { type: String, required: true, trim: true }
 }, { timestamps: true });
 
 OtpSchema.index({ createdAt: 1 }, { expires: 120 })

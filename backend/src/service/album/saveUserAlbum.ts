@@ -1,6 +1,6 @@
-import { albumModel } from "db/schema/album.js";
-import { userModel } from "db/schema/user.js";
-import { IAlbum } from "types/album.js";
+import { albumModel } from "../../db/schema/album.js";
+import { userModel } from "../../db/schema/user.js";
+import { IAlbum } from "../../types/album.js";
 
 
 

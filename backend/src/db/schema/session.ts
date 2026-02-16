@@ -2,12 +2,9 @@ import mongoose from "mongoose"
 
 
 const userSession = new mongoose.Schema({
-    userId: { type: mongoose.SchemaTypes.ObjectId, require: true, ref: "Users" },
-    refreshToken: { type: String, require: true },
-    deviceId: { type: String, require: true },
-    userAgent: { type: String, require: true },
-    ipAddress: { type: String, require: true },
-    expiresAt: { type: String, require: true },
+    refToken: { type: String, require: true, trim: true },
+    sessionId: { type: String, require: true, trim: true },
+    expiresAt: { type: Date, require: true },
     revoked: { type: Boolean, default: false }
 }, { timestamps: true })
 

@@ -1,7 +1,7 @@
-import { saveUserAlbum } from "service/album/saveUserAlbum.js";
-import { saveAlbumType } from "../../zodTypes/album.js";
 import { Request, Response } from "express";
-import { IAlbum } from "types/album.js";
+import { saveUserAlbum } from "../../service/album/saveUserAlbum.js";
+import { saveAlbumType } from "../../zodTypes/album.js";
+import { IAlbum } from "../../types/album.js";
 
 export const saveAlbum = async (req: Request, res: Response) => {
   console.log("saving album");

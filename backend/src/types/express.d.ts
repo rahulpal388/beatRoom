@@ -6,6 +6,9 @@ declare global {
       user: {
         userId: string | null;
       };
+      session: {
+        sessionId: string | null
+      }
     }
   }
 }

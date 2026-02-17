@@ -5,13 +5,15 @@ import { signUpType } from "../../zodTypes/authType.js";
 import { hashString } from "../../utils/hashString.js";
 import { generateOtp } from "../../service/genetateOtp.js";
 import { sendOtp } from "../../service/email/sendOtp.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { sendVerificationOtp } from "service/sendVerificationOtp.js";
 
 export const SignUp = async (req: Request, res: Response) => {
   const { data, success, error } = signUpType.safeParse(req.body);
   if (!success) {
     console.log(req.body);
     return res.status(401).json({
-      message: error.message,
+      message: formatValidationError(error),
     });
   }
 
@@ -26,17 +28,9 @@ export const SignUp = async (req: Request, res: Response) => {
         redirect: "/login",
       });
     }
-    const otp = generateOtp();
-    console.log(otp);
-    const hashOtp = hashString(otp);
 
-    await optModel.findOneAndUpdate(
-      { email: data.email },
-      { $set: { otp: hashOtp } },
-      { upsert: true }
-    )
 
-    const isEmailSent = await sendOtp(otp, data.username, data.email);
+    const isEmailSent = await sendVerificationOtp(data.email, data.username);
 
     if (!isEmailSent) {
       throw new Error("Email failed to send")

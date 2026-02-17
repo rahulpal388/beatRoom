@@ -3,7 +3,7 @@ import { verifyOtpType } from "../../zodTypes/authType.js";
 import {
   createAcToken,
   createRefToken,
-} from "../../service/jwtTokens.js";
+} from "../../service/session/jwtTokens.js";
 import { matchHash } from "../../utils/hashString.js";
 import { optModel } from "../../db/schema/otp.js";
 import { createUser } from "../../service/createUser.js";
@@ -62,6 +62,8 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
 
     setRefCookie(res, refToken);
     setAcsCookie(res, acToken);
+
+    await optModel.findOneAndDelete({ email: data.email })
 
     res.status(200).json({
       message: "User logged In"

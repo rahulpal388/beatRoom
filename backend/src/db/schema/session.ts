@@ -5,8 +5,9 @@ const userSession = new mongoose.Schema({
     refToken: { type: String, require: true, trim: true },
     sessionId: { type: String, require: true, trim: true },
     expiresAt: { type: Date, require: true },
-    revoked: { type: Boolean, default: false }
 }, { timestamps: true })
 
+
+userSession.index({ expiresAt: 1 }, { expireAfterSeconds: 0 })
 
 export const sessionModal = mongoose.model("Session", userSession);

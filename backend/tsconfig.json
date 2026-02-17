@@ -10,53 +10,23 @@
     "skipLibCheck": true,
     "moduleResolution": "nodenext",
     "resolveJsonModule": true,
-    "typeRoots": [
-      "./src/types",
-      "./node_modules/@types"
-    ],
-    "types": [
-      "node",
-      "express"
-    ],
+    "typeRoots": ["src/service/session/types", "./node_modules/@types"],
+    "types": ["node", "express"],
     "noImplicitAny": true,
     "sourceMap": true,
     "baseUrl": "./src",
     "paths": {
-      "@config/*": [
-        "config/*"
-      ],
-      "@routes/*": [
-        "routes/*"
-      ],
-      "@controllers/*": [
-        "controllers/*"
-      ],
-      "@services/*": [
-        "services/*"
-      ],
-      "@sockets/*": [
-        "sockets/*"
-      ],
-      "@models/*": [
-        "models/*"
-      ],
-      "@zodTypes/*": [
-        "zodTypes/*"
-      ],
-      "@middlewares/*": [
-        "middlewares/*"
-      ],
-      "@utils/*": [
-        "utils/*"
-      ]
+      "@config/*": ["config/*"],
+      "@routes/*": ["routes/*"],
+      "@controllers/*": ["controllers/*"],
+      "@services/*": ["services/*"],
+      "@sockets/*": ["sockets/*"],
+      "@models/*": ["models/*"],
+      "@zodTypes/*": ["zodTypes/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@utils/*": ["utils/*"]
     }
   },
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "tests"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "tests"]
 }

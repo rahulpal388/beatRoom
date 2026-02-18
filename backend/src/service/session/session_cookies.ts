@@ -12,7 +12,7 @@ const acCookieOptions: CookieOptions = {
     secure: env.NODE_ENV !== "development",
     httpOnly: true,
     sameSite: env.NODE_ENV === "development" ? "lax" : "strict",
-    maxAge: 1000 * 15
+    maxAge: 1000 * 60 * 15
 }
 
 export function setRefCookie(res: Response, token: string) {

@@ -8,8 +8,13 @@ export async function getLikedArtist(userId: string | null): Promise<Set<string>
     }
     try {
         const user = await userModel.findOne({ userId })
-            .populate("Artists")
-        return new Set([]);
+            .populate({
+                path: "artists",
+                select: "id"
+            })
+        const idArr = user?.artists.map(x => String(x.id))
+        console.log(idArr)
+        return new Set(idArr);
     } catch (error) {
         return new Set([]);
     }

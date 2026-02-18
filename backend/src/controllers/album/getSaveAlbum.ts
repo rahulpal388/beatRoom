@@ -1,16 +1,21 @@
+import { userModel } from "db/schema/user.js";
 import { Request, Response } from "express";
+import { saveAlbum } from "service/album/SaveAlbum.js";
 
 export const getSaveAlbum = async (req: Request, res: Response) => {
   const userId = req.user.userId;
 
+  if (!userId) {
+    return res.status(401).json({
+      message: "Login to get album"
+    })
+  }
+
   try {
-    // const album = await userModel.findOne({ userId }).populate({
-    //   path: "likes.albums",
-    //   model: "Albums",
-    //   select: "-_id -__v",
-    // });
+    const album = await saveAlbum(userId)
+    console.log(album)
     // console.log(JSON.stringify(album?.likes?.albums));
-    res.status(200).json("album?.likes?.albums");
+    res.status(200).json(album);
   } catch (error) {
     console.log(error);
     res.status(500).json({

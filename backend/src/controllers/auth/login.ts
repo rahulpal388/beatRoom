@@ -6,19 +6,19 @@ import { createSession } from "service/session/createSession.js";
 import { createUniqueSessionId } from "service/session/createUniqueSessionId.js";
 import { createAcToken, createRefToken } from "service/session/jwtTokens.js";
 import { setAcsCookie, setRefCookie } from "service/session/session_cookies.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
 export const Login = async (req: Request, res: Response) => {
   const { data, success, error } = signinType.safeParse(req.body);
   if (!success) {
     return res.status(401).json({
-      message: "Invalid input",
-      error: error.message
+      message: formatValidationError(error)
     });
   }
 
   try {
 
-    const user = await userModel.findOne({ email: data.email }, { password: 1, userId: 1 });
+    const user = await userModel.findOne({ email: data.email }, { password: 1, userId: 1, _id: 1 });
 
     if (!user) {
       return res.status(401).json({
@@ -34,9 +34,9 @@ export const Login = async (req: Request, res: Response) => {
       })
     }
     const sessionId = createUniqueSessionId();
-    const refToken = createRefToken({ email: data.email, userId: user.userId, sessionId })
-    const acToken = createAcToken({ email: data.email, userId: user.userId, sessionId })
-    await createSession({ email: data.email, refToken, sessionId })
+    const refToken = createRefToken({ email: data.email, userId: user.userId, sessionId, _id: String(user._id) })
+    const acToken = createAcToken({ email: data.email, userId: user.userId, sessionId, _id: String(user._id) })
+    await createSession({ email: data.email, refToken, sessionId, _id: String(user._id) })
     setRefCookie(res, refToken);
     setAcsCookie(res, acToken)
 

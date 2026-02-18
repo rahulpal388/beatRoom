@@ -48,12 +48,13 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
     }
 
     const sessionId = createUniqueSessionId();
-    const refToken = createRefToken({ email: data.email, userId: user.userId, sessionId })
-    const acToken = createAcToken({ email: data.email, userId: user.userId, sessionId })
+    const refToken = createRefToken({ email: data.email, userId: user.userId, sessionId, _id: String(user._id) })
+    const acToken = createAcToken({ email: data.email, userId: user.userId, sessionId, _id: String(user._id) })
     const session = await createSession({
       email: data.email,
       sessionId,
       refToken,
+      _id: String(user._id)
     })
 
     if (!session) {

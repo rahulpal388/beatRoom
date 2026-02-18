@@ -8,7 +8,7 @@ import { getSaveAlbum } from "../controllers/album/getSaveAlbum.js";
 
 const useAlbum = Router();
 
-useAlbum.get("/save", getSaveAlbum);
+useAlbum.get("/getSave", getSaveAlbum);
 useAlbum.post("/save", saveAlbum);
 useAlbum.post("/remove", removeAlbum);
 

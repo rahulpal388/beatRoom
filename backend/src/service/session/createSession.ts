@@ -6,16 +6,19 @@ import { userModel } from "../../db/schema/user.js";
 export async function createSession({
     email,
     refToken,
-    sessionId
+    sessionId,
+    _id
 }: {
     email: string,
     refToken: string,
-    sessionId: string
+    sessionId: string,
+    _id: string
 }): Promise<boolean> {
     const expireTime = 1000 * 60 * 60 * 24 * 15;
     try {
         const hashRefToken = hashString(refToken)
         const session = await sessionModal.create({
+            user_id: _id,
             refToken: hashRefToken,
             sessionId,
             expiresAt: new Date(Date.now() + expireTime)
@@ -25,10 +28,7 @@ export async function createSession({
             throw new Error("Session not created error")
         }
 
-        await userModel.findOneAndUpdate(
-            { email },
-            { $addToSet: { session: session._id } }
-        )
+
         return true
     } catch (error) {
         return false;

@@ -12,7 +12,7 @@ export const getLikedAlbum = async (userId: string | null): Promise<Set<string>>
 
         const idArr = user?.albums.map(x => String(x.id))
         console.log("liked album populate")
-        console.log(user)
+        console.log(idArr)
 
         return new Set(idArr);
     } catch (error) {

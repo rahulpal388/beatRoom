@@ -24,7 +24,6 @@ export async function artistInfo(token: string, userId: string | null): Promise<
         ])
 
         const artistResponse = response.data as ApiArtistInfo;
-
         const result: IArtistInfo = {
             artistId: artistResponse.artistId,
             name: artistResponse.name,
@@ -39,6 +38,8 @@ export async function artistInfo(token: string, userId: string | null): Promise<
             dedicated_artist_playlist: retriveArtistPlaylist(artistResponse.dedicated_artist_playlist, likedPlaylist),
             featured_artist_playlist: retriveArtistPlaylist(artistResponse.featured_artist_playlist, likedPlaylist)
         }
+
+        console.log(artistResponse.latest_release)
         return result;
     } catch (error) {
         return null;

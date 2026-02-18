@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 
 
 const userSession = new mongoose.Schema({
+    user_id: { type: mongoose.Schema.ObjectId, require: true, trim: true },
     refToken: { type: String, require: true, trim: true },
     sessionId: { type: String, require: true, trim: true },
     expiresAt: { type: Date, require: true },

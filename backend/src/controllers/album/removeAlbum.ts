@@ -1,11 +1,9 @@
 import { removeUserAlbum } from "../../service/album/removeUserAlbum.js";
-import { albumModel } from "../../db/schema/album.js";
-import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";
 
 export const removeAlbum = async (req: Request, res: Response) => {
   const userId = req.user.userId;
-  const id = req.body;
+  const { id } = req.body;
 
   if (!id || typeof id !== "string") {
     return res.status(400).json({

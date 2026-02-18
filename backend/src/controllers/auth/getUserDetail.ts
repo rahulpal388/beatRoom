@@ -2,10 +2,9 @@ import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";
 
 export const getUserDetail = async (req: Request, res: Response) => {
-  const { userId } = req.user;
-  console.log(`userId ${userId}`)
+  const { _id } = req.user;
 
-  if (!userId) {
+  if (!_id) {
     return res.status(401).json({
       message: "no user found"
     })
@@ -13,9 +12,9 @@ export const getUserDetail = async (req: Request, res: Response) => {
 
   try {
     const user = await userModel.findOne(
-      { userId },
+      { _id },
       {},
-      { projection: { _id: 0, userId: 1, username: 1, profile_image: 1 } }
+      { projection: { _id: 1, userId: 1, username: 1, email: 1, profile_image: 1 } }
     );
 
 
@@ -26,7 +25,8 @@ export const getUserDetail = async (req: Request, res: Response) => {
     res.status(200).json({
       profile_image: user.profile_image,
       userId: user.userId,
-      username: user.username
+      username: user.username,
+      email: user.email
     });
 
   } catch (error) {

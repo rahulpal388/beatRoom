@@ -1,6 +1,4 @@
 import { saveLikedArtist } from "../../service/artists/saveLikedArtist.js";
-import { artistModel } from "../../db/schema/artist.js";
-import { userModel } from "../../db/schema/user.js";
 import { saveArtistType } from "../../zodTypes/artistType.js";
 import { Request, Response } from "express";
 
@@ -21,9 +19,9 @@ export const saveArtist = async (req: Request, res: Response) => {
   }
   try {
     await saveLikedArtist(userId, {
-      id: data.artistid,
+      id: data.id,
       name: data.name,
-      role: "",
+      role: data.role,
       image: data.image,
       type: "artist",
       perma_url: data.perma_url,

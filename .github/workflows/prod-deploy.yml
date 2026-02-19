@@ -43,10 +43,16 @@ jobs:
             else
               echo "Docker already installed. Skipping installation."
             fi
-            echo "NODE_ENV=${{ secrets.NODE_ENV }}" > .env
-            echo "DATABASE_URL=${{ secrets.DATABASE_URL }}" >> .env
-            echo "PORT=${{ secrets.PORT_BACKEND }}" >> .env
-
+            echo "NODE_ENV=${{secrets.NODE_ENV}}" >> .env
+            echo "CROSS_ORIGIN_URL=${{secrets.CROSS_ORIGIN_URL}}" >> .env
+            echo "DATABASE_URL=${{secrets.DATABASE_URL}}" >> .env
+            echo "PORT=${{secrets.PORT_BACKEND}}" >> .env
+            echo "OTP_SECRET=${{secrets.OTP_SECRET}}" >> .env
+            echo "Ac_SECRET=${{secrets.Ac_SECRET}}" >> .env
+            echo "Ref_SECRET=${{secrets.Ref_SECRET}}" >> .env
+            echo "UINQUE_USERID_SECRET=${{secrets.UINQUE_USERID_SECRET}}" >> .env
+            echo "EMAIL=${{secrets.EMAIL}}" >> .env
+            echo "EMAIL_PASS=${{secrets.EMAIL_PASS}}" >> .env
             docker pull rahuldocker974/backend_beatroom:${{ github.sha }}
             docker stop backend || true
             docker rm backend || true

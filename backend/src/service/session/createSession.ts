@@ -1,4 +1,4 @@
-import { hashString } from "@utils/hashString.js";
+import { hashString } from "../../utils/hashString.js";
 import { sessionModal } from "../../db/schema/session.js";
 
 

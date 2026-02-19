@@ -3,7 +3,7 @@ import { getArtistInfo } from "../controllers/artist/getArtistInfo.js";
 import getTopArtits from "../controllers/artist/getTopArtist.js";
 import { Router } from "express";
 import verifyTokenMiddleware from "../middleware/verifyToken.js";
-import { getSaveArtist } from "@controllers/artist/getSaveArtist.js";
+import { getSaveArtist } from "../controllers/artist/getSaveArtist.js";
 
 export const useArtist = Router();
 

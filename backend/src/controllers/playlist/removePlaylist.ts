@@ -1,7 +1,7 @@
 import { removeLikedPlaylist } from "../../service/playlist/removeLikedPlaylist.js";
 import { Request, Response } from "express";
-import { removePlaylistType } from "@zodTypes/playlist.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { removePlaylistType } from "../../zodTypes/playlist.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 export const removePlaylist = async (req: Request, res: Response) => {
   const userId = req.user.userId;

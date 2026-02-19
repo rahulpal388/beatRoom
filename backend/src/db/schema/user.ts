@@ -6,7 +6,6 @@ const UserSchema = new mongoose.Schema({
   email: { type: String, required: true, trim: true },
   password: { type: String, required: true },
   profile_image: { type: String, trim: true, default: null },
-  session: [{ type: mongoose.Schema.ObjectId, ref: "Session" }],
   history: [{ type: mongoose.Schema.ObjectId, ref: "Songs" }],
   songs: [{ type: mongoose.Schema.ObjectId, ref: "Songs" }],
   artists: [{ type: mongoose.Schema.ObjectId, ref: "Artists" }],

@@ -1,0 +1,56 @@
+name: "Deploy to production"
+
+on:
+  push:
+    branch:
+      - production
+
+jobs:
+  deploy-code:
+    runs-on: ubuntu-latest
+
+    - name: Checkout the code
+      uses: action/checkout@v4
+    
+    - name: Login to docker
+      uses: docker/login-action@v3
+      with:
+        username: ${{secrets.DOCKER_USERNAME}}
+        password: ${{secrets.DOCKER_PASSWORD}}  
+
+    - name: Build the image
+      run: docker build -t rahuldocker974/backend_beatroom:${{github.sha}}
+
+    - name: Push to docker
+      run: docker push rahuldocker974/backend_beatroom:${{github.sha}} 
+
+    - name: ssh into VM
+      uses:applyboy/ssh-action@v1
+       with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          script: |
+              echo "NODE_ENV=${{secrets.NODE_ENV}}" >> .env
+              echo "CROSS_ORIGIN_URL=${{secrets.CROSS_ORIGIN_URL}}" >> .env
+              echo "DATABASE_URL=${{secrets.DATABASE_URL}}" >> .env
+              echo "PORT=${{secrets.PORT_BACKEND}}" >> .env
+              echo "OTP_SECRET=${{secrets.OTP_SECRET}}" >> .env
+              echo "Ac_SECRET=${{secrets.Ac_SECRET}}" >> .env
+              echo "Ref_SECRET=${{secrets.Ref_SECRET}}" >> .env
+              echo "UINQUE_USERID_SECRET=${{secrets.UINQUE_USERID_SECRET}}" >> .env
+              echo "EMAIL=${{secrets.EMAIL}}" >> .env
+              echo "EMAIL_PASS=${{secrets.EMAIL_PASS}}" >> .env
+              docker pull rahuldocker974/backend_beatroom:${{github.sha}}
+              docker stop backend || true
+              docker rm backend || true
+              docker run -d \
+                -p 8080:8080 \
+                --name backend  \
+                --env-file .env \
+                --restart unless-stopped \
+                rahuldocker974/backend_beatroom:${{github.sha}}
+
+
+    

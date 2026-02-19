@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { retriveUserSongPlaylist } from "service/playlist/retriveUserSongPlaylist.js";
+import { retriveUserSongPlaylist } from "../../service/playlist/retriveUserSongPlaylist.js";
 
 export const getUserSavedSongPlaylist = async (req: Request, res: Response) => {
     const { userId } = req.user

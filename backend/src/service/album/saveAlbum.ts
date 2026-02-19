@@ -1,5 +1,5 @@
-import { userModel } from "db/schema/user.js";
-import { IAlbum } from "types/album.js";
+import { userModel } from "../../db/schema/user.js";
+import { IAlbum } from "../../types/album.js";
 
 
 export async function saveAlbum(userId: string): Promise<IAlbum[]> {

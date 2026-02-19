@@ -1,4 +1,4 @@
-import { userModel } from "db/schema/user.js";
+import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";
 
 

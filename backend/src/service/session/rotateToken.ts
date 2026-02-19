@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { createAcToken, createRefToken } from "./jwtTokens.js";
-import { hashString } from "@utils/hashString.js";
-import { sessionModal } from "db/schema/session.js";
+import { hashString } from "../../utils/hashString.js";
+import { sessionModal } from "../../db/schema/session.js";
 import { setAcsCookie, setRefCookie } from "./session_cookies.js";
 
 

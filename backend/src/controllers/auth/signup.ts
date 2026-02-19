@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { userModel } from "../../db/schema/user.js";
 import { signUpType } from "../../zodTypes/authType.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
-import { sendVerificationOtp } from "service/sendVerificationOtp.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
+import { sendVerificationOtp } from "../../service/sendVerificationOtp.js";
 
 export const SignUp = async (req: Request, res: Response) => {
   const { data, success, error } = signUpType.safeParse(req.body);

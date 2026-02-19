@@ -1,4 +1,4 @@
-import { env } from "@zodTypes/envType.js";
+import { env } from "../../zodTypes/envType.js";
 import Jwt from "jsonwebtoken";
 
 type tokenData = {

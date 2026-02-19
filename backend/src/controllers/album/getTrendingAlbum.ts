@@ -3,7 +3,7 @@ import { paginationType } from "../../zodTypes/paginatipType.js";
 import { Request, Response } from "express";
 import { trendingAlbum } from "../../service/album/trendingAlbum.js";
 import z from "zod";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 export const getTrendingAlbum = async (req: Request, res: Response) => {
   const { success, data, error } = paginationType

@@ -1,5 +1,5 @@
-import { userModel } from "db/schema/user.js";
-import { IPlaylist } from "types/playlistType.js";
+import { userModel } from "../../db/schema/user.js";
+import { IPlaylist } from "../../types/playlistType.js";
 
 
 

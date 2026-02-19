@@ -1,4 +1,4 @@
-import { env } from "@zodTypes/envType.js"
+import { env } from "../../zodTypes/envType.js"
 import { CookieOptions, Response } from "express"
 
 const refCookieOptions: CookieOptions = {

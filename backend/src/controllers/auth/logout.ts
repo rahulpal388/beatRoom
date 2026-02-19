@@ -1,6 +1,6 @@
-import { sessionModal } from "db/schema/session.js";
+import { sessionModal } from "../../db/schema/session.js";
 import { Request, Response } from "express";
-import { clearAcCookie, clearRefCookie } from "service/session/session_cookies.js";
+import { clearAcCookie, clearRefCookie } from "../../service/session/session_cookies.js";
 
 export const Logout = async (req: Request, res: Response) => {
 

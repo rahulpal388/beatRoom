@@ -1,6 +1,6 @@
-import { hashString } from "@utils/hashString.js";
+import { hashString } from "../utils/hashString.js";
 import { generateOtp } from "./genetateOtp.js";
-import { optModel } from "db/schema/otp.js";
+import { optModel } from "../db/schema/otp.js";
 import { sendOtp } from "./email/sendOtp.js";
 
 

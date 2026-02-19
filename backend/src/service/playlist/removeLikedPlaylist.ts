@@ -1,4 +1,4 @@
-import { userPlaylistModel } from "db/schema/userPlaylist.js";
+import { userPlaylistModel } from "../../db/schema/userPlaylist.js";
 import { playlistModel } from "../../db/schema/playlist.js";
 import { userModel } from "../../db/schema/user.js";
 

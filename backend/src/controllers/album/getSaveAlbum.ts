@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { saveAlbum } from "service/album/SaveAlbum.js";
+import { saveAlbum } from "../../service/album/saveAlbum.js";
 
 export const getSaveAlbum = async (req: Request, res: Response) => {
   const userId = req.user.userId;

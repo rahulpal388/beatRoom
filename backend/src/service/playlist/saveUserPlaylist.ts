@@ -1,8 +1,8 @@
-import { generatePlaylistId } from "@utils/generatePlaylistId.js";
-import { songModel } from "db/schema/song.js";
-import { userModel } from "db/schema/user.js";
-import { userPlaylistModel } from "db/schema/userPlaylist.js";
-import { ISong } from "types/songType.js";
+import { generatePlaylistId } from "../../utils/generatePlaylistId.js";
+import { songModel } from "../../db/schema/song.js";
+import { userModel } from "../../db/schema/user.js";
+import { userPlaylistModel } from "../../db/schema/userPlaylist.js";
+import { ISong } from "../../types/songType.js";
 
 
 

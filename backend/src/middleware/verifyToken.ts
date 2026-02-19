@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { verifyJwtToken } from "service/session/jwtTokens.js";
-import { rotateToken } from "service/session/rotateToken.js";
+import { verifyJwtToken } from "../service/session/jwtTokens.js";
+import { rotateToken } from "../service/session/rotateToken.js";
 
 const verifyTokenMiddleware = async (
   req: Request,

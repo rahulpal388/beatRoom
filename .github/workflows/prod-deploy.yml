@@ -25,6 +25,7 @@ jobs:
       run: docker push rahuldocker974/backend_beatroom:${{github.sha}} 
 
     - name: ssh into VM
+    
       uses:applyboy/ssh-action@v1
        with:
           host: ${{ secrets.HOST }}

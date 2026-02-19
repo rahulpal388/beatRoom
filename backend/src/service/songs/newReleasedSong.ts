@@ -52,7 +52,7 @@ export async function newReleasedSong(userId: string | null, limit: string, page
             }
         }))
         return result;
-    } catch (error) {
+    } catch {
         return []
     }
 

@@ -18,7 +18,7 @@ export async function savePlaylist(userId: string, title: string, subtitle: stri
             }
         }))
 
-        const userPlaylist = await songModel.bulkWrite(songsOperations, { ordered: true })
+        await songModel.bulkWrite(songsOperations, { ordered: true })
 
         const savedPlaylistSong = await songModel.find({
             id: { $in: songs.map(x => x.id), },
@@ -38,14 +38,14 @@ export async function savePlaylist(userId: string, title: string, subtitle: stri
             songs: savedPlaylistSong.map(x => x._id)
         })
 
-        const user = await userModel.findOneAndUpdate(
+        await userModel.findOneAndUpdate(
             { userId },
             { $addToSet: { user_playlist: playlist._id } }
         )
 
         return true;
 
-    } catch (error) {
+    } catch {
         return false
     }
 

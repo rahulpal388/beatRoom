@@ -15,7 +15,7 @@ export const getLikedAlbum = async (userId: string | null): Promise<Set<string>>
         console.log(idArr)
 
         return new Set(idArr);
-    } catch (error) {
+    } catch {
         return new Set([]);
     }
 };

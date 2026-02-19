@@ -3,7 +3,7 @@ import { createRoomId } from "../../utils/createRoomId.js";
 import { Request, Response } from "express";
 
 const createRoom = (req: Request, res: Response) => {
-  const { success, data } = CreateRoomType.safeParse(req.body);
+  const { success } = CreateRoomType.safeParse(req.body);
   if (!success) {
     res.status(401).json({
       message: "Invalid input provide username and room name",

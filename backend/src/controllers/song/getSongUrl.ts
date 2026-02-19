@@ -13,7 +13,7 @@ export const getSongUrl = async (req: Request, res: Response) => {
   try {
     const url = decryptUrl(encrypted_media_url);
     res.status(200).json({ song_url: url });
-  } catch (error) {
+  } catch {
     res.status(500).json({ message: "Can't play this song" });
   }
 };

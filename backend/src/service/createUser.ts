@@ -26,7 +26,7 @@ export async function createUser({
             password: hashPassowrd,
         })
 
-    } catch (error) {
+    } catch {
         return null;
     }
 }

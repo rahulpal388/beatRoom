@@ -24,7 +24,7 @@ export const getSongReco = async (req: Request, res: Response) => {
 
     const result = retriveSong(response.data as ApiSong[], likedSong);
     res.status(200).json(result);
-  } catch (error) {
+  } catch {
     res.status(500).json({
       message: "Can't find any song recommandation"
     });

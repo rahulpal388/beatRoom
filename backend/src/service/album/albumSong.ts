@@ -17,7 +17,7 @@ export async function albumSong(albumToken: string, userId: string | null): Prom
 
         const album = response.data as ApiSongAlbum;
         return retriveAlbumSong(album, likedAlbum, likedSong);
-    } catch (error) {
+    } catch {
         return null;
     }
 }

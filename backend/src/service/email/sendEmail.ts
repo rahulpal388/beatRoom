@@ -29,7 +29,7 @@ export const sendEmail = async (email: string, text: string, html: string): Prom
 
         console.log(info)
         return true;
-    } catch (error) {
+    } catch {
         return false;
 
     }

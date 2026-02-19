@@ -23,7 +23,7 @@ export const removeAlbum = async (req: Request, res: Response) => {
     res.status(200).json({
       message: "remove album",
     });
-  } catch (error) {
+  } catch {
     res.status(500).json({
       message: "error while removing the album",
     });

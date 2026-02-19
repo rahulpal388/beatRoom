@@ -1,4 +1,4 @@
-import { ApiArtists, IArtists } from "./artistType.js";
+import { ApiArtists } from "./artistType.js";
 import { ApiSong, ISong } from "./songType.js";
 import { WithLike } from "./withLike.js";
 

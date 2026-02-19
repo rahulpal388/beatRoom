@@ -37,7 +37,7 @@ const getTrendingSong = async (req: Request, res: Response) => {
     const result = retriveSong(sliceTrending, likedSong);
 
     res.status(200).json(result);
-  } catch (error) {
+  } catch {
     res.status(500).json({
       message: "Error finding trending song"
     });

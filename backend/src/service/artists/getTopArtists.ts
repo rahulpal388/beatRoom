@@ -24,7 +24,7 @@ export async function getTopArtists(): Promise<IArtists[]> {
             }
         ))
 
-    } catch (error) {
+    } catch {
         return [];
 
     }

@@ -3,7 +3,7 @@ import { WithLike } from "../../types/withLike.js";
 
 export function retriveArtistAlbum(
     albums: ApiArtistAlbum[],
-    likedAlbum: Set<String>
+    likedAlbum: Set<string>
 ): WithLike<ApiArtistAlbum>[] {
 
     return albums.map((album) => (

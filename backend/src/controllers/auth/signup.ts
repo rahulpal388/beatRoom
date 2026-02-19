@@ -1,10 +1,6 @@
 import { Request, Response } from "express";
-import { optModel } from "../../db/schema/otp.js";
 import { userModel } from "../../db/schema/user.js";
 import { signUpType } from "../../zodTypes/authType.js";
-import { hashString } from "../../utils/hashString.js";
-import { generateOtp } from "../../service/genetateOtp.js";
-import { sendOtp } from "../../service/email/sendOtp.js";
 import { formatValidationError } from "@utils/formatZodValidationError.js";
 import { sendVerificationOtp } from "service/sendVerificationOtp.js";
 

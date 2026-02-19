@@ -1,15 +1,12 @@
 import { hashString } from "@utils/hashString.js";
 import { sessionModal } from "../../db/schema/session.js";
-import { userModel } from "../../db/schema/user.js";
 
 
 export async function createSession({
-    email,
     refToken,
     sessionId,
     _id
 }: {
-    email: string,
     refToken: string,
     sessionId: string,
     _id: string
@@ -30,7 +27,7 @@ export async function createSession({
 
 
         return true
-    } catch (error) {
+    } catch {
         return false;
     }
 }

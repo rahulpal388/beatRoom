@@ -41,7 +41,7 @@ export async function artistInfo(token: string, userId: string | null): Promise<
 
         console.log(artistResponse.latest_release)
         return result;
-    } catch (error) {
+    } catch {
         return null;
     }
 

@@ -1,4 +1,4 @@
-import { email, z } from "zod"
+import { z } from "zod"
 
 export const signUpType = z.object({
     username: z.string().min(3, "Min 3 ").max(10, "max 4"),

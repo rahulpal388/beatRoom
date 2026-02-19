@@ -2,7 +2,7 @@ import { ApiPlaylist, IPlaylist } from "../types/playlistType.js";
 
 export const retrivePlaylist = (
   playlist: ApiPlaylist[],
-  likedPlaylist: Set<String>
+  likedPlaylist: Set<string>
 ): IPlaylist[] => {
   return playlist.map((x) => (
     {

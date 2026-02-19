@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc -b",
     "dev": "tsx watch src/index.ts ",
-    "start": "node --env-file=.env dist/index.js"
+    "start": "node --env-file=.env dist/index.js",
+    "lint": "eslint"
   },
   "keywords": [],
   "author": "",
@@ -32,6 +33,7 @@
     "zod": "^4.1.5"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "@types/bcrypt": "^6.0.0",
     "@types/connect-pg-simple": "^7.0.3",
     "@types/cookie-parser": "^1.4.9",
@@ -45,8 +47,12 @@
     "@types/nodemailer": "^7.0.1",
     "@types/ws": "^8.18.1",
     "concurrently": "^9.2.1",
+    "eslint": "^9.39.2",
+    "globals": "^17.3.0",
+    "jiti": "^2.6.1",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.0"
   }
 }

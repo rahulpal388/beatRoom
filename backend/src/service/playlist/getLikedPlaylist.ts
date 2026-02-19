@@ -18,7 +18,7 @@ export const getLikedPlaylist = async (
 
         console.log(JSON.stringify(idArr));
         return new Set(idArr);
-    } catch (error) {
+    } catch {
         return new Set([]);
     }
 };

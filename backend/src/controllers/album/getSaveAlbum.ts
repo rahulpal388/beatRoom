@@ -1,4 +1,3 @@
-import { userModel } from "db/schema/user.js";
 import { Request, Response } from "express";
 import { saveAlbum } from "service/album/SaveAlbum.js";
 

@@ -8,7 +8,7 @@ import { ApiSearchReco } from "../../types/searchType.js";
 
 
 
-export async function searchReco(query: String): Promise<ApiSearchReco | null> {
+export async function searchReco(query: string): Promise<ApiSearchReco | null> {
 
     try {
 
@@ -37,7 +37,7 @@ export async function searchReco(query: String): Promise<ApiSearchReco | null> {
         }
 
         return result;
-    } catch (error) {
+    } catch {
         return null;
 
     }

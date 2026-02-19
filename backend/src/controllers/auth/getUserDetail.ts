@@ -29,7 +29,7 @@ export const getUserDetail = async (req: Request, res: Response) => {
       email: user.email
     });
 
-  } catch (error) {
+  } catch {
     res.status(500).json({
       message: "error while getting the information ",
     });

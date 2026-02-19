@@ -22,7 +22,7 @@ export const getUserSavedSongPlaylist = async (req: Request, res: Response) => {
 
         res.status(200).json(playlistSong ? playlistSong : {})
 
-    } catch (error) {
+    } catch {
         res.status(500).json({
             message: "error getting save playlist song"
         })

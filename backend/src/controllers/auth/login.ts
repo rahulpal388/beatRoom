@@ -36,7 +36,7 @@ export const Login = async (req: Request, res: Response) => {
     const sessionId = createUniqueSessionId();
     const refToken = createRefToken({ email: data.email, userId: user.userId, sessionId, _id: String(user._id) })
     const acToken = createAcToken({ email: data.email, userId: user.userId, sessionId, _id: String(user._id) })
-    await createSession({ email: data.email, refToken, sessionId, _id: String(user._id) })
+    await createSession({ refToken, sessionId, _id: String(user._id) })
     setRefCookie(res, refToken);
     setAcsCookie(res, acToken)
 
@@ -45,8 +45,10 @@ export const Login = async (req: Request, res: Response) => {
     })
 
 
-  } catch (error) {
-
+  } catch {
+    return res.status(500).json({
+      message: "Internal server error"
+    })
   }
 
 

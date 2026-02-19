@@ -14,7 +14,7 @@ export async function trendingAlbum(language: string, userId: string | null): Pr
         ]);
         const album = response.data as ApiAlbum[];
         return retriveTrendingAlbum(album, likedAlbum);
-    } catch (error) {
+    } catch {
         return []
     }
 

@@ -31,7 +31,7 @@ export const getPlaylistReco = async (req: Request, res: Response) => {
     const result = retrivePlaylist(playlist, likedPlaylist);
 
     res.status(200).json(pagination(result, data.limit, data.page));
-  } catch (error) {
+  } catch {
     res.status(500).json({
       message: "Error while get playlist recommandation"
     });

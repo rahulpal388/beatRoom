@@ -27,7 +27,7 @@ export const getSongsPlaylist = async (req: Request, res: Response) => {
     const result = retriveSongPlaylist(playlist, likedSong, likedPlaylist);
 
     res.status(200).json(result);
-  } catch (error) {
+  } catch {
     res.status(500).json({
       message: "Error"
     });

@@ -39,7 +39,7 @@ export const verifyJwtToken = (token: string, tokenType: "ref" | "ac"):
 
     }
 
-  } catch (error) {
+  } catch {
     return {
       email: null,
       userId: null,

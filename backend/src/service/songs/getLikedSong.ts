@@ -18,7 +18,7 @@ export const getLikedSong = async (userId: string | null): Promise<Set<string>> 
         console.log("saved song id")
         console.log(idArr)
         return new Set(idArr);
-    } catch (error) {
+    } catch {
         console.log("error");
         return new Set([]);
     }

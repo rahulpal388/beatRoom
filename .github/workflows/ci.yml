@@ -13,5 +13,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: "go inside backend folder"
+        run: cd backend
+
       - name: "run eslint"
         run: npm run lint

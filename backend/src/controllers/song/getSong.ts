@@ -8,8 +8,8 @@ export const getSong = async (req: Request, res: Response) => {
   const result = await getSongDetails(token, userId);
   console.log(result);
   if (!result) {
-    res.status(200).json([]);
-    return;
+    return res.status(200).json([]);
+
   }
 
   res.status(200).json(...result);

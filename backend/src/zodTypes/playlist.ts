@@ -19,5 +19,12 @@ export const savePlaylistType = z.object({
 
 export const saveUserPlaylistType = z.object({
   title: z.string(),
+  subtitle: z.string(),
   songs: z.array(saveSongType),
 });
+
+
+export const removePlaylistType = z.object({
+  id: z.string(),
+  type: z.string()
+})

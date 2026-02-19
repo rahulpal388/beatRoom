@@ -33,7 +33,6 @@ const getTrendingSong = async (req: Request, res: Response) => {
       Number(data.page) * Number(data.limit),
       (Number(data.page) + 1) * Number(data.limit)
     );
-
     // get the liked song and ablum;
     const result = retriveSong(sliceTrending, likedSong);
 

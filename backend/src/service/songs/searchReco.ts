@@ -17,7 +17,7 @@ export async function searchReco(query: String): Promise<ApiSearchReco | null> {
                 `https://www.jiosaavn.com/api.php?__call=autocomplete.get&_format=json&_marker=1&cc=in&includeMetaTags=2&query=${query}`
             )
         ).data as ApiSearchReco;
-
+        console.log(searchResponse)
         const result: ApiSearchReco = {
             albums: {
                 data: mapSearchAlbum(searchResponse.albums.data)

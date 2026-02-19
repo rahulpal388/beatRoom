@@ -17,7 +17,7 @@ import { removeSong } from "../controllers/song/removeSong.js";
 
 const useSong = Router();
 
-useSong.post("/play", getSongUrl);
+useSong.get("/play", getSongUrl);
 
 useSong.get("/search", getSearchReco);
 

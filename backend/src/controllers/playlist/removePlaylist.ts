@@ -2,14 +2,16 @@ import { removeLikedPlaylist } from "../../service/playlist/removeLikedPlaylist.
 import { playlistModel } from "../../db/schema/playlist.js";
 import { userModel } from "../../db/schema/user.js";
 import { Request, Response } from "express";
+import { removePlaylistType } from "@zodTypes/playlist.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
 export const removePlaylist = async (req: Request, res: Response) => {
   const userId = req.user.userId;
-  const { id } = req.body;
+  const { success, data, error } = removePlaylistType.safeParse(req.body)
 
-  if (!id || typeof id !== "string") {
+  if (!success) {
     return res.status(401).json({
-      message: "Invalid input"
+      message: formatValidationError(error)
     })
   }
 
@@ -20,7 +22,7 @@ export const removePlaylist = async (req: Request, res: Response) => {
   }
 
   try {
-    await removeLikedPlaylist(userId, id)
+    await removeLikedPlaylist(userId, data.id, data.type)
     res.status(200).json({
       message: "playlist removed",
     });

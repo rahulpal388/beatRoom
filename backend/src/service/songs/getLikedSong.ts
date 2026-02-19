@@ -10,13 +10,14 @@ export const getLikedSong = async (userId: string | null): Promise<Set<string>> 
             .findOne({ userId })
             .populate({
                 path: "songs",
-                select: "id",
-                options: { lean: true }
+                select: "id isLiked -_id ",
             })
 
-        const songIdArray = user?.songs.map(song => song.id) ?? []
-
-        return new Set([]);
+        const songId = user!.songs as unknown as { id: string, isLiked: boolean }[]
+        const idArr = songId.filter(x => x.isLiked).map(x => x.id)
+        console.log("saved song id")
+        console.log(idArr)
+        return new Set(idArr);
     } catch (error) {
         console.log("error");
         return new Set([]);

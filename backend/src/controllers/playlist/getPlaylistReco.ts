@@ -27,7 +27,7 @@ export const getPlaylistReco = async (req: Request, res: Response) => {
     ]);
 
     const playlist = response.data as ApiPlaylist[];
-
+    console.log(playlist)
     const result = retrivePlaylist(playlist, likedPlaylist);
 
     res.status(200).json(pagination(result, data.limit, data.page));

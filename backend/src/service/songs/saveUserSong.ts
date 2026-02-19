@@ -10,7 +10,10 @@ export async function saveUserSong(userId: string, song: ISong): Promise<boolean
     const saveSong = await songModel.findOneAndUpdate(
         { id: song.id },
         {
-            $set: { ...song, isLiked: true }
+            $set: { ...song, isLiked: true },
+            $setOnInsert: {
+                isPlaylist: false
+            }
         },
         {
             upsert: true,

@@ -8,13 +8,14 @@ export const getLikedPlaylist = async (
     }
 
     try {
-        const playlist = await userModel
+        const user = await userModel
             .findOne({ userId })
-            .select("playlists")
-            .populate("playlists");
-        const idArr = playlist
-            ? playlist.playlists.map((x) => String(x.id))
-            : [];
+            .populate({
+                path: "playlists",
+                select: "id"
+            });
+        const idArr = user!.playlists.map((x) => String(x.id))
+
         console.log(JSON.stringify(idArr));
         return new Set(idArr);
     } catch (error) {

@@ -2,13 +2,14 @@ name: "Deploy to production"
 
 on:
   push:
-    branch:
+    branches:
       - production
 
 jobs:
   deploy-code:
     runs-on: ubuntu-latest
 
+    steps:
     - name: Checkout the code
       uses: action/checkout@v4
     
@@ -19,14 +20,14 @@ jobs:
         password: ${{secrets.DOCKER_PASSWORD}}  
 
     - name: Build the image
-      run: docker build -t rahuldocker974/backend_beatroom:${{github.sha}}
+      run: docker build -t rahuldocker974/backend_beatroom:${{github.sha}} .
 
     - name: Push to docker
       run: docker push rahuldocker974/backend_beatroom:${{github.sha}} 
 
     - name: ssh into VM
-    
-      uses:applyboy/ssh-action@v1
+
+      uses:appleboy/ssh-action@v1
        with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}

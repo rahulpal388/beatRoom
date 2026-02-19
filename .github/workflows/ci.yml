@@ -1,4 +1,4 @@
-name:"Check Linting"
+name: "Check Linting"
 
 on:
   push:
@@ -7,12 +7,11 @@ on:
       - production
 
 jobs:
+  lint-code:
+    runs-on: ubuntu-latest
 
-    lint-code:
-      runs-on : ubuntu-latest
+    steps:
+      - uses: actions/checkout@4
 
-      steps:
-        - uses:actions/checkout@4
-
-        - name:"run eslint"
-          run:npm run lint
+      - name: "run eslint"
+        run: npm run lint

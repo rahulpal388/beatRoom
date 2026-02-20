@@ -67,7 +67,7 @@ export function SongCards({
                                 );
                                 success(`${songs.type} ${songs.isLiked ? "Removed" : "Saved"}`);
                                 updateState(songs.id);
-                            } catch (e) {
+                            } catch {
                                 error(`${songs.type} Not Saved`);
                             }
                         }}

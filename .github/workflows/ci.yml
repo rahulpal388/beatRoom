@@ -17,13 +17,16 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: npm ci
         working-directory: backend
 
-      - name: Run ESLint
+      - name: Run ESLint for backend
         run: npm run lint
         working-directory: backend
+
+      - name: Install frontend dependencies
+        run: npm ci
 
       - name: Build frontend
         run: npm run build

@@ -1,5 +1,5 @@
 "use client";
-import { BASE_URL } from "@/lib/baseUrl";
+
 import { Debounce } from "@/lib/debounce";
 import axios from "axios";
 import { CircleUserRound, Search } from "lucide-react";
@@ -9,6 +9,9 @@ import { AnimatePresence, motion } from "motion/react";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { ISearchReco } from "@/types/searchedSongType";
 import Link from "next/link";
+import { api } from "@/lib/checkEnv";
+
+
 
 export function SearchBar() {
   const [searchSuggestion, setSearchSuggestion] = useState<ISearchReco | null>(
@@ -20,7 +23,7 @@ export function SearchBar() {
     // reguest to the api for search suggestion
     try {
       const response = (
-        await axios.get(`${BASE_URL}/song/search?query=${searchSuggestion}`)
+        await axios.get(`${api}/song/search?query=${searchSuggestion}`)
       ).data;
 
       if (response) {
@@ -80,9 +83,8 @@ export function SearchBar() {
               duration: 0.3,
               ease: "easeInOut",
             }}
-            className={`  ${
-              open ? "block" : " hidden"
-            }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
+            className={`  ${open ? "block" : " hidden"
+              }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
             onFocus={() => {
               setOpen(true);
             }}
@@ -164,7 +166,7 @@ function SearchedItems({
   return (
     <div
       className="  px-2 py-2 rounded-sm hover:bg-card-hover   group  flex items-center   gap-4 hover:bg-bar overflow-hidden "
-      // onMouseDown={() => onSearchSong(item.id)}
+    // onMouseDown={() => onSearchSong(item.id)}
     >
       <div>
         {image.length === 0 ? (
@@ -181,11 +183,10 @@ function SearchedItems({
       </div>
       <div>
         <Link
-          href={`${
-            type === "song"
-              ? `/dashboard/${type}/${token}/search`
-              : `/dashboard/${type}/${token}`
-          }`}
+          href={`${type === "song"
+            ? `/dashboard/${type}/${token}/search`
+            : `/dashboard/${type}/${token}`
+            }`}
           className="text-lg line-clamp-1 w-[12rem] "
         >
           {decodeHTML(title)}

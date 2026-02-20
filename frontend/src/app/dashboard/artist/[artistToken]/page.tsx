@@ -7,6 +7,7 @@ import { EllipsisVertical, Heart } from "lucide-react";
 import { div } from "motion/react-client";
 import Image from "next/image";
 import Link from "next/link";
+import { api } from "@/lib/checkEnv";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -21,7 +22,7 @@ export default function Artist() {
     const fetchArtistInfo = async () => {
       const response = (
         await axios.get(
-          `http://localhost:8080/api/v1/artist/?artistToken=${artistToken}`,
+          `${api}/artist/?artistToken=${artistToken}`,
           { withCredentials: true }
         )
       ).data;
@@ -72,11 +73,10 @@ export default function Artist() {
           <div>
             <ul className=" flex gap-12 border-b-[1px] border-neutral-100/10 ">
               <li
-                className={`text-lg font-light h-8 pb-2 ${
-                  active === "song"
-                    ? "border-b-2 border-neutral-700/60 "
-                    : "hover:border-b-2 hover:border-neutral-700/60 "
-                }  `}
+                className={`text-lg font-light h-8 pb-2 ${active === "song"
+                  ? "border-b-2 border-neutral-700/60 "
+                  : "hover:border-b-2 hover:border-neutral-700/60 "
+                  }  `}
                 onClick={() => {
                   setActive("song");
                 }}
@@ -84,11 +84,10 @@ export default function Artist() {
                 <Link href={""}>Song</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${
-                  active === "album"
-                    ? "border-b-2 border-neutral-700/60 "
-                    : "hover:border-b-2 hover:border-neutral-700/60 "
-                }  `}
+                className={`text-lg font-light h-8 pb-2 ${active === "album"
+                  ? "border-b-2 border-neutral-700/60 "
+                  : "hover:border-b-2 hover:border-neutral-700/60 "
+                  }  `}
                 onClick={() => {
                   setActive("album");
                 }}
@@ -96,11 +95,10 @@ export default function Artist() {
                 <Link href={""}>Album</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${
-                  active === "playlist"
-                    ? "border-b-2 border-neutral-700/60 "
-                    : "hover:border-b-2 hover:border-neutral-700/60 "
-                }  `}
+                className={`text-lg font-light h-8 pb-2 ${active === "playlist"
+                  ? "border-b-2 border-neutral-700/60 "
+                  : "hover:border-b-2 hover:border-neutral-700/60 "
+                  }  `}
                 onClick={() => {
                   setActive("playlist");
                 }}
@@ -108,11 +106,10 @@ export default function Artist() {
                 <Link href={""}>Playlist</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${
-                  active === "new_release"
-                    ? "border-b-2 border-neutral-700/60 "
-                    : "hover:border-b-2 hover:border-neutral-700/60 "
-                }  `}
+                className={`text-lg font-light h-8 pb-2 ${active === "new_release"
+                  ? "border-b-2 border-neutral-700/60 "
+                  : "hover:border-b-2 hover:border-neutral-700/60 "
+                  }  `}
                 onClick={() => {
                   setActive("new_release");
                 }}

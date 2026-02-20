@@ -9,7 +9,8 @@ import React, {
   useState,
 } from "react";
 import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
+import { api } from "@/lib/checkEnv";
+
 import { decodeHTML } from "@/lib/decodeHtml";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -66,7 +67,7 @@ export function SongCards({
             onClick={async () => {
               try {
                 await axios.post(
-                  `${BASE_URL}/${songs.type}/${songs.isLiked ? "remove" : "save"
+                  `${api}/${songs.type}/${songs.isLiked ? "remove" : "save"
                   }`,
                   { ...songs, isLiked: !songs.isLiked },
                   { withCredentials: true }

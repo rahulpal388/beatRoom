@@ -1,16 +1,19 @@
-import { BASE_URL } from "@/lib/baseUrl";
+
 import { ISong } from "@/types/songType";
 import axios from "axios";
 import { SetStateAction, useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
+import { api } from "@/lib/checkEnv";
+
+
 
 export function LikedSong() {
   const [song, setSong] = useState<ISong[]>([]);
 
   useEffect(() => {
     const fetchSaveSong = async () => {
-      const response = await axios.get(`${BASE_URL}/song/save`, {
+      const response = await axios.get(`${api}/song/save`, {
         withCredentials: true,
       });
       setSong(response.data);

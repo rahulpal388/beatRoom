@@ -1,6 +1,7 @@
 import axios from "axios";
-import { BASE_URL } from "./baseUrl";
 import { ISong } from "@/types/songType";
+import { api } from "@/lib/checkEnv";
+
 
 export const getSong = async ({
   song_token,
@@ -15,7 +16,7 @@ export const getSong = async ({
 }): Promise<ISong[]> => {
   if (type === "playlist") {
     const playlistSong = (
-      await axios.get(`${BASE_URL}/playlist/${song_token}`, {
+      await axios.get(`${api}/playlist/${song_token}`, {
         withCredentials: true,
       })
     ).data.list as ISong[];
@@ -24,8 +25,7 @@ export const getSong = async ({
   } else {
     const albumSong = (
       await axios.get(
-        `${BASE_URL}/album/?songToken=${song_token}&albumToken=${
-          album_token?.length === 0 ? song_token : album_token
+        `${api}/album/?songToken=${song_token}&albumToken=${album_token?.length === 0 ? song_token : album_token
         }`,
         { withCredentials: true }
       )

@@ -10,6 +10,8 @@ import Image from "next/image";
 import { useAuth } from "@/context/authContext";
 import { Button } from "@/ui/button";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { api } from "@/lib/checkEnv";
+
 
 type IInputSignUPForm = {
   username?: string;
@@ -36,7 +38,7 @@ export function AuthPage({ type }: { type: AuthType }) {
     const endpoint = type === "signup" ? "signup" : "login";
 
     await axios
-      .post(`http://localhost:8080/api/v1/auth/${endpoint}`, data, {
+      .post(`${api}/auth/${endpoint}`, data, {
         withCredentials: true,
       })
       .then((response) => {
@@ -278,7 +280,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                         setLoading(true);
                         await axios
                           .post(
-                            `http://localhost:8080/api/v1/auth/verify_otp_sigin`,
+                            `${api}/auth/verify_otp_sigin`,
                             {
                               username: user.username,
                               password: user.password,

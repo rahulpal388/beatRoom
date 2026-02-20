@@ -1,13 +1,14 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { MusicBanner } from "./musicBanner";
 import { SongCards, SongsSection } from "./songCard";
 import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
+import { api } from "@/lib/checkEnv";
+
 import { ISong } from "@/types/songType";
 import { IArtists } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
 import { ArtistCard, ArtistCardContaier } from "./artistCard";
-import { CardSkeleton, MoreSkeletonCard } from "@/ui/cardSkeleton";
+import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 
 export function Music() {
@@ -19,17 +20,17 @@ export function Music() {
   useEffect(() => {
     const getPlaylist = async () => {
       const [newReleased, trending, playlist, artist] = await Promise.all([
-        axios.get(`${BASE_URL}/song/newReleased/?limit=14&page=1`, {
+        axios.get(`${api}/song/newReleased/?limit=14&page=1`, {
           withCredentials: true,
         }),
         axios.get(
-          `${BASE_URL}/song/trendingSong/?limit=10&page=1&language=hindi`,
+          `${api}/song/trendingSong/?limit=10&page=1&language=hindi`,
           { withCredentials: true }
         ),
-        axios.get(`${BASE_URL}/playlist/?limit=10&page=1`, {
+        axios.get(`${api}/playlist/?limit=10&page=1`, {
           withCredentials: true,
         }),
-        axios.get(`${BASE_URL}/artist/topArtist/?limit=10`, {
+        axios.get(`${api}/artist/topArtist/?limit=10&page=1`, {
           withCredentials: true,
         }),
       ]);
@@ -73,7 +74,7 @@ export function Music() {
           {trendingSong.length === 0 ? (
             <MoreSkeletonCard count={10} />
           ) : (
-            trendingSong.map((items ) => (
+            trendingSong.map((items) => (
               <SongCards
                 key={items.id}
                 songs={items}
@@ -92,7 +93,7 @@ export function Music() {
           {topPlaylist.length === 0 ? (
             <MoreSkeletonCard count={10} />
           ) : (
-            topPlaylist.map((items ) => (
+            topPlaylist.map((items) => (
               <SongCards
                 key={items.id}
                 songs={items}
@@ -112,7 +113,7 @@ export function Music() {
             {topArtist.length === 0 ? (
               <MoreArtistCardSkeleton count={6} />
             ) : (
-              topArtist.map((item ) => (
+              topArtist.map((item) => (
                 <ArtistCard
                   key={item.id}
                   name={item.name}

@@ -1,15 +1,16 @@
 "use client";
 import { Eye, EyeOff } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useAuth } from "@/context/authContext";
 import { Button } from "@/ui/button";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { api } from "@/lib/checkEnv";
+
 
 type IInputSignUPForm = {
   username?: string;
@@ -36,7 +37,7 @@ export function AuthPage({ type }: { type: AuthType }) {
     const endpoint = type === "signup" ? "signup" : "login";
 
     await axios
-      .post(`http://localhost:8080/api/v1/auth/${endpoint}`, data, {
+      .post(`${api}/auth/${endpoint}`, data, {
         withCredentials: true,
       })
       .then((response) => {
@@ -263,7 +264,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                   </InputOTP>
                 </div>
                 <div className=" flex justify-end items-center mt-2 ">
-                  <span className=" text-sm pr-1 ">Don't Receive OTP?</span>
+                  <span className=" text-sm pr-1 ">Don&apos;t Receive OTP?</span>
                   <button className=" underline cursor-pointer ">Resend</button>
                 </div>
                 {!loading ? (
@@ -278,7 +279,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                         setLoading(true);
                         await axios
                           .post(
-                            `http://localhost:8080/api/v1/auth/verify_otp_sigin`,
+                            `${api}/auth/verify_otp_sigin`,
                             {
                               username: user.username,
                               password: user.password,

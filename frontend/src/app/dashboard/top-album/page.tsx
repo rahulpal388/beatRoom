@@ -2,7 +2,7 @@
 
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
-import { BASE_URL } from "@/lib/baseUrl";
+import { api } from "@/lib/checkEnv";
 import { IAlbum } from "@/types/albumType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
@@ -13,12 +13,12 @@ export default function TopAlbum() {
 
   useEffect(() => {
     const fetchTopAlbum = async () => {
-      const limit = 20;
-      const page = 0;
+      const limit = 15;
+      const page = 1;
       const language = "hindi";
       const respose = (
         await axios.get(
-          `${BASE_URL}/album/trendingAlbum/?limit=${limit}&page=${page}&language=${language}`,
+          `${api}/album/trendingAlbum/?limit=${limit}&page=${page}&language=${language}`,
           { withCredentials: true }
         )
       ).data as IAlbum[];

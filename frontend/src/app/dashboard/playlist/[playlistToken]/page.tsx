@@ -1,5 +1,6 @@
 "use client";
 
+import { api } from "@/lib/checkEnv";
 import {
   ArtistCard,
   ArtistCardContaier,
@@ -24,17 +25,17 @@ export default function PlaylistPage() {
     const fetchPlaylist = async () => {
       const responsePlaylist = (
         await axios.get(
-          `http://localhost:8080/api/v1/playlist/${playlistToken}`
+          `${api}/playlist/${playlistToken}`
         )
       ).data as ISongsPlaylist;
       setPlaylist(responsePlaylist);
 
       const [responseReco, responseTrending] = await Promise.all([
         await axios.get(
-          `http://localhost:8080/api/v1/playlist/reco/?page=0&limit=10&listid=${responsePlaylist.id}`
+          `${api}/playlist/reco/?page=0&limit=10&listid=${responsePlaylist.id}`
         ),
         await axios.get(
-          `http://localhost:8080/api/v1/playlist/trendingPlaylist/?limit=10&page=0&language=${responsePlaylist.language}`
+          `${api}/playlist/trendingPlaylist/?limit=10&page=0&language=${responsePlaylist.language}`
         ),
       ]);
 
@@ -44,7 +45,7 @@ export default function PlaylistPage() {
     };
 
     fetchPlaylist();
-  }, []);
+  }, [playlistToken]);
 
   return (
     <div className=" pb-18 md:px-4 px-px ">

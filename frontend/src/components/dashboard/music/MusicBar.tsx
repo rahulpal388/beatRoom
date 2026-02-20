@@ -1,5 +1,4 @@
 "use client";
-import { formateTime, formateTimePading } from "@/lib/formateTime";
 import {
   SkipBack,
   SkipForward,
@@ -10,20 +9,17 @@ import {
   Minimize2,
   Pause,
 } from "lucide-react";
-import { AnimatePresence, motion, Reorder } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
-import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
+
 import { saveSong } from "@/lib/save/saveSong";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { useQueue } from "@/context/queueContext";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
-import { div } from "motion/react-client";
-import { read } from "fs";
 import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
 
 export function MusicBar() {

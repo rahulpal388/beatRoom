@@ -4,7 +4,6 @@ import Image from "next/image";
 
 export function MusicBanner({ song }: { song: ISong[] }) {
   console.log(song);
-  const songLength = song.length;
   console.log(song[0].image);
   return (
     <>

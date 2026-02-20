@@ -1,13 +1,10 @@
 "use client"
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { AnimatePresence } from "motion/react";
 
 
 export function NavBar() {
     const router = useRouter()
-    const [isCreateRoom, setCreateRoom] = useState<boolean>(false);
 
     return <>
 
@@ -28,7 +25,7 @@ export function NavBar() {
 
                 <button className=" cursor-pointer max-sm:text-xs flex items-center sm:gap-2 justify-center border-[1px] border-secondary-btn-border text-secondary-btn-text  bg-secondary-btn-background lg:px-4 px-1 py-1 rounded  "
                     onClick={() => {
-                        setCreateRoom(true);
+                        // TODO: handle create room action
                     }}
                 >
                     <Plus />

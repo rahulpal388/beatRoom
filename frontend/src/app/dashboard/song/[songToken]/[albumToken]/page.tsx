@@ -3,7 +3,7 @@
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
-import { BASE_URL } from "@/lib/baseUrl";
+import { api } from "@/lib/checkEnv";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { ISongAlbum } from "@/types/albumType";
 import { ISong } from "@/types/songType";
@@ -26,12 +26,12 @@ export default function Songs() {
       const [albums, songDetail] = await Promise.all([
         (
           await axios.get(
-            `${BASE_URL}/album/?songToken=${param.songToken}&albumToken=${param.albumToken}`,
+            `${api}/album/?songToken=${param.songToken}&albumToken=${param.albumToken}`,
             { withCredentials: true }
           )
         ).data,
         (
-          await axios.get(`${BASE_URL}/song/${param.songToken}`, {
+          await axios.get(`${api}/song/${param.songToken}`, {
             withCredentials: true,
           })
         ).data,
@@ -40,13 +40,13 @@ export default function Songs() {
 
       const [songRecos, trendingSongs] = await Promise.all([
         (
-          await axios.get(`${BASE_URL}/song/reco/${songDetail.id}`, {
+          await axios.get(`${api}/song/reco/${songDetail.id}`, {
             withCredentials: true,
           })
         ).data,
         (
           await axios.get(
-            `${BASE_URL}/song/trendingSong/?limit=${limit}&page=${page}&language=${songDetail.language}`,
+            `${api}/song/trendingSong/?limit=${limit}&page=${page}&language=${songDetail.language}`,
             { withCredentials: true }
           )
         ).data,
@@ -57,7 +57,7 @@ export default function Songs() {
       setSong(songDetail);
     };
     fetchDetail();
-  }, []);
+  }, [param.albumToken, param.songToken]);
 
   return (
     <div className=" pb-18 px-4 ">

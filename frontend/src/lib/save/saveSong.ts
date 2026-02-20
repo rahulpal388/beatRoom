@@ -1,18 +1,18 @@
-import axios, { AxiosResponse } from "axios";
-import { BASE_URL } from "../baseUrl";
+import axios from "axios";
 import { ISong } from "@/types/songType";
+import { api } from "@/lib/checkEnv";
 
 export const saveSong = async (
   song: ISong
 ): Promise<boolean> => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/song/${song.isLiked ? "remove" : "save"}`,
+      `${api}/song/${song.isLiked ? "remove" : "save"}`,
       { ...song, isLiked: !song.isLiked },
       { withCredentials: true }
     );
-    return response.status===200;
-  } catch (error) {
+    return response.status === 200;
+  } catch {
     return false;
   }
 };

@@ -5,14 +5,14 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Login() {
-  const { isAuthenticated, currentUser } = useAuth();
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
     if (isAuthenticated) {
       router.push(`/dashboard`);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 
   if (isAuthenticated) {
     return <div>Redirecting.........</div>;

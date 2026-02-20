@@ -9,7 +9,6 @@ import { useAuth } from "@/context/authContext";
 import { QueueProvider } from "@/context/queueContext";
 import { Copy } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { GlobalPopoverProvider } from "@/context/globalPopover";
 import { Button } from "@/ui/button";
 import { useRouter } from "next/navigation";

@@ -1,13 +1,15 @@
 "use client";
-import { BASE_URL } from "@/lib/baseUrl";
+
 import axios from "axios";
 import React, {
   createContext,
-  FC,
   useContext,
   useEffect,
   useState,
 } from "react";
+
+import { api } from "@/lib/checkEnv";
+
 
 type TUser = {
   username: string;
@@ -33,7 +35,7 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const authenticate = async () => {
       await axios
-        .get(`${BASE_URL}/auth/getUserDetail`, {
+        .get(`${api}/auth/getUserDetail`, {
           withCredentials: true,
         })
         .then((response) => {

@@ -1,18 +1,17 @@
 import { IPlaylist } from "@/types/playlistType";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
 import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
-import { useAuth } from "@/context/authContext";
+import { api } from "@/lib/checkEnv";
 
 export function LikedPlaylist() {
   const [playlist, setPlaylist] = useState<IPlaylist[]>([]);
-  
+
 
   useEffect(() => {
     const fetchPlaylist = async () => {
-      const response = await axios.get(`${BASE_URL}/playlist/save`, {
+      const response = await axios.get(`${api}/playlist/save`, {
         withCredentials: true,
       });
       console.log(response.data);

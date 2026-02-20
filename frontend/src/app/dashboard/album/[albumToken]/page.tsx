@@ -3,12 +3,11 @@ import { ArtistCard } from "@/components/dashboard/music/artistCard";
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
-import { BASE_URL } from "@/lib/baseUrl";
+import { api } from "@/lib/checkEnv";
 import { IAlbum, ISongAlbum } from "@/types/albumType";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
-import { MoreHorizontal } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -21,17 +20,17 @@ export default function AlbumPage() {
   useEffect(() => {
     const fetchAlbum = async () => {
       const responseAlbum = await axios.get(
-        `${BASE_URL}/album/?albumToken=${token}`,
+        `${api}/album/?albumToken=${token}`,
         { withCredentials: true }
       );
       setAlbum(responseAlbum.data);
       console.log(responseAlbum.data);
       const [responseReco, responseTrendingAlbum] = await Promise.all([
-        await axios.get(`${BASE_URL}/album/reco/${responseAlbum.data.id}`, {
+        await axios.get(`${api}/album/reco/${responseAlbum.data.id}`, {
           withCredentials: true,
         }),
         axios.get(
-          `${BASE_URL}/album/trendingAlbum/?page=0&limit=10&language=hindi`,
+          `${api}/album/trendingAlbum/?page=0&limit=10&language=hindi`,
           { withCredentials: true }
         ),
       ]);
@@ -41,7 +40,7 @@ export default function AlbumPage() {
     };
 
     fetchAlbum();
-  }, []);
+  }, [token]);
 
   return (
     <div className=" pb-18 px-4 ">

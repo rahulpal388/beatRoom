@@ -2,11 +2,9 @@ import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
-import { formateTime } from "@/lib/formateTime";
 import { saveSong } from "@/lib/save/saveSong";
 import { ISong } from "@/types/songType";
-import { Cross, Ellipsis, Grip, GripVertical, Heart, X } from "lucide-react";
-import { div } from "motion/react-client";
+import { Ellipsis, Grip, Heart, X } from "lucide-react";
 import Image from "next/image";
 
 export function QueueCards({

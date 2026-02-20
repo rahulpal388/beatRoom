@@ -1,5 +1,3 @@
-import { savePlaylist } from "@/lib/savePlaylist";
-import axios from "axios";
 
 export function PlaylistPopover() {
   return (

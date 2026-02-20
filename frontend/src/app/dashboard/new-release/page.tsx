@@ -1,7 +1,7 @@
 "use client";
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
-import { BASE_URL } from "@/lib/baseUrl";
+import { api } from "@/lib/checkEnv";
 import { ISong } from "@/types/songType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
@@ -15,7 +15,7 @@ export default function NewReleased() {
       const page = 1;
       const data = (
         await axios.get(
-          `${BASE_URL}/song/newReleased/?limit=${limit}&page=${page}`,
+          `${api}/song/newReleased/?limit=${limit}&page=${page}`,
           { withCredentials: true }
         )
       ).data;

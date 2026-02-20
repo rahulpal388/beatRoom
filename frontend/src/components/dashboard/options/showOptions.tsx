@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { SongPopover } from "./songPopover";
 import { AlbumPopover } from "./albumPopover";
 import { PlaylistPopover } from "./playlistPopover";
@@ -22,7 +22,7 @@ export function ShowPopover() {
   const { cardType, popoverRef, openPopover, containerRef, setOpenPopover } =
     usePopoverCard();
 
-  let { x, y, strategy, refs, update } = useFloating({
+  const { x, y, refs } = useFloating({
     placement: "bottom-start",
     middleware: [offset(8), flip(), shift()],
     whileElementsMounted: (reference, floating, update) => {
@@ -48,7 +48,7 @@ export function ShowPopover() {
     if (popoverRef.current) {
       refs.setReference(popoverRef.current);
     }
-  }, [popoverRef, openPopover]);
+  }, [popoverRef, openPopover, refs]);
 
   return (
     <>

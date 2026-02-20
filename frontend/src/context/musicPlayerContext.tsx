@@ -9,7 +9,8 @@ import {
 } from "react";
 import { useQueue } from "./queueContext";
 import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
+import { api } from "@/lib/checkEnv";
+
 
 type TMusicPlayer = {
   play: () => void;
@@ -60,10 +61,11 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
     setProgress(0);
 
     const fetchUrl = async () => {
+      console.log(currentSong)
       const responseUrl = await axios.post(
-        `${BASE_URL}/song/play`,
+        `${api}/song/play`,
         {
-          id: currentSong.more_info.encrypted_media_url,
+          encrypted_media_url: currentSong.more_info.encrypted_media_url,
         },
         { withCredentials: true }
       );

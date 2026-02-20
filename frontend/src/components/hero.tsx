@@ -1,16 +1,12 @@
 "use client";
 
-import { MoveUpRight } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { AnimatePresence } from "motion/react";
-import { useState } from "react";
 
 import Image from "next/image";
 import { TextTransition } from "./animation/textTransition";
 
 export function Hero() {
   const router = useRouter();
-  const [isJoinRoom, setJoinRoom] = useState<boolean>(false);
 
   return (
     <>
@@ -34,7 +30,7 @@ export function Hero() {
               <button
                 className="flex gap-2 bg-secondary-btn-background border-[0.5px] border-secondary-btn-border text-secondary-btn-text px-4 py-2 rounded-lg cursor-pointer hover:text-secondary-btn-hover   "
                 onClick={() => {
-                  setJoinRoom(true);
+                  // TODO: handle join room action
                 }}
               >
                 <span>Join Room</span>

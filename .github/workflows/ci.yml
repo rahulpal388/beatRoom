@@ -7,7 +7,7 @@ on:
       - production
 
 jobs:
-  lint-code:
+  lint-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,8 +26,12 @@ jobs:
         working-directory: backend
 
       - name: Install frontend dependencies
-        run: npm ci
+        run: npm install
 
+      - name: Run ESLint for frontend
+        run: npm run lint
+        working-directory: frontend
+        
       - name: Build frontend
         run: npm run build
         working-directory: frontend

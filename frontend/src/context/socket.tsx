@@ -1,9 +1,9 @@
-import { createContext, ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 
 type IWSContext = {
     isConnected: boolean,
     socket: WebSocket | null,
-    sendMessage: (message: any) => void
+    sendMessage: (message: unknown) => void
 }
 
 
@@ -16,13 +16,13 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode, roomId: st
     useEffect(() => {
         socketRef.current = new WebSocket("ws://localhost:8000");
 
-        socketRef.current.onopen = (e) => {
+        socketRef.current.onopen = () => {
             setConnected(true);
             console.log("ws connected");
             socketRef.current?.send(JSON.stringify({ type: "join", roomId }))
         }
 
-        socketRef.current.onclose = (e) => {
+        socketRef.current.onclose = () => {
             console.log("ws closed");
             setConnected(false);
         }
@@ -36,9 +36,9 @@ export const WebSocketProvider: React.FC<{ children: React.ReactNode, roomId: st
         }
 
 
-    }, [])
+    }, [roomId])
 
-    const sendMessage = (message: any) => {
+    const sendMessage = (message: unknown) => {
         if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
             socketRef.current.send(JSON.stringify(message))
         } else {

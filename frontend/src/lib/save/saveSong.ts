@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { ISong } from "@/types/songType";
 import { api } from "@/lib/checkEnv";
 
@@ -12,7 +12,7 @@ export const saveSong = async (
       { withCredentials: true }
     );
     return response.status === 200;
-  } catch (error) {
+  } catch {
     return false;
   }
 };

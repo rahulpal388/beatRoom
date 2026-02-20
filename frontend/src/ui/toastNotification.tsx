@@ -1,5 +1,5 @@
-import { Check, OctagonAlert, X } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { Check, X } from "lucide-react";
+import { motion } from "motion/react";
 import { AlertSvg } from "./alertSvg";
 
 export function ToastNotification({
@@ -32,14 +32,12 @@ export function ToastNotification({
       >
         <div className="  flex items-center justify-between gap-4  ">
           <div
-            className={` ${
-              type === "success" ? "bg-green-800/20" : "bg-red-800/20"
-            } p-2  rounded-full `}
+            className={` ${type === "success" ? "bg-green-800/20" : "bg-red-800/20"
+              } p-2  rounded-full `}
           >
             <div
-              className={` ${
-                type === "success" ? "bg-green-800" : "bg-red-800"
-              } p-1 rounded-full flex items-center justify-center`}
+              className={` ${type === "success" ? "bg-green-800" : "bg-red-800"
+                } p-1 rounded-full flex items-center justify-center`}
             >
               {type === "success" ? (
                 <Check size={20} />

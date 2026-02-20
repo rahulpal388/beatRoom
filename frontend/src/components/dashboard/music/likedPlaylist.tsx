@@ -1,11 +1,9 @@
 import { IPlaylist } from "@/types/playlistType";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
 import axios from "axios";
 import { api } from "@/lib/checkEnv";
-
-import { useAuth } from "@/context/authContext";
 
 export function LikedPlaylist() {
   const [playlist, setPlaylist] = useState<IPlaylist[]>([]);

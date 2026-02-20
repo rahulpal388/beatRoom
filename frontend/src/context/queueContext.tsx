@@ -1,8 +1,6 @@
 import { ISong } from "@/types/songType";
 import React, {
   createContext,
-  Dispatch,
-  SetStateAction,
   useContext,
   useState,
 } from "react";
@@ -73,8 +71,8 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
     setQueueSongs((prev) => prev.filter((x) => x.id !== songId));
   };
 
-  const changeCurrentSong = (song: ISong) => {
-    currentSong = undefined;
+  const changeCurrentSong = (_song: ISong) => {
+    currentSong = _song;
   }
 
   return (

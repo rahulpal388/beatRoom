@@ -1,6 +1,5 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { IPlaylist } from "@/types/playlistType";
-import { tryLoadManifestWithRetries } from "next/dist/server/load-components";
 import { api } from "@/lib/checkEnv";
 
 export const savePlaylist = async (
@@ -14,7 +13,7 @@ export const savePlaylist = async (
     );
 
     return response.status === 200;
-  } catch (error) {
+  } catch {
     return false;
   }
 };

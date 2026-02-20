@@ -13,8 +13,8 @@ export default function TopAlbum() {
 
   useEffect(() => {
     const fetchTopAlbum = async () => {
-      const limit = 20;
-      const page = 0;
+      const limit = 15;
+      const page = 1;
       const language = "hindi";
       const respose = (
         await axios.get(

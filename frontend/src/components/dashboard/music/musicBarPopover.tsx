@@ -93,7 +93,7 @@ export function MusicBarPopover() {
                       <button
                         className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 "
                         onClick={async () => {
-                          const response = await axios
+                          await axios
                             .post(
                               `${api}/song/save`,
                               { ...currentSong, isLiked: true },

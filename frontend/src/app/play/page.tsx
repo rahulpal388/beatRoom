@@ -1,6 +1,4 @@
 "use client";
-import { CardSkeleton, MoreSkeletonCard } from "@/ui/cardSkeleton";
-import { motion } from "motion/react";
 
 export default function Player() {
   return (

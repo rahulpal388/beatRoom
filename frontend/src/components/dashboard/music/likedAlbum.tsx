@@ -1,5 +1,5 @@
 import { IAlbum } from "@/types/albumType";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
 import axios from "axios";

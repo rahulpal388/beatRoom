@@ -57,7 +57,7 @@ export default function Songs() {
       setSong(songDetail);
     };
     fetchDetail();
-  }, []);
+  }, [param.albumToken, param.songToken]);
 
   return (
     <div className=" pb-18 px-4 ">

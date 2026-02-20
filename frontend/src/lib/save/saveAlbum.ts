@@ -1,5 +1,5 @@
 import { IAlbum } from "@/types/albumType";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { api } from "@/lib/checkEnv";
 
 export const saveAlbum = async (
@@ -13,7 +13,7 @@ export const saveAlbum = async (
     );
 
     return response.status === 200;
-  } catch (error) {
+  } catch {
     return false;
   }
 };

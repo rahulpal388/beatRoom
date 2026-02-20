@@ -45,7 +45,7 @@ export default function PlaylistPage() {
     };
 
     fetchPlaylist();
-  }, []);
+  }, [playlistToken]);
 
   return (
     <div className=" pb-18 md:px-4 px-px ">

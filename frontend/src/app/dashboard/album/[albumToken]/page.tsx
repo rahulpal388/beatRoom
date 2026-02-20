@@ -8,7 +8,6 @@ import { IAlbum, ISongAlbum } from "@/types/albumType";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
-import { MoreHorizontal } from "lucide-react";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -41,7 +40,7 @@ export default function AlbumPage() {
     };
 
     fetchAlbum();
-  }, []);
+  }, [token]);
 
   return (
     <div className=" pb-18 px-4 ">

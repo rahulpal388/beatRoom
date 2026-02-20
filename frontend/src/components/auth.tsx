@@ -1,12 +1,11 @@
 "use client";
 import { Eye, EyeOff } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useAuth } from "@/context/authContext";
 import { Button } from "@/ui/button";
 import { useToastNotification } from "@/context/toastNotificationContext";
@@ -265,7 +264,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                   </InputOTP>
                 </div>
                 <div className=" flex justify-end items-center mt-2 ">
-                  <span className=" text-sm pr-1 ">Don't Receive OTP?</span>
+                  <span className=" text-sm pr-1 ">Don&apos;t Receive OTP?</span>
                   <button className=" underline cursor-pointer ">Resend</button>
                 </div>
                 {!loading ? (

@@ -1,7 +1,7 @@
 
 import { ISong } from "@/types/songType";
 import axios from "axios";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
 import { api } from "@/lib/checkEnv";

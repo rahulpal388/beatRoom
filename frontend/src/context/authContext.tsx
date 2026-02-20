@@ -3,7 +3,6 @@
 import axios from "axios";
 import React, {
   createContext,
-  FC,
   useContext,
   useEffect,
   useState,

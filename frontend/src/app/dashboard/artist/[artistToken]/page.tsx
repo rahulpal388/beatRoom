@@ -4,7 +4,6 @@ import { IArtistInfo } from "@/types/artistType";
 import { Button } from "@/ui/button";
 import axios from "axios";
 import { EllipsisVertical, Heart } from "lucide-react";
-import { div } from "motion/react-client";
 import Image from "next/image";
 import Link from "next/link";
 import { api } from "@/lib/checkEnv";
@@ -30,7 +29,7 @@ export default function Artist() {
       setArtistInfo(response);
     };
     fetchArtistInfo();
-  }, []);
+  }, [artistToken]);
 
   if (!artistInfo) {
     return (
@@ -125,7 +124,7 @@ export default function Artist() {
                   <SongCards
                     key={idx}
                     songs={song}
-                    updateState={(id: string) => {
+                    updateState={() => {
                       // setArtistInfo()
                     }}
                   />

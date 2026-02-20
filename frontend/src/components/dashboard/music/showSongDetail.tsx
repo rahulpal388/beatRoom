@@ -1,8 +1,6 @@
-import { useQueue } from "@/context/queueContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { formateTime } from "@/lib/formateTime";
 import { getSong } from "@/lib/getSong";
-import { ISong } from "@/types/songType";
 import { Button } from "@/ui/button";
 import { EllipsisVertical, Heart } from "lucide-react";
 import Image from "next/image";

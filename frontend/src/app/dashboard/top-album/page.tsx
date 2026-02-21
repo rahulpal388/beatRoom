@@ -31,7 +31,7 @@ export default function TopAlbum() {
   return (
     <>
       <div className=" sm:px-12 px-4 py-8 pb-20 ">
-        <h1 className="  text-4xl ">Top Albums</h1>
+        <h1 className="  text-[30px] pb-4 border-b-[1px] border-muted font-medium  ">Top Albums</h1>
         <SongCardContaier>
           {topAlbum.length <= 0 ? (
             <MoreSkeletonCard count={16} />

@@ -13,7 +13,7 @@ export function PlayBotton({
         className={`cursor-pointer  bg-primary size-10 rounded-full  flex items-center justify-center ${className} `}
         onClick={onClick}
       >
-        <Play />
+        <Play className="stroke-card" />
       </button>
     </>
   );

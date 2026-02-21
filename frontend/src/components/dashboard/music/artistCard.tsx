@@ -26,12 +26,12 @@ export function ArtistCard({
               alt="artist"
               height={100}
               width={100}
-              className="rounded-full  h-[6rem] w-[6rem] "
+              className="rounded-full peer  h-[6rem] w-[6rem] "
             />
           ) : (
             <CircleUser className="rounded-full  h-[4rem] w-[4rem] " />
           )}
-          <span className="text-center ">{name}</span>
+          <span className="text-center peer-hover:opacity-70 hover:opacity-70 ">{name}</span>
         </Link>
       </div>
     </>

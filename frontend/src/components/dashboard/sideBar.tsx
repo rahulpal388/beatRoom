@@ -26,24 +26,24 @@ const sideBarLibraryItems: {
   href: string;
   icon: React.ReactNode;
 }[] = [
-  {
-    heading: "Histroy",
-    href: "history",
-    icon: <History size={20} />,
-  },
-  {
-    heading: "Liked Song",
-    href: "liked-song",
-    icon: <Music2 size={20} />,
-  },
-];
+    {
+      heading: "Histroy",
+      href: "history",
+      icon: <History size={20} />,
+    },
+    {
+      heading: "Liked Song",
+      href: "liked-song",
+      icon: <Music2 size={20} />,
+    },
+  ];
 
 export function SideBar() {
   return (
-    <div className=" max-lg:hidden border-r-[1px] border-card-border bg-card h-full w-[12rem] ">
+    <div className=" max-lg:hidden border-r-[1px]  h-full w-[12rem] ">
       <div className=" flex flex-col  px-10  mt-12  ">
         <div>
-          <h1 className=" text-lg text-text-muted font-heading ">
+          <h1 className=" text-lg text-muted font-heading ">
             Browse Music
           </h1>
           <div className=" mt-4 flex flex-col gap-2 ">
@@ -51,7 +51,7 @@ export function SideBar() {
               <div key={idx}>
                 <Link
                   href={`/dashboard/${items.href}`}
-                  className=" text-text-heading hover:text-text-body "
+                  className=" hover:text-foreground/60  "
                 >
                   {items.heading}
                 </Link>
@@ -60,13 +60,13 @@ export function SideBar() {
           </div>
         </div>
         <div className=" mt-12 ">
-          <h1 className=" text-lg font-heading text-text-muted ">My Library</h1>
+          <h1 className=" text-lg font-heading text-muted ">My Library</h1>
           <div className=" mt-4 flex flex-col gap-2 ">
             {sideBarLibraryItems.map((items, idx) => (
               <div key={idx}>
                 <Link
                   href={`/dashboard/${items.href}`}
-                  className="text-text-heading hover:text-text-body  flex items-center  gap-2 "
+                  className="hover:text-foreground/60   flex items-center  gap-2 "
                 >
                   {items.icon} {items.heading}
                 </Link>

@@ -1,8 +1,50 @@
 @import "tailwindcss";
 
+@theme {
+  --default-color-scheme: light;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 * {
   scrollbar-width: none;
 }
+
+
+:root{
+  --background:oklch(0.9571 0.004 63.08);
+  /* --background:oklch(0.9215 0.004 133.45); */
+  --foreground:oklch(0 0.004 360);
+  
+
+  --primary:oklch(0.7536 0.163659 50.4009);
+
+  --muted:oklch(0.6333 0.004 360);
+
+  /* for cards */
+  --card:oklch(0.95 0.004 133.45);
+   --color-card-hover:oklch(0.9235 0.004 133.45);
+  /* --color-card-border: oklch(28% 0.01 262);  */
+  --color-card-border:#000000; 
+
+
+  --text-heading:oklch(0.0982 0.004 133.45);
+  --text-body:oklch(0.2305 0 0);
+  --text-muted:oklch(0.266 0 66.63)
+}
+
+
+
+.dark{
+  /* --background:oklch(0.1831 0.004 285.99); */
+  --background:oklch(0.2002 0 0);
+  --foreground:oklch(0.8593 0.1017 73.9);
+
+    /* for cards */
+    --card:oklch(0.2147 0 0);
+    --color-card-hover:oklch(0.9235 0.004 133.45);
+}
+
 
 @theme {
   --breakpoint-xs: 360px;
@@ -15,28 +57,38 @@
 
 
   /* Background */
-  --color-bg: oklch(16% 0.02 262);
+  --color-background:var(--background);
+  --color-foreground:var(--foreground);
+  --color-muted:var(--muted);
+  
+  /* Accent / Primary */
+  --color-primary: var(--primary);
+
+  /* Cards */
+  --color-card: var(--card);
+  --color-card-hover: var(--card-hover);
+  --color-card-border:var(--card-border)
+  
+  /* fonts */
+   --font-heading:var(--font-poppins);
+   --font-body:var(--font-inter);
+
+
+   /* Text */
+  --color-text-heading:var(--text-heading);
+  --color-text-body:var(--text-body);
+  --color-text-muted: var(--text-muted);
+
+
   --color-bg-soft: oklch(22% 0.03 262);
   --color-bg-hover: oklch(28% 0.04 262);
 
 
-/* fonts */
- --font-heading:var(--font-poppins);
- --font-body:var(--font-inter);
 
 
-  /* Cards */
-  --color-card: oklch(20% 0.02 262);
-  --color-card-hover: oklch(28% 0.03 262);
-  --color-card-border: oklch(28% 0.01 262);
 
-  /* Text */
-  --color-text-heading: oklch(92% 0.01 260);
-  --color-text-body: oklch(80% 0.015 260);
-  --color-text-muted: oklch(68% 0.01 260);
+  
 
-  /* Accent / Primary */
-  --color-primary: oklch(71% 0.14 235);
   --color-primary-hover: oklch(66% 0.14 235);
   --color-primary-subtle: oklch(34% 0.08 235);
 
@@ -57,55 +109,6 @@
 
 
 
-
-
-
-
-
-/* 
-:root {
-  --foreground:oklch(97.30% 0.007 268.55);
-  --background: #0b0e16;
-  --secondary-foreground:#FAFBFD;
-  --bar:#1D202B;
-  --bar:#293551;
-  --card:oklch(35.48% 0.061 251.99 / 0.15);
-  --muted:#C1C3C7;
-
-  --shadow-2xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
-  --shadow-xs: 0px 1px 3px 0px hsl(0 0% 0% / 0.09);
-  --shadow-sm: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
-  --shadow: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 1px 2px -1px hsl(0 0% 0% / 0.17);
-  --shadow-md: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 2px 4px -1px hsl(0 0% 0% / 0.17);
-  --shadow-lg: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 4px 6px -1px hsl(0 0% 0% / 0.17);
-  --shadow-xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.17), 0px 8px 10px -1px hsl(0 0% 0% / 0.17);
-  --shadow-2xl: 0px 1px 3px 0px hsl(0 0% 0% / 0.43);
-
-  --background :oklch(16% 0.02 262);
-  --card:oklch(22% 0.03 262);
-
-}
-
- 
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-bar:var(--bar);
-  --color-card:var(--card);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted:var(--muted);
-
-
-  --shadow-2xs: var(--shadow-2xs);
-  --shadow-xs: var(--shadow-xs);
-  --shadow-sm: var(--shadow-sm);
-  --shadow: var(--shadow);
-  --shadow-md: var(--shadow-md);
-  --shadow-lg: var(--shadow-lg);
-  --shadow-xl: var(--shadow-xl);
-  --shadow-2xl: var(--shadow-2xl);
-} */
 
 
 body {

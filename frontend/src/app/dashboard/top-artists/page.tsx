@@ -8,14 +8,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { api } from "@/lib/checkEnv";
+import { ArtistCard } from "@/components/dashboard/music/artistCard";
 
 export default function TopArtists() {
   const [topArtist, setTopArtist] = useState<IArtists[]>([]);
   useEffect(() => {
     const fetchTopArtist = async () => {
-      const limit = 20;
+      const limit = 10;
       const response = (
-        await axios.get(`${api}/artist/topArtist/?limit=${limit}`)
+        await axios.get(`${api}/artist/topArtist/?limit=${limit}&page=1`)
       ).data as IArtists[];
 
       setTopArtist(response);
@@ -25,7 +26,7 @@ export default function TopArtists() {
   return (
     <>
       <div className=" sm:px-12 px-4 py-8 pb-20 ">
-        <h1 className="  text-4xl ">Top Artists</h1>
+        <h1 className="  text-[30px] pb-4 border-b-[1px] border-muted font-medium  ">Top Artists</h1>
         <SongCardContaier>
           {topArtist.length <= 0
             ? Array(10)
@@ -39,23 +40,13 @@ export default function TopArtists() {
                 </div>
               ))
             : topArtist.map((artist, idx) => (
-              <div key={idx} className=" flex flex-col items-center  gap-2 ">
-                <Image
-                  src={artist.image}
-                  alt="image"
-                  height={100}
-                  width={100}
-                  className=" rounded-full "
-                />
-                <Link
-                  href={`/dashboard/artist/${artist.perma_url
-                    .split("/")
-                    .at(-1)}`}
-                  className=" text-lg  "
-                >
-                  {artist.name}
-                </Link>
-              </div>
+              <ArtistCard
+                key={artist.id}
+                name={artist.name}
+                url={artist.perma_url}
+                image={artist.image}
+                type={"artist"}
+              />
             ))}
         </SongCardContaier>
       </div>

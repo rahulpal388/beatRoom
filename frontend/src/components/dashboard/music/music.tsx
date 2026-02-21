@@ -24,7 +24,7 @@ export function Music() {
           withCredentials: true,
         }),
         axios.get(
-          `${api}/song/trendingSong/?limit=10&page=1&language=hindi`,
+          `${api}/song/trendingSong/?limit=10&page=1&language=punjabi`,
           { withCredentials: true }
         ),
         axios.get(`${api}/playlist/?limit=10&page=1`, {
@@ -39,7 +39,8 @@ export function Music() {
       setTrending(trending.data);
       setTopPlaylist(playlist.data);
       setTopArtist(artist.data);
-      console.log(newReleased.data);
+      console.log("trending songs")
+      console.log(trending.data);
     };
 
     getPlaylist();

@@ -54,8 +54,8 @@ export function SearchBar() {
                         setOpen(false);
                     }}
                 />
-                <div className=" bg-card-hover h-full w-14 flex items-center justify-center cursor-pointer ">
-                    <Search size={30} />
+                <div className=" bg-primary  h-full w-14 flex items-center justify-center cursor-pointer ">
+                    <Search size={30} className="  stroke-background " />
                 </div>
             </div>
             <AnimatePresence>

@@ -1,4 +1,4 @@
-import { EllipsisVerticalIcon, Heart } from "lucide-react";
+import { EllipsisVerticalIcon, Heart, ListPlus } from "lucide-react";
 import Image from "next/image";
 import React, {
     useEffect,
@@ -43,14 +43,14 @@ export function SongCards({
     return (
         <>
             <div
-                className={`relative shadow-soft   group px-4 py-4 h-[16rem] w-[10rem] rounded  hover:bg-card-hover`}
+                className={`relative shadow-xl   group px-4 py-4 h-[16rem] w-[10rem] rounded  hover:bg-card-hover`}
             >
                 <div
                     className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full  flex`}
                 >
                     <Heart
                         size={30}
-                        className={`cursor-pointer  ${songs.isLiked
+                        className={`cursor-pointer stroke-[1.8px]  ${songs.isLiked
                             ? "fill-red-800 stroke-0 block "
                             : ` ${openPopover && activeCard
                                 ? "block"
@@ -76,17 +76,7 @@ export function SongCards({
                         className={`relative ${openPopover && activeCard ? "block" : "hidden group-hover:block"
                             } `}
                     >
-                        <EllipsisVerticalIcon
-                            size={30}
-                            className=" cursor-pointer rounded-full    "
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                setOpenPopover(isActive ? !openPopover : false);
-                                popoverRef.current = e.currentTarget;
-                                setIsActive(songs.id);
-                                setCardType(songs.type);
-                            }}
-                        />
+                        <ListPlus className="cursor-pointer stroke-[1.8px] " />
                     </div>
                 </div>
                 <div className="  mb-2  w-32 rounded     ">

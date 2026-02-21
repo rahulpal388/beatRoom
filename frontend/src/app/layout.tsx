@@ -3,6 +3,7 @@ import { Poppins, Inter } from "next/font/google";
 import "./globals.css";
 import { AuthContextProvider } from "@/context/authContext";
 import { ToastNotificationProvider } from "@/context/toastNotificationContext";
+import { ThemeProvider } from "next-themes";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -27,13 +28,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" >
       <body
-        className={`${inter.variable} ${poppins.variable} font-body antialiased bg-bg text-text-heading   `}
+        className={`${inter.variable} ${poppins.variable} font-body antialiased   dark:bg-background bg-background text-foreground dark:text-foreground   `}
       >
-        <AuthContextProvider>
-          <ToastNotificationProvider>{children}</ToastNotificationProvider>
-        </AuthContextProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <AuthContextProvider>
+            <ToastNotificationProvider>{children}</ToastNotificationProvider>
+          </AuthContextProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

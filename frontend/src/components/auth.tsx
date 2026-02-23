@@ -9,7 +9,6 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
 import { Button } from "@/ui/button";
 import { useToastNotification } from "@/context/toastNotificationContext";
-import { api } from "@/lib/checkEnv";
 
 
 type IInputSignUPForm = {
@@ -37,7 +36,7 @@ export function AuthPage({ type }: { type: AuthType }) {
     const endpoint = type === "signup" ? "signup" : "login";
 
     await axios
-      .post(`${api}/auth/${endpoint}`, data, {
+      .post(`http://localhost:8080/auth/${endpoint}`, data, {
         withCredentials: true,
       })
       .then((response) => {
@@ -279,7 +278,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                         setLoading(true);
                         await axios
                           .post(
-                            `${api}/auth/verify_otp_sigin`,
+                            `http://localhost:8080/auth/verify_otp_sigin`,
                             {
                               username: user.username,
                               password: user.password,

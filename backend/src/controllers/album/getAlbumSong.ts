@@ -7,7 +7,7 @@ import { albumSong } from "../../service/album/albumSong.js";
 export const getSongAlbum = async (req: Request, res: Response) => {
   const { success, data } = z
     .object({
-      songToken: z.string().optional(),
+      songToken: z.string(),
       albumToken: z.string(),
     })
     .safeParse(req.query);

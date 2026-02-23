@@ -6,9 +6,9 @@ import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { decodeHTML } from "@/lib/decodeHtml";
-import { ISearchReco } from "@/types/searchedSongType";
 import Link from "next/link";
-import { api } from "@/lib/checkEnv";
+import { ISearchReco } from "@/types/searchType";
+import { searchReco } from "@/api/searchReco";
 
 export function SearchBar() {
     const [searchSuggestion, setSearchSuggestion] = useState<ISearchReco | null>(
@@ -18,17 +18,13 @@ export function SearchBar() {
 
     const searchSuggestionFn = async (searchSuggestion: string) => {
         // reguest to the api for search suggestion
-        try {
-            const response = (
-                await axios.get(`${api}/song/search?query=${searchSuggestion}`)
-            ).data;
 
-            if (response) {
-                setSearchSuggestion(response);
-            }
-        } catch {
-            throw new Error("search suggestion error");
+        const response = await searchReco(searchSuggestion);
+
+        if (response) {
+            setSearchSuggestion(response);
         }
+
     };
 
     const onSearchInputChange = Debounce(searchSuggestionFn, 1000);
@@ -124,9 +120,9 @@ export function SearchBar() {
                                     .map((artist, idx) => (
                                         <SearchedItems
                                             key={idx}
-                                            url={artist.perma_url}
+                                            url={artist.url}
                                             type={artist.type}
-                                            title={artist.name}
+                                            title={artist.title}
                                             image={artist.image}
                                             description={artist.type}
                                         />

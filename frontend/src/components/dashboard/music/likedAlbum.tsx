@@ -2,8 +2,7 @@ import { IAlbum } from "@/types/albumType";
 import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
-import axios from "axios";
-import { api } from "@/lib/checkEnv";
+import { getSaveAlbum } from "@/api/album/getSaveAlbum";
 
 
 export function LikedAlbum() {
@@ -13,11 +12,9 @@ export function LikedAlbum() {
 
   useEffect(() => {
     const fetchAlbum = async () => {
-      const response = await axios.get(`${api}/album/save`, {
-        withCredentials: true,
-      });
-      console.log(response.data);
-      setAlbum(response.data);
+      const response = await getSaveAlbum();
+      console.log(response);
+      setAlbum(response);
     };
     fetchAlbum();
   }, []);

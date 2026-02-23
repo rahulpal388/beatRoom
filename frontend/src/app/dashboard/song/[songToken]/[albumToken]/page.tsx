@@ -1,55 +1,37 @@
 "use client";
 
+import { getAlbumSong } from "@/api/album/getAlbumSong";
+import { getSongDetails } from "@/api/song/getSongDetail";
+import { getSongReco } from "@/api/song/getSongReco";
+import { getTrendingSong } from "@/api/song/trendingSong";
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
-import { api } from "@/lib/checkEnv";
 import { decodeHTML } from "@/lib/decodeHtml";
-import { ISongAlbum } from "@/types/albumType";
+import { IAlbumSong } from "@/types/albumType";
 import { ISong } from "@/types/songType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { DisplaySongSkeleton } from "@/ui/displaySongSkeleton";
-import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Songs() {
   const param = useParams();
-  const [album, setAlbum] = useState<ISongAlbum | null>(null);
+  const [album, setAlbum] = useState<IAlbumSong | null>(null);
   const [songReco, setSongReco] = useState<ISong[]>([]);
   const [trendingSong, setTrendingSong] = useState<ISong[]>([]);
   const [song, setSong] = useState<ISong>();
   useEffect(() => {
     const fetchDetail = async () => {
-      const limit = 10;
-      const page = 0;
       const [albums, songDetail] = await Promise.all([
-        (
-          await axios.get(
-            `${api}/album/?songToken=${param.songToken}&albumToken=${param.albumToken}`,
-            { withCredentials: true }
-          )
-        ).data,
-        (
-          await axios.get(`${api}/song/${param.songToken}`, {
-            withCredentials: true,
-          })
-        ).data,
+        getAlbumSong(param.songToken as string, param.albumToken as string)
+        ,
+        getSongDetails(param.songToken as string),
       ]);
-      console.log(songDetail);
 
       const [songRecos, trendingSongs] = await Promise.all([
-        (
-          await axios.get(`${api}/song/reco/${songDetail.id}`, {
-            withCredentials: true,
-          })
-        ).data,
-        (
-          await axios.get(
-            `${api}/song/trendingSong/?limit=${limit}&page=${page}&language=${songDetail.language}`,
-            { withCredentials: true }
-          )
-        ).data,
+        getSongReco(songDetail.id, songDetail.language),
+        getTrendingSong(10, 1, songDetail.language),
       ]);
       setAlbum(albums);
       setSongReco(songRecos);

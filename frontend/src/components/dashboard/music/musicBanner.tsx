@@ -1,8 +1,8 @@
-import { ISong } from "@/types/songType";
+import { INewReleaseSong, ISong } from "@/types/songType";
 import { Play } from "lucide-react";
 import Image from "next/image";
 
-export function MusicBanner({ song }: { song: ISong[] }) {
+export function MusicBanner({ song }: { song: INewReleaseSong[] }) {
   console.log(song);
   console.log(song[0].image);
   return (

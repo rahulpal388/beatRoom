@@ -1,8 +1,8 @@
+import { saveSong } from "@/api/song/saveSong";
 import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { getSong } from "@/lib/getSong";
-import { saveSong } from "@/lib/save/saveSong";
 import { ISong } from "@/types/songType";
 import { CirclePlay, EllipsisVertical, Heart } from "lucide-react";
 import Image from "next/image";

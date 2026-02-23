@@ -1,4 +1,5 @@
 "use client";
+import { getTopPlaylist } from "@/api/playlist/getTopPlaylist";
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 
@@ -6,18 +7,13 @@ import { IPlaylist } from "@/types/playlistType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { api } from "@/lib/checkEnv";
 
 export default function TopPlaylist() {
   const [topPlaylist, setTopPlaylist] = useState<IPlaylist[]>([]);
 
   useEffect(() => {
     const fetchTopPlaylist = async () => {
-      const response = (
-        await axios.get(`${api}/playlist?limit=20&page=1`, {
-          withCredentials: true,
-        })
-      ).data as IPlaylist[];
+      const response = await getTopPlaylist(50, 1);
 
       setTopPlaylist(response);
     };

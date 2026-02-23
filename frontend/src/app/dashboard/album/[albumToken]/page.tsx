@@ -3,7 +3,6 @@ import { ArtistCard } from "@/components/dashboard/music/artistCard";
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
-import { api } from "@/lib/checkEnv";
 import { IAlbum, ISongAlbum } from "@/types/albumType";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";

@@ -21,8 +21,8 @@ export type APiSongsPlaylist = {
     type: string;
     perma_url: string;
     image: string;
-    language: string;
     list_count: string;
+    language: string;
     list: ApiSong[];
     more_info: {
         artists: ApiArtists[];

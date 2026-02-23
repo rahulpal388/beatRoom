@@ -5,6 +5,7 @@ import { Request, Response } from "express";
 import z from "zod";
 import { ApiPlaylist } from "../../types/playlistType.js";
 import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
+import { PaginationSlice } from "@utils/paginationSlice.js";
 
 
 
@@ -28,10 +29,7 @@ export const getTrendingPlaylist = async (req: Request, res: Response) => {
       getLikedPlaylist(userId),
     ]);
 
-    const playlist = response.data.slice(
-      Number(data.page) * Number(data.limit),
-      Number(data.limit) * (Number(data.page) + 1)
-    ) as ApiPlaylist[];
+    const playlist = PaginationSlice(response.data, Number(data.limit), Number(data.page)) as ApiPlaylist[];
 
     const result = retrivePlaylist(playlist, likedPlaylist);
 

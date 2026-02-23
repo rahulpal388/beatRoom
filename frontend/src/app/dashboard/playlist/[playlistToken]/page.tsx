@@ -1,6 +1,8 @@
 "use client";
 
-import { api } from "@/lib/checkEnv";
+import { getPlaylistReco } from "@/api/playlist/getPlaylistReco";
+import { getPlaylistSong } from "@/api/playlist/getPlaylistSong";
+import { getTrendingPlaylist } from "@/api/playlist/getTrendingPlaylist";
 import {
   ArtistCard,
   ArtistCardContaier,
@@ -8,7 +10,7 @@ import {
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
-import { IPlaylist, ISongsPlaylist } from "@/types/playlistType";
+import { IPlaylist, IPlaylistSong } from "@/types/playlistType";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
@@ -17,31 +19,23 @@ import { useEffect, useState } from "react";
 
 export default function PlaylistPage() {
   const { playlistToken } = useParams();
-  const [playlist, setPlaylist] = useState<ISongsPlaylist | null>(null);
+  const [playlist, setPlaylist] = useState<IPlaylistSong | null>(null);
   const [playlistReco, setPlaylistReco] = useState<IPlaylist[]>([]);
   const [playlistTrending, setPlaylistTrending] = useState<IPlaylist[]>([]);
 
   useEffect(() => {
     const fetchPlaylist = async () => {
-      const responsePlaylist = (
-        await axios.get(
-          `${api}/playlist/${playlistToken}`
-        )
-      ).data as ISongsPlaylist;
+      const responsePlaylist = await getPlaylistSong(playlistToken as string);
       setPlaylist(responsePlaylist);
 
       const [responseReco, responseTrending] = await Promise.all([
-        await axios.get(
-          `${api}/playlist/reco/?page=0&limit=10&listid=${responsePlaylist.id}`
-        ),
-        await axios.get(
-          `${api}/playlist/trendingPlaylist/?limit=10&page=0&language=${responsePlaylist.language}`
-        ),
+        getPlaylistReco(10, 1, responsePlaylist.id),
+        getTrendingPlaylist(10, 1, responsePlaylist.language)
       ]);
 
-      setPlaylistReco(responseReco.data);
-      setPlaylistTrending(responseTrending.data);
-      console.log(responseTrending.data);
+      setPlaylistReco(responseReco);
+      setPlaylistTrending(responseTrending);
+      console.log(responseTrending);
     };
 
     fetchPlaylist();

@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 
-import { api } from "@/lib/checkEnv";
 
 
 type TUser = {
@@ -35,7 +34,7 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const authenticate = async () => {
       await axios
-        .get(`${api}/auth/getUserDetail`, {
+        .get(`htt://localhost:8080/auth/getUserDetail`, {
           withCredentials: true,
         })
         .then((response) => {

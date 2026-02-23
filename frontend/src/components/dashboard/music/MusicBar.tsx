@@ -16,11 +16,11 @@ import { decodeHTML } from "@/lib/decodeHtml";
 import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
 
-import { saveSong } from "@/lib/save/saveSong";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { useQueue } from "@/context/queueContext";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
+import { saveSong } from "@/api/song/saveSong";
 
 export function MusicBar() {
   const {

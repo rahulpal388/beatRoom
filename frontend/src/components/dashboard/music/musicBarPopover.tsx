@@ -1,7 +1,6 @@
 "use client";
 import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
-import { api } from "@/lib/checkEnv";
 
 import axios from "axios";
 import { ChevronLeft, ChevronRight, Ellipsis, Plus } from "lucide-react";
@@ -93,19 +92,19 @@ export function MusicBarPopover() {
                       <button
                         className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 "
                         onClick={async () => {
-                          await axios
-                            .post(
-                              `${api}/song/save`,
-                              { ...currentSong, isLiked: true },
-                              { withCredentials: true }
-                            )
-                            .then(() => {
-                              setOptionOpen(false);
-                              success("Song Saved");
-                            })
-                            .catch(() => {
-                              error("Error");
-                            });
+                          // await axios
+                          //   .post(
+                          //     `${api}/song/save`,
+                          //     { ...currentSong, isLiked: true },
+                          //     { withCredentials: true }
+                          //   )
+                          //   .then(() => {
+                          //     setOptionOpen(false);
+                          //     success("Song Saved");
+                          //   })
+                          //   .catch(() => {
+                          //     error("Error");
+                          //   });
                         }}
                       >
                         Save To Library

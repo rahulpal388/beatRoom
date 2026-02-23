@@ -7,17 +7,15 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { api } from "@/lib/checkEnv";
 import { ArtistCard } from "@/components/dashboard/music/artistCard";
+import { getTopArtist } from "@/api/artist/getTopArtist";
 
 export default function TopArtists() {
   const [topArtist, setTopArtist] = useState<IArtists[]>([]);
   useEffect(() => {
     const fetchTopArtist = async () => {
       const limit = 10;
-      const response = (
-        await axios.get(`${api}/artist/topArtist/?limit=${limit}&page=1`)
-      ).data as IArtists[];
+      const response = await getTopArtist(10, 1);
 
       setTopArtist(response);
     };

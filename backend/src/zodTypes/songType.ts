@@ -4,7 +4,7 @@ export const saveSongType = z.object({
   id: z.string(),
   title: z.string(),
   subtitle: z.string(),
-  type: z.string(),
+  type: z.enum(["song"]),
   perma_url: z.string(),
   image: z.string(),
   language: z.string(),

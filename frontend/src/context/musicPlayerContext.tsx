@@ -9,7 +9,7 @@ import {
 } from "react";
 import { useQueue } from "./queueContext";
 import axios from "axios";
-import { api } from "@/lib/checkEnv";
+import { getSongUrl } from "@/api/song/getSongUrl";
 
 
 type TMusicPlayer = {
@@ -62,15 +62,9 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
 
     const fetchUrl = async () => {
       console.log(currentSong)
-      const responseUrl = await axios.post(
-        `${api}/song/play`,
-        {
-          encrypted_media_url: currentSong.more_info.encrypted_media_url,
-        },
-        { withCredentials: true }
-      );
-      if (responseUrl.data.song_url.length !== 0) {
-        setUrl(responseUrl.data.song_url);
+      const responseUrl = await getSongUrl(currentSong.more_info.encrypted_media_url);
+      if (responseUrl) {
+        setUrl(responseUrl);
       } else {
         pause();
         alert("Can't paly this song")

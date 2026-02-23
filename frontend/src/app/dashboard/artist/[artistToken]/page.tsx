@@ -1,4 +1,5 @@
 "use client";
+import { getArtistInfo } from "@/api/artist/getArtistInfo";
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { IArtistInfo } from "@/types/artistType";
 import { Button } from "@/ui/button";
@@ -6,7 +7,6 @@ import axios from "axios";
 import { EllipsisVertical, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { api } from "@/lib/checkEnv";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -19,12 +19,7 @@ export default function Artist() {
 
   useEffect(() => {
     const fetchArtistInfo = async () => {
-      const response = (
-        await axios.get(
-          `${api}/artist/?artistToken=${artistToken}`,
-          { withCredentials: true }
-        )
-      ).data;
+      const response = await getArtistInfo(artistToken as string);
 
       setArtistInfo(response);
     };

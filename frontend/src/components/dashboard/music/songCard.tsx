@@ -12,17 +12,18 @@ import { usePopoverCard } from "@/context/popover";
 import { getSong } from "@/lib/getSong";
 import { PlayBotton } from "@/ui/play";
 import { useActiveCardPopover } from "@/context/activeCardPopover";
-import { ISong } from "@/types/songType";
+import { INewReleaseSong, ISong } from "@/types/songType";
 import { IPlaylist } from "@/types/playlistType";
 import { IAlbum } from "@/types/albumType";
 import { useToastNotification } from "@/context/toastNotificationContext";
-import { api } from "@/lib/checkEnv";
+import { IArtistAlbum } from "@/types/artistType";
+import { removeEntity } from "@/api/removeEntity";
 
 export function SongCards({
     songs,
     updateState,
 }: {
-    songs: ISong | IPlaylist | IAlbum;
+    songs: ISong | IPlaylist | IAlbum | IArtistAlbum | INewReleaseSong;
     updateState: (id: string) => void;
 }) {
     const { isActive, setIsActive } = useActiveCardPopover();
@@ -59,14 +60,9 @@ export function SongCards({
                             } `}
                         onClick={async () => {
                             try {
-                                await axios.post(
-                                    `${api}/${songs.type}/${songs.isLiked ? "remove" : "save"
-                                    }`,
-                                    { ...songs, isLiked: !songs.isLiked },
-                                    { withCredentials: true }
-                                );
-                                success(`${songs.type} ${songs.isLiked ? "Removed" : "Saved"}`);
-                                updateState(songs.id);
+                                // const a = songs.isLiked ? removeEntity(songs.id, songs.type) 
+                                success(`remeaning`);
+                                // updateState(songs.id);
                             } catch {
                                 error(`${songs.type} Not Saved`);
                             }

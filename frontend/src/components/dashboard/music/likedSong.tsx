@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
-import { api } from "@/lib/checkEnv";
+import { getSaveSong } from "@/api/song/getSaveSong";
 
 
 
@@ -13,10 +13,8 @@ export function LikedSong() {
 
   useEffect(() => {
     const fetchSaveSong = async () => {
-      const response = await axios.get(`${api}/song/save`, {
-        withCredentials: true,
-      });
-      setSong(response.data);
+      const response = await getSaveSong();
+      setSong(response.song);
     };
     fetchSaveSong();
   }, []);

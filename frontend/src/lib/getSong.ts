@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ISong } from "@/types/songType";
-import { api } from "@/lib/checkEnv";
+import { getPlaylistSong } from "@/api/playlist/getPlaylistSong";
+import { getAlbumSong } from "@/api/album/getAlbumSong";
 
 
 export const getSong = async ({
@@ -15,21 +16,11 @@ export const getSong = async ({
   album_token: string | undefined;
 }): Promise<ISong[]> => {
   if (type === "playlist") {
-    const playlistSong = (
-      await axios.get(`${api}/playlist/${song_token}`, {
-        withCredentials: true,
-      })
-    ).data.list as ISong[];
+    const playlistSong = (await getPlaylistSong(song_token || "")).list;
     const songIdx = playlistSong.findIndex((x) => x.id === songId);
     return [...playlistSong.slice(songIdx), ...playlistSong.slice(0, songIdx)];
   } else {
-    const albumSong = (
-      await axios.get(
-        `${api}/album/?songToken=${song_token}&albumToken=${album_token?.length === 0 ? song_token : album_token
-        }`,
-        { withCredentials: true }
-      )
-    ).data.list as ISong[];
+    const albumSong = (await getAlbumSong(album_token || "", song_token || "")).list;
     const songIdx =
       type === "song" ? albumSong.findIndex((x) => x.id === songId) : 0;
     const songs =

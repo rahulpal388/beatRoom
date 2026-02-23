@@ -23,7 +23,7 @@
 
   /* for cards */
   --card:oklch(0.95 0.004 133.45);
-   --color-card-hover:oklch(0.9235 0.004 133.45);
+   --color-card-hover:#ffffff;
   /* --color-card-border: oklch(28% 0.01 262);  */
   --color-card-border:#000000; 
 

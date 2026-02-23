@@ -1,26 +1,18 @@
 "use client";
+import { getNewReleasedSong } from "@/api/song/newReleasedSong";
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
-import { api } from "@/lib/checkEnv";
-import { ISong } from "@/types/songType";
+import { INewReleaseSong, ISong } from "@/types/songType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function NewReleased() {
-  const [newRelease, setNewRelease] = useState<ISong[]>([]);
+  const [newRelease, setNewRelease] = useState<INewReleaseSong[]>([]);
   useEffect(() => {
     const fetchNewRelease = async () => {
-      const limit = 20;
-      const page = 1;
-      const data = (
-        await axios.get(
-          `${api}/song/newReleased/?limit=${limit}&page=${page}`,
-          { withCredentials: true }
-        )
-      ).data;
+      const data = await getNewReleasedSong(20, 1);
+
       setNewRelease(data);
-      console.log(data);
     };
     fetchNewRelease();
   }, []);

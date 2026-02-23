@@ -2,17 +2,20 @@ import { useEffect, useState } from "react";
 import { MusicBanner } from "./musicBanner";
 import { SongCards, SongsSection } from "./songCard";
 import axios from "axios";
-import { api } from "@/lib/checkEnv";
 
-import { ISong } from "@/types/songType";
+import { INewReleaseSong, ISong } from "@/types/songType";
 import { IArtists } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
 import { ArtistCard, ArtistCardContaier } from "./artistCard";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
+import { getNewReleasedSong } from "@/api/song/newReleasedSong";
+import { getTrendingSong } from "@/api/song/trendingSong";
+import { getTopPlaylist } from "@/api/playlist/getTopPlaylist";
+import { getTopArtist } from "@/api/artist/getTopArtist";
 
 export function Music() {
-  const [newReleased, setNewReleased] = useState<ISong[]>([]);
+  const [newReleased, setNewReleased] = useState<INewReleaseSong[]>([]);
   const [trendingSong, setTrending] = useState<ISong[]>([]);
   const [topPlaylist, setTopPlaylist] = useState<IPlaylist[]>([]);
   const [topArtist, setTopArtist] = useState<IArtists[]>([]);
@@ -20,27 +23,19 @@ export function Music() {
   useEffect(() => {
     const getPlaylist = async () => {
       const [newReleased, trending, playlist, artist] = await Promise.all([
-        axios.get(`${api}/song/newReleased/?limit=14&page=1`, {
-          withCredentials: true,
-        }),
-        axios.get(
-          `${api}/song/trendingSong/?limit=10&page=1&language=punjabi`,
-          { withCredentials: true }
-        ),
-        axios.get(`${api}/playlist/?limit=10&page=1`, {
-          withCredentials: true,
-        }),
-        axios.get(`${api}/artist/topArtist/?limit=10&page=1`, {
-          withCredentials: true,
-        }),
+        getNewReleasedSong(14, 1),
+        getTrendingSong(10, 1, "hindi"),
+        getTopPlaylist(10, 1),
+        getTopArtist(10, 0)
+
       ]);
 
-      setNewReleased(newReleased.data);
-      setTrending(trending.data);
-      setTopPlaylist(playlist.data);
-      setTopArtist(artist.data);
+      setNewReleased(newReleased);
+      setTrending(trending);
+      setTopPlaylist(playlist);
+      setTopArtist(artist);
       console.log("trending songs")
-      console.log(trending.data);
+      console.log(trending);
     };
 
     getPlaylist();

@@ -1,6 +1,6 @@
 import { ISong } from "./songType";
 
-export type ISongAlbum = {
+export type IAlbumSong = {
   id: string;
   title: string;
   subtitle: string;
@@ -9,6 +9,7 @@ export type ISongAlbum = {
   image: string;
   language: string;
   list_count: string;
+  isLiked: boolean;
   list: ISong[];
   more_info: {
     artistMap: {
@@ -23,25 +24,13 @@ export type ISongAlbum = {
   };
 };
 
+
+
 export type IAlbum = {
   id: string;
   title: string;
-  subtitle: string;
   type: "album";
   perma_url: string;
   image: string;
-  language: string;
   isLiked: boolean;
-  more_info: {
-    artistMap: {
-      artists: {
-        id: string;
-        name: string;
-        role: string;
-        image: string;
-        type: string;
-        perma_url: string;
-      }[];
-    };
-  };
 };

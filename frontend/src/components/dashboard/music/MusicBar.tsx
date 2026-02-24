@@ -31,6 +31,7 @@ export function MusicBar() {
     prevSong,
     nextSong,
     toggleLike,
+    isCurrentSong
   } = useQueue();
   const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } = useMusicPlayer();
   const { success, error } = useToastNotification();
@@ -176,14 +177,16 @@ export function MusicBar() {
               {isPlaying ? (
                 <div>
                   {isBuffering ? (
-                    <div className=" h-[30px] w-[30px] border-[1.5px] border-white/30 border-t-white rounded-full animate-spin "></div>
+                    <div className=" h-[30px] w-[30px] border-[2px] border-neutral-300 border-t-primary rounded-full animate-spin "></div>
                   ) : (
                     <Pause
                       size={30}
                       className=" stroke-1 cursor-pointer max-sm:size-6 "
                       onClick={() => {
-                        console.log("pause");
-                        pause();
+                        if (isCurrentSong) {
+                          console.log("pause");
+                          pause();
+                        }
                       }}
                     />
                   )}
@@ -192,10 +195,13 @@ export function MusicBar() {
               ) : (
                 <Play
                   size={30}
-                  className=" stroke-1 cursor-pointer max-sm:size-6 "
+                  className={`stroke-1  max-sm:size-6 ${isCurrentSong ? "cursor-pointer " : "cursor-not-allowed opacity-40 "}`}
+
                   onClick={() => {
-                    console.log("play");
-                    play();
+                    if (isCurrentSong) {
+                      console.log("play");
+                      play();
+                    }
                   }}
                 />
               )}
@@ -214,10 +220,12 @@ export function MusicBar() {
               <CurrentSongPlayingTime />
               <Heart
                 size={30}
-                className={` max-md:hidden   cursor-pointer ${currentSong?.isLiked ? "stroke-0 fill-red-800" : ""
-                  } `}
+                className={` max-md:hidden   stroke-[1.5px]  ${currentSong?.isLiked && "stroke-0 fill-red-800"} ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40 "}`}
                 onClick={async () => {
                   // currentSong
+                  if (!isCurrentSong) {
+                    return;
+                  }
                   const response = await saveSong(currentSong);
                   if (response) {
                     success(
@@ -242,9 +250,11 @@ export function MusicBar() {
               ) : (
                 <Maximize2
                   size={30}
-                  className=" stroke-1 cursor-pointer max-sm:size-6 "
+                  className={`stroke-1  max-sm:size-6 ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"} `}
                   onClick={() => {
-                    setOpen(true);
+                    if (isCurrentSong) {
+                      setOpen(true);
+                    }
                   }}
                 />
               )}
@@ -258,6 +268,7 @@ export function MusicBar() {
 
 function ViewQueueSongs() {
   const [queueOpen, setQueueOpen] = useState<boolean>(false);
+  const { isCurrentSong } = useQueue()
 
   return (
     <>
@@ -303,9 +314,11 @@ function ViewQueueSongs() {
         </AnimatePresence>
         <ListMusic
           size={30}
-          className=" stroke-1 max-md:hidden cursor-pointer "
+          className={`stroke-1 max-md:hidden ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
           onClick={() => {
-            setQueueOpen(!queueOpen);
+            if (isCurrentSong) {
+              setQueueOpen(!queueOpen);
+            }
           }}
         />
       </div>

@@ -41,7 +41,9 @@ export const Login = async (req: Request, res: Response) => {
     setAcsCookie(res, acToken)
 
     res.status(200).json({
-      message: "User logged in"
+      username: user.username,
+      userId: user.userId,
+      profile: user.profile_image
     })
 
 

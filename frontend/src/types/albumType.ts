@@ -4,7 +4,7 @@ export type IAlbumSong = {
   id: string;
   title: string;
   subtitle: string;
-  type: string;
+  type: "album";
   perma_url: string;
   image: string;
   language: string;

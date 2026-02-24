@@ -1,94 +1,86 @@
 "use client";
-import { ArtistCard } from "@/components/dashboard/music/artistCard";
+import { getAlbumReco } from "@/api/album/getAlbumReco";
+import { getAlbumSong } from "@/api/album/getAlbumSong";
+import { getTrendingAlbum } from "@/api/album/getTrendingAlbum";
+import { ArtistCard, ArtistCardContaier } from "@/components/dashboard/music/artistCard";
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
-import { IAlbum, ISongAlbum } from "@/types/albumType";
+import { IAlbum, IAlbumSong } from "@/types/albumType";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AlbumPage() {
   const token = useParams().albumToken;
-  const [album, setAlbum] = useState<ISongAlbum | null>(null);
+  const [album, setAlbum] = useState<IAlbumSong | null>(null);
   const [recoAlbum, setRecoAlbum] = useState<IAlbum[]>([]);
   const [trendingAlbum, setTrendingAlbum] = useState<IAlbum[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchAlbum = async () => {
-      const responseAlbum = await axios.get(
-        `${api}/album/?albumToken=${token}`,
-        { withCredentials: true }
-      );
-      setAlbum(responseAlbum.data);
-      console.log(responseAlbum.data);
+      const responseAlbum = await getAlbumSong(token as string);
+      setAlbum(responseAlbum);
+      console.log(responseAlbum);
+      if (!responseAlbum) {
+        notFound();
+      }
       const [responseReco, responseTrendingAlbum] = await Promise.all([
-        await axios.get(`${api}/album/reco/${responseAlbum.data.id}`, {
-          withCredentials: true,
-        }),
-        axios.get(
-          `${api}/album/trendingAlbum/?page=0&limit=10&language=hindi`,
-          { withCredentials: true }
-        ),
+        await getAlbumReco(responseAlbum.id),
+        getTrendingAlbum(10, 1, responseAlbum.language),
       ]);
 
-      setRecoAlbum(responseReco.data);
-      setTrendingAlbum(responseTrendingAlbum.data);
+      setRecoAlbum(responseReco);
+      setTrendingAlbum(responseTrendingAlbum);
+      setIsLoading(false);
     };
 
     fetchAlbum();
   }, [token]);
 
   return (
-    <div className=" pb-18 px-4 ">
+    <div className=" pb-18 md:px-4 ">
       <div>
         {album && (
-          <ShowSongDetails
-            image={album.image}
-            title={album.title}
-            songId={album.id}
-            album_url={album.perma_url}
-            song_url=""
-            subtitle={album.subtitle}
-            language={album.language}
-            type={album.type}
-            duration={`${album.list
-              .map((x) => Number(x.more_info.duration))
-              .reduce((total, num) => total + num, 0)}`}
-          />
+          <ShowSongDetails items={album} />
         )}
       </div>
-      <div className="mt-8 md:px-12  ">
-        <h1 className="text-xl font-semibold line-clamp-1 max-w-[30rem]  ">
-          Songs From {album?.title}
-        </h1>
-        <div className="mt-4 flex flex-col gap-2 ">
-          {album?.list.map((items, index) => (
-            <SongHorizontalCard
-              key={index}
-              serialNumber={index + 1}
-              songs={items}
-              updateState={(id: string) => {
-                setAlbum((prev) => {
-                  if (!prev) return null;
-                  return {
-                    ...prev,
-                    list: prev?.list.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    ),
-                  };
-                });
-              }}
-            />
-          ))}
-        </div>
-      </div>
+      {
+        isLoading || album && (
+          <div className="mt-8 md:px-12  ">
+            <h1 className="text-xl font-semibold line-clamp-1 max-w-[30rem]  ">
+              Songs From {album?.title}
+            </h1>
+            <div className="mt-4 flex flex-col gap-2 ">
+              {album.list.map((items, index) => (
+                <SongHorizontalCard
+                  key={index}
+                  serialNumber={index + 1}
+                  songs={items}
+                  updateState={(id: string) => {
+                    setAlbum((prev) => {
+                      if (!prev) return null;
+                      return {
+                        ...prev,
+                        list: prev?.list.map((x) =>
+                          x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                        ),
+                      };
+                    });
+                  }}
+                />
+              ))}
+            </div>
+          </div>
+        )
+      }
 
       <div className="flex flex-col gap-4 mt-8 ">
         <SongsSection heading="You Might Like">
-          {recoAlbum.length === 0 ? (
+          {isLoading ? (
             <MoreSkeletonCard count={10} />
           ) : (
             recoAlbum.map((items, index) => (
@@ -107,7 +99,7 @@ export default function AlbumPage() {
           )}
         </SongsSection>
         <SongsSection heading="Trending Album">
-          {trendingAlbum.length === 0 ? (
+          {isLoading ? (
             <MoreSkeletonCard count={10} />
           ) : (
             trendingAlbum.map((items, index) => (
@@ -127,10 +119,11 @@ export default function AlbumPage() {
         </SongsSection>
 
         <SongsSection heading="Artists">
-          <div className=" grid grid-cols-2 w-full gap-8 ">
-            {!album ? (
+          <div className="mt-2 pb-12 w-full gap-4 grid lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 grid-cols-2">
+            {isLoading || !album ? (
               <MoreArtistCardSkeleton count={6} />
             ) : (
+
               album.more_info.artistMap.primary_artists.map((artist, index) => (
                 <ArtistCard
                   key={index}

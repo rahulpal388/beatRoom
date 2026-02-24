@@ -53,7 +53,7 @@ export type IArtistInfo = {
   subtitle: string;
   image: string;
   follower_count: string;
-  type: string;
+  type: "artist";
   isLiked: boolean;
   topSongs: ISong[];
   topAlbums: IArtistAlbum[];

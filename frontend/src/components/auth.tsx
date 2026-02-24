@@ -36,7 +36,7 @@ export function AuthPage({ type }: { type: AuthType }) {
     const endpoint = type === "signup" ? "signup" : "login";
 
     await axios
-      .post(`http://localhost:8080/auth/${endpoint}`, data, {
+      .post(`http://localhost:8080/api/v1/auth/${endpoint}`, data, {
         withCredentials: true,
       })
       .then((response) => {
@@ -278,7 +278,7 @@ export function AuthPage({ type }: { type: AuthType }) {
                         setLoading(true);
                         await axios
                           .post(
-                            `http://localhost:8080/auth/verify_otp_sigin`,
+                            `http://localhost:8080/api/v1/auth/verify_otp_sigin`,
                             {
                               username: user.username,
                               password: user.password,

@@ -10,7 +10,7 @@ import { useState } from "react";
 
 export function MusicBarPopover() {
   const [optionOpen, setOptionOpen] = useState<boolean>(false);
-  const { currentSong } = useQueue();
+  const { currentSong, isCurrentSong } = useQueue();
   const songToken = currentSong?.perma_url.split("/").at(-1);
   const albumToken = currentSong?.more_info.album_url.split("/").at(-1);
   const [showPlaylist, setShowPlaylist] = useState<boolean>(true);
@@ -168,10 +168,13 @@ export function MusicBarPopover() {
         </AnimatePresence>
         <Ellipsis
           size={30}
-          className=" stroke-1 max-md:hidden cursor-pointer "
+          className={`stroke-1 max-md:hidden ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
           onClick={() => {
-            setOptionOpen((prev) => (prev = !prev));
-            setShowPlaylist(false);
+            if (isCurrentSong) {
+
+              setOptionOpen((prev) => (prev = !prev));
+              setShowPlaylist(false);
+            }
           }}
         />
       </div>

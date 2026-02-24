@@ -19,12 +19,16 @@ export function BottomSideBar() {
             </Link>
           </div>
           <div className=" flex flex-col items-center cursor-pointer ">
-            <Compass className=" stroke-1 " />
-            <p className=" text-xs text-neutral-400 ">Browse</p>
+            <Link href={"/dashboard/browse"}>
+              <Compass className=" stroke-1 " />
+              <p className=" text-xs text-neutral-400 ">Browse</p>
+            </Link>
           </div>
           <div className=" flex flex-col items-center cursor-pointer ">
-            <Music4 className=" stroke-1 " />
-            <p className=" text-xs text-neutral-400 ">My Library</p>
+            <Link href={"/dashboard/my-library"}>
+              <Music4 className=" stroke-1 " />
+              <p className=" text-xs text-neutral-400 ">My Library</p>
+            </Link>
           </div>
         </div>
       </div>

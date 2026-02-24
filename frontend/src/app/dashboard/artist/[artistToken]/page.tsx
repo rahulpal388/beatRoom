@@ -1,6 +1,7 @@
 "use client";
 import { getArtistInfo } from "@/api/artist/getArtistInfo";
 import { SongCards } from "@/components/dashboard/music/songCard";
+import { ShowDetailPlay } from "@/components/dashboard/showDetailPlay";
 import { IArtistInfo } from "@/types/artistType";
 import { Button } from "@/ui/button";
 import axios from "axios";
@@ -36,40 +37,32 @@ export default function Artist() {
 
   return (
     <>
-      <div className="pb-20  px-12">
-        <div className=" flex gap-8 items-center  px-20 py-8 w-full ">
+      <div className="pb-20  sm:px-12  md:px-4 ">
+        <div className=" flex max-sm:flex-col sm:gap-8 gap-2 items-center  px-20 py-8 w-full ">
           <div>
             <Image
               src={artistInfo.image}
               alt="artist"
               height={100}
               width={100}
-              className="h-[15rem] w-[15rem] rounded-full"
+              className="md:h-[15rem] md:w-[15rem] sm:h-[12rem] sm:w-[12rem]   h-[10rem]  w-[10rem] rounded-full"
             />
           </div>
-          <div className="  flex flex-col gap-2">
+          <div className="  flex flex-col gap-2 items-center ">
             <h1 className=" text-5xl font-semibold ">{artistInfo.name}</h1>
-            {/* <p>{artistInfo.subtitle}</p>
-            <p>{artistInfo.follower_count}</p> */}
-            <div className="mt-8 flex items-center gap-8  ">
-              <Button
-                name="Play"
-                type="button"
-                btnType="Primary"
-                className=" px-8 py-4 "
-              />
-              <Heart size={40} />
-              <EllipsisVertical size={40} />
-            </div>
+            <p>{artistInfo.type[0].toUpperCase() + artistInfo.type.slice(1)} &#8226;
+              {Number(artistInfo.follower_count).toLocaleString()} Followers
+            </p>
+            <ShowDetailPlay items={artistInfo} type={artistInfo.type} />
           </div>
         </div>
         <div>
           <div>
-            <ul className=" flex gap-12 border-b-[1px] border-neutral-100/10 ">
+            <ul className=" flex sm:gap-12 gap-4 border-b-[1px] border-neutral-300 ">
               <li
                 className={`text-lg font-light h-8 pb-2 ${active === "song"
-                  ? "border-b-2 border-neutral-700/60 "
-                  : "hover:border-b-2 hover:border-neutral-700/60 "
+                  ? "border-b-2 border-primary "
+                  : "hover:border-b-2 hover:border-primary "
                   }  `}
                 onClick={() => {
                   setActive("song");
@@ -79,8 +72,8 @@ export default function Artist() {
               </li>
               <li
                 className={`text-lg font-light h-8 pb-2 ${active === "album"
-                  ? "border-b-2 border-neutral-700/60 "
-                  : "hover:border-b-2 hover:border-neutral-700/60 "
+                  ? "border-b-2 border-primary "
+                  : "hover:border-b-2 hover:border-primary "
                   }  `}
                 onClick={() => {
                   setActive("album");
@@ -90,8 +83,8 @@ export default function Artist() {
               </li>
               <li
                 className={`text-lg font-light h-8 pb-2 ${active === "playlist"
-                  ? "border-b-2 border-neutral-700/60 "
-                  : "hover:border-b-2 hover:border-neutral-700/60 "
+                  ? "border-b-2 border-primary "
+                  : "hover:border-b-2 hover:border-primary "
                   }  `}
                 onClick={() => {
                   setActive("playlist");
@@ -101,8 +94,8 @@ export default function Artist() {
               </li>
               <li
                 className={`text-lg font-light h-8 pb-2 ${active === "new_release"
-                  ? "border-b-2 border-neutral-700/60 "
-                  : "hover:border-b-2 hover:border-neutral-700/60 "
+                  ? "border-b-2 border-primary "
+                  : "hover:border-b-2 hover:border-primary "
                   }  `}
                 onClick={() => {
                   setActive("new_release");
@@ -141,7 +134,7 @@ export default function Artist() {
               {active === "playlist" && (
                 <div>
                   <div>
-                    <h1 className=" text-2xl  ">Featured In</h1>
+                    <h1 className=" text-2xl  border-b-[1px] border-neutral-300 ">Featured In</h1>
                     <div className=" mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.featured_artist_playlist.map((song, idx) => (
                         <SongCards
@@ -155,7 +148,7 @@ export default function Artist() {
                     </div>
                   </div>
                   <div className=" mt-4 ">
-                    <h1 className=" text-2xl  ">Just {artistInfo.name}</h1>
+                    <h1 className=" text-2xl  border-b-[1px] border-neutral-300 ">Just {artistInfo.name}</h1>
                     <div className=" w-full mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.dedicated_artist_playlist.map((song, idx) => (
                         <SongCards

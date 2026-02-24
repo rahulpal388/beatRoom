@@ -27,10 +27,10 @@ export function CurrentSongPlayingTime() {
             )} / {formateTime(
                 `${!audioRef.current ?
                     (
-                        0.1
+                        "0"
                     )
                     : (
-                        Math.round(audioRef.current.duration)
+                        Math.round(audioRef.current.duration) || "0"
                     )
                 }`
             )}

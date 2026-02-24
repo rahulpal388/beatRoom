@@ -34,7 +34,7 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
     const authenticate = async () => {
       await axios
-        .get(`htt://localhost:8080/auth/getUserDetail`, {
+        .get(`http://localhost:8080/auth/getUserDetail`, {
           withCredentials: true,
         })
         .then((response) => {

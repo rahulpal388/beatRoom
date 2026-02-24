@@ -28,12 +28,7 @@ export function SongHorizontalCard({
         <CirclePlay
           className=" absolute top-0 -right-2 cursor-pointer  opacity-0 group-hover:opacity-100 "
           onClick={async () => {
-            const song = await getSong({
-              song_token,
-              album_token,
-              songId: songs.id,
-              type: songs.type,
-            });
+            const song = await getSong(songs);
             addQueueAndSetCurrent(song)
           }}
         />
@@ -78,7 +73,7 @@ export function SongHorizontalCard({
             {Math.floor(Number(songs.more_info.duration) / 60)}:
             {(String(Number(songs.more_info.duration) % 60)).padStart(2, "0")}
           </p>
-          <EllipsisVertical size={20} className="cursor-pointer" />
+          {/* <EllipsisVertical size={20} className="cursor-pointer" /> */}
         </div>
       </div>
     </div>

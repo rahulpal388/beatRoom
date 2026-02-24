@@ -28,11 +28,8 @@ export function DashboardNavbar() {
                 <div className=" relative flex items-center gap-4 justify-end max-lg:hidden  ">
                     <SearchBar />
                 </div>
-                <div className=" flex gap-12 items-center  ">
-                    <button className="max-md:hidden cursor-pointer shadow-xl  px-2 py-1 rounded text-foreground dark:text-foreground  flex gap-2 items-center border-[1px] border-card-border hover:border-primary ">
-                        Invite friends
-                        <Copy size={14} />
-                    </button>
+                <div className=" flex md:gap-12 gap-8 items-center  ">
+
                     <div>
                         <ThemeToggleComponent />
                     </div>

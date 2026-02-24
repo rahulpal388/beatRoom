@@ -15,7 +15,7 @@ export default function TopArtists() {
   useEffect(() => {
     const fetchTopArtist = async () => {
       const limit = 10;
-      const response = await getTopArtist(10, 1);
+      const response = await getTopArtist(20, 1);
 
       setTopArtist(response);
     };

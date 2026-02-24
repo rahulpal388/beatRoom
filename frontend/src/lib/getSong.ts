@@ -1,34 +1,56 @@
-import axios from "axios";
-import { ISong } from "@/types/songType";
+import { INewReleaseSong, ISong } from "@/types/songType";
 import { getPlaylistSong } from "@/api/playlist/getPlaylistSong";
 import { getAlbumSong } from "@/api/album/getAlbumSong";
+import { IPlaylist } from "@/types/playlistType";
+import { IAlbum } from "@/types/albumType";
+import { IArtistAlbum, IArtistInfo } from "@/types/artistType";
+import { getArtistInfo } from "@/api/artist/getArtistInfo";
 
 
-export const getSong = async ({
-  song_token,
-  type,
-  album_token,
-  songId,
-}: {
-  song_token: string | undefined;
-  type: string;
-  songId: string;
-  album_token: string | undefined;
-}): Promise<ISong[]> => {
-  if (type === "playlist") {
-    const playlistSong = (await getPlaylistSong(song_token || "")).list;
-    const songIdx = playlistSong.findIndex((x) => x.id === songId);
-    return [...playlistSong.slice(songIdx), ...playlistSong.slice(0, songIdx)];
-  } else {
-    const albumSong = (await getAlbumSong(album_token || "", song_token || "")).list;
-    const songIdx =
-      type === "song" ? albumSong.findIndex((x) => x.id === songId) : 0;
-    const songs =
-      type === "album"
-        ? albumSong
-        : [...albumSong.slice(songIdx), ...albumSong.slice(0, songIdx)];
-    return songs;
+export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum | INewReleaseSong | IArtistInfo
+): Promise<ISong[]> => {
+  console.log(songs)
+
+  switch (songs.type) {
+    case "song": {
+      const token = songs.more_info.album_url.split("/").at(-1) || "";
+      const albumSongs = await getAlbumSong(token);
+      if (!albumSongs) {
+        return [songs] as ISong[];
+      } else {
+        return [songs as ISong, ...albumSongs.list.filter(x => x.id !== songs.id)];
+      }
+
+    }
+    case "playlist": {
+      const token = songs.perma_url.split("/").at(-1) || "";
+      const playlistSong = await getPlaylistSong(token);
+      if (!playlistSong) {
+        return [];
+      }
+
+      return playlistSong.list
+    }
+
+    case "album": {
+      const token = songs.perma_url.split("/").at(-1) || "";
+
+      const albumSong = await getAlbumSong(token);
+      if (!albumSong) {
+        return [];
+      }
+      return albumSong.list;
+
+    }
+
+    case "artist": {
+
+      // const artistSong = await getArtistInfo()
+    }
+
   }
+
+
 
   return [];
 };

@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function History() {
   return (
     <>
-      <div className=" py-8 px-12 ">
+      <div className=" py-8 md:px-12 ">
         <h1 className=" text-4xl  ">History</h1>
         <div className=" mt-8 pb-4 border-b-[1px] border-neutral-100/10 ">
           <Link

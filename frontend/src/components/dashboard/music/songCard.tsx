@@ -18,6 +18,7 @@ import { IAlbum } from "@/types/albumType";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { IArtistAlbum } from "@/types/artistType";
 import { removeEntity } from "@/api/removeEntity";
+import { getForwardPageUrl } from "../getForwardPageUrl";
 
 export function SongCards({
     songs,
@@ -87,12 +88,8 @@ export function SongCards({
                     <PlayBotton
                         className=" absolute top-[6.2rem] right-[1.2rem]  opacity-0 group-hover:opacity-100 "
                         onClick={async () => {
-                            const song = await getSong({
-                                song_token,
-                                songId: songs.id,
-                                album_token,
-                                type,
-                            })
+                            console.log(songs)
+                            const song = await getSong(songs)
                             addQueueAndSetCurrent(
                                 song
                             );
@@ -101,13 +98,7 @@ export function SongCards({
                 </div>
 
                 <Link
-                    href={
-                        type === "song"
-                            ? songHref
-                            : type === "album"
-                                ? ablbumHref
-                                : playlistHref
-                    }
+                    href={getForwardPageUrl(songs)}
                     className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] "
                 >
                     {decodeHTML(songs.title)}

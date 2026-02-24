@@ -9,13 +9,16 @@ export async function albumSong(albumToken: string, userId: string | null): Prom
     try {
         const [response, likedSong, likedAlbum] = await Promise.all([
             axios.get(
-                `https://www.jiosaavn.com/api.php?__call=webapi.get&api_version=4&_format=json&_marker=0&ctx=web6dot0&token=${albumToken}}&type=album`
+                `https://www.jiosaavn.com/api.php?__call=webapi.get&token=${albumToken}&type=album&includeMetaTags=0&ctx=web6dot0&api_version=4&_format=json&_marker=0`
             ),
             getLikedSong(userId),
             getLikedAlbum(userId),
         ]);
-
+        console.log(response.data.id)
         const album = response.data as ApiSongAlbum;
+        if (album.id.length === 0) {
+            return null;
+        }
         return retriveAlbumSong(album, likedAlbum, likedSong);
     } catch {
         return null;

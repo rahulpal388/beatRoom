@@ -14,7 +14,7 @@ export default function TopAlbum() {
   useEffect(() => {
     const fetchTopAlbum = async () => {
       const language = "hindi";
-      const respose = await getTrendingAlbum(10, 1, language);
+      const respose = await getTrendingAlbum(30, 1, language);
       setTopAlbum(respose);
       console.log(respose);
     };

@@ -58,11 +58,11 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   }
 
   useEffect(() => {
-    setProgress(0);
 
     const fetchUrl = async () => {
       console.log(currentSong)
       const responseUrl = await getSongUrl(currentSong.more_info.encrypted_media_url);
+      console.log(responseUrl)
       if (responseUrl) {
         setUrl(responseUrl);
       } else {
@@ -81,6 +81,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
         ref={audioRef}
         src={url}
         onLoadedMetadata={play}
+
         onPlay={() => {
           console.log("playing the song");
           setIsPlaying(true);

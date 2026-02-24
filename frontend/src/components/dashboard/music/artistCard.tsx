@@ -15,7 +15,7 @@ export function ArtistCard({
 }) {
   return (
     <>
-      <div className=" w-[10rem]   py-[1px] px-2 rounded-lg overflow-hidden   flex flex-col items-center justify-center     ">
+      <div className=" w-[10rem]   py-[1px] px-2 rounded-lg overflow-hidden       ">
         <Link
           href={`/dashboard/artist/${url.split("/").at(-1)}`}
           className=" md:text-xl text-lg cursor-pointer hover:text-text-body flex flex-col gap-2 items-center "
@@ -45,7 +45,7 @@ export function ArtistCardContaier({
 }) {
   return (
     <>
-      <div className=" mt-2 w-full grid lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 grid-cols-2  items-center gap-6 justify-between ">
+      <div className="mt-2 pb-12 w-full gap-4 grid lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 grid-cols-2  ">
         {children}
       </div>
     </>

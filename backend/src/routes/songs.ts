@@ -7,6 +7,8 @@ import { getSongUrl } from "../controllers/song/getSongUrl.js";
 import { getSearchReco } from "../controllers/song/getSearchReco.js";
 import { saveSong } from "../controllers/song/saveSong.js";
 import { getSaveSong } from "../controllers/song/getSaveSong.js";
+import { userModel } from "db/schema/user.js";
+import { getTopSongByArtist } from "@controllers/song/getTopSongByArtist.js";
 
 // export type TSong = {
 //   duration: string;
@@ -31,7 +33,7 @@ useSong.post("/reco", getSongReco);
 
 useSong.get("/save", getSaveSong);
 useSong.post("/save", saveSong);
-
+useSong.get("/getTopSongByArtist/:artistId", getTopSongByArtist)
 // get song by token
 useSong.get("/songDetail/:token", getSong);
 

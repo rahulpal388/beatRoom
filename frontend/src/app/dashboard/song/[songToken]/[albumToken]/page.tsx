@@ -1,6 +1,7 @@
 "use client";
 
 import { getAlbumSong } from "@/api/album/getAlbumSong";
+import { getSongBySameArtist } from "@/api/song/getSongBySameArtist";
 import { getSongDetails } from "@/api/song/getSongDetail";
 import { getSongReco } from "@/api/song/getSongReco";
 import { getTrendingSong } from "@/api/song/trendingSong";
@@ -12,53 +13,50 @@ import { IAlbumSong } from "@/types/albumType";
 import { ISong } from "@/types/songType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { DisplaySongSkeleton } from "@/ui/displaySongSkeleton";
-import { useParams } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function Songs() {
   const param = useParams();
   const [album, setAlbum] = useState<IAlbumSong | null>(null);
-  const [songReco, setSongReco] = useState<ISong[]>([]);
   const [trendingSong, setTrendingSong] = useState<ISong[]>([]);
   const [song, setSong] = useState<ISong>();
+  const [songByArtist, setSongByArtist] = useState<ISong[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchDetail = async () => {
       const [albums, songDetail] = await Promise.all([
-        getAlbumSong(param.songToken as string, param.albumToken as string)
+        getAlbumSong(param.albumToken as string)
         ,
         getSongDetails(param.songToken as string),
       ]);
 
-      const [songRecos, trendingSongs] = await Promise.all([
-        getSongReco(songDetail.id, songDetail.language),
+      if (!songDetail) {
+        notFound();
+      }
+
+      const [trendingSongs, songBySameArtist] = await Promise.all([
         getTrendingSong(10, 1, songDetail.language),
+        getSongBySameArtist(songDetail.more_info.artistMap.artists.map(x => x.id).join(","))
       ]);
       setAlbum(albums);
-      setSongReco(songRecos);
       setTrendingSong(trendingSongs);
       setSong(songDetail);
+      setSongByArtist(songBySameArtist);
+      setIsLoading(false);
+
     };
     fetchDetail();
   }, [param.albumToken, param.songToken]);
 
   return (
-    <div className=" pb-18 px-4 ">
-      {!song ? (
+    <div className=" pb-18 md:px-4 ">
+      {isLoading || !song ? (
         <DisplaySongSkeleton />
       ) : (
         <ShowSongDetails
-          image={song.image}
-          title={song.title}
-          songId={song.id}
-          song_url={song.perma_url}
-          album_url={song.more_info.album_url}
-          subtitle={`${song.more_info.album
-            } by ${song.more_info.artistMap.artists
-              .map((x) => x.name)
-              .join(", ")}`}
-          language={song.language}
-          type={song.type}
-          duration={song.more_info.duration}
+          items={song}
         />
       )}
 
@@ -88,25 +86,7 @@ export default function Songs() {
             ))}
           </div>
         )}
-        <SongsSection heading="You Might Like">
-          {songReco.length === 0 ? (
-            <MoreSkeletonCard count={10} />
-          ) : (
-            songReco.map((item, index) => (
-              <SongCards
-                key={index}
-                songs={item}
-                updateState={(id: string) => {
-                  setSongReco((prev) =>
-                    prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
-                  );
-                }}
-              />
-            ))
-          )}
-        </SongsSection>
+
         <SongsSection heading="Trending Songs">
           {trendingSong.length === 0 ? (
             <MoreSkeletonCard count={10} />
@@ -117,6 +97,25 @@ export default function Songs() {
                 songs={item}
                 updateState={(id: string) => {
                   setTrendingSong((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
+            ))
+          )}
+        </SongsSection>
+        <SongsSection heading="Song By Same Artist">
+          {isLoading ? (
+            <MoreSkeletonCard count={10} />
+          ) : (
+            songByArtist.map((item, index) => (
+              <SongCards
+                key={index}
+                songs={item}
+                updateState={(id: string) => {
+                  setSongByArtist((prev) =>
                     prev.map((x) =>
                       x.id === id ? { ...x, isLiked: !x.isLiked } : x
                     )

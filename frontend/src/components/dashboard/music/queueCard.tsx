@@ -1,12 +1,10 @@
+import { saveSong } from "@/api/song/saveSong";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
-import { formateTime } from "@/lib/formateTime";
-import { saveSong } from "@/lib/save/saveSong";
 import { ISong } from "@/types/songType";
-import { Cross, Ellipsis, Grip, GripVertical, Heart, X } from "lucide-react";
-import { div } from "motion/react-client";
+import { Ellipsis, Grip, Heart, X } from "lucide-react";
 import Image from "next/image";
 
 export function QueueCards({
@@ -16,7 +14,7 @@ export function QueueCards({
   song: ISong;
   updateState: (id: string) => void;
 }) {
-  const { success, error } = useToastNotification();
+  const { toastMessage } = useToastNotification();
   const { currentSong, removeQueueSong } = useQueue();
   const { isPlaying } = useMusicPlayer();
   return (
@@ -61,10 +59,16 @@ export function QueueCards({
             onClick={async () => {
               const response = await saveSong(song);
               if (response) {
-                success("Song Saved");
+                toastMessage({
+                  message: "Song Saved",
+                  type: "success"
+                })
                 updateState(song.id);
               } else {
-                error("Song Not Saved");
+                toastMessage({
+                  message: "Failed to save song",
+                  type: "error"
+                })
               }
             }}
           />

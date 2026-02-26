@@ -5,7 +5,11 @@ import { IPlaylist } from "../../types/playlistType.js";
 
 
 export async function saveLikedPlaylist(userId: string, playlist: IPlaylist): Promise<boolean> {
-    const savePlaylist = await playlistModel.insertOne({ ...playlist, isLiked: true });
+    const savePlaylist = await playlistModel.findOneAndUpdate(
+        { id: playlist.id },
+        { $set: { ...playlist, isLiked: true } },
+        { upsert: true, new: true }
+    );
 
     if (!playlist) {
         throw new Error("Error while saving playlist")

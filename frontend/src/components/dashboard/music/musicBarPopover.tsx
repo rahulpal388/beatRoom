@@ -1,8 +1,13 @@
 "use client";
+import { addSongToPlaylist } from "@/api/playlist/addSongToPlaylist";
+import { getSavePlaylist } from "@/api/playlist/getSavePlaylist";
+import { removeEntity } from "@/api/removeEntity";
+import { saveEntity } from "@/api/saveEntity";
+import { useModal } from "@/context/modalContext";
 import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
-import { BASE_URL } from "@/lib/baseUrl";
-import axios from "axios";
+import { getItemsToken } from "@/lib/getItemsToken";
+
 import { ChevronLeft, ChevronRight, Ellipsis, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
@@ -10,11 +15,18 @@ import { useState } from "react";
 
 export function MusicBarPopover() {
   const [optionOpen, setOptionOpen] = useState<boolean>(false);
-  const { currentSong } = useQueue();
-  const songToken = currentSong?.perma_url.split("/").at(-1);
-  const albumToken = currentSong?.more_info.album_url.split("/").at(-1);
+  const { currentSong, isCurrentSong } = useQueue();
+  const songToken = getItemsToken(currentSong ? currentSong.perma_url : "");
+  const albumToken = getItemsToken(
+    currentSong ? currentSong.more_info.album_url : "",
+  );
   const [showPlaylist, setShowPlaylist] = useState<boolean>(true);
-  const { success, error } = useToastNotification();
+  const [playlistName, setPlaylistName] = useState<
+    { title: string; id: string }[]
+  >([]);
+  const { toastMessage } = useToastNotification();
+  const { updateQueue } = useQueue();
+  const { showModal } = useModal();
   return (
     <>
       <div>
@@ -34,7 +46,7 @@ export function MusicBarPopover() {
                 duration: 0.2,
                 ease: "easeInOut",
               }}
-              className=" max-h-[24rem]  w-[12rem] py-4  bg-card   fixed   bottom-30 lg:bottom-18 right-4 lg:right-[2rem] max-md:hidden rounded-t-lg overflow-hidden "
+              className=" max-h-[24rem] shadow-2xl border-[1px] border-primary/10   w-[12rem] py-4  bg-card   fixed   bottom-30 lg:bottom-18 right-4 lg:right-[2rem] max-md:hidden rounded-t-lg overflow-hidden "
             >
               <AnimatePresence mode="wait">
                 {showPlaylist ? (
@@ -55,27 +67,46 @@ export function MusicBarPopover() {
                         <ChevronLeft size={20} />
                         Back
                       </button>
-                      <button className=" flex gap-2 items-center hover:bg-card-hover   cursor-pointer text-start   px-4 py-2 ">
+                      <button
+                        className=" flex gap-2 items-center hover:bg-card-hover   cursor-pointer text-start   px-4 py-2 "
+                        onClick={() => {
+                          setOptionOpen(false);
+                          showModal("saveCurrent");
+                        }}
+                      >
                         <Plus size={20} />
                         New Playlist
                       </button>
                     </div>
-                    <div className=" py-4 border-t-[1px] border-neutral-100/60  overflow-y-auto h-[18rem] ">
+                    <div className=" py-4 border-t-[1px] border-neutral-100/60  overflow-y-auto pb-12">
                       <ul>
-                        {Array(20)
-                          .fill(0)
-                          .map((items, idx) => (
-                            <li
-                              key={idx}
-                              className="hover:bg-card-hover   cursor-pointer text-start   px-4 py-2 "
-                              onClick={() => {
-                                // save the song to the playlist
-                                setOptionOpen(false);
-                              }}
-                            >
-                              {idx + 1} Hieel
-                            </li>
-                          ))}
+                        {playlistName.map((items) => (
+                          <li
+                            key={items.id}
+                            className="hover:bg-card-hover   cursor-pointer text-start   px-4 py-2 "
+                            onClick={async () => {
+                              const saveSong = await addSongToPlaylist(
+                                items.id,
+                                currentSong,
+                              );
+                              if (!saveSong) {
+                                toastMessage({
+                                  message: "Adding Song",
+                                  type: "error",
+                                });
+                              } else {
+                                toastMessage({
+                                  message: "Song added",
+                                  type: "success",
+                                });
+                                updateQueue(currentSong.id);
+                              }
+                              setOptionOpen(false);
+                            }}
+                          >
+                            {items.title}
+                          </li>
+                        ))}
                       </ul>
                     </div>
                   </motion.div>
@@ -92,29 +123,37 @@ export function MusicBarPopover() {
                       <button
                         className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 "
                         onClick={async () => {
-                          const response = await axios
-                            .post(
-                              `${BASE_URL}/song/save`,
-                              { ...currentSong, isLiked: true },
-                              { withCredentials: true }
+                          const { success, message } = currentSong.isLiked
+                            ? await removeEntity(
+                              currentSong.id,
+                              currentSong.type,
                             )
-                            .then(() => {
-                              setOptionOpen(false);
-                              success("Song Saved");
-                            })
-                            .catch(() => {
-                              error("Error");
-                            });
+                            : await saveEntity(currentSong.type, currentSong);
+                          toastMessage({
+                            message,
+                            type: success ? "success" : "error",
+                          });
+                          if (success) {
+                            updateQueue(currentSong.id);
+                          }
+                          setOptionOpen(false);
                         }}
                       >
-                        Save To Library
+                        {currentSong.isLiked
+                          ? "Remove From Library"
+                          : "Save To Library"}
                       </button>
                     </li>
                     <li>
                       <button
                         className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 flex justify-between items-center "
-                        onClick={() => {
+                        onClick={async () => {
                           setShowPlaylist(true);
+                          const playlists = await getSavePlaylist();
+                          const titleAndId = playlists.map((x) => {
+                            return { title: x.title, id: x.id };
+                          });
+                          setPlaylistName(titleAndId);
                         }}
                       >
                         Add To Playlist
@@ -123,7 +162,7 @@ export function MusicBarPopover() {
                     </li>
                     <li>
                       <Link
-                        href={`/dashboard/song/${songToken}/${albumToken}`}
+                        href={`/song/${songToken}/${albumToken}`}
                         className=" w-full block hover:bg-card-hover   text-start px-4 py-2   "
                         onClick={() => {
                           setOptionOpen(false);
@@ -134,7 +173,7 @@ export function MusicBarPopover() {
                     </li>
                     <li>
                       <Link
-                        href={`/dashboard/album/${albumToken}`}
+                        href={`/album/${albumToken}`}
                         className=" w-full block hover:bg-card-hover   text-start px-4 py-2   "
                         onClick={() => {
                           setOptionOpen(false);
@@ -148,7 +187,7 @@ export function MusicBarPopover() {
                       .map((artist, idx) => (
                         <li key={idx}>
                           <Link
-                            href={`/dashboard/artist/${artist.perma_url
+                            href={`/artist/${artist.perma_url
                               .split("/")
                               .at(-1)}`}
                             className=" w-full block hover:bg-card-hover   text-start px-4 py-2   "
@@ -168,10 +207,12 @@ export function MusicBarPopover() {
         </AnimatePresence>
         <Ellipsis
           size={30}
-          className=" stroke-1 max-md:hidden cursor-pointer "
+          className={`stroke-1 max-md:hidden ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
           onClick={() => {
-            setOptionOpen((prev) => (prev = !prev));
-            setShowPlaylist(false);
+            if (isCurrentSong) {
+              setOptionOpen((prev) => (prev = !prev));
+              setShowPlaylist(false);
+            }
           }}
         />
       </div>

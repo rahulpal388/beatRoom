@@ -6,9 +6,10 @@ export const getSong = async (req: Request, res: Response) => {
   const { token } = req.params;
   const userId = req.user.userId;
   const result = await getSongDetails(token, userId);
-  console.log(result);
-  if (!result) {
-    return res.status(200).json([]);
+  if (result.length === 0) {
+    return res.status(500).json({
+      message: "can't find song details"
+    });
 
   }
 

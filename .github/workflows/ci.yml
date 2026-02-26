@@ -7,7 +7,7 @@ on:
       - production
 
 jobs:
-  lint-code:
+  lint-and-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,10 +17,24 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: npm ci
         working-directory: backend
 
-      - name: Run ESLint
+      - name: Run ESLint for backend
         run: npm run lint
         working-directory: backend
+
+      - name: Install frontend dependencies
+        run: npm install
+        working-directory: frontend
+
+      - name: Run ESLint for frontend
+        run: npm run lint
+        working-directory: frontend
+
+      - name: Build frontend
+        run: npm run build
+        working-directory: frontend
+        env:
+          NEXT_PUBLIC_API_URL: http://localhost:8080/api/v1

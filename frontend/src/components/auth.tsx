@@ -1,77 +1,79 @@
 "use client";
 import { Eye, EyeOff } from "lucide-react";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
-import axios from "axios";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { useAuth } from "@/context/authContext";
 import { Button } from "@/ui/button";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { userSignUp } from "@/api/auth/userSignUp";
+import { IAuthFormData } from "@/types/authType";
+import { loginUser } from "@/api/auth/loginUser";
+import { verifyOtp } from "@/api/auth/verifyOpt";
 
-type IInputSignUPForm = {
-  username?: string;
-  email: string;
-  password: string;
-};
-type AuthType = "signup" | "login";
-
-export function AuthPage({ type }: { type: AuthType }) {
+export function AuthPage({ type }: { type: "signup" | "login" }) {
   const [viewPassowrd, setViewPassword] = useState<boolean>(false);
-  const [isForm, setIsForm] = useState<boolean>(true);
+  const [isForm] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>("");
-  const [user, setUser] = useState<IInputSignUPForm | null>(null);
-  const { register, handleSubmit } = useForm<IInputSignUPForm>();
+  const [user, setUser] = useState<IAuthFormData | null>(null);
+  const { register, handleSubmit } = useForm<IAuthFormData>();
   const router = useRouter();
-  const { setCurrentUser, setAuthenticated } = useAuth();
-  const { success, error } = useToastNotification();
+  const { authenticateUser } = useAuth();
+  const { toastMessage } = useToastNotification();
 
-  const onSubmit: SubmitHandler<IInputSignUPForm> = async (data) => {
+  const onSubmit: SubmitHandler<IAuthFormData> = async (data) => {
     setUser(data);
-    console.log(data);
+
     setLoading(true);
-    const endpoint = type === "signup" ? "signup" : "login";
-
-    await axios
-      .post(`http://localhost:8080/api/v1/auth/${endpoint}`, data, {
-        withCredentials: true,
-      })
-      .then((response) => {
-        if (type === "signup") {
-          success("OTP Send");
-          setIsForm(false);
-        }
-        console.log(response);
+    if (type === "signup") {
+      const response = await userSignUp(data);
+      if (!response) {
+        toastMessage({
+          message: "Error Signup",
+          type: "error",
+        });
         setLoading(false);
 
-        if (type === "login") {
-          console.log(response);
-          if (response.status === 200) {
-            const { username, userId, profile } = response.data;
-            setCurrentUser({
-              username,
-              userId,
-              profile,
-            });
-            success("Logged In");
-            setAuthenticated(true);
-            router.push(`/dashboard`);
-          }
-        }
-      })
-      .catch((e) => {
-        const response = e.response;
-        setLoading(false);
-        if (response.status === 302) {
-          router.push(response.data.redirect);
-          error(response.data.message);
-        } else {
-          success(response.data.message);
-        }
+        return;
+      }
+      if (response.success) {
+        toastMessage({
+          message: "Otp Send",
+          type: "success",
+        });
+      } else {
+        toastMessage({
+          message: "User Exit Login",
+          type: "error",
+        });
+        router.push("/login");
+      }
+    }
+
+    if (type === "login") {
+      const response = await loginUser({
+        email: data.email,
+        password: data.password,
       });
+
+      if (response) {
+        toastMessage({
+          message: "Logged In",
+          type: "success",
+        });
+        authenticateUser(response);
+        router.push("/");
+      } else {
+        toastMessage({
+          message: "Error User Login",
+          type: "error",
+        });
+      }
+    }
+    setLoading(false);
   };
 
   return (
@@ -263,7 +265,9 @@ export function AuthPage({ type }: { type: AuthType }) {
                   </InputOTP>
                 </div>
                 <div className=" flex justify-end items-center mt-2 ">
-                  <span className=" text-sm pr-1 ">Don't Receive OTP?</span>
+                  <span className=" text-sm pr-1 ">
+                    Don&apos;t Receive OTP?
+                  </span>
                   <button className=" underline cursor-pointer ">Resend</button>
                 </div>
                 {!loading ? (
@@ -276,33 +280,16 @@ export function AuthPage({ type }: { type: AuthType }) {
                       if (otp.length === 6 && user) {
                         // task 1 : call the API to verify the user
                         setLoading(true);
-                        await axios
-                          .post(
-                            `http://localhost:8080/api/v1/auth/verify_otp_sigin`,
-                            {
-                              username: user.username,
-                              password: user.password,
-                              email: user.email,
-                              otp,
-                            },
-                            { withCredentials: true }
-                          )
-                          .then((response) => {
-                            const { username, userId, profile } = response.data;
-                            setCurrentUser({
-                              userId,
-                              username,
-                              profile,
-                            });
-                            setAuthenticated(true);
-                            setLoading(false);
-                            success("Logged In");
-                            router.push(`/dashboard`);
-                          })
-                          .catch(() => {
-                            setLoading(false);
-                            error("Incorrect OTP");
+                        const response = await verifyOtp({ ...user, otp });
+
+                        if (response.success) {
+                          authenticateUser(response.user);
+                        } else {
+                          toastMessage({
+                            message: response.message,
+                            type: "error",
                           });
+                        }
                       }
                     }}
                   />

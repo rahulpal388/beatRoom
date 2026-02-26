@@ -20,7 +20,6 @@ export const getArtistInfo = async (req: Request, res: Response) => {
 
 
   const response = await artistInfo(data.artistToken, userId);
-  console.log(data.artistToken)
   if (!response) {
     return res.status(500).json({
       message: "Error while finding information about artist"

@@ -18,7 +18,7 @@ export function CurrentSongPlayingTime() {
         return () => {
             return audio.removeEventListener("timeupdate", onTimeUpdate);
         }
-    }, [])
+    }, [audioRef])
 
     return <>
         <p className="w-24 max-sm:hidden ">
@@ -27,10 +27,10 @@ export function CurrentSongPlayingTime() {
             )} / {formateTime(
                 `${!audioRef.current ?
                     (
-                        0.1
+                        "0"
                     )
                     : (
-                        Math.round(audioRef.current.duration)
+                        Math.round(audioRef.current.duration) || "0"
                     )
                 }`
             )}

@@ -16,7 +16,6 @@ export const getLikedPlaylist = async (
             });
         const idArr = user!.playlists.map((x) => String(x.id))
 
-        console.log(JSON.stringify(idArr));
         return new Set(idArr);
     } catch {
         return new Set([]);

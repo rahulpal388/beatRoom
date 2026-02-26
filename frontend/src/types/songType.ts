@@ -4,10 +4,11 @@ export type ISong = {
   id: string;
   title: string;
   subtitle: string;
-  type: "song" | "album";
+  type: "song";
   perma_url: string;
   image: string;
   language: string;
+  play_count: string;
   isLiked: boolean;
   more_info: {
     album_id: string;
@@ -21,3 +22,7 @@ export type ISong = {
     release_date: string;
   };
 };
+
+export type INewReleaseSong = Omit<ISong, "type"> & {
+  type: "song" | "album"
+}

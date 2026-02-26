@@ -23,7 +23,7 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
     const dbOtp = await optModel.findOne({ email: data.email });
 
     if (!dbOtp) {
-      return res.status(401).json({
+      return res.status(400).json({
         message: "otp expire resend again ",
       });
 
@@ -66,14 +66,16 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
     await optModel.findOneAndDelete({ email: data.email })
 
     res.status(200).json({
-      message: "User logged In"
+      username: user.username,
+      userId: user.userId,
+      profile: user.profile_image,
     })
 
 
 
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       message: "can't verify otp",
     });

@@ -57,7 +57,6 @@ const rooms = [
 export const getRooms = (req: Request, res: Response) => {
   // const userId = req.body.userId;
 
-  // console.log(`getRoom user id is => ${userId}`)
 
   // task 1 : find the user and his rooms
 

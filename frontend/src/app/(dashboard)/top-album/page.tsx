@@ -1,0 +1,48 @@
+"use client";
+
+import { getTrendingAlbum } from "@/api/album/getTrendingAlbum";
+import { SongCards } from "@/components/dashboard/music/songCard";
+import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
+import { IAlbum } from "@/types/albumType";
+import { MoreSkeletonCard } from "@/ui/cardSkeleton";
+import { useEffect, useState } from "react";
+
+export default function TopAlbum() {
+  const [topAlbum, setTopAlbum] = useState<IAlbum[]>([]);
+
+  useEffect(() => {
+    const fetchTopAlbum = async () => {
+      const language = "hindi";
+      const respose = await getTrendingAlbum(30, 1, language);
+      setTopAlbum(respose);
+    };
+    fetchTopAlbum();
+  }, []);
+
+  return (
+    <>
+      <div className=" sm:px-12 px-4 py-8 pb-20 ">
+        <h1 className="  text-[30px] pb-4 border-b-[1px] border-muted font-medium  ">Top Albums</h1>
+        <SongCardContaier>
+          {topAlbum.length <= 0 ? (
+            <MoreSkeletonCard count={16} />
+          ) : (
+            topAlbum.map((items, idx) => (
+              <SongCards
+                key={idx}
+                songs={items}
+                updateState={(id: string) => {
+                  setTopAlbum((prev) =>
+                    prev.map((x) =>
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                    )
+                  );
+                }}
+              />
+            ))
+          )}
+        </SongCardContaier>
+      </div>
+    </>
+  );
+}

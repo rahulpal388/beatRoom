@@ -28,8 +28,6 @@ export const getSongsPlaylist = async (req: Request, res: Response) => {
 
     res.status(200).json(result);
   } catch {
-    res.status(500).json({
-      message: "Error"
-    });
+    res.status(200).json({});
   }
 };

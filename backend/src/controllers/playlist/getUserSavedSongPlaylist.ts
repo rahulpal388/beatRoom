@@ -19,8 +19,12 @@ export const getUserSavedSongPlaylist = async (req: Request, res: Response) => {
     try {
 
         const playlistSong = await retriveUserSongPlaylist(userId, id);
-
-        res.status(200).json(playlistSong ? playlistSong : {})
+        if (!playlistSong) {
+            return res.status(401).json({
+                message: "can't find saved playlist"
+            })
+        }
+        res.status(200).json(playlistSong)
 
     } catch {
         res.status(500).json({

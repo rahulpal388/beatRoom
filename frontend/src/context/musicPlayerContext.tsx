@@ -4,12 +4,12 @@ import {
   RefObject,
   useContext,
   useEffect,
+  useCallback,
   useRef,
   useState,
 } from "react";
 import { useQueue } from "./queueContext";
-import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
+import { getSongUrl } from "@/api/song/getSongUrl";
 
 type TMusicPlayer = {
   play: () => void;
@@ -17,8 +17,8 @@ type TMusicPlayer = {
   isPlaying: boolean;
   progress: number;
   isBuffering: boolean;
-  setCurrentTime: (progress: number) => void
-  audioRef: RefObject<HTMLAudioElement | null>
+  setCurrentTime: (progress: number) => void;
+  audioRef: RefObject<HTMLAudioElement | null>;
 };
 
 const musicPlayerContext = createContext<TMusicPlayer | null>(null);
@@ -34,67 +34,80 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
 
   const [url, setUrl] = useState<string | undefined>(undefined);
 
-  const play = () => {
-    if (audioRef.current) {
+  const play = useCallback(() => {
+    if (audioRef.current && currentSong) {
       audioRef.current.play();
+      setIsPlaying(true);
     }
-  };
-  const pause = () => {
-    if (audioRef.current) {
+  }, [currentSong]);
+  const pause = useCallback(() => {
+    if (audioRef.current && currentSong) {
       audioRef.current.pause();
       setIsPlaying(false);
     }
-  };
+  }, [currentSong]);
 
-  const setCurrentTime = (progress: number) => {
-    console.log(progress)
-    if (audioRef.current) {
-      audioRef.current.currentTime = (progress * audioRef.current.duration) / 100;
-      setProgress(
-        progress
-      );
+  const setCurrentTime = useCallback((progress: number) => {
+    if (audioRef.current && currentSong) {
+      audioRef.current.currentTime =
+        (progress * audioRef.current.duration) / 100;
+      setProgress(progress);
     }
-  }
+  }, [currentSong]);
 
   useEffect(() => {
-    setProgress(0);
+    if (!audioRef.current || !url) return;
 
+    // Only change src if URL changed
+    if (audioRef.current.src !== url) {
+      audioRef.current.src = url;
+      play();
+    }
+  }, [url, play]);
+
+  useEffect(() => {
     const fetchUrl = async () => {
-      const responseUrl = await axios.post(
-        `${BASE_URL}/song/play`,
-        {
-          id: currentSong.more_info.encrypted_media_url,
-        },
-        { withCredentials: true }
-      );
-      if (responseUrl.data.song_url.length !== 0) {
-        setUrl(responseUrl.data.song_url);
-      } else {
+      if (!currentSong) {
+        setProgress(0);
+        setCurrentTime(0);
+        setUrl(undefined);
         pause();
-        alert("Can't paly this song")
+        return;
+      }
+      const responseUrl = await getSongUrl(
+        currentSong.more_info.encrypted_media_url,
+      );
+      if (responseUrl) {
+        setUrl(responseUrl);
       }
     };
     fetchUrl();
-  }, [currentSong]);
+  }, [currentSong, pause, setCurrentTime]);
 
   return (
     <musicPlayerContext.Provider
-      value={{ pause, play, isBuffering, isPlaying, progress, setCurrentTime, audioRef }}
+      value={{
+        pause,
+        play,
+        isBuffering,
+        isPlaying,
+        progress,
+        setCurrentTime,
+        audioRef,
+      }}
     >
       <audio
         ref={audioRef}
         src={url}
         onLoadedMetadata={play}
         onPlay={() => {
-          console.log("playing the song");
-          setIsPlaying(true);
+          play();
         }}
         onPlaying={() => {
           setIsBuffering(false);
         }}
         onPause={() => {
-          console.log("pausing the song");
-          setIsPlaying(false);
+          pause();
         }}
         onWaiting={() => {
           setIsBuffering(true);
@@ -103,14 +116,13 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
           setIsBuffering(true);
         }}
         onEnded={() => {
-          console.log("song end");
           setProgress(0);
           setIsBuffering(false);
           nextSong();
         }}
         onTimeUpdate={(e) => {
           setProgress(
-            (e.currentTarget.currentTime / e.currentTarget.duration) * 100
+            (e.currentTarget.currentTime / e.currentTarget.duration) * 100,
           );
         }}
       />

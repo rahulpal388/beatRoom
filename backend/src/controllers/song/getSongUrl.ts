@@ -3,7 +3,6 @@ import { Request, Response } from "express";
 
 export const getSongUrl = async (req: Request, res: Response) => {
   const { encrypted_media_url } = req.body;
-
   if (!encrypted_media_url || typeof encrypted_media_url !== "string") {
     return res.status(401).json({
       message: "Invalid id"

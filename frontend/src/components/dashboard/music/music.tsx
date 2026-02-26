@@ -1,17 +1,19 @@
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { MusicBanner } from "./musicBanner";
+import { useEffect, useState } from "react";
 import { SongCards, SongsSection } from "./songCard";
-import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
-import { ISong } from "@/types/songType";
+
+import { INewReleaseSong, ISong } from "@/types/songType";
 import { IArtists } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
 import { ArtistCard, ArtistCardContaier } from "./artistCard";
-import { CardSkeleton, MoreSkeletonCard } from "@/ui/cardSkeleton";
+import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
+import { getNewReleasedSong } from "@/api/song/newReleasedSong";
+import { getTrendingSong } from "@/api/song/trendingSong";
+import { getTopPlaylist } from "@/api/playlist/getTopPlaylist";
+import { getTopArtist } from "@/api/artist/getTopArtist";
 
 export function Music() {
-  const [newReleased, setNewReleased] = useState<ISong[]>([]);
+  const [newReleased, setNewReleased] = useState<INewReleaseSong[]>([]);
   const [trendingSong, setTrending] = useState<ISong[]>([]);
   const [topPlaylist, setTopPlaylist] = useState<IPlaylist[]>([]);
   const [topArtist, setTopArtist] = useState<IArtists[]>([]);
@@ -19,26 +21,17 @@ export function Music() {
   useEffect(() => {
     const getPlaylist = async () => {
       const [newReleased, trending, playlist, artist] = await Promise.all([
-        axios.get(`${BASE_URL}/song/newReleased/?limit=14&page=1`, {
-          withCredentials: true,
-        }),
-        axios.get(
-          `${BASE_URL}/song/trendingSong/?limit=10&page=1&language=hindi`,
-          { withCredentials: true }
-        ),
-        axios.get(`${BASE_URL}/playlist/?limit=10&page=1`, {
-          withCredentials: true,
-        }),
-        axios.get(`${BASE_URL}/artist/topArtist/?limit=10`, {
-          withCredentials: true,
-        }),
+        getNewReleasedSong(14, 1),
+        getTrendingSong(10, 1, "hindi"),
+        getTopPlaylist(10, 1),
+        getTopArtist(10, 0)
+
       ]);
 
-      setNewReleased(newReleased.data);
-      setTrending(trending.data);
-      setTopPlaylist(playlist.data);
-      setTopArtist(artist.data);
-      console.log(newReleased.data);
+      setNewReleased(newReleased);
+      setTrending(trending);
+      setTopPlaylist(playlist);
+      setTopArtist(artist);
     };
 
     getPlaylist();
@@ -46,10 +39,10 @@ export function Music() {
 
   return (
     <>
-      <div className=" flex flex-col gap-4  w-full lg:pb-20 pb-32   ">
-        {newReleased.length > 0 && (
+      <div className=" pt-4 flex flex-col gap-4  w-full lg:pb-20 pb-32   ">
+        {/* {newReleased.length > 0 && (
           <MusicBanner song={newReleased.slice(0, 5)} />
-        )}
+        )} */}
         <SongsSection heading="New Released">
           {newReleased.length === 0 ? (
             <MoreSkeletonCard count={10} />
@@ -73,7 +66,7 @@ export function Music() {
           {trendingSong.length === 0 ? (
             <MoreSkeletonCard count={10} />
           ) : (
-            trendingSong.map((items ) => (
+            trendingSong.map((items) => (
               <SongCards
                 key={items.id}
                 songs={items}
@@ -92,7 +85,7 @@ export function Music() {
           {topPlaylist.length === 0 ? (
             <MoreSkeletonCard count={10} />
           ) : (
-            topPlaylist.map((items ) => (
+            topPlaylist.map((items) => (
               <SongCards
                 key={items.id}
                 songs={items}
@@ -112,7 +105,7 @@ export function Music() {
             {topArtist.length === 0 ? (
               <MoreArtistCardSkeleton count={6} />
             ) : (
-              topArtist.map((item ) => (
+              topArtist.map((item) => (
                 <ArtistCard
                   key={item.id}
                   name={item.name}

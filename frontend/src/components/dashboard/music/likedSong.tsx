@@ -1,19 +1,16 @@
-import { BASE_URL } from "@/lib/baseUrl";
 import { ISong } from "@/types/songType";
-import axios from "axios";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
+import { getSaveSong } from "@/api/song/getSaveSong";
 
 export function LikedSong() {
   const [song, setSong] = useState<ISong[]>([]);
 
   useEffect(() => {
     const fetchSaveSong = async () => {
-      const response = await axios.get(`${BASE_URL}/song/save`, {
-        withCredentials: true,
-      });
-      setSong(response.data);
+      const response = await getSaveSong();
+      setSong(response.song);
     };
     fetchSaveSong();
   }, []);
@@ -25,17 +22,19 @@ export function LikedSong() {
           <h1 className=" text-lg ">Song is empty!</h1>
         </div>
       ) : (
-        <SongCardContaier>
-          {song.map((song, idx) => (
-            <SongCards
-              key={idx}
-              songs={song}
-              updateState={(id: string) => {
-                setSong((prev) => prev.filter((x) => x.id !== id));
-              }}
-            />
-          ))}
-        </SongCardContaier>
+        <div className="">
+          <SongCardContaier>
+            {song.map((song, idx) => (
+              <SongCards
+                key={idx}
+                songs={song}
+                updateState={(id: string) => {
+                  setSong((prev) => prev.filter((x) => x.id !== id));
+                }}
+              />
+            ))}
+          </SongCardContaier>
+        </div>
       )}
     </>
   );

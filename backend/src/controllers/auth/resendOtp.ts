@@ -24,7 +24,7 @@ export const resendOtp = async (req: Request, res: Response) => {
             message: "Opt Send",
         });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({
             message: "Server Error",
         });

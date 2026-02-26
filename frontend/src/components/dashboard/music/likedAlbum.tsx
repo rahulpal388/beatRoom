@@ -1,23 +1,19 @@
 import { IAlbum } from "@/types/albumType";
-import { SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
-import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
-import { useAuth } from "@/context/authContext";
+import { getSaveAlbum } from "@/api/album/getSaveAlbum";
+
 
 export function LikedAlbum() {
   const [album, setAlbum] = useState<IAlbum[]>([]);
- 
-  
+
+
 
   useEffect(() => {
     const fetchAlbum = async () => {
-      const response = await axios.get(`${BASE_URL}/album/save`, {
-        withCredentials: true,
-      });
-      console.log(response.data);
-      setAlbum(response.data);
+      const response = await getSaveAlbum();
+      setAlbum(response);
     };
     fetchAlbum();
   }, []);

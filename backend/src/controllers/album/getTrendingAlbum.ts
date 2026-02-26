@@ -19,7 +19,6 @@ export const getTrendingAlbum = async (req: Request, res: Response) => {
   const response = await trendingAlbum(data.language, userId)
 
   const album = pagination(response, data.limit, data.page);
-  console.log(album)
   res.status(200).json(album)
 
 };

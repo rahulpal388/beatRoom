@@ -18,7 +18,7 @@ export const Login = async (req: Request, res: Response) => {
 
   try {
 
-    const user = await userModel.findOne({ email: data.email }, { password: 1, userId: 1, _id: 1 });
+    const user = await userModel.findOne({ email: data.email }, { password: 1, userId: 1, _id: 1, username: 1, profile_image: 1 });
 
     if (!user) {
       return res.status(401).json({
@@ -40,8 +40,11 @@ export const Login = async (req: Request, res: Response) => {
     setRefCookie(res, refToken);
     setAcsCookie(res, acToken)
 
+
     res.status(200).json({
-      message: "User logged in"
+      username: user.username,
+      userId: user.userId,
+      profile: user.profile_image,
     })
 
 

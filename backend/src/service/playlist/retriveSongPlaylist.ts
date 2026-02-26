@@ -11,9 +11,9 @@ export function retriveSongPlaylist(data: APiSongsPlaylist, likedSong: Set<strin
         subtitle: data.subtitle,
         type: data.type,
         image: data.image,
-        language: data.list[0].language,
         perma_url: data.perma_url,
         list_count: data.list_count,
+        language: data.list[0].language,
         isLiked: likedPlaylist.has(data.id),
         list: retriveSong(data.list, likedSong),
         more_info: {

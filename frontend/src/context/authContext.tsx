@@ -1,25 +1,14 @@
 "use client";
-import { BASE_URL } from "@/lib/baseUrl";
-import axios from "axios";
-import React, {
-  createContext,
-  FC,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
 
-type TUser = {
-  username: string;
-  userId: string;
-  profile: string;
-};
+import { getUserDetails } from "@/api/auth/getUserDetails";
+import { IAuthUser } from "@/types/authType";
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type TAuthContext = {
-  currentUser: TUser | null;
-  setCurrentUser: React.Dispatch<React.SetStateAction<TUser | null>>;
+  currentUser: IAuthUser | null;
   isAuthenticated: boolean;
-  setAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  authenticateUser: (user: IAuthUser) => void;
+  removeAuthenticatedUser: () => void;
 };
 
 const authContext = createContext<TAuthContext | undefined>(undefined);
@@ -27,27 +16,26 @@ const authContext = createContext<TAuthContext | undefined>(undefined);
 export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [currentUser, setCurrentUser] = useState<TUser | null>(null);
+  const [currentUser, setCurrentUser] = useState<IAuthUser | null>(null);
   const [isAuthenticated, setAuthenticated] = useState<boolean>(false);
+
+  const authenticateUser = (user: IAuthUser) => {
+    setCurrentUser(user);
+    setAuthenticated(true);
+  };
+
+  const removeAuthenticatedUser = () => {
+    setCurrentUser(null);
+    setAuthenticated(false);
+  };
 
   useEffect(() => {
     const authenticate = async () => {
-      await axios
-        .get(`${BASE_URL}/auth/getUserDetail`, {
-          withCredentials: true,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            console.log(" userdetail " + response.data)
-            const { username, userId, profile } = response.data;
-            setCurrentUser({
-              username,
-              userId,
-              profile,
-            });
-            setAuthenticated(true);
-          }
-        });
+      const user = await getUserDetails();
+      if (user) {
+        setCurrentUser(user);
+        setAuthenticated(true);
+      }
     };
 
     authenticate();
@@ -55,7 +43,12 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <authContext.Provider
-      value={{ currentUser, setCurrentUser, isAuthenticated, setAuthenticated }}
+      value={{
+        currentUser,
+        isAuthenticated,
+        authenticateUser,
+        removeAuthenticatedUser,
+      }}
     >
       {children}
     </authContext.Provider>

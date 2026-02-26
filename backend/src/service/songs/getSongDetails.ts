@@ -18,7 +18,7 @@ export async function getSongDetails(
 
         return retriveSong([song[0]], likedSong);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return [];
     }
 }

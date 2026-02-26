@@ -1,45 +1,38 @@
 "use client";
-import { formateTime, formateTimePading } from "@/lib/formateTime";
 import {
   SkipBack,
   SkipForward,
   Play,
-  Heart,
   ListMusic,
   Maximize2,
   Minimize2,
   Pause,
 } from "lucide-react";
-import { AnimatePresence, motion, Reorder } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
-import axios from "axios";
-import { BASE_URL } from "@/lib/baseUrl";
-import { saveSong } from "@/lib/save/saveSong";
-import { useToastNotification } from "@/context/toastNotificationContext";
+
 import { useQueue } from "@/context/queueContext";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
-import { div } from "motion/react-client";
-import { read } from "fs";
 import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
+import { SaveItemHeart } from "../saveItemHeart";
 
 export function MusicBar() {
   const {
-
     currentSong,
     isNext,
     isPrev,
     prevSong,
     nextSong,
-    toggleLike,
+    isCurrentSong,
   } = useQueue();
-  const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } = useMusicPlayer();
-  const { success, error } = useToastNotification();
+  const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } =
+    useMusicPlayer();
+  const { updateQueue } = useQueue();
   const [open, setOpen] = useState<boolean>(false);
-  // const [currentBar, setCurrentBar] = useState<number>(0);
   const parent = {
     initial: {
       height: 0,
@@ -114,13 +107,11 @@ export function MusicBar() {
         <div className="  h-18 absolute  lg:bottom-0 bottom-12   sm:gap-18 gap-6  z-50  w-full bg-card border-t-[1px] border-card-border  shadow-soft   ">
           <div
             className=" w-full h-2  cursor-pointer hover:border-[1px]  hover:border-neutral-600  flex items-center "
-
             onClick={(e) => {
               const rect = e.currentTarget.getBoundingClientRect();
               const progress = ((e.clientX - rect.left) / rect.width) * 100;
-              setCurrentTime(progress)
+              setCurrentTime(progress);
             }}
-
           >
             <div
               className="bg-green-400  h-1   "
@@ -144,19 +135,17 @@ export function MusicBar() {
               }}
               className=" flex items-center gap-4  "
             >
-              {
-                !currentSong ? (
-                  <div className="  h-[50px] w-[50px] bg-neutral-600 rounded-lg "></div>
-                ) : (
-                  <Image
-                    src={currentSong.image}
-                    alt="poster"
-                    height={50}
-                    width={50}
-                    className="  rounded "
-                  />
-                )
-              }
+              {!currentSong ? (
+                <div className="  h-[50px] w-[50px] bg-neutral-600 rounded-lg "></div>
+              ) : (
+                <Image
+                  src={currentSong.image}
+                  alt="poster"
+                  height={50}
+                  width={50}
+                  className="  rounded "
+                />
+              )}
               <div className="  max-w-[24rem] ">
                 <h1 className=" text-text-heading font-heading text-lg line-clamp-1 ">
                   {decodeHTML(currentSong?.title ?? "")}
@@ -179,29 +168,32 @@ export function MusicBar() {
               />
               {isPlaying ? (
                 <div>
-                  {isBuffering ? (
-                    <div className=" h-[30px] w-[30px] border-[1.5px] border-white/30 border-t-white rounded-full animate-spin "></div>
-                  ) : (
+                  {!isBuffering && (
                     <Pause
                       size={30}
                       className=" stroke-1 cursor-pointer max-sm:size-6 "
                       onClick={() => {
-                        console.log("pause");
-                        pause();
+                        if (isCurrentSong) {
+                          pause();
+                        }
                       }}
                     />
                   )}
                 </div>
-
               ) : (
                 <Play
                   size={30}
-                  className=" stroke-1 cursor-pointer max-sm:size-6 "
+                  className={`stroke-1  max-sm:size-6 ${isCurrentSong ? "cursor-pointer " : "cursor-not-allowed opacity-40 "}`}
                   onClick={() => {
-                    console.log("play");
-                    play();
+                    if (isCurrentSong) {
+                      play();
+                    }
                   }}
                 />
+              )}
+
+              {isBuffering && isPlaying && (
+                <div className=" h-[30px] w-[30px] border-[2px] border-neutral-300 border-t-primary rounded-full animate-spin "></div>
               )}
 
               <SkipForward
@@ -214,25 +206,18 @@ export function MusicBar() {
               />
             </div>
             <div className=" flex items-center sm:gap-8  ">
-
               <CurrentSongPlayingTime />
-              <Heart
-                size={30}
-                className={` max-md:hidden   cursor-pointer ${currentSong?.isLiked ? "stroke-0 fill-red-800" : ""
-                  } `}
-                onClick={async () => {
-                  // currentSong
-                  const response = await saveSong(currentSong);
-                  if (response) {
-                    success(
-                      `Song ${currentSong.isLiked ? "Removed" : "Saved"}`
-                    );
-                    toggleLike(currentSong.id);
-                  } else {
-                    error("Song Not Saved");
-                  }
-                }}
-              />
+              {!currentSong ? (
+                <div></div>
+              ) : (
+                <div className=" max-md:hidden ">
+                  <SaveItemHeart
+                    songs={currentSong}
+                    showHeart={true}
+                    updateState={updateQueue}
+                  />
+                </div>
+              )}
               <ViewQueueSongs />
               <MusicBarPopover />
               {open ? (
@@ -246,9 +231,11 @@ export function MusicBar() {
               ) : (
                 <Maximize2
                   size={30}
-                  className=" stroke-1 cursor-pointer max-sm:size-6 "
+                  className={`stroke-1  max-sm:size-6 ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"} `}
                   onClick={() => {
-                    setOpen(true);
+                    if (isCurrentSong) {
+                      setOpen(true);
+                    }
                   }}
                 />
               )}
@@ -262,6 +249,7 @@ export function MusicBar() {
 
 function ViewQueueSongs() {
   const [queueOpen, setQueueOpen] = useState<boolean>(false);
+  const { isCurrentSong } = useQueue();
 
   return (
     <>
@@ -300,21 +288,21 @@ function ViewQueueSongs() {
                   ease: "easeInOut",
                 }}
               >
-                <QueueSongs />
+                <QueueSongs setQueueOpen={setQueueOpen} />
               </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
         <ListMusic
           size={30}
-          className=" stroke-1 max-md:hidden cursor-pointer "
+          className={`stroke-1 max-md:hidden ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
           onClick={() => {
-            setQueueOpen(!queueOpen);
+            if (isCurrentSong) {
+              setQueueOpen(!queueOpen);
+            }
           }}
         />
       </div>
     </>
   );
 }
-
-

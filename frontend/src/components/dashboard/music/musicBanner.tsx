@@ -1,11 +1,8 @@
-import { ISong } from "@/types/songType";
+import { INewReleaseSong } from "@/types/songType";
 import { Play } from "lucide-react";
 import Image from "next/image";
 
-export function MusicBanner({ song }: { song: ISong[] }) {
-  console.log(song);
-  const songLength = song.length;
-  console.log(song[0].image);
+export function MusicBanner({ song }: { song: INewReleaseSong[] }) {
   return (
     <>
       <div className=" relative flex h-[20rem] items-center justify-center  md:mt-8 w-full ">

@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 export const signUpType = z.object({
-    username: z.string().min(3, "Min 3 ").max(10, "max 4"),
+    username: z.string().min(3, "Min 3 ").max(10, "max 10"),
     email: z.email("Invalid email"),
     password: z.string().min(6).max(10)
         .regex(/^(?=.*[a-z])/, "Must include at least one lowercase letter")

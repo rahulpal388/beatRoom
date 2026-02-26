@@ -14,6 +14,7 @@ import useAlbum from "./routes/album.js";
 import { DBConnect } from "./db/index.js";
 import verifyTokenMiddleware from "./middleware/verifyToken.js";
 import { env } from "./zodTypes/envType.js";
+import { removeEntity } from "./controllers/removeEntity.js";
 dns.setDefaultResultOrder("ipv4first");
 
 const PORT = env.PORT || 8081;
@@ -48,7 +49,8 @@ app.use("/api/v1/song", verifyTokenMiddleware, useSong);
 app.use("/api/v1/artist", verifyTokenMiddleware, useArtist);
 app.use("/api/v1/album", verifyTokenMiddleware, useAlbum);
 app.use("/api/v1/playlist", verifyTokenMiddleware, usePlaylist);
+app.post("/api/v1/entity/remove", verifyTokenMiddleware, removeEntity);
 
 app.listen(PORT, () => {
-  console.log(`Server is running on the ${PORT}.........`);
+  console.log(`Server is running on port ${PORT}`);
 });

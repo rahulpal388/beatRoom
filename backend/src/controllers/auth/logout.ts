@@ -13,11 +13,8 @@ export const Logout = async (req: Request, res: Response) => {
     })
   }
 
-  console.log(`_id => ${_id}`)
-  console.log(`sessionId => ${sessionId}`)
 
   const session = await sessionModal.findOneAndDelete({ sessionId: sessionId, user_id: _id });
-  console.log(session)
   if (!session) {
     return res.status(500).json({
       message: "error logging out"

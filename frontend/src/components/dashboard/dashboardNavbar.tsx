@@ -5,7 +5,6 @@ import Link from "next/link";
 import { SearchBar } from "./music/SearchBar";
 import { Button } from "@/ui/button";
 import { useRouter } from "next/navigation";
-import { ThemeToggleComponent } from "../themeToggleComponent";
 
 export function DashboardNavbar() {
   const { isAuthenticated, currentUser } = useAuth();
@@ -26,9 +25,7 @@ export function DashboardNavbar() {
           <SearchBar />
         </div>
         <div className=" flex md:gap-12 gap-8 items-center  ">
-          <div>
-            <ThemeToggleComponent />
-          </div>
+          <div></div>
           {isAuthenticated ? (
             <div className="flex gap-4 items-center">
               <div className=" flex flex-col items-center justify-end ">

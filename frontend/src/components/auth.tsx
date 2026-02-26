@@ -14,10 +14,6 @@ import { IAuthFormData } from "@/types/authType";
 import { loginUser } from "@/api/auth/loginUser";
 import { verifyOtp } from "@/api/auth/verifyOpt";
 
-
-
-
-
 export function AuthPage({ type }: { type: "signup" | "login" }) {
   const [viewPassowrd, setViewPassword] = useState<boolean>(false);
   const [isForm, setIsForm] = useState<boolean>(true);
@@ -39,48 +35,47 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
       if (!response) {
         toastMessage({
           message: "Error Signup",
-          type: "error"
-        })
+          type: "error",
+        });
+        setLoading(false);
 
         return;
       }
       if (response.success) {
         toastMessage({
           message: "Otp Send",
-          type: "success"
-        })
-
+          type: "success",
+        });
       } else {
         toastMessage({
           message: "User Exit Login",
-          type: "error"
-        })
-        router.push("/login")
+          type: "error",
+        });
+        router.push("/login");
       }
     }
 
     if (type === "login") {
       const response = await loginUser({
         email: data.email,
-        password: data.password
+        password: data.password,
       });
 
       if (response) {
         toastMessage({
           message: "Logged In",
-          type: "success"
-        })
+          type: "success",
+        });
         authenticateUser(response);
-        router.push("/dashboard");
+        router.push("/");
       } else {
         toastMessage({
           message: "Error User Login",
-          type: "error"
-        })
+          type: "error",
+        });
       }
     }
     setLoading(false);
-
   };
 
   return (
@@ -187,7 +182,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                           name="Submit"
                           type="submit"
                           btnType="Primary"
-                          onClick={() => { }}
+                          onClick={() => {}}
                         />
                       ) : (
                         <Button
@@ -198,7 +193,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                           }
                           type="button"
                           btnType="Loading"
-                          onClick={() => { }}
+                          onClick={() => {}}
                         />
                       )}
                     </div>
@@ -272,7 +267,9 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                   </InputOTP>
                 </div>
                 <div className=" flex justify-end items-center mt-2 ">
-                  <span className=" text-sm pr-1 ">Don&apos;t Receive OTP?</span>
+                  <span className=" text-sm pr-1 ">
+                    Don&apos;t Receive OTP?
+                  </span>
                   <button className=" underline cursor-pointer ">Resend</button>
                 </div>
                 {!loading ? (
@@ -285,15 +282,15 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                       if (otp.length === 6 && user) {
                         // task 1 : call the API to verify the user
                         setLoading(true);
-                        const response = await verifyOtp({ ...user, otp })
+                        const response = await verifyOtp({ ...user, otp });
 
                         if (response.success) {
                           authenticateUser(response.user);
                         } else {
                           toastMessage({
                             message: response.message,
-                            type: "error"
-                          })
+                            type: "error",
+                          });
                         }
                       }
                     }}
@@ -304,7 +301,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                     btnType="Loading"
                     type="button"
                     className=" w-full mt-4 "
-                    onClick={() => { }}
+                    onClick={() => {}}
                   />
                 )}
               </motion.div>

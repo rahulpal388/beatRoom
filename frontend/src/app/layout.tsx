@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthContextProvider } from "@/context/authContext";
 import { ToastNotificationProvider } from "@/context/toastNotificationContext";
 import { ThemeProvider } from "next-themes";
+import { Providers } from "@/components/provider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -28,7 +29,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" >
+    <html lang="en">
       <body
         className={`${inter.variable} ${poppins.variable} font-body antialiased   dark:bg-background bg-background text-foreground dark:text-foreground   `}
       >
@@ -39,7 +40,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthContextProvider>
-            <ToastNotificationProvider>{children}</ToastNotificationProvider>
+            <ToastNotificationProvider>
+              <Providers>{children}</Providers>
+            </ToastNotificationProvider>
           </AuthContextProvider>
         </ThemeProvider>
       </body>

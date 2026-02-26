@@ -2,7 +2,7 @@ import { removeEntity } from "@/api/removeEntity";
 import { saveEntity } from "@/api/saveEntity";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { IAlbum } from "@/types/albumType";
-import { IArtistAlbum } from "@/types/artistType";
+import { IArtistAlbum, IArtistInfo } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
 import { INewReleaseSong, ISong } from "@/types/songType";
 import { Heart } from "lucide-react";

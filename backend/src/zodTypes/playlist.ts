@@ -28,3 +28,15 @@ export const removePlaylistType = z.object({
   id: z.string(),
   type: z.string()
 })
+
+
+export const playlistSongType = z.object({
+  token: z.string("token is undefine"),
+  type: z.enum(["playlist", "userPlaylist"], "playlist type is messing ")
+})
+
+
+export const addSongToPlaylistType = z.object({
+  id: z.string("Playlist id undefine"),
+  songs: saveSongType
+})

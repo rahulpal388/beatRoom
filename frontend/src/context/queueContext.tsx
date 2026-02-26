@@ -16,6 +16,7 @@ type QueueContextType = {
   isPrev: boolean;
   currentIdx: number;
   isCurrentSong: boolean;
+  updateQueue: (id: string) => void;
   changeCurrentSong: (song: ISong) => void;
 };
 
@@ -52,6 +53,13 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
     ]);
   };
 
+  const updateQueue = (id: string) => {
+    setQueueSongs((prev) =>
+      prev.map((song) =>
+        song.id === id ? { ...song, isLiked: !song.isLiked } : song,
+      ),
+    );
+  };
   const addQueueAndSetCurrent = (songs: ISong[]) => {
     setQueueSongs(songs);
     setCurrentIdx(0);
@@ -102,6 +110,7 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
         isPrev,
         currentIdx,
         isCurrentSong,
+        updateQueue,
         changeCurrentSong,
       }}
     >

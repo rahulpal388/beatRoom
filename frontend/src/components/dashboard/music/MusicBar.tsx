@@ -22,6 +22,7 @@ import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
 import { saveSong } from "@/api/song/saveSong";
 import { SaveItemHeart } from "../saveItemHeart";
+import { div } from "motion/react-client";
 
 export function MusicBar() {
   const {
@@ -35,9 +36,8 @@ export function MusicBar() {
   } = useQueue();
   const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } =
     useMusicPlayer();
-  const { toastMessage } = useToastNotification();
+  const { updateQueue } = useQueue();
   const [open, setOpen] = useState<boolean>(false);
-  // const [currentBar, setCurrentBar] = useState<number>(0);
   const parent = {
     initial: {
       height: 0,
@@ -174,9 +174,7 @@ export function MusicBar() {
               />
               {isPlaying ? (
                 <div>
-                  {isBuffering ? (
-                    <div className=" h-[30px] w-[30px] border-[2px] border-neutral-300 border-t-primary rounded-full animate-spin "></div>
-                  ) : (
+                  {!isBuffering && (
                     <Pause
                       size={30}
                       className=" stroke-1 cursor-pointer max-sm:size-6 "
@@ -202,6 +200,10 @@ export function MusicBar() {
                 />
               )}
 
+              {isBuffering && isPlaying && (
+                <div className=" h-[30px] w-[30px] border-[2px] border-neutral-300 border-t-primary rounded-full animate-spin "></div>
+              )}
+
               <SkipForward
                 size={30}
                 className={` stroke-1  max-sm:size-6  ${
@@ -217,11 +219,13 @@ export function MusicBar() {
               {!currentSong ? (
                 <div></div>
               ) : (
-                <SaveItemHeart
-                  songs={currentSong}
-                  showHeart={true}
-                  updateState={(id: string) => {}}
-                />
+                <div className=" max-md:hidden ">
+                  <SaveItemHeart
+                    songs={currentSong}
+                    showHeart={true}
+                    updateState={updateQueue}
+                  />
+                </div>
               )}
               <ViewQueueSongs />
               <MusicBarPopover />

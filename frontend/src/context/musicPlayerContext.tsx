@@ -11,15 +11,14 @@ import { useQueue } from "./queueContext";
 import axios from "axios";
 import { getSongUrl } from "@/api/song/getSongUrl";
 
-
 type TMusicPlayer = {
   play: () => void;
   pause: () => void;
   isPlaying: boolean;
   progress: number;
   isBuffering: boolean;
-  setCurrentTime: (progress: number) => void
-  audioRef: RefObject<HTMLAudioElement | null>
+  setCurrentTime: (progress: number) => void;
+  audioRef: RefObject<HTMLAudioElement | null>;
 };
 
 const musicPlayerContext = createContext<TMusicPlayer | null>(null);
@@ -36,42 +35,53 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   const [url, setUrl] = useState<string | undefined>(undefined);
 
   const play = () => {
-    if (audioRef.current) {
+    if (audioRef.current && currentSong) {
       audioRef.current.play();
+      setIsPlaying(true);
     }
   };
   const pause = () => {
-    if (audioRef.current) {
+    if (audioRef.current && currentSong) {
       audioRef.current.pause();
       setIsPlaying(false);
     }
   };
 
   const setCurrentTime = (progress: number) => {
-    console.log(progress)
-    if (audioRef.current) {
-      audioRef.current.currentTime = (progress * audioRef.current.duration) / 100;
-      setProgress(
-        progress
-      );
+    console.log(progress);
+    if (audioRef.current && currentSong) {
+      audioRef.current.currentTime =
+        (progress * audioRef.current.duration) / 100;
+      setProgress(progress);
     }
-  }
+  };
 
   useEffect(() => {
+    if (!audioRef.current || !url) return;
 
+    // Only change src if URL changed
+    if (audioRef.current.src !== url) {
+      audioRef.current.src = url;
+      play();
+    }
+  }, [url]);
+
+  useEffect(() => {
     const fetchUrl = async () => {
+      console.log("current song is ");
+      console.log(currentSong);
       if (!currentSong) {
+        setProgress(0);
+        setCurrentTime(0);
+        setUrl(undefined);
+        pause();
         return;
       }
-      console.log(currentSong)
-      play();
-      const responseUrl = await getSongUrl(currentSong.more_info.encrypted_media_url);
-      console.log(responseUrl)
+      const responseUrl = await getSongUrl(
+        currentSong.more_info.encrypted_media_url,
+      );
       if (responseUrl) {
         setUrl(responseUrl);
-      } else {
-        pause();
-        alert("Can't paly this song")
       }
     };
     fetchUrl();
@@ -79,23 +89,31 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
 
   return (
     <musicPlayerContext.Provider
-      value={{ pause, play, isBuffering, isPlaying, progress, setCurrentTime, audioRef }}
+      value={{
+        pause,
+        play,
+        isBuffering,
+        isPlaying,
+        progress,
+        setCurrentTime,
+        audioRef,
+      }}
     >
       <audio
         ref={audioRef}
         src={url}
         onLoadedMetadata={play}
-
         onPlay={() => {
           console.log("playing the song");
-          setIsPlaying(true);
+
+          play();
         }}
         onPlaying={() => {
           setIsBuffering(false);
         }}
         onPause={() => {
           console.log("pausing the song");
-          setIsPlaying(false);
+          pause();
         }}
         onWaiting={() => {
           setIsBuffering(true);
@@ -111,7 +129,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
         }}
         onTimeUpdate={(e) => {
           setProgress(
-            (e.currentTarget.currentTime / e.currentTarget.duration) * 100
+            (e.currentTarget.currentTime / e.currentTarget.duration) * 100,
           );
         }}
       />

@@ -26,31 +26,29 @@ const sideBarLibraryItems: {
   href: string;
   icon: React.ReactNode;
 }[] = [
-    {
-      heading: "Histroy",
-      href: "history",
-      icon: <History size={20} />,
-    },
-    {
-      heading: "Liked Song",
-      href: "liked-song",
-      icon: <Music2 size={20} />,
-    },
-  ];
+  {
+    heading: "Histroy",
+    href: "history",
+    icon: <History size={20} />,
+  },
+  {
+    heading: "Liked Song",
+    href: "liked-song",
+    icon: <Music2 size={20} />,
+  },
+];
 
 export function SideBar() {
   return (
     <div className=" max-lg:hidden border-r-[1px]  h-full w-[12rem] ">
       <div className=" flex flex-col  px-10  mt-12  ">
         <div>
-          <h1 className=" text-lg text-muted font-heading ">
-            Browse Music
-          </h1>
+          <h1 className=" text-lg text-muted font-heading ">Browse Music</h1>
           <div className=" mt-4 flex flex-col gap-2 ">
             {sideBarBrowseItems.map((items, idx) => (
               <div key={idx}>
                 <Link
-                  href={`/dashboard/${items.href}`}
+                  href={`/${items.href}`}
                   className=" hover:text-foreground/60  "
                 >
                   {items.heading}
@@ -65,7 +63,7 @@ export function SideBar() {
             {sideBarLibraryItems.map((items, idx) => (
               <div key={idx}>
                 <Link
-                  href={`/dashboard/${items.href}`}
+                  href={`/${items.href}`}
                   className="hover:text-foreground/60   flex items-center  gap-2 "
                 >
                   {items.icon} {items.heading}

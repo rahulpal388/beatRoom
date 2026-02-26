@@ -1,15 +1,12 @@
-import { Footer } from "@/components/footer";
-import { Hero } from "@/components/hero";
-import { NavBar } from "@/components/navBar";
-export default function App() {
+"use client";
+import { Music } from "@/components/dashboard/music/music";
+
+export default function MainPage() {
   return (
     <>
-      <div className="  w-screen ">
-        <div className="md:px-24 sm:px-12 px-6 py-4">
-          <NavBar />
-          <Hero />
-        </div>
-        <Footer />
+     
+      <div className=" md:px-4 px-1  w-full    ">
+        <Music />
       </div>
     </>
   );

@@ -5,7 +5,7 @@ import { IAlbum } from "@/types/albumType";
 import { savePlaylist } from "./playlist/savePlaylist";
 import { IPlaylist } from "@/types/playlistType";
 import { saveArtist } from "./artist/saveArtist";
-import { IArtists } from "@/types/artistType";
+import { IArtistInfo, IArtists } from "@/types/artistType";
 import { saveUserPlaylist } from "./playlist/saveUserPlaylist";
 
 type IUserPlaylistType = {

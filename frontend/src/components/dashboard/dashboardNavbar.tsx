@@ -3,7 +3,6 @@
 import { useAuth } from "@/context/authContext";
 import Link from "next/link";
 import { SearchBar } from "./music/SearchBar";
-import { Copy } from "lucide-react";
 import { Button } from "@/ui/button";
 import { useRouter } from "next/navigation";
 import { ThemeToggleComponent } from "../themeToggleComponent";
@@ -18,7 +17,7 @@ export function DashboardNavbar() {
       <div className=" bg-background dark:bg-background h-14 border-b-[0.5px] border-muted/70  shadow-xl  flex justify-between items-center gap-4 px-8  ">
         <div>
           <Link
-            href={`/dashboard`}
+            href={`/`}
             className=" text-xl  font-extralight italic cursor-pointer "
           >
             beatRoom

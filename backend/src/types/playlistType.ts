@@ -30,3 +30,6 @@ export type APiSongsPlaylist = {
 };
 
 export type ISongsPlaylist = WithLike<Omit<APiSongsPlaylist, "list"> & { list: ISong[] }>
+
+
+export type IUserSongPlaylist = IPlaylist & { songs: ISong[] }

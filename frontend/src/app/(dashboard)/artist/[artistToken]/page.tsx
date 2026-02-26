@@ -1,5 +1,7 @@
 "use client";
 import { getArtistInfo } from "@/api/artist/getArtistInfo";
+import { removeEntity } from "@/api/removeEntity";
+import { saveEntity } from "@/api/saveEntity";
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { ShowDetailPlay } from "@/components/dashboard/showDetailPlay";
 import { IArtistInfo } from "@/types/artistType";
@@ -48,22 +50,38 @@ export default function Artist() {
               className="md:h-[15rem] md:w-[15rem] sm:h-[12rem] sm:w-[12rem]   h-[10rem]  w-[10rem] rounded-full"
             />
           </div>
-          <div className="  flex flex-col gap-2 items-center ">
+          <div className="  flex flex-col gap-2  max-md:items-center ">
             <h1 className=" text-5xl font-semibold ">{artistInfo.name}</h1>
-            <p>{artistInfo.type[0].toUpperCase() + artistInfo.type.slice(1)} &#8226;
-              {Number(artistInfo.follower_count).toLocaleString()} Followers
+            <p>
+              {artistInfo.type[0].toUpperCase() + artistInfo.type.slice(1)}{" "}
+              &#8226;
+              {" " + Number(artistInfo.follower_count).toLocaleString()}{" "}
+              Followers
             </p>
-            <ShowDetailPlay items={artistInfo} type={artistInfo.type} />
+            <ShowDetailPlay
+              items={artistInfo}
+              type={artistInfo.type}
+              onSave={async (id: string) => {
+                // setArtistInfo((prev) => {
+                //   if (prev) {
+                //     return { ...prev, isLiked: !prev.isLiked };
+                //   } else {
+                //     return null;
+                //   }
+                // });
+              }}
+            />
           </div>
         </div>
         <div>
           <div>
             <ul className=" flex sm:gap-12 gap-4 border-b-[1px] border-neutral-300 ">
               <li
-                className={`text-lg font-light h-8 pb-2 ${active === "song"
-                  ? "border-b-2 border-primary "
-                  : "hover:border-b-2 hover:border-primary "
-                  }  `}
+                className={`text-lg font-light h-8 pb-2 ${
+                  active === "song"
+                    ? "border-b-2 border-primary "
+                    : "hover:border-b-2 hover:border-primary "
+                }  `}
                 onClick={() => {
                   setActive("song");
                 }}
@@ -71,10 +89,11 @@ export default function Artist() {
                 <Link href={""}>Song</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${active === "album"
-                  ? "border-b-2 border-primary "
-                  : "hover:border-b-2 hover:border-primary "
-                  }  `}
+                className={`text-lg font-light h-8 pb-2 ${
+                  active === "album"
+                    ? "border-b-2 border-primary "
+                    : "hover:border-b-2 hover:border-primary "
+                }  `}
                 onClick={() => {
                   setActive("album");
                 }}
@@ -82,10 +101,11 @@ export default function Artist() {
                 <Link href={""}>Album</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${active === "playlist"
-                  ? "border-b-2 border-primary "
-                  : "hover:border-b-2 hover:border-primary "
-                  }  `}
+                className={`text-lg font-light h-8 pb-2 ${
+                  active === "playlist"
+                    ? "border-b-2 border-primary "
+                    : "hover:border-b-2 hover:border-primary "
+                }  `}
                 onClick={() => {
                   setActive("playlist");
                 }}
@@ -93,10 +113,11 @@ export default function Artist() {
                 <Link href={""}>Playlist</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${active === "new_release"
-                  ? "border-b-2 border-primary "
-                  : "hover:border-b-2 hover:border-primary "
-                  }  `}
+                className={`text-lg font-light h-8 pb-2 ${
+                  active === "new_release"
+                    ? "border-b-2 border-primary "
+                    : "hover:border-b-2 hover:border-primary "
+                }  `}
                 onClick={() => {
                   setActive("new_release");
                 }}
@@ -134,7 +155,9 @@ export default function Artist() {
               {active === "playlist" && (
                 <div>
                   <div>
-                    <h1 className=" text-2xl  border-b-[1px] border-neutral-300 ">Featured In</h1>
+                    <h1 className=" text-2xl  border-b-[1px] border-neutral-300 ">
+                      Featured In
+                    </h1>
                     <div className=" mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.featured_artist_playlist.map((song, idx) => (
                         <SongCards
@@ -148,7 +171,9 @@ export default function Artist() {
                     </div>
                   </div>
                   <div className=" mt-4 ">
-                    <h1 className=" text-2xl  border-b-[1px] border-neutral-300 ">Just {artistInfo.name}</h1>
+                    <h1 className=" text-2xl  border-b-[1px] border-neutral-300 ">
+                      Just {artistInfo.name}
+                    </h1>
                     <div className=" w-full mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.dedicated_artist_playlist.map((song, idx) => (
                         <SongCards

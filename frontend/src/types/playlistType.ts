@@ -7,7 +7,7 @@ export type IPlaylist = {
   id: string;
   title: string;
   subtitle: string;
-  type: "playlist";
+  type: "playlist" | "userPlaylist";
   image: string;
   perma_url: string;
   isLiked: boolean;
@@ -17,7 +17,7 @@ export type IPlaylistSong = {
   id: string;
   title: string;
   subtitle: string;
-  type: "playlist";
+  type: "playlist" | "userPlaylist";
   perma_url: string;
   image: string;
   list_count: string;

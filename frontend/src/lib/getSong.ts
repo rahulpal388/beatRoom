@@ -5,6 +5,7 @@ import { IPlaylist } from "@/types/playlistType";
 import { IAlbum } from "@/types/albumType";
 import { IArtistAlbum, IArtistInfo } from "@/types/artistType";
 import { getArtistInfo } from "@/api/artist/getArtistInfo";
+import { getUserSavedPlaylistInfo } from "@/api/playlist/getUserSavedPlaylist";
 
 
 export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum | INewReleaseSong | IArtistInfo
@@ -31,6 +32,10 @@ export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum |
 
       return playlistSong.list
     }
+    case "userPlaylist": {
+      const userPlaylistSong = await getUserSavedPlaylistInfo(songs.id);
+      return userPlaylistSong.list;
+    }
 
     case "album": {
       const token = songs.perma_url.split("/").at(-1) || "";
@@ -45,7 +50,7 @@ export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum |
 
     case "artist": {
 
-      // const artistSong = await getArtistInfo()
+      return await getSong(songs.topSongs[0])
     }
 
   }

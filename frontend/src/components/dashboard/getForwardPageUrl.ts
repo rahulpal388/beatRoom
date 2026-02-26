@@ -11,17 +11,21 @@ export function getForwardPageUrl(songs: ISong | IPlaylist | IAlbum | IArtistAlb
         case "song": {
             const songToken = songs.perma_url.split("/").at(-1) || "";
             const albumToken = songs.more_info.album_url.split("/").at(-1) || "";
-            return `/dashboard/song/${songToken}/${albumToken}`
+            return `/song/${songToken}/${albumToken}`
         }
         case "album": {
             const albumToken = songs.perma_url.split("/").at(-1) || "";
-            return `/dashboard/album/${albumToken}`
+            return `/album/${albumToken}`
 
         }
         case "playlist": {
             const playlistToken = songs.perma_url.split("/").at(-1) || "";
-            return `/dashboard/playlist/${playlistToken}`
+            return `/playlist/${playlistToken}`
 
+        }
+        case "userPlaylist": {
+            const token = songs.id;
+            return `/playlist/${token}`
         }
     }
 }

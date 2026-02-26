@@ -95,9 +95,4 @@ jobs:
                       --name frontend  \
                       --restart unless-stopped \ 
                       rahuldocker974/frontend_beatroom:${{github.sha}}
-                  docker run -d \
-                    -p 8080:8080 \
-                    --name backend \
-                    --env-file .env \
-                    --restart unless-stopped \
-                    rahuldocker974/backend_beatroom:${{ github.sha }}
+                  

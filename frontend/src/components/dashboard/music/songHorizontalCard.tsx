@@ -1,12 +1,12 @@
-import { saveSong } from "@/api/song/saveSong";
 import { useQueue } from "@/context/queueContext";
-import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { getSong } from "@/lib/getSong";
 import { ISong } from "@/types/songType";
-import { CirclePlay, EllipsisVertical, Heart } from "lucide-react";
+import { CirclePlay } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { SaveItemHeart } from "../saveItemHeart";
+import { AddQueueIcon } from "../addQueueIcon";
 
 export function SongHorizontalCard({
   serialNumber,
@@ -19,8 +19,7 @@ export function SongHorizontalCard({
 }) {
   const song_token = songs.perma_url.split("/").at(-1);
   const album_token = songs.more_info.album_url.split("/").at(-1);
-  const { success, error } = useToastNotification();
-  const { addQueueAndSetCurrent } = useQueue()
+  const { addQueueAndSetCurrent } = useQueue();
   return (
     <div className=" group hover:bg-card-hover px-4 py-2 rounded flex gap-4 items-center ">
       <div className=" relative ">
@@ -29,7 +28,7 @@ export function SongHorizontalCard({
           className=" absolute top-0 -right-2 cursor-pointer  opacity-0 group-hover:opacity-100 "
           onClick={async () => {
             const song = await getSong(songs);
-            addQueueAndSetCurrent(song)
+            addQueueAndSetCurrent(song);
           }}
         />
       </div>
@@ -54,26 +53,16 @@ export function SongHorizontalCard({
           </p>
         </div>
         <div className=" flex items-center gap-12 ">
-          <Heart
-            size={20}
-            className={`cursor-pointer max-sm:hidden ${songs.isLiked ? "fill-red-700" : ""
-              }`}
-            onClick={async () => {
-              const response = await saveSong(songs);
-              if (!response) {
-                error("Song Not Saved");
-              } else {
-                // song saved
-                success(`Song ${songs.isLiked ? "Removed" : "Saved"}`);
-                updateState(songs.id);
-              }
-            }}
+          <SaveItemHeart
+            songs={songs}
+            showHeart={true}
+            updateState={updateState}
           />
           <p className=" max-sm:hidden ">
             {Math.floor(Number(songs.more_info.duration) / 60)}:
-            {(String(Number(songs.more_info.duration) % 60)).padStart(2, "0")}
+            {String(Number(songs.more_info.duration) % 60).padStart(2, "0")}
           </p>
-          {/* <EllipsisVertical size={20} className="cursor-pointer" /> */}
+          <AddQueueIcon songs={songs} />
         </div>
       </div>
     </div>

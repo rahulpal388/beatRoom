@@ -1,8 +1,10 @@
 "use client";
+import { removeEntity } from "@/api/removeEntity";
+import { saveEntity } from "@/api/saveEntity";
 import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { getItemsToken } from "@/lib/getItemsToken";
 
-import axios from "axios";
 import { ChevronLeft, ChevronRight, Ellipsis, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
@@ -11,10 +13,12 @@ import { useState } from "react";
 export function MusicBarPopover() {
   const [optionOpen, setOptionOpen] = useState<boolean>(false);
   const { currentSong, isCurrentSong } = useQueue();
-  const songToken = currentSong?.perma_url.split("/").at(-1);
-  const albumToken = currentSong?.more_info.album_url.split("/").at(-1);
+  const songToken = getItemsToken(currentSong ? currentSong.perma_url : "");
+  const albumToken = getItemsToken(
+    currentSong ? currentSong.more_info.album_url : "",
+  );
   const [showPlaylist, setShowPlaylist] = useState<boolean>(true);
-  const { success, error } = useToastNotification();
+  const { toastMessage } = useToastNotification();
   return (
     <>
       <div>
@@ -92,19 +96,17 @@ export function MusicBarPopover() {
                       <button
                         className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 "
                         onClick={async () => {
-                          // await axios
-                          //   .post(
-                          //     `${api}/song/save`,
-                          //     { ...currentSong, isLiked: true },
-                          //     { withCredentials: true }
-                          //   )
-                          //   .then(() => {
-                          //     setOptionOpen(false);
-                          //     success("Song Saved");
-                          //   })
-                          //   .catch(() => {
-                          //     error("Error");
-                          //   });
+                          const { success, message } = currentSong.isLiked
+                            ? await removeEntity(
+                                currentSong.id,
+                                currentSong.type,
+                              )
+                            : await saveEntity(currentSong.type, currentSong);
+                          toastMessage({
+                            message,
+                            type: success ? "success" : "error",
+                          });
+                          setOptionOpen(false);
                         }}
                       >
                         Save To Library
@@ -171,7 +173,6 @@ export function MusicBarPopover() {
           className={`stroke-1 max-md:hidden ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
           onClick={() => {
             if (isCurrentSong) {
-
               setOptionOpen((prev) => (prev = !prev));
               setShowPlaylist(false);
             }

@@ -1,22 +1,20 @@
 import { decodeHTML } from "@/lib/decodeHtml";
 import { formateTime } from "@/lib/formateTime";
-import { getItemsToken } from "@/lib/getItemsToken";
-import { getSong } from "@/lib/getSong";
 import { IAlbumSong } from "@/types/albumType";
 import { IPlaylistSong } from "@/types/playlistType";
 import { ISong } from "@/types/songType";
-import { Button } from "@/ui/button";
-import { EllipsisVertical, Heart, ListPlus } from "lucide-react";
 import Image from "next/image";
-import { it } from "node:test";
 import { ShowDetailPlay } from "../showDetailPlay";
+import { removeEntity } from "@/api/removeEntity";
+import { saveEntity } from "@/api/saveEntity";
+import { useToastNotification } from "@/context/toastNotificationContext";
 
 export function ShowSongDetails({ items
 }: {
   items: ISong | IPlaylistSong | IAlbumSong
 }) {
-  const { token, AlbumToken } = getItemsToken(items.perma_url, items.type === "song" ? items.more_info.album_url : "");
 
+  const { toastMessage } = useToastNotification()
   return (
     <div className="mt-8 lg:px-20 flex md:gap-8 gap-2 justify-center max-md:flex-col  items-center ">
       <Image
@@ -46,7 +44,13 @@ export function ShowSongDetails({ items
           </p>
 
         </div>
-        <ShowDetailPlay items={items} type={items.type} />
+        <ShowDetailPlay items={items} type={items.type} onSave={async () => {
+          const { success, message } = items.isLiked ? await removeEntity(items.id, items.type) : await saveEntity(items.type, items);
+          toastMessage({
+            message,
+            type: success ? "success" : "error"
+          })
+        }} />
       </div>
     </div>
   );

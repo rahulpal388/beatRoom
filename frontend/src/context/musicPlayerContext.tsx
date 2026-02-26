@@ -60,7 +60,11 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   useEffect(() => {
 
     const fetchUrl = async () => {
+      if (!currentSong) {
+        return;
+      }
       console.log(currentSong)
+      play();
       const responseUrl = await getSongUrl(currentSong.more_info.encrypted_media_url);
       console.log(responseUrl)
       if (responseUrl) {

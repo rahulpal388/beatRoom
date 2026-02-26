@@ -1,14 +1,11 @@
 import { ISong } from "@/types/songType";
-import React, {
-  createContext,
-  useContext,
-  useState,
-} from "react";
+import React, { createContext, useContext, useState } from "react";
+import { useToastNotification } from "./toastNotificationContext";
 
 type QueueContextType = {
   prevSong: () => void;
   nextSong: () => void;
-  addQueueSong: (song: ISong) => void;
+  addQueueSong: (song: ISong[]) => void;
   updateQueueSongPosition: (song: ISong[]) => void;
   addQueueAndSetCurrent: (song: ISong[]) => void;
   toggleLike: (songId: string) => void;
@@ -19,19 +16,17 @@ type QueueContextType = {
   isPrev: boolean;
   currentIdx: number;
   isCurrentSong: boolean;
-  changeCurrentSong: (song: ISong) => void
+  changeCurrentSong: (song: ISong) => void;
 };
-
-
 
 const queueContext = createContext<QueueContextType | undefined>(undefined);
 
 export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
+  const { toastMessage } = useToastNotification();
   const [queueSongs, setQueueSongs] = useState<ISong[]>([]);
   const [currentIdx, setCurrentIdx] = useState<number>(0);
-
   const isNext = currentIdx < queueSongs.length - 1 ? true : false;
   const isPrev = currentIdx === 0 ? false : true;
   let currentSong: ISong | undefined = queueSongs[currentIdx];
@@ -52,7 +47,7 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
   const toggleLike = (songId: string) => {
     setQueueSongs((prev) => [
       ...prev.filter((x) =>
-        x.id !== songId ? x : { ...x, isLiked: !x.isLiked }
+        x.id !== songId ? x : { ...x, isLiked: !x.isLiked },
       ),
     ]);
   };
@@ -62,8 +57,22 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
     setCurrentIdx(0);
   };
 
-  const addQueueSong = (song: ISong) => {
-    setQueueSongs((prev) => [...prev, song]);
+  const addQueueSong = (song: ISong[]) => {
+    setQueueSongs((prev) => [
+      ...prev,
+      ...song.filter((x) => !queueSongs.includes(x)),
+    ]);
+    if (song.length === 0) {
+      toastMessage({
+        message: "Adding Song",
+        type: "error",
+      });
+    } else {
+      toastMessage({
+        message: "Song add to queue",
+        type: "success",
+      });
+    }
   };
   const updateQueueSongPosition = (song: ISong[]) => {
     setQueueSongs((prev) => [...prev.slice(0, currentIdx + 1), ...song]);
@@ -75,7 +84,7 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const changeCurrentSong = (_song: ISong) => {
     currentSong = _song;
-  }
+  };
 
   return (
     <queueContext.Provider
@@ -93,7 +102,7 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
         isPrev,
         currentIdx,
         isCurrentSong,
-        changeCurrentSong
+        changeCurrentSong,
       }}
     >
       {children}

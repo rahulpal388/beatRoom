@@ -21,20 +21,21 @@ import { useQueue } from "@/context/queueContext";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
 import { saveSong } from "@/api/song/saveSong";
+import { SaveItemHeart } from "../saveItemHeart";
 
 export function MusicBar() {
   const {
-
     currentSong,
     isNext,
     isPrev,
     prevSong,
     nextSong,
     toggleLike,
-    isCurrentSong
+    isCurrentSong,
   } = useQueue();
-  const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } = useMusicPlayer();
-  const { success, error } = useToastNotification();
+  const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } =
+    useMusicPlayer();
+  const { toastMessage } = useToastNotification();
   const [open, setOpen] = useState<boolean>(false);
   // const [currentBar, setCurrentBar] = useState<number>(0);
   const parent = {
@@ -111,13 +112,11 @@ export function MusicBar() {
         <div className="  h-18 absolute  lg:bottom-0 bottom-12   sm:gap-18 gap-6  z-50  w-full bg-card border-t-[1px] border-card-border  shadow-soft   ">
           <div
             className=" w-full h-2  cursor-pointer hover:border-[1px]  hover:border-neutral-600  flex items-center "
-
             onClick={(e) => {
               const rect = e.currentTarget.getBoundingClientRect();
               const progress = ((e.clientX - rect.left) / rect.width) * 100;
-              setCurrentTime(progress)
+              setCurrentTime(progress);
             }}
-
           >
             <div
               className="bg-green-400  h-1   "
@@ -141,19 +140,17 @@ export function MusicBar() {
               }}
               className=" flex items-center gap-4  "
             >
-              {
-                !currentSong ? (
-                  <div className="  h-[50px] w-[50px] bg-neutral-600 rounded-lg "></div>
-                ) : (
-                  <Image
-                    src={currentSong.image}
-                    alt="poster"
-                    height={50}
-                    width={50}
-                    className="  rounded "
-                  />
-                )
-              }
+              {!currentSong ? (
+                <div className="  h-[50px] w-[50px] bg-neutral-600 rounded-lg "></div>
+              ) : (
+                <Image
+                  src={currentSong.image}
+                  alt="poster"
+                  height={50}
+                  width={50}
+                  className="  rounded "
+                />
+              )}
               <div className="  max-w-[24rem] ">
                 <h1 className=" text-text-heading font-heading text-lg line-clamp-1 ">
                   {decodeHTML(currentSong?.title ?? "")}
@@ -168,8 +165,9 @@ export function MusicBar() {
             <div className="flex  gap-4 items-center ">
               <SkipBack
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                  }  `}
+                className={` stroke-1  max-sm:size-6  ${
+                  isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                }  `}
                 onClick={() => {
                   prevSong();
                 }}
@@ -191,12 +189,10 @@ export function MusicBar() {
                     />
                   )}
                 </div>
-
               ) : (
                 <Play
                   size={30}
                   className={`stroke-1  max-sm:size-6 ${isCurrentSong ? "cursor-pointer " : "cursor-not-allowed opacity-40 "}`}
-
                   onClick={() => {
                     if (isCurrentSong) {
                       console.log("play");
@@ -208,35 +204,25 @@ export function MusicBar() {
 
               <SkipForward
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                  }  `}
+                className={` stroke-1  max-sm:size-6  ${
+                  isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                }  `}
                 onClick={() => {
                   nextSong();
                 }}
               />
             </div>
             <div className=" flex items-center sm:gap-8  ">
-
               <CurrentSongPlayingTime />
-              <Heart
-                size={30}
-                className={` max-md:hidden   stroke-[1.5px]  ${currentSong?.isLiked && "stroke-0 fill-red-800"} ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40 "}`}
-                onClick={async () => {
-                  // currentSong
-                  if (!isCurrentSong) {
-                    return;
-                  }
-                  const response = await saveSong(currentSong);
-                  if (response) {
-                    success(
-                      `Song ${currentSong.isLiked ? "Removed" : "Saved"}`
-                    );
-                    toggleLike(currentSong.id);
-                  } else {
-                    error("Song Not Saved");
-                  }
-                }}
-              />
+              {!currentSong ? (
+                <div></div>
+              ) : (
+                <SaveItemHeart
+                  songs={currentSong}
+                  showHeart={true}
+                  updateState={(id: string) => {}}
+                />
+              )}
               <ViewQueueSongs />
               <MusicBarPopover />
               {open ? (
@@ -268,7 +254,7 @@ export function MusicBar() {
 
 function ViewQueueSongs() {
   const [queueOpen, setQueueOpen] = useState<boolean>(false);
-  const { isCurrentSong } = useQueue()
+  const { isCurrentSong } = useQueue();
 
   return (
     <>
@@ -325,5 +311,3 @@ function ViewQueueSongs() {
     </>
   );
 }
-
-

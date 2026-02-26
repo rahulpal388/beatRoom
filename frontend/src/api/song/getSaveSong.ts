@@ -10,7 +10,7 @@ export async function getSaveSong(): Promise<{
 }> {
 
     try {
-        const response = await api.get("/save/song");
+        const response = await api.get("/song/save");
         return {
             success: true,
             message: "successfully",

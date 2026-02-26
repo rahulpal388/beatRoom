@@ -43,10 +43,10 @@ export function Music() {
 
   return (
     <>
-      <div className=" flex flex-col gap-4  w-full lg:pb-20 pb-32   ">
-        {newReleased.length > 0 && (
+      <div className=" pt-4 flex flex-col gap-4  w-full lg:pb-20 pb-32   ">
+        {/* {newReleased.length > 0 && (
           <MusicBanner song={newReleased.slice(0, 5)} />
-        )}
+        )} */}
         <SongsSection heading="New Released">
           {newReleased.length === 0 ? (
             <MoreSkeletonCard count={10} />

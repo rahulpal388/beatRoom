@@ -9,10 +9,8 @@ export function getForwardPageUrl(songs: ISong | IPlaylist | IAlbum | IArtistAlb
 
     switch (songs.type) {
         case "song": {
-            console.log(songs)
             const songToken = songs.perma_url.split("/").at(-1) || "";
             const albumToken = songs.more_info.album_url.split("/").at(-1) || "";
-            console.log(songToken, albumToken)
             return `/dashboard/song/${songToken}/${albumToken}`
         }
         case "album": {

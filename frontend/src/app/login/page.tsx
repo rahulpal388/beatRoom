@@ -12,7 +12,7 @@ export default function Login() {
     if (isAuthenticated) {
       router.push(`/dashboard`);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated]);
 
   if (isAuthenticated) {
     return <div>Redirecting.........</div>;

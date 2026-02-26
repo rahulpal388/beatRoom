@@ -87,7 +87,9 @@ export function SearchBar() {
                         >
                             <div>
                                 <h1 className=" text-lg ">Songs</h1>
-                                <div className=" mt-2  ">
+                                <div className=" mt-2  "
+                                    onClick={() => { setOpen(false) }}
+                                >
                                     {searchSuggestion.songs.data.slice(0, 4).map((song, idx) => (
                                         <SearchedItems
                                             key={idx}
@@ -102,7 +104,9 @@ export function SearchBar() {
                             </div>
                             <div>
                                 <h1 className=" text-lg ">Albums</h1>
-                                <div className=" mt-2  ">
+                                <div className=" mt-2  "
+                                    onClick={() => { setOpen(false) }}
+                                >
                                     {searchSuggestion.albums.data.slice(0, 4).map((album, idx) => (
                                         <SearchedItems
                                             key={idx}
@@ -117,7 +121,9 @@ export function SearchBar() {
                             </div>
                             <div>
                                 <h1 className=" text-lg  ">Artists</h1>
-                                <div className=" mt-2  ">
+                                <div className=" mt-2  "
+                                    onClick={() => { setOpen(false) }}
+                                >
                                     {searchSuggestion.artists.data
                                         .slice(0, 4)
                                         .map((artist, idx) => (

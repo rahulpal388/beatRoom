@@ -6,3 +6,4 @@ BeatRoom is a **real-time social streaming platform** where you and your friends
 - Chat in real-time 💬  
 - Add songs to a **shared queue** 📂  
 - Ask AI to play or suggest music 🤖
+

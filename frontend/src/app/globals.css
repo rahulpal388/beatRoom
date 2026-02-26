@@ -4,7 +4,7 @@
   --default-color-scheme: light;
 }
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
 
 * {
   scrollbar-width: none;
@@ -37,12 +37,12 @@
 
 .dark{
   /* --background:oklch(0.1831 0.004 285.99); */
-  --background:oklch(0.2002 0 0);
-  --foreground:oklch(0.8593 0.1017 73.9);
+  /* --background:oklch(0.2002 0 0); */
+  /* --foreground:oklch(0.8593 0.1017 73.9); */
 
     /* for cards */
-    --card:oklch(0.2147 0 0);
-    --color-card-hover:oklch(0.9235 0.004 133.45);
+    /* --card:oklch(0.2147 0 0); */
+    /* --color-card-hover:oklch(0.9235 0.004 133.45); */
 }
 
 

@@ -9,7 +9,7 @@ export async function saveALbum(album: IAlbum): Promise<boolean> {
         await api.post(`/album/save`, album);
         return true;
 
-    } catch (error) {
+    } catch {
         return false;
     }
 }

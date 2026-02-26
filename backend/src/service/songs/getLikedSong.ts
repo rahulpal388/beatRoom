@@ -15,11 +15,8 @@ export const getLikedSong = async (userId: string | null): Promise<Set<string>> 
 
         const songId = user!.songs as unknown as { id: string, isLiked: boolean }[]
         const idArr = songId.filter(x => x.isLiked).map(x => x.id)
-        console.log("saved song id")
-        console.log(idArr)
         return new Set(idArr);
     } catch {
-        console.log("error");
         return new Set([]);
     }
 };

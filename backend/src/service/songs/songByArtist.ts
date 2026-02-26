@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiSong, ISong } from "types/songType.js";
+import { ApiSong, ISong } from "../../types/songType.js";
 import { getLikedSong } from "./getLikedSong.js";
 import { retriveSong } from "./retriveSong.js";
 
@@ -16,7 +16,7 @@ export async function songByArtist(userId: string | null, artistId: string): Pro
         const songs = response.data as ApiSong[];
 
         return retriveSong(songs, likedSong)
-    } catch (error) {
+    } catch {
         return []
     }
 

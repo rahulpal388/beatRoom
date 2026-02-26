@@ -2,20 +2,13 @@
 
 import { getUserDetails } from "@/api/auth/getUserDetails";
 import { IAuthUser } from "@/types/authType";
-import axios from "axios";
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-
-
+import React, { createContext, useContext, useEffect, useState } from "react";
 
 type TAuthContext = {
   currentUser: IAuthUser | null;
   isAuthenticated: boolean;
-  authenticateUser: (user: IAuthUser) => void
+  authenticateUser: (user: IAuthUser) => void;
+  removeAuthenticatedUser: () => void;
 };
 
 const authContext = createContext<TAuthContext | undefined>(undefined);
@@ -29,9 +22,12 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const authenticateUser = (user: IAuthUser) => {
     setCurrentUser(user);
     setAuthenticated(true);
-  }
+  };
 
-
+  const removeAuthenticatedUser = () => {
+    setCurrentUser(null);
+    setAuthenticated(false);
+  };
 
   useEffect(() => {
     const authenticate = async () => {
@@ -47,7 +43,12 @@ export const AuthContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
   return (
     <authContext.Provider
-      value={{ currentUser, isAuthenticated, authenticateUser }}
+      value={{
+        currentUser,
+        isAuthenticated,
+        authenticateUser,
+        removeAuthenticatedUser,
+      }}
     >
       {children}
     </authContext.Provider>

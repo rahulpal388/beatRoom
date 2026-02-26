@@ -16,9 +16,8 @@ const transpoter = nodemailer.createTransport({
 export const sendEmail = async (email: string, text: string, html: string): Promise<boolean> => {
 
     try {
-        console.log("initiating the email sender")
 
-        const info = await transpoter.sendMail({
+        await transpoter.sendMail({
             from: '"BeatRoom"  <auth.beatroom@gmail.com>',
             to: email,
             subject: "Your BeatRoom OTP code",
@@ -27,7 +26,6 @@ export const sendEmail = async (email: string, text: string, html: string): Prom
 
         })
 
-        console.log(info)
         return true;
     } catch {
         return false;

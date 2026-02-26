@@ -39,7 +39,6 @@ export async function artistInfo(token: string, userId: string | null): Promise<
             featured_artist_playlist: retriveArtistPlaylist(artistResponse.featured_artist_playlist, likedPlaylist)
         }
 
-        console.log(artistResponse.latest_release)
         return result;
     } catch {
         return null;

@@ -1,8 +1,8 @@
-import { formatValidationError } from "@utils/formatZodValidationError.js";
-import { addSongToPlaylistType } from "@zodTypes/playlist.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
+import { addSongToPlaylistType } from "../../zodTypes/playlist.js";
 import { Request, Response } from "express";
-import { saveSongToPlaylist } from "service/playlist/saveSongToPlaylist.js";
-import { ISong } from "types/songType.js";
+import { saveSongToPlaylist } from "../../service/playlist/saveSongToPlaylist.js";
+import { ISong } from "../../types/songType.js";
 
 
 
@@ -11,7 +11,6 @@ export const addSongToPlaylist = async (req: Request, res: Response) => {
 
     const { success, data, error } = addSongToPlaylistType.safeParse(req.body);
     const { userId } = req.user
-    console.log("adding song to playlist")
     if (!userId) {
         return res.status(401).json({
             message: "log in to add song to playlist"

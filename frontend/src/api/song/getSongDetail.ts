@@ -7,7 +7,7 @@ export async function getSongDetails(token: string): Promise<ISong | null> {
     try {
 
         return (await api.get(`/song/songDetail/${token}`)).data;
-    } catch (error) {
+    } catch {
         return null;
     }
 }

@@ -70,7 +70,8 @@ export function MusicBarPopover() {
                       <button
                         className=" flex gap-2 items-center hover:bg-card-hover   cursor-pointer text-start   px-4 py-2 "
                         onClick={() => {
-                          showModal("savePlaylist");
+                          setOptionOpen(false);
+                          showModal("saveCurrent");
                         }}
                       >
                         <Plus size={20} />
@@ -79,7 +80,7 @@ export function MusicBarPopover() {
                     </div>
                     <div className=" py-4 border-t-[1px] border-neutral-100/60  overflow-y-auto pb-12">
                       <ul>
-                        {playlistName.map((items, idx) => (
+                        {playlistName.map((items) => (
                           <li
                             key={items.id}
                             className="hover:bg-card-hover   cursor-pointer text-start   px-4 py-2 "
@@ -124,9 +125,9 @@ export function MusicBarPopover() {
                         onClick={async () => {
                           const { success, message } = currentSong.isLiked
                             ? await removeEntity(
-                                currentSong.id,
-                                currentSong.type,
-                              )
+                              currentSong.id,
+                              currentSong.type,
+                            )
                             : await saveEntity(currentSong.type, currentSong);
                           toastMessage({
                             message,

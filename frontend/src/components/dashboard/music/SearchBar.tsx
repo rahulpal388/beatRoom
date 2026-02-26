@@ -1,6 +1,5 @@
 "use client";
 import { Debounce } from "@/lib/debounce";
-import axios from "axios";
 import { CircleUserRound, Search } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -9,7 +8,6 @@ import { decodeHTML } from "@/lib/decodeHtml";
 import Link from "next/link";
 import { ISearchReco } from "@/types/searchType";
 import { searchReco } from "@/api/searchReco";
-import { div } from "motion/react-client";
 
 export function SearchBar() {
   const [searchSuggestion, setSearchSuggestion] = useState<ISearchReco | null>(
@@ -22,7 +20,6 @@ export function SearchBar() {
 
     const response = await searchReco(searchSuggestion);
 
-    console.log(response);
     if (response) {
       setSearchSuggestion(response);
     }
@@ -78,9 +75,8 @@ export function SearchBar() {
                 duration: 0.3,
                 ease: "easeInOut",
               }}
-              className={`  ${
-                open ? "block" : " hidden"
-              }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
+              className={`  ${open ? "block" : " hidden"
+                }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
               onFocus={() => {
                 setOpen(true);
               }}
@@ -228,9 +224,8 @@ function SearchedItems({
   return (
     <div>
       <Link
-        href={`${
-          type === "song" ? `/${type}/${token}/search` : `/${type}/${token}`
-        }`}
+        href={`${type === "song" ? `/${type}/${token}/search` : `/${type}/${token}`
+          }`}
         className="  px-2 py-2 rounded-sm hover:bg-card-hover   group  flex max-lg:flex-col md:items-center   gap-4 hover:bg-bar overflow-hidden "
       >
         <div>

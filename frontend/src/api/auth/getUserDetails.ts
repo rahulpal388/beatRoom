@@ -1,4 +1,3 @@
-import axios from "axios";
 import api from "../baseUrlAxios";
 import { IAuthUser } from "@/types/authType";
 
@@ -11,7 +10,7 @@ export async function getUserDetails(): Promise<IAuthUser | null> {
 
         return userInfo;
 
-    } catch (error) {
+    } catch {
         return null;
     }
 

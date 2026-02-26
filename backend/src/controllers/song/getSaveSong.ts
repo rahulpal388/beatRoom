@@ -16,7 +16,7 @@ export const getSaveSong = async (req: Request, res: Response) => {
 
     res.status(200).json(user!.songs);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json("error while finding the save song");
   }
 };

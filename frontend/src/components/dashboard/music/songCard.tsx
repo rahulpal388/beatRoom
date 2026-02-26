@@ -1,20 +1,14 @@
-import { EllipsisVerticalIcon, Heart, ListPlus } from "lucide-react";
 import Image from "next/image";
-import React, { useEffect, useRef } from "react";
 import { decodeHTML } from "@/lib/decodeHtml";
 import Link from "next/link";
 import { useQueue } from "@/context/queueContext";
-import { usePopoverCard } from "@/context/popover";
 import { getSong } from "@/lib/getSong";
 import { PlayBotton } from "@/ui/play";
 import { INewReleaseSong, ISong } from "@/types/songType";
 import { IPlaylist } from "@/types/playlistType";
 import { IAlbum } from "@/types/albumType";
-import { useToastNotification } from "@/context/toastNotificationContext";
 import { IArtistAlbum } from "@/types/artistType";
 import { getForwardPageUrl } from "../getForwardPageUrl";
-import { saveEntity } from "@/api/saveEntity";
-import { removeEntity } from "@/api/removeEntity";
 import { SaveItemHeart } from "../saveItemHeart";
 import { AddQueueIcon } from "../addQueueIcon";
 
@@ -29,8 +23,7 @@ export function SongCards({
   return (
     <>
       <div
-        className={`relative shadow-xl    group px-4 py-4 md:h-[16rem] md:w-[10rem] sm:w-[16rem]
-                    w-[10rem] rounded  hover:bg-card-hover`}
+        className={`relative shadow-xl    group px-4 py-4 w-[11rem] md:w-[13rem] lg:w-[14rem]  rounded  hover:bg-card-hover`}
       >
         <div
           className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full  flex`}
@@ -40,7 +33,7 @@ export function SongCards({
             showHeart={false}
             updateState={updateState}
           />
-          <div className={`relative  hidden group-hover:block `}>
+          <div className={`relative pr-2  hidden group-hover:block `}>
             <AddQueueIcon songs={songs} />
           </div>
         </div>
@@ -56,9 +49,8 @@ export function SongCards({
           />
 
           <PlayBotton
-            className=" absolute top-[6.2rem] right-[1.2rem]  opacity-0 group-hover:opacity-100 "
+            className=" absolute top-[7rem] md:top-[9rem] lg:top-[10rem] right-[1.2rem]   opacity-0 group-hover:opacity-100 "
             onClick={async () => {
-              console.log(songs);
               const song = await getSong(songs);
               addQueueAndSetCurrent(song);
             }}
@@ -70,19 +62,19 @@ export function SongCards({
           className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] "
         >
           {decodeHTML(songs.title)}
-        </Link>
 
-        <p className="  mt-1 text-[0.7rem] text-text-muted line-clamp-2  ">
-          {decodeHTML(
-            songs.type === "playlist"
-              ? songs.subtitle
-              : songs.type === "song"
-                ? songs.more_info.artistMap.artists
-                    .map((x) => x.name)
-                    .join(", ")
-                : "",
-          )}
-        </p>
+          <p className="  mt-1 text-[0.7rem] text-text-muted line-clamp-2  ">
+            {decodeHTML(
+              songs.type === "playlist" || songs.type === "userPlaylist"
+                ? songs.subtitle
+                : songs.type === "song"
+                  ? songs.more_info.artistMap.artists
+                      .map((x) => x.name)
+                      .join(", ")
+                  : "",
+            )}
+          </p>
+        </Link>
       </div>
     </>
   );
@@ -95,23 +87,13 @@ export function SongsSection({
   heading: string;
   children: React.ReactNode;
 }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const { containerRef } = usePopoverCard();
-
-  useEffect(() => {
-    containerRef.current = ref.current;
-  }, [containerRef]);
-
   return (
     <>
       <div className=" rounded-lg w-[99%]  px-4 py-2 shadow-soft bg-card  border  border-transparent   ">
         <h1 className=" text-xl text-text-heading font-semibold font-heading ">
           {heading}
         </h1>
-        <div
-          ref={ref}
-          className="mt-4   grid grid-flow-col max-sm:grid-rows-1 gap-4  overflow-x-auto  "
-        >
+        <div className="mt-4   grid grid-flow-col max-sm:grid-rows-1 gap-4  overflow-x-auto  ">
           {children}
         </div>
       </div>

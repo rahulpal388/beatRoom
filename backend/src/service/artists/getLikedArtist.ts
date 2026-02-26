@@ -13,7 +13,6 @@ export async function getLikedArtist(userId: string | null): Promise<Set<string>
                 select: "id"
             })
         const idArr = user?.artists.map(x => String(x.id))
-        console.log(idArr)
         return new Set(idArr);
     } catch {
         return new Set([]);

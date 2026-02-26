@@ -3,7 +3,6 @@
 import { getAlbumSong } from "@/api/album/getAlbumSong";
 import { getSongBySameArtist } from "@/api/song/getSongBySameArtist";
 import { getSongDetails } from "@/api/song/getSongDetail";
-import { getSongReco } from "@/api/song/getSongReco";
 import { getTrendingSong } from "@/api/song/trendingSong";
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";

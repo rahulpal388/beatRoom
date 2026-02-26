@@ -3,9 +3,6 @@ import { SongCardContaier } from "@/components/dashboard/music/songCardContainer
 
 import { IArtists } from "@/types/artistType";
 import { ArtistCircleCardSkeleton } from "@/ui/artistCircleCardSkeletop";
-import axios from "axios";
-import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { ArtistCard } from "@/components/dashboard/music/artistCard";
 import { getTopArtist } from "@/api/artist/getTopArtist";
@@ -14,7 +11,6 @@ export default function TopArtists() {
   const [topArtist, setTopArtist] = useState<IArtists[]>([]);
   useEffect(() => {
     const fetchTopArtist = async () => {
-      const limit = 10;
       const response = await getTopArtist(20, 1);
 
       setTopArtist(response);
@@ -37,7 +33,7 @@ export default function TopArtists() {
                   <ArtistCircleCardSkeleton />
                 </div>
               ))
-            : topArtist.map((artist, idx) => (
+            : topArtist.map((artist) => (
               <ArtistCard
                 key={artist.id}
                 name={artist.name}

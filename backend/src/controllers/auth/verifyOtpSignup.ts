@@ -75,7 +75,7 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
 
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       message: "can't verify otp",
     });

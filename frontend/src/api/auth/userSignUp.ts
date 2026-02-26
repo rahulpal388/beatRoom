@@ -10,7 +10,7 @@ export async function userSignUp(data: IAuthFormData): Promise<{
 } | null> {
 
     try {
-        const respponse = await api.post(`/auth/signup`, data);
+        await api.post(`/auth/signup`, data);
 
         return {
             success: true,

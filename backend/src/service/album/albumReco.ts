@@ -18,7 +18,7 @@ export async function albumReco(id: string, userId: string | null): Promise<IAlb
 
         return retriveTrendingAlbum(album, likedAlbum);
     } catch (error) {
-        console.log(`Error while fetching album Recommandation => ${error}`)
+        console.error(`Error while fetching album Recommandation => ${error}`)
         return [];
     }
 

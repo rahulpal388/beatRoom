@@ -1,12 +1,10 @@
-import { removeEntity } from "@/api/removeEntity";
-import { saveEntity } from "@/api/saveEntity";
 import { getSong } from "@/lib/getSong";
 import { IAlbum } from "@/types/albumType";
 import { IArtistAlbum, IArtistInfo } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
 import { INewReleaseSong, ISong } from "@/types/songType";
 import { Button } from "@/ui/button";
-import { Heart, ListPlus } from "lucide-react";
+import { Heart } from "lucide-react";
 import { AddQueueIcon } from "./addQueueIcon";
 import { useQueue } from "@/context/queueContext";
 
@@ -16,12 +14,12 @@ export function ShowDetailPlay({
   onSave,
 }: {
   items:
-    | ISong
-    | IPlaylist
-    | IAlbum
-    | IArtistAlbum
-    | INewReleaseSong
-    | IArtistInfo;
+  | ISong
+  | IPlaylist
+  | IAlbum
+  | IArtistAlbum
+  | INewReleaseSong
+  | IArtistInfo;
   type: string;
   onSave: (id: string) => void;
 }) {
@@ -35,20 +33,17 @@ export function ShowDetailPlay({
           name="Play"
           className="  h-12 w-20 max-md:h-[2.5rem] max-md:w-[4rem] "
           onClick={async () => {
-            console.log(items);
             const songArr = await getSong(items);
-            console.log(songArr);
             addQueueAndSetCurrent(songArr);
           }}
         />
         <div className=" hover:bg-card-hover border-[0.5px] border-card-border/30 hover:border-primary  rounded-full p-2 cursor-pointer ">
           <Heart
             size={30}
-            className={`cursor-pointer    ${
-              items.isLiked
-                ? "fill-red-800 stroke-0 block "
-                : " stroke-[1.2px] "
-            } `}
+            className={`cursor-pointer    ${items.isLiked
+              ? "fill-red-800 stroke-0 block "
+              : " stroke-[1.2px] "
+              } `}
             onClick={() => {
               onSave(items.type !== "artist" ? items.id : items.artistId);
             }}

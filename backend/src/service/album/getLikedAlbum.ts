@@ -11,8 +11,6 @@ export const getLikedAlbum = async (userId: string | null): Promise<Set<string>>
             .populate("albums");
 
         const idArr = user!.albums.map(x => String(x.id))
-        console.log("liked album populate")
-        console.log(idArr)
 
         return new Set(idArr);
     } catch {

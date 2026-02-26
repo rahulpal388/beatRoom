@@ -5,7 +5,7 @@ import { Request, Response } from "express";
 import z from "zod";
 import { ApiPlaylist } from "../../types/playlistType.js";
 import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
-import { PaginationSlice } from "@utils/paginationSlice.js";
+import { PaginationSlice } from "../../utils/paginationSlice.js";
 
 
 

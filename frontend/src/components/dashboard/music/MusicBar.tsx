@@ -3,7 +3,6 @@ import {
   SkipBack,
   SkipForward,
   Play,
-  Heart,
   ListMusic,
   Maximize2,
   Minimize2,
@@ -16,13 +15,10 @@ import { decodeHTML } from "@/lib/decodeHtml";
 import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
 
-import { useToastNotification } from "@/context/toastNotificationContext";
 import { useQueue } from "@/context/queueContext";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
-import { saveSong } from "@/api/song/saveSong";
 import { SaveItemHeart } from "../saveItemHeart";
-import { div } from "motion/react-client";
 
 export function MusicBar() {
   const {
@@ -31,7 +27,6 @@ export function MusicBar() {
     isPrev,
     prevSong,
     nextSong,
-    toggleLike,
     isCurrentSong,
   } = useQueue();
   const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } =
@@ -165,9 +160,8 @@ export function MusicBar() {
             <div className="flex  gap-4 items-center ">
               <SkipBack
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${
-                  isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                }  `}
+                className={` stroke-1  max-sm:size-6  ${isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                  }  `}
                 onClick={() => {
                   prevSong();
                 }}
@@ -180,7 +174,6 @@ export function MusicBar() {
                       className=" stroke-1 cursor-pointer max-sm:size-6 "
                       onClick={() => {
                         if (isCurrentSong) {
-                          console.log("pause");
                           pause();
                         }
                       }}
@@ -193,7 +186,6 @@ export function MusicBar() {
                   className={`stroke-1  max-sm:size-6 ${isCurrentSong ? "cursor-pointer " : "cursor-not-allowed opacity-40 "}`}
                   onClick={() => {
                     if (isCurrentSong) {
-                      console.log("play");
                       play();
                     }
                   }}
@@ -206,9 +198,8 @@ export function MusicBar() {
 
               <SkipForward
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${
-                  isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                }  `}
+                className={` stroke-1  max-sm:size-6  ${isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                  }  `}
                 onClick={() => {
                   nextSong();
                 }}
@@ -297,7 +288,7 @@ function ViewQueueSongs() {
                   ease: "easeInOut",
                 }}
               >
-                <QueueSongs />
+                <QueueSongs setQueueOpen={setQueueOpen} />
               </motion.div>
             </motion.div>
           )}

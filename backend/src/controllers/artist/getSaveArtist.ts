@@ -21,7 +21,6 @@ export async function getSaveArtist(req: Request, res: Response) {
             throw new Error("Error while getting the saved artits")
 
         }
-        console.log(user.artists);
         res.status(200).json(user.artists)
 
     } catch {

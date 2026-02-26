@@ -4,7 +4,6 @@ import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../ui/input-otp";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/authContext";
 import { Button } from "@/ui/button";
@@ -16,7 +15,7 @@ import { verifyOtp } from "@/api/auth/verifyOpt";
 
 export function AuthPage({ type }: { type: "signup" | "login" }) {
   const [viewPassowrd, setViewPassword] = useState<boolean>(false);
-  const [isForm, setIsForm] = useState<boolean>(true);
+  const [isForm] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>("");
   const [user, setUser] = useState<IAuthFormData | null>(null);
@@ -27,7 +26,6 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
 
   const onSubmit: SubmitHandler<IAuthFormData> = async (data) => {
     setUser(data);
-    console.log(data);
 
     setLoading(true);
     if (type === "signup") {
@@ -182,7 +180,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                           name="Submit"
                           type="submit"
                           btnType="Primary"
-                          onClick={() => {}}
+                          onClick={() => { }}
                         />
                       ) : (
                         <Button
@@ -193,7 +191,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                           }
                           type="button"
                           btnType="Loading"
-                          onClick={() => {}}
+                          onClick={() => { }}
                         />
                       )}
                     </div>
@@ -301,7 +299,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                     btnType="Loading"
                     type="button"
                     className=" w-full mt-4 "
-                    onClick={() => {}}
+                    onClick={() => { }}
                   />
                 )}
               </motion.div>

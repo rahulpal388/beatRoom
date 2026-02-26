@@ -42,7 +42,6 @@ export const PopoverContextProvider: FC<{ children: React.ReactNode }> = ({
   };
 
   useEffect(() => {
-    console.log(openPopover);
   }, [openPopover]);
   return (
     <popoverContext.Provider

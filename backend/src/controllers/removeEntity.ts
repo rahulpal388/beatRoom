@@ -1,9 +1,9 @@
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { formatValidationError } from "../utils/formatZodValidationError.js";
 import { Request, Response } from "express";
-import { removeUserAlbum } from "service/album/removeUserAlbum.js";
-import { removeLikedArtist } from "service/artists/removeLikedArtist.js";
-import { removeLikedPlaylist } from "service/playlist/removeLikedPlaylist.js";
-import { removeUserSong } from "service/songs/removeUserSong.js";
+import { removeUserAlbum } from "../service/album/removeUserAlbum.js";
+import { removeLikedArtist } from "../service/artists/removeLikedArtist.js";
+import { removeLikedPlaylist } from "../service/playlist/removeLikedPlaylist.js";
+import { removeUserSong } from "../service/songs/removeUserSong.js";
 import z from "zod";
 
 

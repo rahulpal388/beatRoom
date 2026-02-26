@@ -18,13 +18,19 @@ jobs:
         username: ${{secrets.DOCKER_USERNAME}}
         password: ${{secrets.DOCKER_PASSWORD}}  
 
-    - name: Build the image
-      run: docker build -t rahuldocker974/backend_beatroom:${{github.sha}}
+    - name: Build the backed docker image
+      run:  docker build -t rahuldocker974/backend_beatroom:${{github.sha}} ./backend 
 
-    - name: Push to docker
+    - name: Push to backend docker image
       run: docker push rahuldocker974/backend_beatroom:${{github.sha}} 
 
-    - name: ssh into VM
+    - name: Build the frontend docker image
+      run: docker build -t --build-ags NEXT_PUBLIC_BASE_URL=${{secretsNEXT_PUBLIC_BASE_URL}} rahuldocker974/frontend_beatroom:${{github.sha}} ./frontend
+
+    - name: Push to frontend docker image
+      run: docker push rahuldocker974/frontend_beatroom:${{github.sha}}
+
+    - name: ssh into backend VM and start the docker container
       uses:applyboy/ssh-action@v1
        with:
           host: ${{ secrets.HOST }}
@@ -51,6 +57,24 @@ jobs:
                 --env-file .env \
                 --restart unless-stopped \
                 rahuldocker974/backend_beatroom:${{github.sha}}
+      
+      - name: ssh into frontend VM and start the docker container
+        uses: applyboy/ssh-action@v1
+        with:
+          host:${{secrets.HOST_FRONTEND}}
+          username:${{secrets.USERNAME_FRONTEND}}
+          key:${{secrets.KEY_FRONTEND}}
+          port:${{secrets.PORT_FRONTEND}}
+          script: |
+              docker pull rahuldocker974/frontend_beatroom:${{github.sha}}
+              docker stop frontend || true
+              docker rm frontend || true
+              docker run -d \
+                -p 3000:3000 \
+                --name frontend  \
+                --restart unless-stopped \ 
+                rahuldocker974/frontend_beatroom:${{github.sha}}
+
 
 
     

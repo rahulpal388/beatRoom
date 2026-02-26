@@ -12,7 +12,7 @@ export async function saveUserPlaylist(title: string, subtitle: string, songs: I
             songs
         })
         return true;
-    } catch (error) {
+    } catch {
         return false;
     }
 }

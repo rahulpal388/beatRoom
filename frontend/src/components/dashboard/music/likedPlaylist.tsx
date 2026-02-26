@@ -2,7 +2,6 @@ import { IPlaylist } from "@/types/playlistType";
 import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
-import axios from "axios";
 import { getSavePlaylist } from "@/api/playlist/getSavePlaylist";
 
 export function LikedPlaylist() {
@@ -12,7 +11,6 @@ export function LikedPlaylist() {
   useEffect(() => {
     const fetchPlaylist = async () => {
       const response = await getSavePlaylist();
-      console.log(response);
       setPlaylist(response);
     };
     fetchPlaylist();

@@ -5,7 +5,6 @@ import { Request, Response } from "express";
 export const saveArtist = async (req: Request, res: Response) => {
   const { success, data } = saveArtistType.safeParse(req.body);
   const userId = req.user.userId;
-  console.log(data);
   if (!success) {
     return res.status(400).json({
       message: "Invalid Input",
@@ -34,7 +33,7 @@ export const saveArtist = async (req: Request, res: Response) => {
       message: "artist save",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       message: "error while saving the artist",
     });

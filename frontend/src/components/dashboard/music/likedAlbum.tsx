@@ -13,7 +13,6 @@ export function LikedAlbum() {
   useEffect(() => {
     const fetchAlbum = async () => {
       const response = await getSaveAlbum();
-      console.log(response);
       setAlbum(response);
     };
     fetchAlbum();

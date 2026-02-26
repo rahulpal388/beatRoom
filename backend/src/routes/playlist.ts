@@ -7,7 +7,7 @@ import { savePlaylist } from "../controllers/playlist/savePlaylist.js";
 import { getSavePlaylist } from "../controllers/playlist/getSavePlaylist.js";
 import { saveUserPlaylist } from "../controllers/playlist/saveUserPlaylist.js";
 import { getUserSavedSongPlaylist } from "../controllers/playlist/getUserSavedSongPlaylist.js";
-import { addSongToPlaylist } from "@controllers/playlist/addSongToPlaylist.js";
+import { addSongToPlaylist } from "../controllers/playlist/addSongToPlaylist.js";
 
 export const usePlaylist = Router();
 

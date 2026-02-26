@@ -1,6 +1,5 @@
-import { ISong } from "types/songType.js";
 import { userModel } from "../../db/schema/user.js";
-import { IPlaylist, ISongsPlaylist, IUserSongPlaylist } from "../../types/playlistType.js";
+import { ISongsPlaylist, IUserSongPlaylist } from "../../types/playlistType.js";
 
 
 
@@ -23,7 +22,6 @@ export async function retriveUserSongPlaylist(userId: string, id: string): Promi
     const playlist = userPlaylist.user_playlist as unknown as IUserSongPlaylist[];
     // return userPlaylist.user_playlist;
     const result = playlist.filter(x => x.id === id);
-    console.log(result[0]);
     return result.length === 0 ? null : {
         id: result[0].id,
         title: result[0].title,

@@ -11,12 +11,12 @@ export function AddQueueIcon({
   songs,
 }: {
   songs:
-    | ISong
-    | IPlaylist
-    | IAlbum
-    | IArtistAlbum
-    | INewReleaseSong
-    | IArtistInfo;
+  | ISong
+  | IPlaylist
+  | IAlbum
+  | IArtistAlbum
+  | INewReleaseSong
+  | IArtistInfo;
 }) {
   const { addQueueSong } = useQueue();
   return (
@@ -26,7 +26,6 @@ export function AddQueueIcon({
         onClick={async () => {
           // get the song
           const songArr = await getSong(songs);
-          console.log(songArr);
           addQueueSong(songArr);
           // add to the queue
         }}

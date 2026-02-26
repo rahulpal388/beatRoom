@@ -5,7 +5,6 @@ import { SongCardContaier } from "@/components/dashboard/music/songCardContainer
 
 import { IPlaylist } from "@/types/playlistType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function TopPlaylist() {

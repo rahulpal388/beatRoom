@@ -30,8 +30,8 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currentIdx, setCurrentIdx] = useState<number>(0);
   const isNext = currentIdx < queueSongs.length - 1 ? true : false;
   const isPrev = currentIdx === 0 ? false : true;
-  let currentSong: ISong | undefined = queueSongs[currentIdx];
-  let isCurrentSong = !currentSong ? false : true;
+  const currentSong: ISong | undefined = queueSongs[currentIdx];
+  const isCurrentSong = !currentSong ? false : true;
 
   const prevSong = () => {
     setCurrentIdx((prev) => {
@@ -90,8 +90,9 @@ export const QueueProvider: React.FC<{ children: React.ReactNode }> = ({
     setQueueSongs((prev) => prev.filter((x) => x.id !== songId));
   };
 
-  const changeCurrentSong = (_song: ISong) => {
-    currentSong = _song;
+  const changeCurrentSong = (song: ISong) => {
+    // noop: current song is derived from queue index
+    void song;
   };
 
   return (

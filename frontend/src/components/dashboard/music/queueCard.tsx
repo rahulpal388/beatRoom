@@ -14,7 +14,7 @@ export function QueueCards({
   song: ISong;
   updateState: (id: string) => void;
 }) {
-  const { success, error } = useToastNotification();
+  const { toastMessage } = useToastNotification();
   const { currentSong, removeQueueSong } = useQueue();
   const { isPlaying } = useMusicPlayer();
   return (
@@ -59,10 +59,16 @@ export function QueueCards({
             onClick={async () => {
               const response = await saveSong(song);
               if (response) {
-                success("Song Saved");
+                toastMessage({
+                  message: "Song Saved",
+                  type: "success"
+                })
                 updateState(song.id);
               } else {
-                error("Song Not Saved");
+                toastMessage({
+                  message: "Failed to save song",
+                  type: "error"
+                })
               }
             }}
           />

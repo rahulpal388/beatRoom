@@ -1,10 +1,12 @@
 "use client";
+import { CreateNewPlaylist } from "@/components/modal/createNewPlaylist";
 import { createContext, useContext, useState } from "react";
 
-type IValue = "savePlaylist";
+export type IValue = "saveCurrent" | "saveQueue";
 
 type IModalType = {
   showModal: (value: IValue) => void;
+  removeModal: () => void;
 };
 
 const modalContext = createContext<IModalType | null>(null);
@@ -17,9 +19,12 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const showModal = (value: IValue) => {
     setType(value);
   };
+  const removeModal = () => {
+    setType(null);
+  };
 
   return (
-    <modalContext.Provider value={{ showModal }}>
+    <modalContext.Provider value={{ showModal, removeModal }}>
       {children}
       {type && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -30,7 +35,7 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({
 
           {/* Modal Content */}
           <div className="relative bg-white p-8 rounded-xl shadow-lg">
-            Hello World
+            <CreateNewPlaylist value={type} />
           </div>
         </div>
       )}

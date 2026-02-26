@@ -27,7 +27,7 @@ export const savePlaylist = async (req: Request, res: Response) => {
       message: "playlist saved",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       message: "Error while saving the playlist",
     });

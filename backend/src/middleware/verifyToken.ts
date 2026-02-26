@@ -12,7 +12,6 @@ const verifyTokenMiddleware = async (
 
   const { ref, ac } = req.cookies;
 
-  console.log(req.cookies)
 
   if (ac) {
     const { userId, sessionId, _id } = verifyJwtToken(ac, "ac");
@@ -23,7 +22,6 @@ const verifyTokenMiddleware = async (
     if (ref) {
       // verify token
       const { email, userId, sessionId, isVerified, _id } = verifyJwtToken(ref, "ref");
-      console.log(email, userId, sessionId)
       if (isVerified) {
         // rotate the token
         await rotateToken(res, email, userId, sessionId, _id)

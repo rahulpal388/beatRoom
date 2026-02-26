@@ -33,7 +33,6 @@ export default function PlaylistPage() {
 
       setPlaylist(responsePlaylist);
       if (!responsePlaylist) {
-        console.log("responsePlaylist is null");
         return;
       }
       const [responseReco, responseTrending] = await Promise.all([

@@ -12,7 +12,7 @@ export default function Login() {
     if (isAuthenticated) {
       router.push(`/`);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, router]);
 
   if (isAuthenticated) {
     return <div>Redirecting.........</div>;
@@ -20,7 +20,7 @@ export default function Login() {
 
   return (
     <>
-      <div className=" dark:bg-froground dark:text-background  h-screen ">
+      <div className=" dark:bg-froground dark:text-background  h-screen px-12 ">
         <AuthPage type="login" />
       </div>
     </>

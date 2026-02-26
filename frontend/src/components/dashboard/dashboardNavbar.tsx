@@ -6,7 +6,6 @@ import { SearchBar } from "./music/SearchBar";
 import { Button } from "@/ui/button";
 import { useRouter } from "next/navigation";
 import { ThemeToggleComponent } from "../themeToggleComponent";
-import { useEffect, useState } from "react";
 
 export function DashboardNavbar() {
   const { isAuthenticated, currentUser } = useAuth();

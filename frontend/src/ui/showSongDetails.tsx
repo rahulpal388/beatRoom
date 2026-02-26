@@ -57,9 +57,7 @@ export const ShowSongDetails: FC<{ songDetails: IShowSongDetails }> = ({
                 name="Play"
                 className=" py-3 rounded-xl "
                 icon={<Play />}
-                onClick={() => {
-                  console.log("play song");
-                }}
+                onClick={() => { }}
               />
               <Heart className="size-10 stroke-1 cursor-pointer " />
               <EllipsisVertical className="size-8 cursor-pointer" />

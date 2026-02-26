@@ -5,7 +5,7 @@ import { IAlbum } from "@/types/albumType";
 import { savePlaylist } from "./playlist/savePlaylist";
 import { IPlaylist } from "@/types/playlistType";
 import { saveArtist } from "./artist/saveArtist";
-import { IArtistInfo, IArtists } from "@/types/artistType";
+import { IArtists } from "@/types/artistType";
 import { saveUserPlaylist } from "./playlist/saveUserPlaylist";
 
 type IUserPlaylistType = {
@@ -27,8 +27,6 @@ export async function saveEntity<T extends ISaveEntity>(type: T, data: IEntityDa
     message: string;
 }> {
 
-
-    console.log(type);
     try {
         switch (type) {
             case "song": {
@@ -58,7 +56,7 @@ export async function saveEntity<T extends ISaveEntity>(type: T, data: IEntityDa
             success: true,
             message: `${type} Saved`
         }
-    } catch (error) {
+    } catch {
         return {
             success: false,
             message: "Error Saving"

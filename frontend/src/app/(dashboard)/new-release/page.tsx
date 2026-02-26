@@ -2,7 +2,7 @@
 import { getNewReleasedSong } from "@/api/song/newReleasedSong";
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
-import { INewReleaseSong, ISong } from "@/types/songType";
+import { INewReleaseSong } from "@/types/songType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { useEffect, useState } from "react";
 

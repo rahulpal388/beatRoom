@@ -12,11 +12,9 @@ export const getSaveAlbum = async (req: Request, res: Response) => {
 
   try {
     const album = await saveAlbum(userId)
-    console.log(album)
-    // console.log(JSON.stringify(album?.likes?.albums));
     res.status(200).json(album);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     res.status(500).json({
       message: "error while getting the album ",
     });

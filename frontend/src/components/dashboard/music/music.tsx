@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { MusicBanner } from "./musicBanner";
 import { SongCards, SongsSection } from "./songCard";
-import axios from "axios";
 
 import { INewReleaseSong, ISong } from "@/types/songType";
 import { IArtists } from "@/types/artistType";
@@ -34,8 +32,6 @@ export function Music() {
       setTrending(trending);
       setTopPlaylist(playlist);
       setTopArtist(artist);
-      console.log("trending songs")
-      console.log(trending);
     };
 
     getPlaylist();

@@ -7,8 +7,7 @@ import { getSongUrl } from "../controllers/song/getSongUrl.js";
 import { getSearchReco } from "../controllers/song/getSearchReco.js";
 import { saveSong } from "../controllers/song/saveSong.js";
 import { getSaveSong } from "../controllers/song/getSaveSong.js";
-import { userModel } from "db/schema/user.js";
-import { getTopSongByArtist } from "@controllers/song/getTopSongByArtist.js";
+import { getTopSongByArtist } from "../controllers/song/getTopSongByArtist.js";
 
 // export type TSong = {
 //   duration: string;

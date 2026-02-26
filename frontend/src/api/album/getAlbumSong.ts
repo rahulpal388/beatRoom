@@ -9,7 +9,7 @@ export async function getAlbumSong(albumToken: string): Promise<IAlbumSong | nul
     try {
 
         return (await api.get(`/album/?albumToken=${albumToken}`)).data
-    } catch (error) {
+    } catch {
         return null;
     }
 }

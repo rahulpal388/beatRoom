@@ -2,14 +2,13 @@
 import { getAlbumReco } from "@/api/album/getAlbumReco";
 import { getAlbumSong } from "@/api/album/getAlbumSong";
 import { getTrendingAlbum } from "@/api/album/getTrendingAlbum";
-import { ArtistCard, ArtistCardContaier } from "@/components/dashboard/music/artistCard";
+import { ArtistCard } from "@/components/dashboard/music/artistCard";
 import { ShowSongDetails } from "@/components/dashboard/music/showSongDetail";
 import { SongCards, SongsSection } from "@/components/dashboard/music/songCard";
 import { SongHorizontalCard } from "@/components/dashboard/music/songHorizontalCard";
 import { IAlbum, IAlbumSong } from "@/types/albumType";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
-import axios from "axios";
 import { notFound, useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -24,7 +23,6 @@ export default function AlbumPage() {
     const fetchAlbum = async () => {
       const responseAlbum = await getAlbumSong(token as string);
       setAlbum(responseAlbum);
-      console.log(responseAlbum);
       if (!responseAlbum) {
         notFound();
       }

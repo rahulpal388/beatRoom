@@ -1,12 +1,8 @@
-
 import { ISong } from "@/types/songType";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
 import { getSaveSong } from "@/api/song/getSaveSong";
-
-
 
 export function LikedSong() {
   const [song, setSong] = useState<ISong[]>([]);
@@ -26,17 +22,19 @@ export function LikedSong() {
           <h1 className=" text-lg ">Song is empty!</h1>
         </div>
       ) : (
-        <SongCardContaier>
-          {song.map((song, idx) => (
-            <SongCards
-              key={idx}
-              songs={song}
-              updateState={(id: string) => {
-                setSong((prev) => prev.filter((x) => x.id !== id));
-              }}
-            />
-          ))}
-        </SongCardContaier>
+        <div className="">
+          <SongCardContaier>
+            {song.map((song, idx) => (
+              <SongCards
+                key={idx}
+                songs={song}
+                updateState={(id: string) => {
+                  setSong((prev) => prev.filter((x) => x.id !== id));
+                }}
+              />
+            ))}
+          </SongCardContaier>
+        </div>
       )}
     </>
   );

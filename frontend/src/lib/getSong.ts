@@ -4,13 +4,11 @@ import { getAlbumSong } from "@/api/album/getAlbumSong";
 import { IPlaylist } from "@/types/playlistType";
 import { IAlbum } from "@/types/albumType";
 import { IArtistAlbum, IArtistInfo } from "@/types/artistType";
-import { getArtistInfo } from "@/api/artist/getArtistInfo";
 import { getUserSavedPlaylistInfo } from "@/api/playlist/getUserSavedPlaylist";
 
 
 export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum | INewReleaseSong | IArtistInfo
 ): Promise<ISong[]> => {
-  console.log(songs)
 
   switch (songs.type) {
     case "song": {

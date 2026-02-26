@@ -1,6 +1,6 @@
-import { songModel } from "db/schema/song.js";
+import { songModel } from "../../db/schema/song.js";
 import { ISong } from "../../types/songType.js";
-import { userPlaylistModel } from "db/schema/userPlaylist.js";
+import { userPlaylistModel } from "../../db/schema/userPlaylist.js";
 
 
 
@@ -25,7 +25,7 @@ export async function saveSongToPlaylist(userId: string, id: string, songs: ISon
             { $addToSet: { songs: savedSong._id } }
         )
         return true;
-    } catch (error) {
+    } catch {
         return false;
     }
 

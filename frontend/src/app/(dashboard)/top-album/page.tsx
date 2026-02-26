@@ -5,7 +5,6 @@ import { SongCards } from "@/components/dashboard/music/songCard";
 import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 import { IAlbum } from "@/types/albumType";
 import { MoreSkeletonCard } from "@/ui/cardSkeleton";
-import axios from "axios";
 import { useEffect, useState } from "react";
 
 export default function TopAlbum() {
@@ -16,7 +15,6 @@ export default function TopAlbum() {
       const language = "hindi";
       const respose = await getTrendingAlbum(30, 1, language);
       setTopAlbum(respose);
-      console.log(respose);
     };
     fetchTopAlbum();
   }, []);

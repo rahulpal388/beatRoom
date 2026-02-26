@@ -8,7 +8,7 @@ export async function logoutUser(): Promise<boolean> {
         await api.get(`/auth/logout`);
 
         return true;
-    } catch (error) {
+    } catch {
         return false;
     }
 

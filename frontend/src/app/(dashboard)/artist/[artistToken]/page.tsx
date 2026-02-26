@@ -1,13 +1,8 @@
 "use client";
 import { getArtistInfo } from "@/api/artist/getArtistInfo";
-import { removeEntity } from "@/api/removeEntity";
-import { saveEntity } from "@/api/saveEntity";
 import { SongCards } from "@/components/dashboard/music/songCard";
 import { ShowDetailPlay } from "@/components/dashboard/showDetailPlay";
 import { IArtistInfo } from "@/types/artistType";
-import { Button } from "@/ui/button";
-import axios from "axios";
-import { EllipsisVertical, Heart } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -61,7 +56,7 @@ export default function Artist() {
             <ShowDetailPlay
               items={artistInfo}
               type={artistInfo.type}
-              onSave={async (id: string) => {
+              onSave={async () => {
                 // setArtistInfo((prev) => {
                 //   if (prev) {
                 //     return { ...prev, isLiked: !prev.isLiked };
@@ -77,11 +72,10 @@ export default function Artist() {
           <div>
             <ul className=" flex sm:gap-12 gap-4 border-b-[1px] border-neutral-300 ">
               <li
-                className={`text-lg font-light h-8 pb-2 ${
-                  active === "song"
-                    ? "border-b-2 border-primary "
-                    : "hover:border-b-2 hover:border-primary "
-                }  `}
+                className={`text-lg font-light h-8 pb-2 ${active === "song"
+                  ? "border-b-2 border-primary "
+                  : "hover:border-b-2 hover:border-primary "
+                  }  `}
                 onClick={() => {
                   setActive("song");
                 }}
@@ -89,11 +83,10 @@ export default function Artist() {
                 <Link href={""}>Song</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${
-                  active === "album"
-                    ? "border-b-2 border-primary "
-                    : "hover:border-b-2 hover:border-primary "
-                }  `}
+                className={`text-lg font-light h-8 pb-2 ${active === "album"
+                  ? "border-b-2 border-primary "
+                  : "hover:border-b-2 hover:border-primary "
+                  }  `}
                 onClick={() => {
                   setActive("album");
                 }}
@@ -101,11 +94,10 @@ export default function Artist() {
                 <Link href={""}>Album</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${
-                  active === "playlist"
-                    ? "border-b-2 border-primary "
-                    : "hover:border-b-2 hover:border-primary "
-                }  `}
+                className={`text-lg font-light h-8 pb-2 ${active === "playlist"
+                  ? "border-b-2 border-primary "
+                  : "hover:border-b-2 hover:border-primary "
+                  }  `}
                 onClick={() => {
                   setActive("playlist");
                 }}
@@ -113,11 +105,10 @@ export default function Artist() {
                 <Link href={""}>Playlist</Link>
               </li>
               <li
-                className={`text-lg font-light h-8 pb-2 ${
-                  active === "new_release"
-                    ? "border-b-2 border-primary "
-                    : "hover:border-b-2 hover:border-primary "
-                }  `}
+                className={`text-lg font-light h-8 pb-2 ${active === "new_release"
+                  ? "border-b-2 border-primary "
+                  : "hover:border-b-2 hover:border-primary "
+                  }  `}
                 onClick={() => {
                   setActive("new_release");
                 }}
@@ -127,7 +118,7 @@ export default function Artist() {
             </ul>
           </div>
           <div>
-            <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
+            <div className="  mt-8 grid lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
               {active === "song" &&
                 artistInfo.topSongs.map((song, idx) => (
                   <SongCards
@@ -139,14 +130,13 @@ export default function Artist() {
                   />
                 ))}
             </div>
-            <div className="  mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
+            <div className="  mt-8 grid lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
               {active === "album" &&
                 artistInfo.topAlbums.map((song, idx) => (
                   <SongCards
                     key={idx}
                     songs={song}
-                    updateState={(id: string) => {
-                      console.log(id);
+                    updateState={() => {
                     }}
                   />
                 ))}
@@ -158,13 +148,12 @@ export default function Artist() {
                     <h1 className=" text-2xl  border-b-[1px] border-neutral-300 ">
                       Featured In
                     </h1>
-                    <div className=" mt-8 grid lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
+                    <div className=" mt-8 grid lg:grid-cols-4 md:grid-cols-4 sm:grid-cols-3 grid-cols-2 gap-8  ">
                       {artistInfo.featured_artist_playlist.map((song, idx) => (
                         <SongCards
                           key={idx}
                           songs={song}
                           updateState={(id: string) => {
-                            console.log(id);
                           }}
                         />
                       ))}
@@ -180,7 +169,6 @@ export default function Artist() {
                           key={idx}
                           songs={song}
                           updateState={(id: string) => {
-                            console.log(id);
                           }}
                         />
                       ))}
@@ -199,7 +187,6 @@ export default function Artist() {
                     key={idx}
                     songs={song}
                     updateState={(id: string) => {
-                      console.log(id);
                     }}
                   />
                 ))}

@@ -8,7 +8,7 @@ export async function saveArtist(artist: IArtists): Promise<boolean> {
         await api.post(`/artist/save`, artist);
 
         return true;
-    } catch (error) {
+    } catch {
         return false;
     }
 }

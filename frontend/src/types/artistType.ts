@@ -1,4 +1,3 @@
-import { IAlbum } from "./albumType";
 import { IPlaylist } from "./playlistType";
 import { ISong } from "./songType";
 

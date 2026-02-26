@@ -92,9 +92,10 @@ export default function Browse() {
                   className=" bg-card shadow-2xl w-full h-full  py-4 overflow-hidden "
                 >
                   <ul className="flex flex-col">
-                    {browseList.map((list) => (
+                    {browseList.map((list, idx) => (
                       <Link
                         href={list.link}
+                        key={idx}
                         className=" hover:bg-white px-4 h-8 flex items-center "
                       >
                         <li>{list.title}</li>

@@ -14,7 +14,6 @@ export async function albumSong(albumToken: string, userId: string | null): Prom
             getLikedSong(userId),
             getLikedAlbum(userId),
         ]);
-        console.log(response.data.id)
         const album = response.data as ApiSongAlbum;
         if (album.id.length === 0) {
             return null;

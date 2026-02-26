@@ -1,8 +1,6 @@
 import { IAuthOtpVerifyData, IAuthUser } from "@/types/authType";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import api from "../baseUrlAxios";
-import { Erica_One } from "next/font/google";
-import { features } from "process";
 
 
 

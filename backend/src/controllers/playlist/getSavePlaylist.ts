@@ -23,12 +23,11 @@ export const getSavePlaylist = async (req: Request, res: Response) => {
       })
     ])
 
-    console.log(userSavedPlaylist?.user_playlist)
 
 
     res.status(200).json([...savedPlaylist!.playlists, ...userSavedPlaylist!.user_playlist]);
   } catch (error) {
-    console.log(error)
+    console.error(error)
     res.status(500).json({
       messsage: "error getting the save playlist",
     });

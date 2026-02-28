@@ -14,6 +14,7 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
     "axios": "^1.12.2",
     "bcrypt": "^6.0.0",
     "cookie-parser": "^1.4.7",
@@ -25,11 +26,9 @@
     "hi-base32": "^0.5.1",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.20.1",
-    "nodemailer": "^7.0.6",
-    "puppeteer": "^24.23.0",
+    "resend": "^6.9.3",
     "totp-generator": "^1.0.0",
     "uuid": "^11.1.0",
-    "ws": "^8.18.3",
     "zod": "^4.1.5"
   },
   "devDependencies": {
@@ -44,8 +43,6 @@
     "@types/express-session": "^1.18.2",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
-    "@types/nodemailer": "^7.0.1",
-    "@types/ws": "^8.18.1",
     "concurrently": "^9.2.1",
     "eslint": "^9.39.2",
     "globals": "^17.3.0",

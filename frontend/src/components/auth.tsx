@@ -12,14 +12,19 @@ import { userSignUp } from "@/api/auth/userSignUp";
 import { IAuthFormData } from "@/types/authType";
 import { loginUser } from "@/api/auth/loginUser";
 import { verifyOtp } from "@/api/auth/verifyOpt";
+import { resendOtp } from "@/api/auth/resendOtp";
 
 export function AuthPage({ type }: { type: "signup" | "login" }) {
   const [viewPassowrd, setViewPassword] = useState<boolean>(false);
-  const [isForm] = useState<boolean>(true);
+  const [isForm, setIsForm] = useState<boolean>(true);
   const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>("");
   const [user, setUser] = useState<IAuthFormData | null>(null);
-  const { register, handleSubmit } = useForm<IAuthFormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IAuthFormData>();
   const router = useRouter();
   const { authenticateUser } = useAuth();
   const { toastMessage } = useToastNotification();
@@ -36,7 +41,6 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
           type: "error",
         });
         setLoading(false);
-
         return;
       }
       if (response.success) {
@@ -44,6 +48,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
           message: "Otp Send",
           type: "success",
         });
+        setIsForm(false);
       } else {
         toastMessage({
           message: "User Exit Login",
@@ -110,7 +115,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                   </p>
 
                   <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="mt-12  px-4 flex flex-col gap-4 ">
+                    <div className="mt-12  px-4 flex flex-col gap-2 ">
                       {type === "signup" && (
                         <div>
                           <label
@@ -120,12 +125,25 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                             Username
                           </label>
                           <input
-                            className="mt-1 px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
+                            className="mt-1 text-black px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
                             type="text"
                             id="username"
                             placeholder="Enter username "
-                            {...register("username", { required: true })}
+                            {...register("username", {
+                              required: "Username is require",
+                              minLength: {
+                                value: 3,
+                                message: "Minimum 3 characters",
+                              },
+                              maxLength: {
+                                value: 10,
+                                message: "Minimum 10 characters",
+                              },
+                            })}
                           />
+                          <p className="text-red-500 text-xs ">
+                            {errors.username?.message}
+                          </p>
                         </div>
                       )}
                       <div>
@@ -136,12 +154,17 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                           Email
                         </label>
                         <input
-                          className="mt-1 px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
+                          className="mt-1 text-black px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
                           type="text"
                           id="email"
                           placeholder="Enter email "
-                          {...register("email", { required: true })}
+                          {...register("email", {
+                            required: "Email is required",
+                          })}
                         />
+                        <p className="text-red-500 text-xs">
+                          {errors.email?.message}
+                        </p>
                       </div>
                       <div>
                         <label
@@ -152,11 +175,19 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                         </label>
                         <div className="flex gap-1 items-center border-[1px] border-card-border focus-within:border-primary px-2 rounded ">
                           <input
-                            className="mt-1  py-px rounded w-full outline-none  h-8 "
+                            className="mt-1 text-black  py-px rounded w-full outline-none  h-8 "
                             type={viewPassowrd ? "text" : "password"}
                             id="password"
                             placeholder="Enter password "
-                            {...register("password", { required: true })}
+                            {...register("password", {
+                              required: "Password is require",
+                              pattern: {
+                                value:
+                                  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,10}$/,
+                                message:
+                                  "Password must be 6-10 characters and include uppercase, lowercase, number and special character",
+                              },
+                            })}
                           />
                           {viewPassowrd ? (
                             <Eye
@@ -174,13 +205,16 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                             />
                           )}
                         </div>
+                        <p className=" text-red-600 text-xs ">
+                          {errors.password?.message}
+                        </p>
                       </div>
                       {!loading ? (
                         <Button
                           name="Submit"
                           type="submit"
                           btnType="Primary"
-                          onClick={() => { }}
+                          onClick={() => {}}
                         />
                       ) : (
                         <Button
@@ -191,7 +225,7 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                           }
                           type="button"
                           btnType="Loading"
-                          onClick={() => { }}
+                          onClick={() => {}}
                         />
                       )}
                     </div>
@@ -234,74 +268,90 @@ export function AuthPage({ type }: { type: "signup" | "login" }) {
                       <InputOTPSlot
                         id="0"
                         index={0}
-                        className=" border-primary "
+                        className=" border-primary text-black "
                       />
                       <InputOTPSlot
                         id="1"
                         index={1}
-                        className=" border-primary "
+                        className=" border-primary text-black "
                       />
                       <InputOTPSlot
                         id="2"
                         index={2}
-                        className=" border-primary "
+                        className=" border-primary text-black "
                       />
                       <InputOTPSlot
                         id="3"
                         index={3}
-                        className=" border-primary "
+                        className=" border-primary text-black "
                       />
                       <InputOTPSlot
                         id="4"
                         index={4}
-                        className=" border-primary "
+                        className=" border-primary text-black "
                       />
                       <InputOTPSlot
                         id="5"
                         index={5}
-                        className=" border-primary "
+                        className=" border-primary text-black "
                       />
                     </InputOTPGroup>
                   </InputOTP>
                 </div>
-                <div className=" flex justify-end items-center mt-2 ">
+                <div className=" text-black flex justify-end items-center mt-2 ">
                   <span className=" text-sm pr-1 ">
                     Don&apos;t Receive OTP?
                   </span>
-                  <button className=" underline cursor-pointer ">Resend</button>
-                </div>
-                {!loading ? (
-                  <Button
-                    name="Verify"
-                    type="button"
-                    btnType="Primary"
-                    className=" w-full mt-4 "
+                  <button
+                    className=" underline cursor-pointer "
                     onClick={async () => {
-                      if (otp.length === 6 && user) {
-                        // task 1 : call the API to verify the user
+                      if (user) {
+                        const isEmailSent = await resendOtp(user);
+
+                        if (isEmailSent) {
+                          toastMessage({
+                            message: "OTP Resend",
+                            type: "success",
+                          });
+                        }
+                      } else {
+                        toastMessage({
+                          message: "Error Sending OTP",
+                          type: "error",
+                        });
+                      }
+                    }}
+                  >
+                    Resend
+                  </button>
+                </div>
+
+                <Button
+                  name={!loading ? "Verify" : "Verifying OTP.........."}
+                  type="button"
+                  btnType="Primary"
+                  className=" w-full mt-4 "
+                  onClick={async () => {
+                    if (otp.length === 6 && user) {
+                      // task 1 : call the API to verify the user
+                      if (!loading) {
                         setLoading(true);
                         const response = await verifyOtp({ ...user, otp });
 
                         if (response.success) {
                           authenticateUser(response.user);
+                          router.push("/");
                         } else {
                           toastMessage({
                             message: response.message,
                             type: "error",
                           });
+                          setLoading(false);
                         }
                       }
-                    }}
-                  />
-                ) : (
-                  <Button
-                    name="Verifying OTP.........."
-                    btnType="Loading"
-                    type="button"
-                    className=" w-full mt-4 "
-                    onClick={() => { }}
-                  />
-                )}
+                    }
+                  }}
+                />
               </motion.div>
             )}
           </div>

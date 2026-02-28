@@ -11,7 +11,7 @@ const authRouter = Router();
 
 authRouter.post("/signup", SignUp);
 authRouter.post("/verifyOtp", verifyOtpSignup);
-authRouter.get("/resendOtp", resendOtp)
+authRouter.post("/resendOtp", resendOtp)
 authRouter.post("/login", Login);
 authRouter.get("/logout", verifyTokenMiddleware, Logout);
 authRouter.get("/getUserDetail", verifyTokenMiddleware, getUserDetail);

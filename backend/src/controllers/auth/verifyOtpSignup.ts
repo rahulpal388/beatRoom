@@ -63,7 +63,6 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
     setRefCookie(res, refToken);
     setAcsCookie(res, acToken);
 
-    await optModel.findOneAndDelete({ email: data.email })
 
     res.status(200).json({
       username: user.username,

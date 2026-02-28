@@ -1,33 +1,27 @@
 
 
-import { env } from "../../zodTypes/envType.js";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
+
+const resendMailProvider = new Resend(process.env.RESEND_API_KEY);
 
 
-const transpoter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-        user: env.EMAIL,  //  email 
-        pass: env.EMAIL_PASS,    // pass code for that email
-    },
-})
-
-
-export const sendEmail = async (email: string, text: string, html: string): Promise<boolean> => {
-
+export const sendEmail = async (subject: string, email: string, text: string, html: string): Promise<boolean> => {
     try {
 
-        await transpoter.sendMail({
-            from: '"BeatRoom"  <auth.beatroom@gmail.com>',
+        const msg = {
             to: email,
-            subject: "Your BeatRoom OTP code",
-            text: text,
-            html: html
+            from: "no-reply@rahulxtech.site",
+            subject: subject,
+            text,
+            html
+        }
 
-        })
+        await resendMailProvider.emails.send(msg);
+
 
         return true;
-    } catch {
+    } catch (error) {
+        console.log(JSON.stringify(error));
         return false;
 
     }

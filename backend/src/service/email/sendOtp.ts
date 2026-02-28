@@ -5,10 +5,9 @@ import { sendEmail } from "./sendEmail.js";
 export async function sendOtp(otp: string, username: string, email: string): Promise<boolean> {
 
 
-    const text = `Your OTP code is ${otp}. It expires in 2 minutes.`
-        ;
+  const text = `Your OTP code is ${otp}. It expires in 2 minutes.`;
 
-    const html = `
+  const html = `
         <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f4; padding:20px; font-family:Arial, sans-serif;">
           <tr>
             <td align="center">
@@ -36,7 +35,7 @@ export async function sendOtp(otp: string, username: string, email: string): Pro
         </table>
         `;
 
-    return await sendEmail(email, text, html);
+  return await sendEmail("Your verification code", email, text, html);
 
 
 }

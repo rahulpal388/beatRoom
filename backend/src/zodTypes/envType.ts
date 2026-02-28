@@ -11,8 +11,7 @@ export const envSchema = z.object({
     Ac_SECRET: z.string().min(1, "Ac_SECRET is require"),
     Ref_SECRET: z.string().min(1, "Ref_SECRET is require"),
     UINQUE_USERID_SECRET: z.string().min(1, "UINQUE_USERID_SECRET is required"),
-    EMAIL: z.string().min(1, "EMAIL is required"),
-    EMAIL_PASS: z.string().min(1, "EMAIL_PASS is required")
+    RESEND_API_KEY: z.string().min(1, "Sendgrid api key require")
 
 
 })

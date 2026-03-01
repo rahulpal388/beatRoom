@@ -74,6 +74,7 @@ jobs:
               --env-file .env \
               --restart unless-stopped \
               rahuldocker974/backend_beatroom:${{ github.sha }}
+            docker image prune -f
 
       - name: SSH into frontend VM and start Docker container
         uses: appleboy/ssh-action@v1.0.3
@@ -103,3 +104,4 @@ jobs:
               --name frontend \
               --restart unless-stopped \
               rahuldocker974/frontend_beatroom:${{ github.sha }}
+            docker image prune -f

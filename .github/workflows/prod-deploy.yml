@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build the backend docker image
-        run: docker build -t --no-cache rahuldocker974/backend_beatroom:${{ github.sha }} ./backend
+        run: docker build --no-cache -t rahuldocker974/backend_beatroom:${{ github.sha }} ./backend
 
       - name: Push backend docker image
         run: docker push rahuldocker974/backend_beatroom:${{ github.sha }}

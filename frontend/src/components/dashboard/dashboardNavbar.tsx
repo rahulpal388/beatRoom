@@ -5,9 +5,15 @@ import Link from "next/link";
 import { SearchBar } from "./music/SearchBar";
 import { Button } from "@/ui/button";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { logoutUser } from "@/api/auth/logoutUser";
+import { useToastNotification } from "@/context/toastNotificationContext";
 
 export function DashboardNavbar() {
-  const { isAuthenticated, currentUser } = useAuth();
+  const { isAuthenticated, currentUser, removeAuthenticatedUser } = useAuth();
+  const { toastMessage } = useToastNotification();
+  const [open, setOpen] = useState(false);
   const router = useRouter();
 
   return (
@@ -33,10 +39,55 @@ export function DashboardNavbar() {
                 <p className=" text-[10px] ">{currentUser?.userId}</p>
               </div>
               <div className=" relative   p-2 ">
-                <button className="  cursor-pointer bg-green-700 size-9 rounded-full shadow-2xl flex items-center justify-center ">
+                <button
+                  className="  cursor-pointer bg-green-700 size-9 rounded-full shadow-2xl flex items-center justify-center "
+                  onClick={() => {
+                    setOpen((prev) => !prev);
+                  }}
+                >
                   {currentUser?.username[0].toLocaleUpperCase()}
                 </button>
               </div>
+              <AnimatePresence>
+                {open && (
+                  <motion.div
+                    initial={{
+                      opacity: 0,
+                      height: 0,
+                    }}
+                    animate={{
+                      opacity: 1,
+                      height: 60,
+                    }}
+                    exit={{
+                      opacity: 0,
+                      height: 0,
+                    }}
+                    className="overflow-hidden z-40 py-2 bg-card shadow-2xl  w-32 absolute  top-14 right-4  "
+                  >
+                    <button
+                      className="py-2 w-full cursor-pointer hover:bg-primary/40  "
+                      onClick={async () => {
+                        const response = await logoutUser();
+                        if (response) {
+                          removeAuthenticatedUser();
+                          toastMessage({
+                            message: "Logout successfully",
+                            type: "success",
+                          });
+                        } else {
+                          toastMessage({
+                            message: "Error logout",
+                            type: "error",
+                          });
+                        }
+                      }}
+                    >
+                      Logout
+                    </button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           ) : (
             <Button

@@ -5,6 +5,7 @@ import { useToastNotification } from "@/context/toastNotificationContext";
 import { ILoginData } from "@/types/authType";
 import { Button } from "@/ui/button";
 import { Eye, EyeOff } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -126,6 +127,13 @@ export default function Login() {
                     type="submit"
                     btnType="Primary"
                   />
+
+                  <div className="mt-2 text-black flex items-center justify-center  ">
+                    <span>Create new account ? </span>
+                    <Link href={"/signup"} className=" underline  ">
+                      Signup
+                    </Link>
+                  </div>
                 </div>
               </form>
             </div>

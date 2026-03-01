@@ -43,7 +43,7 @@ export default function MyLibrary() {
   return (
     <>
       <div className=" py-6  ">
-        <div className=" lg:hidden ">
+        <div className=" overflow-y-scroll h-screen ">
           <div className=" flex flex-col items-center justify-center border-b-[1px] border-primary/20 pb-8 ">
             {isAuthenticated ? (
               <>
@@ -54,6 +54,7 @@ export default function MyLibrary() {
                       src={currentUser.profile_image}
                       height={100}
                       width={100}
+                      className="md:h-[14rem] md:w-[15rem] sm:h-[10rem] sm:w-[10rem]   h-[10rem]  w-[10rem] rounded-full"
                     />
                   ) : (
                     <p className=" text-6xl">
@@ -75,6 +76,7 @@ export default function MyLibrary() {
               </div>
             )}
           </div>
+
           <div className=" mt-4 ">
             <ul className=" flex flex-col gap-2 ">
               {libraryItems.map((x, idx) => (

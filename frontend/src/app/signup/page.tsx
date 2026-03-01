@@ -12,6 +12,7 @@ import { userSignUp } from "@/api/auth/userSignUp";
 import { IAuthFormData } from "@/types/authType";
 import { verifyOtp } from "@/api/auth/verifyOpt";
 import { resendOtp } from "@/api/auth/resendOtp";
+import Link from "next/link";
 
 export default function SingUp() {
   const [viewPassowrd, setViewPassword] = useState<boolean>(false);
@@ -224,12 +225,17 @@ export default function SingUp() {
                           type="submit"
                           btnType="Primary"
                         />
+                        <div className="mt-2 text-black flex items-center justify-center  ">
+                          <span>Already have account ? </span>
+                          <Link href={"/login"} className=" underline  ">
+                            Login
+                          </Link>
+                        </div>
                       </div>
                     </form>
                   </motion.div>
                 )}
               </AnimatePresence>
-
               {!isForm && (
                 <motion.div
                   initial={{

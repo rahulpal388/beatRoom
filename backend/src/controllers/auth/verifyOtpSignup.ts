@@ -10,8 +10,8 @@ import { createUser } from "../../service/createUser.js";
 import { createSession } from "../../service/session/createSession.js";
 import { setAcsCookie, setRefCookie } from "../../service/session/session_cookies.js";
 import { createUniqueSessionId } from "../../service/session/createUniqueSessionId.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
-import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
 
 export const verifyOtpSignup = async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -2,7 +2,7 @@ import { formatValidationError } from "../../utils/formatZodValidationError.js";
 import { signUpType } from "../../zodTypes/authType.js";
 import { NextFunction, Request, Response } from "express";
 import { sendVerificationOtp } from "../../service/sendVerificationOtp.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 
 

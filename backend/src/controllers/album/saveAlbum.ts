@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { saveUserAlbum } from "../../service/album/saveUserAlbum.js";
 import { saveAlbumType } from "../../zodTypes/album.js";
 import { IAlbum } from "../../types/album.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 export const saveAlbum = async (req: Request, res: Response, next: NextFunction) => {
 

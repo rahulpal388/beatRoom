@@ -15,7 +15,7 @@ import verifyTokenMiddleware from "./middleware/verifyToken.js";
 import { env } from "./zodTypes/envType.js";
 import { removeEntity } from "./controllers/removeEntity.js";
 import { errorHandler } from "./middleware/errorHandler.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "./utils/apiError.js";
 import helmet from "helmet";
 dns.setDefaultResultOrder("ipv4first");
 

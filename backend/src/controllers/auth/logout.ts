@@ -1,7 +1,7 @@
 import { sessionModal } from "../../db/schema/session.js";
 import { NextFunction, Request, Response } from "express";
 import { clearAcCookie, clearRefCookie } from "../../service/session/session_cookies.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 export const Logout = async (req: Request, res: Response, next: NextFunction) => {
 

@@ -3,12 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "build": "tsc -b",
-    "dev": "tsx watch src/index.ts ",
-    "start": "node  dist/index.js",
-    "lint": "eslint"
-  },
+ "scripts": {
+  "dev": "tsx watch src/index.ts",
+  "build": "tsc",
+  "start": "node dist/index.js",
+  "lint": "eslint src --ext .ts",
+  "type-check": "tsc --noEmit"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -46,6 +47,7 @@
     "@types/mongoose": "^5.11.96",
     "concurrently": "^9.2.1",
     "eslint": "^9.39.2",
+    "eslint-plugin-import": "^2.32.0",
     "globals": "^17.3.0",
     "jiti": "^2.6.1",
     "ts-node": "^10.9.2",

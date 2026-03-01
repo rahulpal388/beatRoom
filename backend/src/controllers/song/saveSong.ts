@@ -2,8 +2,8 @@ import { saveUserSong } from "../../service/songs/saveUserSong.js";
 import { saveSongType } from "../../zodTypes/songType.js";
 import { NextFunction, Request, Response } from "express";
 import { ISong } from "../../types/songType.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 
 

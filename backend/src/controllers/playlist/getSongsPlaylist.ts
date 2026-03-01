@@ -4,7 +4,7 @@ import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
 import { retriveSongPlaylist } from "../../service/playlist/retriveSongPlaylist.js";
 import { getLikedSong } from "../../service/songs/getLikedSong.js";
 import { APiSongsPlaylist } from "../../types/playlistType.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 export const getSongsPlaylist = async (req: Request, res: Response, next: NextFunction) => {
   const { token } = req.params;

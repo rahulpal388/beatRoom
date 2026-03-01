@@ -2,8 +2,8 @@ import { paginationType } from "../../zodTypes/paginatipType.js";
 import { NextFunction, Request, Response } from "express";
 import { getTopArtists } from "../../service/artists/getTopArtists.js";
 import { pagination } from "../../utils/pagination.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
-import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
 
 
 

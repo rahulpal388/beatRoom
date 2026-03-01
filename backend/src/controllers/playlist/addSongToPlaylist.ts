@@ -3,7 +3,7 @@ import { addSongToPlaylistType } from "../../zodTypes/playlist.js";
 import { NextFunction, Request, Response } from "express";
 import { saveSongToPlaylist } from "../../service/playlist/saveSongToPlaylist.js";
 import { ISong } from "../../types/songType.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 
 

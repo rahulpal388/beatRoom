@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from "express";
 import { trendingAlbum } from "../../service/album/trendingAlbum.js";
 import z from "zod";
 import { formatValidationError } from "../../utils/formatZodValidationError.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 export const getTrendingAlbum = async (req: Request, res: Response, next: NextFunction) => {
   const { success, data, error } = paginationType

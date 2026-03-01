@@ -7,7 +7,7 @@ import { createUniqueSessionId } from "../../service/session/createUniqueSession
 import { createAcToken, createRefToken } from "../../service/session/jwtTokens.js";
 import { setAcsCookie, setRefCookie } from "../../service/session/session_cookies.js";
 import { formatValidationError } from "../../utils/formatZodValidationError.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 export const Login = async (req: Request, res: Response, next: NextFunction) => {
   const { data, success, error } = signinType.safeParse(req.body);

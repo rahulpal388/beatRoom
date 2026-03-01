@@ -5,8 +5,8 @@ import z from "zod";
 import { ApiSong } from "../../types/songType.js";
 import { getLikedSong } from "../../service/songs/getLikedSong.js";
 import { retriveSong } from "../../service/songs/retriveSong.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 
 

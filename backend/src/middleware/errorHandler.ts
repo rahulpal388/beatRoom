@@ -1,4 +1,4 @@
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../utils/apiError.js";
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
 
 

@@ -4,8 +4,8 @@ import { NextFunction, Request, Response } from "express";
 import { retrivePlaylist } from "../../utils/retrivePlaylist.js";
 import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
 import { ApiPlaylist } from "../../types/playlistType.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 
 

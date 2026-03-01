@@ -5,7 +5,7 @@ import { retriveSong } from "../../service/songs/retriveSong.js";
 import { ApiSong } from "../../types/songType.js";
 import z from "zod";
 import { formatValidationError } from "../../utils/formatZodValidationError.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 export const getSongReco = async (req: Request, res: Response, next: NextFunction) => {
   const { success, error, data } = z.object({ id: z.string(), language: z.string() }).safeParse(req.body)

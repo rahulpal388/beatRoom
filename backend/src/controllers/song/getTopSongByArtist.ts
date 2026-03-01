@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { songByArtist } from "../../service/songs/songByArtist.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 
 

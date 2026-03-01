@@ -1,8 +1,8 @@
 import z from "zod";
 import { NextFunction, Request, Response } from "express";
 import { albumSong } from "../../service/album/albumSong.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 
 

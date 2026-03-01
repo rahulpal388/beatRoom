@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { saveAlbum } from "../../service/album/saveAlbum.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 export const getSaveAlbum = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user.userId;

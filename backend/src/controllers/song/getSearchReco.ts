@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { searchReco } from "../../service/songs/searchReco.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 
 

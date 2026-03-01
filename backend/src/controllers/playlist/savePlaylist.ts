@@ -2,8 +2,8 @@ import { NextFunction, Request, Response } from "express";
 import { savePlaylistType } from "../../zodTypes/playlist.js";
 import { saveLikedPlaylist } from "../../service/playlist/savelikedPlaylist.js";
 import { IPlaylist } from "../../types/playlistType.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 export const savePlaylist = async (req: Request, res: Response, next: NextFunction) => {
   const { success, data, error } = savePlaylistType.safeParse(req.body);

@@ -1,4 +1,4 @@
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 import { decryptUrl } from "../../utils/decryptUrl.js";
 import { NextFunction, Request, Response } from "express";
 

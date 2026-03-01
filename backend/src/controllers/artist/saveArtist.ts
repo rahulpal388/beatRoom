@@ -1,8 +1,8 @@
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 import { saveLikedArtist } from "../../service/artists/saveLikedArtist.js";
 import { saveArtistType } from "../../zodTypes/artistType.js";
 import { NextFunction, Request, Response } from "express";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 export const saveArtist = async (req: Request, res: Response, next: NextFunction) => {
   const { success, data, error } = saveArtistType.safeParse(req.body);

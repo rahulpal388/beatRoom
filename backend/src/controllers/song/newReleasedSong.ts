@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import { newReleasedSong } from "../../service/songs/newReleasedSong.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 
 

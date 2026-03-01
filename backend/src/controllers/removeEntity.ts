@@ -5,7 +5,7 @@ import { removeLikedArtist } from "../service/artists/removeLikedArtist.js";
 import { removeLikedPlaylist } from "../service/playlist/removeLikedPlaylist.js";
 import { removeUserSong } from "../service/songs/removeUserSong.js";
 import z from "zod";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../utils/apiError.js";
 
 
 

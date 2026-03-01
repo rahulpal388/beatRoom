@@ -3,7 +3,7 @@ import { userModel } from "../../db/schema/user.js";
 import { signUpType } from "../../zodTypes/authType.js";
 import { formatValidationError } from "../../utils/formatZodValidationError.js";
 import { sendVerificationOtp } from "../../service/sendVerificationOtp.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 export const SignUp = async (req: Request, res: Response, next: NextFunction) => {
   const { data, success, error } = signUpType.safeParse(req.body);

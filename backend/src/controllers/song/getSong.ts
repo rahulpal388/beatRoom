@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { getSongDetails } from "../../service/songs/getSongDetails.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 
 export const getSong = async (req: Request, res: Response, next: NextFunction) => {

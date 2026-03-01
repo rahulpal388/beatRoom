@@ -6,8 +6,8 @@ import { retrivePlaylist } from "../../utils/retrivePlaylist.js";
 import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
 import { ApiPlaylist } from "../../types/playlistType.js";
 import { pagination } from "../../utils/pagination.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 export const getPlaylistReco = async (req: Request, res: Response, next: NextFunction) => {
   const { success, data, error } = paginationType

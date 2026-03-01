@@ -6,8 +6,8 @@ import z from "zod";
 import { ApiPlaylist } from "../../types/playlistType.js";
 import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
 import { PaginationSlice } from "../../utils/paginationSlice.js";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 
 

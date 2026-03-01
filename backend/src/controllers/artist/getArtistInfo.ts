@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { artistInfo } from "../../service/artists/artistInfo.js";
 import z from "zod";
-import { apiError } from "@utils/apiError.js";
-import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "../../utils/apiError.js";
+import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 
 

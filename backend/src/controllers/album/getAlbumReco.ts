@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { albumReco } from "../../service/album/albumReco.js";
-import { apiError } from "@utils/apiError.js";
+import { apiError } from "../../utils/apiError.js";
 
 
 

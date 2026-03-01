@@ -108,7 +108,7 @@ export function MusicBar() {
             }}
           >
             <div
-              className="bg-green-400  h-1   "
+              className="bg-primary  h-1   "
               style={{
                 width: `${progress}%`,
               }}

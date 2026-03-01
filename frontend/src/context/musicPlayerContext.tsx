@@ -39,21 +39,24 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
       audioRef.current.play();
       setIsPlaying(true);
     }
-  }, [currentSong]);
+  }, [currentSong, url]);
   const pause = useCallback(() => {
     if (audioRef.current && currentSong) {
       audioRef.current.pause();
       setIsPlaying(false);
     }
-  }, [currentSong]);
+  }, [currentSong, url]);
 
-  const setCurrentTime = useCallback((progress: number) => {
-    if (audioRef.current && currentSong) {
-      audioRef.current.currentTime =
-        (progress * audioRef.current.duration) / 100;
-      setProgress(progress);
-    }
-  }, [currentSong]);
+  const setCurrentTime = useCallback(
+    (progress: number) => {
+      if (audioRef.current && currentSong) {
+        audioRef.current.currentTime =
+          (progress * audioRef.current.duration) / 100;
+        setProgress(progress);
+      }
+    },
+    [currentSong, url],
+  );
 
   useEffect(() => {
     if (!audioRef.current || !url) return;

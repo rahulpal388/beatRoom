@@ -28,7 +28,7 @@ jobs:
       - name: Build the frontend docker image
         run: |
           docker build \
-            --build-arg NEXT_PUBLIC_BASE_URL=${{ secrets.NEXT_PUBLIC_BASE_URL }} \
+            --build-arg NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }} \
             -t rahuldocker974/frontend_beatroom:${{ github.sha }} \
             ./frontend
 

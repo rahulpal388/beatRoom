@@ -10,7 +10,7 @@ export async function resendOtp(data: IAuthFormData): Promise<boolean> {
         await api.post(`/auth/resendOtp`, data);
 
         return true;
-    } catch (error) {
+    } catch {
         return false;
     }
 

@@ -1,24 +1,26 @@
 import { saveUserSong } from "../../service/songs/saveUserSong.js";
 import { saveSongType } from "../../zodTypes/songType.js";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ISong } from "../../types/songType.js";
+import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
 
 
-export const saveSong = async (req: Request, res: Response) => {
-  const { success, data } = saveSongType.safeParse(req.body);
+export const saveSong = async (req: Request, res: Response, next: NextFunction) => {
+  const { success, data, error } = saveSongType.safeParse(req.body);
   const userId = req.user.userId;
   if (!success) {
-    return res.status(400).json({
-      message: "Invalid Input ",
-    });
+    return next(new apiError(401, "Invalid input ", {
+      message: formatValidationError(error)
+    }))
 
   }
 
   if (!userId) {
-    return res.status(401).json({
-      message: "log in to save song",
-    });
+    return next(new apiError(401, "Unauthoize login to save song", {
+      message: "Login to save song"
+    }))
   }
 
   try {
@@ -28,10 +30,9 @@ export const saveSong = async (req: Request, res: Response) => {
       message: "song saved"
     })
   } catch (error) {
-    console.error(error)
-    res.status(500).json({
-      message: "Error saving Song"
-    })
+    return next(new apiError(500, "Error saving sogn", {
+      message: "server error"
+    }))
   }
 
 

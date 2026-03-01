@@ -75,8 +75,9 @@ export function SearchBar() {
                 duration: 0.3,
                 ease: "easeInOut",
               }}
-              className={`  ${open ? "block" : " hidden"
-                }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
+              className={`  ${
+                open ? "block" : " hidden"
+              }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
               onFocus={() => {
                 setOpen(true);
               }}
@@ -155,7 +156,7 @@ export function SearchBar() {
             <div>
               <h1 className=" text-lg font-medium max-lg:text-xl ">Songs</h1>
               <div className=" mt-2 flex flex-wrap gap-2   ">
-                {searchSuggestion.songs.data.slice(0, 4).map((song, idx) => (
+                {searchSuggestion.songs.data.map((song, idx) => (
                   <SearchedItems
                     key={idx}
                     url={song.url}
@@ -170,7 +171,7 @@ export function SearchBar() {
             <div>
               <h1 className=" text-lg font-medium max-lg:text-xl ">Albums</h1>
               <div className=" mt-2 flex flex-wrap gap-2  ">
-                {searchSuggestion.albums.data.slice(0, 4).map((album, idx) => (
+                {searchSuggestion.albums.data.map((album, idx) => (
                   <SearchedItems
                     key={idx}
                     type={album.type}
@@ -224,9 +225,10 @@ function SearchedItems({
   return (
     <div>
       <Link
-        href={`${type === "song" ? `/${type}/${token}/search` : `/${type}/${token}`
-          }`}
-        className="  px-2 py-2 rounded-sm hover:bg-card-hover   group  flex max-lg:flex-col md:items-center   gap-4 hover:bg-bar overflow-hidden "
+        href={`${
+          type === "song" ? `/${type}/${token}/search` : `/${type}/${token}`
+        }`}
+        className="  px-2 py-2 rounded-sm hover:bg-card-hover   group  flex max-lg:flex-col md:items-center gap-4 hover:bg-bar overflow-hidden max-sm:w-[12rem] max-md:w-[11rem]  max-lg:w-[12rem] "
       >
         <div>
           {image.length === 0 ? (
@@ -237,16 +239,16 @@ function SearchedItems({
               alt="image"
               height={100}
               width={100}
-              className="rounded-sm  max-lg:h-[12rem] max-lg:w-[12rem]  max-md:h-[10rem] max-md:w-[10rem] max-sm:h-[8rem] max-sm:w-[8rem] "
+              className="rounded-sm  max-lg:h-[12rem] max-lg:w-full  max-md:h-[10rem] max-md:w-full max-sm:h-[9rem] max-sm:w-full "
             />
           )}
         </div>
         <div>
-          <p className="text-lg   line-clamp-1 w-[12rem] max-md:w-[10rem] max-sm:w-[8rem]  ">
+          <p className="text-lg  md:px-4 line-clamp-1 w-[13rem] max-md:w-[10rem] max-sm:w-[8rem]  ">
             {" "}
             {decodeHTML(title)}
           </p>
-          <p className=" text-xs dark:group-hover:text-neutral-500 dark:text-neutral-400 line-clamp-1 w-[12rem] max-md:w-[10rem]  max-sm:w-[8rem] ">
+          <p className=" text-xs md:px-4 dark:group-hover:text-neutral-500 dark:text-neutral-400 line-clamp-1 w-[12rem] max-md:w-[10rem]  max-sm:w-[8rem] ">
             {decodeHTML(description)}
           </p>
         </div>

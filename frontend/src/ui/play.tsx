@@ -4,7 +4,7 @@ export function PlayBotton({
   onClick,
   className,
 }: {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   className?: string;
 }) {
   return (

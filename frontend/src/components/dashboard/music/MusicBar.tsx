@@ -21,14 +21,8 @@ import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
 import { SaveItemHeart } from "../saveItemHeart";
 
 export function MusicBar() {
-  const {
-    currentSong,
-    isNext,
-    isPrev,
-    prevSong,
-    nextSong,
-    isCurrentSong,
-  } = useQueue();
+  const { currentSong, isNext, isPrev, prevSong, nextSong, isCurrentSong } =
+    useQueue();
   const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } =
     useMusicPlayer();
   const { updateQueue } = useQueue();
@@ -72,7 +66,7 @@ export function MusicBar() {
                 delayChildren: 0.1,
                 ease: "easeInOut",
               }}
-              className="bg-card absolute bottom-18 z-50 bg-bar w-full h-full  flex max-sm:flex-col max-sm:pb-20 items-center sm:justify-between lg:px-36  px-4 md:gap-12 gap-4 pt-20 overflow-y-auto   "
+              className="bg-card absolute bottom-18  z-50 bg-bar w-full h-full  flex max-sm:flex-col max-sm:pb-20 items-center sm:justify-between lg:px-36  px-4 md:gap-12 gap-4 pt-20 overflow-y-auto   "
             >
               <motion.div
                 variants={child}
@@ -104,7 +98,7 @@ export function MusicBar() {
             </motion.div>
           )}
         </AnimatePresence>
-        <div className="  h-18 absolute  lg:bottom-0 bottom-12   sm:gap-18 gap-6  z-50  w-full bg-card border-t-[1px] border-card-border  shadow-soft   ">
+        <div className="  h-18 absolute  lg:bottom-0 max-lg:fixed bottom-12   sm:gap-18 gap-6  z-50  w-full bg-card border-t-[1px] border-card-border  shadow-soft   ">
           <div
             className=" w-full h-2  cursor-pointer hover:border-[1px]  hover:border-neutral-600  flex items-center "
             onClick={(e) => {
@@ -160,8 +154,9 @@ export function MusicBar() {
             <div className="flex  gap-4 items-center ">
               <SkipBack
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                  }  `}
+                className={` stroke-1  max-sm:size-6  ${
+                  isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                }  `}
                 onClick={() => {
                   prevSong();
                 }}
@@ -198,8 +193,9 @@ export function MusicBar() {
 
               <SkipForward
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                  }  `}
+                className={` stroke-1  max-sm:size-6  ${
+                  isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                }  `}
                 onClick={() => {
                   nextSong();
                 }}

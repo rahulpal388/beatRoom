@@ -4,6 +4,7 @@
 export type IAuthUser = {
     username: string;
     userId: string;
+    email: string;
     profile_image: string;
 }
 

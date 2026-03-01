@@ -1,19 +1,21 @@
 import { paginationType } from "../../zodTypes/paginatipType.js";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { getTopArtists } from "../../service/artists/getTopArtists.js";
 import { pagination } from "../../utils/pagination.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "@utils/apiError.js";
 
 
 
 
-const getTopArtits = async (req: Request, res: Response) => {
-  const { success, data } = paginationType
+const getTopArtits = async (req: Request, res: Response, next: NextFunction) => {
+  const { success, data, error } = paginationType
     .safeParse(req.query);
 
   if (!success) {
-    return res.status(401).json({
-      messsage: "Invalid input"
-    });
+    return next(new apiError(401, "Invalid input save album", {
+      message: formatValidationError(error)
+    }))
 
   }
 

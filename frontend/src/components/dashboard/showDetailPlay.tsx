@@ -14,12 +14,12 @@ export function ShowDetailPlay({
   onSave,
 }: {
   items:
-  | ISong
-  | IPlaylist
-  | IAlbum
-  | IArtistAlbum
-  | INewReleaseSong
-  | IArtistInfo;
+    | ISong
+    | IPlaylist
+    | IAlbum
+    | IArtistAlbum
+    | INewReleaseSong
+    | IArtistInfo;
   type: string;
   onSave: (id: string) => void;
 }) {
@@ -40,10 +40,11 @@ export function ShowDetailPlay({
         <div className=" hover:bg-card-hover border-[0.5px] border-card-border/30 hover:border-primary  rounded-full p-2 cursor-pointer ">
           <Heart
             size={30}
-            className={`cursor-pointer    ${items.isLiked
-              ? "fill-red-800 stroke-0 block "
-              : " stroke-[1.2px] "
-              } `}
+            className={`cursor-pointer    ${
+              items.isLiked
+                ? "fill-red-800 stroke-0 block "
+                : " stroke-[1.2px] "
+            } `}
             onClick={() => {
               onSave(items.type !== "artist" ? items.id : items.artistId);
             }}

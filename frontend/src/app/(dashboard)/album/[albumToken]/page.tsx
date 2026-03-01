@@ -41,15 +41,11 @@ export default function AlbumPage() {
 
   return (
     <div className=" pb-18 md:px-4 ">
-      <div>
-        {album && (
-          <ShowSongDetails items={album} />
-        )}
-      </div>
-      {
-        isLoading || album && (
-          <div className="mt-8 md:px-12  ">
-            <h1 className="text-xl font-semibold line-clamp-1 max-w-[30rem]  ">
+      <div>{album && <ShowSongDetails items={album} />}</div>
+      {isLoading ||
+        (album && (
+          <div className="mt-8  px-4 md:px-12  ">
+            <h1 className="text-xl font-semibold line-clamp-1 max-w-[26rem]  ">
               Songs From {album?.title}
             </h1>
             <div className="mt-4 flex flex-col gap-2 ">
@@ -64,7 +60,7 @@ export default function AlbumPage() {
                       return {
                         ...prev,
                         list: prev?.list.map((x) =>
-                          x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                          x.id === id ? { ...x, isLiked: !x.isLiked } : x,
                         ),
                       };
                     });
@@ -73,8 +69,7 @@ export default function AlbumPage() {
               ))}
             </div>
           </div>
-        )
-      }
+        ))}
 
       <div className="flex flex-col gap-4 mt-8 ">
         <SongsSection heading="You Might Like">
@@ -88,8 +83,8 @@ export default function AlbumPage() {
                 updateState={(id: string) => {
                   setRecoAlbum((prev) =>
                     prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x,
+                    ),
                   );
                 }}
               />
@@ -107,8 +102,8 @@ export default function AlbumPage() {
                 updateState={(id: string) => {
                   setTrendingAlbum((prev) =>
                     prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x,
+                    ),
                   );
                 }}
               />
@@ -121,7 +116,6 @@ export default function AlbumPage() {
             {isLoading || !album ? (
               <MoreArtistCardSkeleton count={6} />
             ) : (
-
               album.more_info.artistMap.primary_artists.map((artist, index) => (
                 <ArtistCard
                   key={index}

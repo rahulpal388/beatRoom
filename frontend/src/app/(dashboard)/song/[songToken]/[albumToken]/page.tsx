@@ -26,8 +26,7 @@ export default function Songs() {
   useEffect(() => {
     const fetchDetail = async () => {
       const [albums, songDetail] = await Promise.all([
-        getAlbumSong(param.albumToken as string)
-        ,
+        getAlbumSong(param.albumToken as string),
         getSongDetails(param.songToken as string),
       ]);
 
@@ -37,32 +36,31 @@ export default function Songs() {
 
       const [trendingSongs, songBySameArtist] = await Promise.all([
         getTrendingSong(10, 1, songDetail.language),
-        getSongBySameArtist(songDetail.more_info.artistMap.artists.map(x => x.id).join(","))
+        getSongBySameArtist(
+          songDetail.more_info.artistMap.artists.map((x) => x.id).join(","),
+        ),
       ]);
       setAlbum(albums);
       setTrendingSong(trendingSongs);
       setSong(songDetail);
       setSongByArtist(songBySameArtist);
       setIsLoading(false);
-
     };
     fetchDetail();
   }, [param.albumToken, param.songToken]);
 
   return (
-    <div className=" pb-18 md:px-4 ">
+    <div className=" lg:pb-18 pb-32 md:px-4 ">
       {isLoading || !song ? (
         <DisplaySongSkeleton />
       ) : (
-        <ShowSongDetails
-          items={song}
-        />
+        <ShowSongDetails items={song} />
       )}
 
       <div className=" mt-8 flex flex-col gap-4  ">
         {album && (
           <div className=" flex flex-col gap-4 md:px-12 mb-4 ">
-            <h1 className=" font-bold text-2xl line-clamp-1 max-w-[30rem] ">
+            <h1 className=" font-semibold md:text-2xl text-xl line-clamp-1 max-md:px-4 max-w-[30rem]  ">
               More from {decodeHTML(album?.title)}
             </h1>
             {album?.list.map((item, index) => (
@@ -76,7 +74,7 @@ export default function Songs() {
                     return {
                       ...prev,
                       list: prev?.list.map((x) =>
-                        x.id === id ? { ...x, isLiked: !x.isLiked } : x
+                        x.id === id ? { ...x, isLiked: !x.isLiked } : x,
                       ),
                     };
                   });
@@ -97,8 +95,8 @@ export default function Songs() {
                 updateState={(id: string) => {
                   setTrendingSong((prev) =>
                     prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x,
+                    ),
                   );
                 }}
               />
@@ -116,8 +114,8 @@ export default function Songs() {
                 updateState={(id: string) => {
                   setSongByArtist((prev) =>
                     prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x,
+                    ),
                   );
                 }}
               />

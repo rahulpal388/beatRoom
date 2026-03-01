@@ -22,8 +22,9 @@ export function SongCards({
   const { addQueueAndSetCurrent } = useQueue();
   return (
     <>
-      <div
-        className={`relative shadow-xl    group px-4 py-4 w-[11rem] md:w-[13rem] lg:w-[14rem]  rounded  hover:bg-card-hover`}
+      <Link
+        href={getForwardPageUrl(songs)}
+        className={`relative shadow-xl    group px-4 py-4 w-[13rem] sm:w-[11rem] md:w-[13rem]  lg:w-[14.3rem]  rounded  hover:bg-card-hover`}
       >
         <div
           className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full  flex`}
@@ -50,17 +51,16 @@ export function SongCards({
 
           <PlayBotton
             className=" absolute top-[7rem] md:top-[9rem] lg:top-[10rem] right-[1.2rem]   opacity-0 group-hover:opacity-100 "
-            onClick={async () => {
+            onClick={async (e) => {
+              e.preventDefault();
+              e.stopPropagation();
               const song = await getSong(songs);
               addQueueAndSetCurrent(song);
             }}
           />
         </div>
 
-        <Link
-          href={getForwardPageUrl(songs)}
-          className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] "
-        >
+        <div className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] ">
           {decodeHTML(songs.title)}
 
           <p className="  mt-1 text-[0.7rem] text-text-muted line-clamp-2  ">
@@ -74,8 +74,8 @@ export function SongCards({
                   : "",
             )}
           </p>
-        </Link>
-      </div>
+        </div>
+      </Link>
     </>
   );
 }

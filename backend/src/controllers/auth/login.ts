@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { signinType } from "../../zodTypes/authType.js";
 import { matchHash } from "../../utils/hashString.js";
 import { userModel } from "../../db/schema/user.js";
@@ -7,13 +7,14 @@ import { createUniqueSessionId } from "../../service/session/createUniqueSession
 import { createAcToken, createRefToken } from "../../service/session/jwtTokens.js";
 import { setAcsCookie, setRefCookie } from "../../service/session/session_cookies.js";
 import { formatValidationError } from "../../utils/formatZodValidationError.js";
+import { apiError } from "@utils/apiError.js";
 
-export const Login = async (req: Request, res: Response) => {
+export const Login = async (req: Request, res: Response, next: NextFunction) => {
   const { data, success, error } = signinType.safeParse(req.body);
   if (!success) {
-    return res.status(401).json({
+    return next(new apiError(401, "Invalid Input", {
       message: formatValidationError(error)
-    });
+    }))
   }
 
   try {
@@ -21,17 +22,17 @@ export const Login = async (req: Request, res: Response) => {
     const user = await userModel.findOne({ email: data.email }, { password: 1, userId: 1, _id: 1, username: 1, profile_image: 1 });
 
     if (!user) {
-      return res.status(401).json({
+      return next(new apiError(401, "user already eixt", {
         message: "Login User doesn't exits"
-      })
+      }))
     }
 
     const matchPassword = matchHash(data.password, user.password);
 
     if (!matchPassword) {
-      return res.status(401).json({
+      return next(new apiError(401, "Incorrect Password", {
         message: "Incorrect Password"
-      })
+      }))
     }
     const sessionId = createUniqueSessionId();
     const refToken = createRefToken({ email: data.email, userId: user.userId, sessionId, _id: String(user._id) })
@@ -42,16 +43,17 @@ export const Login = async (req: Request, res: Response) => {
 
 
     res.status(200).json({
-      username: user.username,
+      profile_image: user.profile_image,
       userId: user.userId,
-      profile: user.profile_image,
+      username: user.username,
+      email: user.email
     })
 
 
   } catch {
-    return res.status(500).json({
-      message: "Internal server error"
-    })
+    next(new apiError(500, "error logging", {
+      message: "Server Error"
+    }))
   }
 
 

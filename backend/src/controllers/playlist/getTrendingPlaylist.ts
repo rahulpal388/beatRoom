@@ -1,24 +1,25 @@
 import { retrivePlaylist } from "../../utils/retrivePlaylist.js";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import axios from "axios";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import z from "zod";
 import { ApiPlaylist } from "../../types/playlistType.js";
 import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
 import { PaginationSlice } from "../../utils/paginationSlice.js";
+import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
 
 
-export const getTrendingPlaylist = async (req: Request, res: Response) => {
-  const { success, data } = paginationType
+export const getTrendingPlaylist = async (req: Request, res: Response, next: NextFunction) => {
+  const { success, data, error } = paginationType
     .and(z.object({ language: z.string() }))
     .safeParse(req.query);
   const userId = req.user.userId;
   if (!success) {
-    res.status(400).json({
-      message: "Invalid input"
-    });
-    return;
+    return next(new apiError(401, "Invalid input save album", {
+      message: formatValidationError(error)
+    }))
   }
 
   try {
@@ -35,9 +36,9 @@ export const getTrendingPlaylist = async (req: Request, res: Response) => {
 
     res.status(200).json(result);
   } catch {
-    res.status(500).json({
-      message: "Error finding trending playlist"
-    });
+    return next(new apiError(500, "Error getting trending playlist", {
+      message: "Server Error"
+    }))
   }
 };
 

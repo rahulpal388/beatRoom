@@ -1,22 +1,23 @@
 import axios from "axios";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
 import { retrivePlaylist } from "../../utils/retrivePlaylist.js";
 import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
 import { ApiPlaylist } from "../../types/playlistType.js";
 import { pagination } from "../../utils/pagination.js";
+import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
-export const getPlaylistReco = async (req: Request, res: Response) => {
-  const { success, data } = paginationType
+export const getPlaylistReco = async (req: Request, res: Response, next: NextFunction) => {
+  const { success, data, error } = paginationType
     .and(z.object({ listid: z.string() }))
     .safeParse(req.query);
   const userId = req.user.userId;
   if (!success) {
-    res.status(401).json({
-      message: "Invalid input"
-    });
-    return;
+    return next(new apiError(401, "Invalid input save album", {
+      message: formatValidationError(error)
+    }))
   }
   try {
     const [response, likedPlaylist] = await Promise.all([
@@ -31,8 +32,8 @@ export const getPlaylistReco = async (req: Request, res: Response) => {
 
     res.status(200).json(pagination(result, data.limit, data.page));
   } catch {
-    res.status(500).json({
-      message: "Error while get playlist recommandation"
-    });
+    next(new apiError(401, "Error getting playlist reco", {
+      message: "Server Error"
+    }))
   }
 };

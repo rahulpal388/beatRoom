@@ -1,5 +1,4 @@
 "use client";
-import { SongCardContaier } from "@/components/dashboard/music/songCardContainer";
 
 import { IArtists } from "@/types/artistType";
 import { ArtistCircleCardSkeleton } from "@/ui/artistCircleCardSkeletop";
@@ -20,20 +19,20 @@ export default function TopArtists() {
   return (
     <>
       <div className=" sm:px-12 px-4 py-8 pb-20 ">
-        <h1 className="  text-[30px] pb-4 border-b-[1px] border-muted font-medium  ">Top Artists</h1>
-        <SongCardContaier>
-          {topArtist.length <= 0
-            ? Array(10)
-              .fill(0)
-              .map((_, idx) => (
-                <div
-                  key={idx}
-                  className=" flex flex-col items-center  gap-2 "
-                >
-                  <ArtistCircleCardSkeleton />
-                </div>
-              ))
-            : topArtist.map((artist) => (
+        <h1 className="  text-[30px] pb-4 border-b-[1px] border-muted font-medium  ">
+          Top Artists
+        </h1>
+        {topArtist.length <= 0 ? (
+          Array(10)
+            .fill(0)
+            .map((_, idx) => (
+              <div key={idx} className=" flex flex-col items-center  gap-4 ">
+                <ArtistCircleCardSkeleton />
+              </div>
+            ))
+        ) : (
+          <div className=" mt-4 flex-wrap flex gap-6 items-center justify-center md:gap-2 lg:gap-4 xl:gap-10  ">
+            {topArtist.map((artist) => (
               <ArtistCard
                 key={artist.id}
                 name={artist.name}
@@ -42,7 +41,8 @@ export default function TopArtists() {
                 type={"artist"}
               />
             ))}
-        </SongCardContaier>
+          </div>
+        )}
       </div>
     </>
   );

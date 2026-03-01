@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { verifyOtpType } from "../../zodTypes/authType.js";
 import {
   createAcToken,
@@ -10,30 +10,32 @@ import { createUser } from "../../service/createUser.js";
 import { createSession } from "../../service/session/createSession.js";
 import { setAcsCookie, setRefCookie } from "../../service/session/session_cookies.js";
 import { createUniqueSessionId } from "../../service/session/createUniqueSessionId.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
+import { apiError } from "@utils/apiError.js";
 
-export const verifyOtpSignup = async (req: Request, res: Response) => {
+export const verifyOtpSignup = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { success, data } = verifyOtpType.safeParse(req.body);
+    const { success, data, error } = verifyOtpType.safeParse(req.body);
     if (!success) {
-      return res.status(401).json({
-        message: "Invalid input",
-      });
+      return next(new apiError(400, "Invalid Input", {
+        message: formatValidationError(error)
+      }))
     }
 
     const dbOtp = await optModel.findOne({ email: data.email });
 
     if (!dbOtp) {
-      return res.status(400).json({
-        message: "otp expire resend again ",
-      });
+      return next(new apiError(401, "Expire opt", {
+        message: "OTP Expire",
+      }))
 
     }
 
     const isMatchOtp = matchHash(data.otp, dbOtp.otp)
     if (!isMatchOtp) {
-      return res.status(401).json({
+      return next(new apiError(401, "Incorrect OTP", {
         message: "Incorrect OTP"
-      })
+      }))
     }
 
 
@@ -44,7 +46,9 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
     })
 
     if (!user) {
-      throw new Error("error creating user")
+      return next(new apiError(500, "Error creating user", {
+        message: "Server Error"
+      }))
     }
 
     const sessionId = createUniqueSessionId();
@@ -57,7 +61,9 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
     })
 
     if (!session) {
-      throw new Error("Error creating session")
+      return next(new apiError(500, "Error creating session", {
+        message: "Error creating session"
+      }))
     }
 
     setRefCookie(res, refToken);
@@ -65,9 +71,10 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
 
 
     res.status(200).json({
-      username: user.username,
+      profile_image: user.profile_image,
       userId: user.userId,
-      profile: user.profile_image,
+      username: user.username,
+      email: user.email
     })
 
 
@@ -75,8 +82,8 @@ export const verifyOtpSignup = async (req: Request, res: Response) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({
-      message: "can't verify otp",
-    });
+    next(new apiError(500, "error verifying otp", {
+      message: "Server Error"
+    }))
   }
 };

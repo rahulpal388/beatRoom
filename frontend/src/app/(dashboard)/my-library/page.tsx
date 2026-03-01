@@ -79,7 +79,7 @@ export default function MyLibrary() {
             <ul className=" flex flex-col gap-2 ">
               {libraryItems.map((x, idx) => (
                 <Link href={x.link} key={idx}>
-                  <li className=" h-12 bg-card shadow-lg  hover:bg-card-hover w-full text-xl px-4 flex items-center justify-between ">
+                  <li className=" h-14 bg-card shadow-md  hover:bg-card-hover w-full text-xl px-4 flex items-center justify-between ">
                     <p className=" flex gap-2 items-center justify-center ">
                       {x.icon}
                       {x.title}
@@ -114,7 +114,7 @@ export default function MyLibrary() {
               ) : (
                 <div className="  ">
                   <button
-                    className=" min-w-full h-12 bg-red-500 rounded-2xl text-xl cursor-pointer hover:opacity-80  "
+                    className=" min-w-full h-12 bg-primary rounded-2xl text-xl cursor-pointer hover:opacity-80  "
                     onClick={() => {
                       router.push("/signup");
                     }}

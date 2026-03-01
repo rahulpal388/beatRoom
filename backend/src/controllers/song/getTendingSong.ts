@@ -1,24 +1,25 @@
 import axios from "axios";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { paginationType } from "../../zodTypes/paginatipType.js";
 import z from "zod";
 import { ApiSong } from "../../types/songType.js";
 import { getLikedSong } from "../../service/songs/getLikedSong.js";
 import { retriveSong } from "../../service/songs/retriveSong.js";
+import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
 
 
-const getTrendingSong = async (req: Request, res: Response) => {
-  const { success, data } = paginationType
+const getTrendingSong = async (req: Request, res: Response, next: NextFunction) => {
+  const { success, data, error } = paginationType
     .and(z.object({ language: z.string() }))
     .safeParse(req.query);
   const userId = req.user.userId;
 
   if (!success) {
-    return res.status(401).json({
-      message: "Invalid url"
-    });
-
+    return next(new apiError(401, "Invalid input save album", {
+      message: formatValidationError(error)
+    }))
   }
 
   try {
@@ -37,9 +38,9 @@ const getTrendingSong = async (req: Request, res: Response) => {
 
     res.status(200).json(result);
   } catch {
-    res.status(500).json({
-      message: "Error finding trending song"
-    });
+    return next(new apiError(500, "Error getting trendign song", {
+      message: "Server Error"
+    }))
   }
 };
 

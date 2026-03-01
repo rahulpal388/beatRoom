@@ -81,7 +81,7 @@ export default function PlaylistPage() {
       )}
       <div className="flex flex-col gap-4 mt-8 ">
         {playlist?.type === "playlist" && (
-          <div>
+          <div className=" flex flex-col gap-4 ">
             <SongsSection heading="You Might Like">
               {isLoading ? (
                 <MoreSkeletonCard count={10} />

@@ -46,7 +46,16 @@ export type IArtistPlaylist = IPlaylist & {
     language: string
   }
 }
-export type IArtistInfo = {
+export type IArtistInfo = IArtistInfoOnly & {
+
+  topSongs: ISong[];
+  topAlbums: IArtistAlbum[];
+  dedicated_artist_playlist: IArtistPlaylist[];
+  featured_artist_playlist: IArtistPlaylist[];
+  latest_release: IArtistAlbum[];
+};
+
+export type IArtistInfoOnly = {
   artistId: string;
   name: string;
   subtitle: string;
@@ -54,9 +63,4 @@ export type IArtistInfo = {
   follower_count: string;
   type: "artist";
   isLiked: boolean;
-  topSongs: ISong[];
-  topAlbums: IArtistAlbum[];
-  dedicated_artist_playlist: IArtistPlaylist[];
-  featured_artist_playlist: IArtistPlaylist[];
-  latest_release: IArtistAlbum[];
-};
+}

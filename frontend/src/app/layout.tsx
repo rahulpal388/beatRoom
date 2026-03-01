@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${poppins.variable} font-body antialiased   dark:bg-background bg-background text-foreground dark:text-foreground   `}
+        className={`${inter.variable} ${poppins.variable} font-body antialiased  text-black  dark:bg-background bg-background text-foreground dark:text-foreground   `}
       >
         <ThemeProvider
           attribute="class"

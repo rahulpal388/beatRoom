@@ -1,4 +1,4 @@
-import { MouseEventHandler } from "react";
+import { KeyboardEventHandler, MouseEventHandler } from "react";
 
 type IButtonType = "Primary" | "Secondary" | "Loading";
 
@@ -22,6 +22,7 @@ export function Button({
   icon,
   className,
   onClick,
+  onKeyDown,
 }: {
   type: "submit" | "reset" | "button";
   btnType: IButtonType;
@@ -29,6 +30,7 @@ export function Button({
   icon?: React.ReactNode;
   className?: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLButtonElement>;
 }) {
   return (
     <>
@@ -36,6 +38,7 @@ export function Button({
         type={type}
         className={`${buttonStyle[btnType]} ${className}   text-text-heading font-heading flex items-center justify-center gap-2  `}
         onClick={onClick}
+        onKeyDown={onKeyDown}
       >
         {icon}
         {name}

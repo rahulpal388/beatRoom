@@ -1,17 +1,18 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { songByArtist } from "../../service/songs/songByArtist.js";
+import { apiError } from "@utils/apiError.js";
 
 
 
 
-export const getTopSongByArtist = async (req: Request, res: Response) => {
+export const getTopSongByArtist = async (req: Request, res: Response, next: NextFunction) => {
     const { artistId } = req.params;
     const userId = req.user.userId;
     if (!artistId || typeof artistId !== "string") {
 
-        return res.status(401).json({
+        return next(new apiError(401, "Invalid input", {
             message: "Invalid input"
-        })
+        }))
     }
 
 

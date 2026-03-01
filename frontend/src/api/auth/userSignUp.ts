@@ -6,27 +6,34 @@ import axios from "axios";
 
 export async function userSignUp(data: IAuthFormData): Promise<{
     success: boolean;
-    redirect: string
-} | null> {
+    redirect: boolean;
+    message: string
+}> {
 
     try {
-        await api.post(`/auth/signup`, data);
+        const response = await api.post(`/auth/signup`, data);
 
         return {
             success: true,
-            redirect: ""
+            message: response.data.message,
+            redirect: false
         }
     } catch (error) {
         if (axios.isAxiosError(error)) {
-            if (error.status === 301) {
+            if (error.status === 401) {
                 return {
                     success: false,
-                    redirect: "/login"
+                    redirect: true,
+                    message: "Redirecting to login"
                 }
             }
         }
 
-        return null;
+        return {
+            success: false,
+            redirect: false,
+            message: "Error Signup"
+        }
 
     }
 }

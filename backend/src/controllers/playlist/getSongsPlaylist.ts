@@ -1,18 +1,19 @@
 import axios from "axios";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { getLikedPlaylist } from "../../service/playlist/getLikedPlaylist.js";
 import { retriveSongPlaylist } from "../../service/playlist/retriveSongPlaylist.js";
 import { getLikedSong } from "../../service/songs/getLikedSong.js";
 import { APiSongsPlaylist } from "../../types/playlistType.js";
+import { apiError } from "@utils/apiError.js";
 
-export const getSongsPlaylist = async (req: Request, res: Response) => {
+export const getSongsPlaylist = async (req: Request, res: Response, next: NextFunction) => {
   const { token } = req.params;
   const userId = req.user.userId;
 
   if (!token || typeof token !== "string") {
-    return res.status(401).json({
-      message: "Invalid input"
-    })
+    return next(new apiError(401, "Invalid input ", {
+      message: "Invalid Input"
+    }))
   }
 
   try {
@@ -28,6 +29,8 @@ export const getSongsPlaylist = async (req: Request, res: Response) => {
 
     res.status(200).json(result);
   } catch {
-    res.status(200).json({});
+    next(new apiError(500, "Error getting playlist songs", {
+      message: "Server Error"
+    }))
   }
 };

@@ -2,7 +2,6 @@ import { getSaveArtist } from "@/api/artist/getSavedArtist";
 import { IArtists } from "@/types/artistType";
 import { useEffect, useState } from "react";
 import { ArtistCard, ArtistCardContaier } from "./artistCard";
-import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 
 export function LikedArtist() {
   const [artist, setArtist] = useState<IArtists[]>([]);
@@ -15,23 +14,23 @@ export function LikedArtist() {
   }, []);
   return (
     <>
-      <div>
+      {artist.length === 0 ? (
+        <div className=" py-[4rem] flex items-center justify-center  ">
+          <h1 className=" text-lg "> Artist is empty!</h1>
+        </div>
+      ) : (
         <ArtistCardContaier>
-          {artist.length === 0 ? (
-            <MoreArtistCardSkeleton count={6} />
-          ) : (
-            artist.map((item) => (
-              <ArtistCard
-                key={item.id}
-                name={item.name}
-                url={item.perma_url}
-                image={item.image}
-                type={"artist"}
-              />
-            ))
-          )}
+          {artist.map((item) => (
+            <ArtistCard
+              key={item.id}
+              name={item.name}
+              url={item.perma_url}
+              image={item.image}
+              type={"artist"}
+            />
+          ))}
         </ArtistCardContaier>
-      </div>
+      )}
     </>
   );
 }

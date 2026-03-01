@@ -1,14 +1,15 @@
+import { apiError } from "@utils/apiError.js";
 import { userModel } from "../../db/schema/user.js";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 
 
-export async function getSaveArtist(req: Request, res: Response) {
+export async function getSaveArtist(req: Request, res: Response, next: NextFunction) {
     const { userId } = req.user
 
     if (!userId) {
-        return res.status(401).json({
-            message: "Log in to get the save artist"
-        })
+        return next(new apiError(401, "Unauthorize login to get the save artist", {
+            message: "Login to get the save artits"
+        }))
     }
 
     try {
@@ -24,9 +25,9 @@ export async function getSaveArtist(req: Request, res: Response) {
         res.status(200).json(user.artists)
 
     } catch {
-        res.status(500).json({
-            message: "Error finding the saved artists"
-        })
+        return next(new apiError(500, "Error while getting save artist", {
+            message: "Server Error"
+        }))
     }
 
 }

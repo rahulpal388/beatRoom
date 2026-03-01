@@ -1,11 +1,13 @@
 import z from "zod";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { albumSong } from "../../service/album/albumSong.js";
+import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
 
 
-export const getSongAlbum = async (req: Request, res: Response) => {
-  const { success, data } = z
+export const getSongAlbum = async (req: Request, res: Response, next: NextFunction) => {
+  const { success, data, error } = z
     .object({
       albumToken: z.string(),
     })
@@ -13,18 +15,18 @@ export const getSongAlbum = async (req: Request, res: Response) => {
   const userId = req.user.userId;
 
   if (!success) {
-    return res.status(401).json({
-      message: "Invalid input"
-    });
+    return next(new apiError(401, "Invalid input", {
+      message: formatValidationError(error)
+    }))
 
   }
 
   const response = await albumSong(data.albumToken, userId);
 
   if (!response) {
-    return res.status(500).json({
-      message: "Erro while getting the album song"
-    })
+    return next(new apiError(500, "Error Getting album song", {
+      message: "Error getting album song"
+    }))
   }
 
   res.status(200).json(response);

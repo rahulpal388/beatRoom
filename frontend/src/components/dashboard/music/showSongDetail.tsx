@@ -22,14 +22,14 @@ export function ShowSongDetails({
         alt="song image"
         height={300}
         width={300}
-        className=" h-[15rem] w-[18rem] rounded-xl shadow-2xl max-sm:h-[12rem] max-sm:w-[14rem]  "
+        className=" h-[16rem] w-[18rem] rounded-xl shadow-2xl max-sm:h-[14rem] max-sm:w-[14rem]  "
       />
       <div className="lg:w-[40rem]  max-md:flex flex-col items-center justify-center  ">
-        <h1 className=" text-3xl max-md:text-center font-semibold font-heading text-text-heading line-clamp-2  items-center  ">
+        <h1 className=" text-3xl max-sm:text-2xl max-sm:max-w-[20rem] max-md:text-center font-semibold font-heading text-text-heading line-clamp-2  items-center  ">
           {decodeHTML(items.title)}
         </h1>
 
-        <div className="md:mt-4 max-md:text-center mt-px text-text-body   text-[16px] flex flex-col  ">
+        <div className="md:mt-4 max-md:text-center mt-px text-text-body max-md:max-w-[20rem]  md:text-[16px] text-[14px] flex flex-col  ">
           <p className=" line-clamp-2  ">{decodeHTML(items.subtitle)}</p>
 
           {items.type !== "userPlaylist" && (

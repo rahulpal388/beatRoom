@@ -11,20 +11,22 @@ export function AddQueueIcon({
   songs,
 }: {
   songs:
-  | ISong
-  | IPlaylist
-  | IAlbum
-  | IArtistAlbum
-  | INewReleaseSong
-  | IArtistInfo;
+    | ISong
+    | IPlaylist
+    | IAlbum
+    | IArtistAlbum
+    | INewReleaseSong
+    | IArtistInfo;
 }) {
   const { addQueueSong } = useQueue();
   return (
     <>
       <ListPlus
         className="cursor-pointer stroke-[1.8px] "
-        onClick={async () => {
+        onClick={async (e) => {
           // get the song
+          e.preventDefault();
+          e.stopPropagation();
           const songArr = await getSong(songs);
           addQueueSong(songArr);
           // add to the queue

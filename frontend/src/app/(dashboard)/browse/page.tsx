@@ -57,7 +57,7 @@ export default function Browse() {
 
   return (
     <>
-      <div className=" py-6 px-8 max-sm:px-4  ">
+      <div className=" py-6 px-8 max-sm:px-4 pb-[9rem] ">
         <div className=" mt-8 max-lg:hidden  flex w-full  items-center justify-center ">
           <p className=" font-semibold text-xl  ">Mobile Only Page</p>
         </div>
@@ -96,7 +96,7 @@ export default function Browse() {
                       <Link
                         href={list.link}
                         key={idx}
-                        className=" hover:bg-white px-4 h-8 flex items-center "
+                        className=" active:bg-primary hover:bg-white px-4 h-8 flex items-center "
                       >
                         <li>{list.title}</li>
                       </Link>

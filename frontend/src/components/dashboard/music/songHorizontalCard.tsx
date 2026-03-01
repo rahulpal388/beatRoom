@@ -21,7 +21,7 @@ export function SongHorizontalCard({
   const album_token = songs.more_info.album_url.split("/").at(-1);
   const { addQueueAndSetCurrent } = useQueue();
   return (
-    <div className=" group hover:bg-card-hover px-4 py-2 rounded flex gap-4 items-center ">
+    <div className=" group hover:bg-card-hover px-4 max-sm:px-6 py-2 rounded flex gap-4 items-center  ">
       <div className=" relative ">
         <p className=" group-hover:opacity-0 ">{serialNumber}</p>
         <CirclePlay
@@ -39,20 +39,20 @@ export function SongHorizontalCard({
         width={40}
         className=" rounded  "
       />
-      <div className=" flex items-center justify-between flex-1  ">
-        <div className=" xl:min-w-[40rem] md:min-w[32rem] min-w-[14rem]   flex xl:gap-12 xl:items-center max-xl:flex-col  ">
+      <div className=" flex items-center sm:justify-between flex-1 max-sm:pr-4 gap-px ">
+        <div className=" xl:min-w-[40rem] md:min-w[32rem] min-w-[14rem]     flex xl:gap-12 xl:items-center max-xl:flex-col  ">
           <Link
             href={`/song/${song_token}/${album_token}`}
-            className=" md:w-[16rem] w-[10rem] text-text-heading font-heading text-[1rem] truncate "
+            className=" md:w-[16rem] w-[8rem] text-text-heading font-heading text-[1rem] truncate "
           >
             {decodeHTML(songs.title)}
           </Link>
 
-          <p className=" md:w-[20rem] w-[14rem] truncate text-[0.7rem] text-text-muted ">
+          <p className="  md:w-[20rem] w-[8rem] truncate text-[0.7rem] text-text-muted ">
             {songs.more_info.artistMap.artists.map((x) => x.name).join(", ")}
           </p>
         </div>
-        <div className=" flex items-center gap-12 ">
+        <div className=" flex items-center md:gap-12 gap-8 ">
           <SaveItemHeart
             songs={songs}
             showHeart={true}

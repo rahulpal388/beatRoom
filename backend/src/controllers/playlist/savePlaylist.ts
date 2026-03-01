@@ -1,23 +1,24 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { savePlaylistType } from "../../zodTypes/playlist.js";
 import { saveLikedPlaylist } from "../../service/playlist/savelikedPlaylist.js";
 import { IPlaylist } from "../../types/playlistType.js";
+import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
-export const savePlaylist = async (req: Request, res: Response) => {
-  const { success, data } = savePlaylistType.safeParse(req.body);
+export const savePlaylist = async (req: Request, res: Response, next: NextFunction) => {
+  const { success, data, error } = savePlaylistType.safeParse(req.body);
   const userId = req.user.userId;
   if (!success) {
-    return res.status(400).json({
-      message: "Invalid input",
-    });
-
+    return next(new apiError(401, "Invalid input save album", {
+      message: formatValidationError(error)
+    }))
 
   }
 
   if (!userId) {
-    return res.status(401).json({
-      message: "log in to save playlist",
-    });
+    return next(new apiError(401, "Unauthorize to get save playlsit", {
+      message: "Login to see the save playlist"
+    }))
   }
 
   try {
@@ -27,9 +28,8 @@ export const savePlaylist = async (req: Request, res: Response) => {
       message: "playlist saved",
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "Error while saving the playlist",
-    });
+    return next(new apiError(500, "Error getting save playlist", {
+      message: "Server Error"
+    }))
   }
 };

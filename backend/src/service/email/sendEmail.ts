@@ -10,7 +10,7 @@ export const sendEmail = async (subject: string, email: string, text: string, ht
 
         const msg = {
             to: email,
-            from: "no-reply@rahulxtech.site",
+            from: "no-reply@beatroom.space",
             subject: subject,
             text,
             html

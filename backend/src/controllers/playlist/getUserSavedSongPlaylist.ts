@@ -1,35 +1,37 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { retriveUserSongPlaylist } from "../../service/playlist/retriveUserSongPlaylist.js";
+import { apiError } from "@utils/apiError.js";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
 
-export const getUserSavedSongPlaylist = async (req: Request, res: Response) => {
+export const getUserSavedSongPlaylist = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.user
     const { id } = req.params
 
     if (!userId) {
-        return res.status(401).json({
-            message: "Login to get the save playlist song"
-        })
+        return next(new apiError(401, "Unauthorize to get user playlist song", {
+            message: "Login to get user playlist song"
+        }))
     }
 
     if (!id || typeof id !== "string") {
-        return res.status(401).json({
-            message: "Invalid input"
-        })
+        return next(new apiError(401, "Invalid input", {
+            message: "Invali Input"
+        }))
     }
     try {
 
         const playlistSong = await retriveUserSongPlaylist(userId, id);
         if (!playlistSong) {
-            return res.status(401).json({
-                message: "can't find saved playlist"
-            })
+            throw new Error("Error");
         }
         res.status(200).json(playlistSong)
 
     } catch {
-        res.status(500).json({
-            message: "error getting save playlist song"
-        })
+
+
+        return next(new apiError(500, "Error getting user save playlist song", {
+            message: "Server Error"
+        }))
     }
 
 }

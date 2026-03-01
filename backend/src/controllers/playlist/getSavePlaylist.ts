@@ -1,13 +1,14 @@
+import { apiError } from "@utils/apiError.js";
 import { userModel } from "../../db/schema/user.js";
-import { Request, Response } from "express";
-
-export const getSavePlaylist = async (req: Request, res: Response) => {
+import { NextFunction, Request, Response } from "express";
+import { formatValidationError } from "@utils/formatZodValidationError.js";
+export const getSavePlaylist = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user.userId;
 
   if (!userId) {
-    return res.status(401).json({
-      message: "Login to get the save playlist"
-    })
+    return next(new apiError(401, "Unauthorize login to save playlist", {
+      message: "Login to save playlist"
+    }))
   }
 
   try {
@@ -26,10 +27,9 @@ export const getSavePlaylist = async (req: Request, res: Response) => {
 
 
     res.status(200).json([...savedPlaylist!.playlists, ...userSavedPlaylist!.user_playlist]);
-  } catch (error) {
-    console.error(error)
-    res.status(500).json({
-      messsage: "error getting the save playlist",
-    });
+  } catch {
+    return next(new apiError(500, "Error saving playlist", {
+      message: "Server Error"
+    }))
   }
 };

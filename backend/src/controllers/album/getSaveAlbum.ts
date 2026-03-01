@@ -1,22 +1,22 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { saveAlbum } from "../../service/album/saveAlbum.js";
+import { apiError } from "@utils/apiError.js";
 
-export const getSaveAlbum = async (req: Request, res: Response) => {
+export const getSaveAlbum = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user.userId;
 
   if (!userId) {
-    return res.status(401).json({
-      message: "Login to get album"
-    })
+    return next(new apiError(401, "Unauthorize can't get save album", {
+      message: "Login to see save album"
+    }))
   }
 
   try {
     const album = await saveAlbum(userId)
     res.status(200).json(album);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      message: "error while getting the album ",
-    });
+  } catch {
+    next(new apiError(500, "Error getting saved album", {
+      message: "Server Error"
+    }))
   }
 };

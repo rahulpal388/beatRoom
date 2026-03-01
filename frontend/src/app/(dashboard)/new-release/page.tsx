@@ -20,7 +20,9 @@ export default function NewReleased() {
   return (
     <>
       <div className=" sm:px-12 px-4 py-8 pb-20 ">
-        <h1 className="  text-4xl ">New Release</h1>
+        <h1 className="  text-4xl border-b-[1px] border-muted font-medium pb-4">
+          New Release
+        </h1>
         <SongCardContaier>
           {newRelease.length <= 0 ? (
             <MoreSkeletonCard count={16} />
@@ -32,8 +34,8 @@ export default function NewReleased() {
                 updateState={(id: string) => {
                   setNewRelease((prev) =>
                     prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x,
+                    ),
                   );
                 }}
               />

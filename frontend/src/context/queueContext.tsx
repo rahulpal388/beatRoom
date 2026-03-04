@@ -1,3 +1,4 @@
+"use client";
 import { ISong } from "@/types/songType";
 import React, { createContext, useContext, useState } from "react";
 import { useToastNotification } from "./toastNotificationContext";

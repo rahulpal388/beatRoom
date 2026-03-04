@@ -1,3 +1,4 @@
+"use client";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { formateTime } from "@/lib/formateTime";
 import { IAlbumSong } from "@/types/albumType";

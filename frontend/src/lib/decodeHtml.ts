@@ -1,6 +1,8 @@
-"use client";
 export const decodeHTML = (str: string): string => {
-  if (typeof window === "undefined") return str;
-  return new DOMParser().parseFromString(str, "text/html").documentElement
-    .textContent;
+  return str
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
 };

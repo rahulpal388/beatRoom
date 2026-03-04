@@ -1,3 +1,4 @@
+"use client";
 import { useQueue } from "@/context/queueContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { getSong } from "@/lib/getSong";
@@ -7,19 +8,25 @@ import Image from "next/image";
 import Link from "next/link";
 import { SaveItemHeart } from "../saveItemHeart";
 import { AddQueueIcon } from "../addQueueIcon";
+import { getItemsToken } from "@/lib/getItemsToken";
+import { useState } from "react";
 
 export function SongHorizontalCard({
   serialNumber,
   songs,
-  updateState,
 }: {
   serialNumber: number;
   songs: ISong;
-  updateState: (id: string) => void;
 }) {
-  const song_token = songs.perma_url.split("/").at(-1);
-  const album_token = songs.more_info.album_url.split("/").at(-1);
+  const song_token = getItemsToken(songs.perma_url);
+  const album_token = getItemsToken(songs.more_info.album_url);
+  const [isLiked, setIsLiked] = useState(songs.isLiked);
   const { addQueueAndSetCurrent } = useQueue();
+
+  const updateState = () => {
+    setIsLiked((prev) => !prev);
+  };
+
   return (
     <div className=" group hover:bg-card-hover px-4 max-sm:px-6 py-2 rounded flex gap-4 items-center  ">
       <div className=" relative ">

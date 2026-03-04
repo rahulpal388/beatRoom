@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import { decodeHTML } from "@/lib/decodeHtml";
 import Link from "next/link";
@@ -11,15 +12,18 @@ import { IArtistAlbum } from "@/types/artistType";
 import { getForwardPageUrl } from "../getForwardPageUrl";
 import { SaveItemHeart } from "../saveItemHeart";
 import { AddQueueIcon } from "../addQueueIcon";
+import { useState } from "react";
 
 export function SongCards({
   songs,
-  updateState,
 }: {
   songs: ISong | IPlaylist | IAlbum | IArtistAlbum | INewReleaseSong;
-  updateState: (id: string) => void;
 }) {
   const { addQueueAndSetCurrent } = useQueue();
+  const [isLiked, setIsLiked] = useState(songs.isLiked);
+  const updateState = () => {
+    setIsLiked((prev) => !prev);
+  };
   return (
     <>
       <Link
@@ -87,6 +91,10 @@ export function SongsSection({
   heading: string;
   children: React.ReactNode;
 }) {
+  if (Array.isArray(children) && children.length === 0) {
+    return null;
+  }
+
   return (
     <>
       <div className=" rounded-lg w-[99%]  px-4 py-2 shadow-soft bg-card  border  border-transparent   ">

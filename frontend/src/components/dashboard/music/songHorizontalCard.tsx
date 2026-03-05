@@ -2,30 +2,27 @@
 import { useQueue } from "@/context/queueContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { getSong } from "@/lib/getSong";
-import { ISong } from "@/types/songType";
 import { CirclePlay } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { SaveItemHeart } from "../saveItemHeart";
 import { AddQueueIcon } from "../addQueueIcon";
 import { getItemsToken } from "@/lib/getItemsToken";
-import { useState } from "react";
+import { useSongStore } from "@/store/songStore";
 
 export function SongHorizontalCard({
   serialNumber,
-  songs,
+  songId,
 }: {
   serialNumber: number;
-  songs: ISong;
+  songId: string;
 }) {
-  const song_token = getItemsToken(songs.perma_url);
-  const album_token = getItemsToken(songs.more_info.album_url);
-  const [isLiked, setIsLiked] = useState(songs.isLiked);
+  const songs = useSongStore((s) => s.songs[songId]);
+  console.log(songs?.perma_url)
+  const song_token = getItemsToken(songs?.perma_url || "");
+  const album_token = getItemsToken(songs?.more_info?.album_url || "");
   const { addQueueAndSetCurrent } = useQueue();
 
-  const updateState = () => {
-    setIsLiked((prev) => !prev);
-  };
 
   return (
     <div className=" group hover:bg-card-hover px-4 max-sm:px-6 py-2 rounded flex gap-4 items-center  ">
@@ -60,11 +57,7 @@ export function SongHorizontalCard({
           </p>
         </div>
         <div className=" flex items-center md:gap-12 gap-8 ">
-          <SaveItemHeart
-            songs={songs}
-            showHeart={true}
-            updateState={updateState}
-          />
+          <SaveItemHeart songs={songs} showHeart={true} />
           <p className=" max-sm:hidden ">
             {Math.floor(Number(songs.more_info.duration) / 60)}:
             {String(Number(songs.more_info.duration) % 60).padStart(2, "0")}

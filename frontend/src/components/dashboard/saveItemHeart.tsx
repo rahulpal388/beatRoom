@@ -1,6 +1,7 @@
 import { removeEntity } from "@/api/removeEntity";
 import { saveEntity } from "@/api/saveEntity";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { useSongStore } from "@/store/songStore";
 import { IAlbum } from "@/types/albumType";
 import { IArtistAlbum } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
@@ -10,23 +11,20 @@ import { Heart } from "lucide-react";
 export function SaveItemHeart({
   songs,
   showHeart,
-  updateState,
 }: {
-  songs: ISong | IPlaylist | IAlbum | IArtistAlbum | INewReleaseSong;
+  songs: ISong | IPlaylist | IAlbum;
   showHeart: boolean;
-  updateState: (id: string) => void;
 }) {
   const { toastMessage } = useToastNotification();
-
+  const likeSong = useSongStore((s) => s.actions.likeSong);
   return (
     <>
       <Heart
         size={30}
-        className={`cursor-pointer   ${
-          songs.isLiked
-            ? "fill-red-800 stroke-0 block "
-            : `${showHeart ? "block stroke-[1.2px] " : "hidden group-hover:block stroke-[1.2px]   "}`
-        } `}
+        className={`cursor-pointer   ${songs.isLiked
+          ? "fill-red-800 stroke-0 block "
+          : `${showHeart ? "block stroke-[1.2px] " : "hidden group-hover:block stroke-[1.2px]   "}`
+          } `}
         onClick={async (e) => {
           e.stopPropagation();
           e.preventDefault();
@@ -38,7 +36,9 @@ export function SaveItemHeart({
             type: success ? "success" : "error",
           });
           if (success) {
-            updateState(songs.id);
+            if (songs.type === "song") {
+              likeSong(songs.id);
+            }
           }
         }}
       />

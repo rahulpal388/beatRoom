@@ -5,11 +5,14 @@ export function retriveTrendingAlbum(album: ApiAlbum[], likedAlbum: Set<string>)
     return album.map(album => (
         {
             id: album.id,
+            subtitle: "",
             title: album.title,
             type: album.type,
             perma_url: album.perma_url,
             image: album.image.replace("150x150", "500x500"),
             isLiked: likedAlbum.has(album.id),
+            language: "",
+            list_count: ""
         }
     ))
 }

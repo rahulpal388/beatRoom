@@ -11,7 +11,10 @@ export type ApiPlaylist = {
     image: string;
 };
 
-export type IPlaylist = WithLike<ApiPlaylist>;
+export type IPlaylist = WithLike<ApiPlaylist> & {
+    list_count: string;
+    language: string;
+};
 
 
 export type APiSongsPlaylist = {

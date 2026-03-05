@@ -15,6 +15,8 @@ export const savePlaylistType = z.object({
   image: z.string(),
   isLiked: z.boolean(),
   perma_url: z.string(),
+  list_count: z.string(),
+  language: z.string()
 });
 
 export const saveUserPlaylistType = z.object({

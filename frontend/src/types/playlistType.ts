@@ -8,9 +8,11 @@ export type IPlaylist = {
   title: string;
   subtitle: string;
   type: "playlist" | "userPlaylist";
-  image: string;
   perma_url: string;
+  image: string;
   isLiked: boolean;
+  list_count: string;
+  language: string;
 };
 
 export type IPlaylistSong = {
@@ -20,8 +22,8 @@ export type IPlaylistSong = {
   type: "playlist" | "userPlaylist";
   perma_url: string;
   image: string;
-  list_count: string;
   isLiked: boolean;
+  list_count: string;
   language: string;
   list: ISong[];
   more_info: {

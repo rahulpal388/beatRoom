@@ -154,9 +154,8 @@ export function MusicBar() {
             <div className="flex  gap-4 items-center ">
               <SkipBack
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${
-                  isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                }  `}
+                className={` stroke-1  max-sm:size-6  ${isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                  }  `}
                 onClick={() => {
                   prevSong();
                 }}
@@ -193,9 +192,8 @@ export function MusicBar() {
 
               <SkipForward
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${
-                  isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                }  `}
+                className={` stroke-1  max-sm:size-6  ${isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                  }  `}
                 onClick={() => {
                   nextSong();
                 }}
@@ -210,7 +208,6 @@ export function MusicBar() {
                   <SaveItemHeart
                     songs={currentSong}
                     showHeart={true}
-                    updateState={updateQueue}
                   />
                 </div>
               )}

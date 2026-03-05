@@ -1,8 +1,8 @@
 "use client";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { formateTime } from "@/lib/formateTime";
-import { IAlbumSong } from "@/types/albumType";
-import { IPlaylistSong } from "@/types/playlistType";
+import { IAlbum, IAlbumSong } from "@/types/albumType";
+import { IPlaylist } from "@/types/playlistType";
 import { ISong } from "@/types/songType";
 import Image from "next/image";
 import { ShowDetailPlay } from "../showDetailPlay";
@@ -10,10 +10,10 @@ import { removeEntity } from "@/api/removeEntity";
 import { saveEntity } from "@/api/saveEntity";
 import { useToastNotification } from "@/context/toastNotificationContext";
 
-export function ShowSongDetails({
+export function ShowItemsDetails({
   items,
 }: {
-  items: ISong | IPlaylistSong | IAlbumSong;
+  items: ISong | IPlaylist | IAlbum;
 }) {
   const { toastMessage } = useToastNotification();
   return (

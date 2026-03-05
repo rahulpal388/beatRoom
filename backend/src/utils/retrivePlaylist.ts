@@ -13,6 +13,8 @@ export const retrivePlaylist = (
       image: x.image,
       type: x.type,
       isLiked: likedPlaylist.has(x.id),
+      language: "",
+      list_count: "",
     }
   ));
 };

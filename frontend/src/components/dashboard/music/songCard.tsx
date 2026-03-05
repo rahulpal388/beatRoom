@@ -13,39 +13,45 @@ import { getForwardPageUrl } from "../getForwardPageUrl";
 import { SaveItemHeart } from "../saveItemHeart";
 import { AddQueueIcon } from "../addQueueIcon";
 import { useState } from "react";
+import { useSongStore } from "@/store/songStore";
+import { usePlaylistStore } from "@/store/playlistStore";
+import { useAlbumStore } from "@/store/albumStore";
 
 export function SongCards({
-  songs,
+  type, id
 }: {
-  songs: ISong | IPlaylist | IAlbum | IArtistAlbum | INewReleaseSong;
+  type: "song" | "playlist" | "album" | "userPlaylist";
+  id: string;
 }) {
+  const song = useSongStore(s => type === "song" ? s.songs[id] : null);
+  const playlist = usePlaylistStore(s => (type === "playlist" || type === "userPlaylist") ? s.playlist[id] : null);
+  const album = useAlbumStore(s => type === "album" ? s.album[id] : null);
   const { addQueueAndSetCurrent } = useQueue();
-  const [isLiked, setIsLiked] = useState(songs.isLiked);
-  const updateState = () => {
-    setIsLiked((prev) => !prev);
-  };
+
+  const items = song || playlist || album
+
+  if (!items) {
+    return null;
+  }
+
   return (
     <>
       <Link
-        href={getForwardPageUrl(songs)}
+        href={getForwardPageUrl(items)}
         className={`relative shadow-xl    group px-4 py-4 w-[13rem] sm:w-[11rem] md:w-[13rem]  lg:w-[14.3rem]  rounded  hover:bg-card-hover`}
       >
         <div
           className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full  flex`}
         >
-          <SaveItemHeart
-            songs={songs}
-            showHeart={false}
-            updateState={updateState}
-          />
+          <SaveItemHeart songs={items} showHeart={false} />
           <div className={`relative pr-2  hidden group-hover:block `}>
-            <AddQueueIcon songs={songs} />
+            <AddQueueIcon songs={items} />
           </div>
         </div>
         <div className="  mb-2  w-full    ">
           <Image
             src={
-              songs.image.length === 0 ? "/default_card_image.jpg" : songs.image
+              items.image.length === 0 ? "/default_card_image.jpg" : items.image
             }
             alt="image"
             height={100}
@@ -58,23 +64,23 @@ export function SongCards({
             onClick={async (e) => {
               e.preventDefault();
               e.stopPropagation();
-              const song = await getSong(songs);
+              const song = await getSong(items);
               addQueueAndSetCurrent(song);
             }}
           />
         </div>
 
         <div className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] ">
-          {decodeHTML(songs.title)}
+          {decodeHTML(items.title)}
 
           <p className="  mt-1 text-[0.7rem] text-text-muted line-clamp-2  ">
             {decodeHTML(
-              songs.type === "playlist" || songs.type === "userPlaylist"
-                ? songs.subtitle
-                : songs.type === "song"
-                  ? songs.more_info.artistMap.artists
-                      .map((x) => x.name)
-                      .join(", ")
+              items.type === "playlist" || items.type === "userPlaylist"
+                ? items.subtitle
+                : items.type === "song"
+                  ? items.more_info.artistMap.artists
+                    .map((x) => x.name)
+                    .join(", ")
                   : "",
             )}
           </p>

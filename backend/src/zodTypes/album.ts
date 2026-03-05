@@ -7,4 +7,7 @@ export const saveAlbumType = z.object({
   perma_url: z.string(),
   image: z.string(),
   isLiked: z.boolean(),
+  subtitle: z.string(),
+  list_count: z.string(),
+  language: z.string()
 });

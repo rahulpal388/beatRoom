@@ -39,4 +39,8 @@ export type ApiAlbum = {
     image: string;
 };
 
-export type IAlbum = WithLike<ApiAlbum>;
+export type IAlbum = WithLike<ApiAlbum> & {
+    subtitle: string;
+    language: string;
+    list_count: string;
+};

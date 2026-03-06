@@ -1,22 +1,23 @@
-import { useQueue } from "@/context/queueContext";
 import { Button } from "@/ui/button";
 import { Reorder } from "motion/react";
 import { QueueCards } from "./queueCard";
 import { useModal } from "@/context/modalContext";
 import { Dispatch, SetStateAction } from "react";
+import { useQueueStore } from "@/store/queueStore";
+import { useSongStore } from "@/store/songStore";
 
 export function QueueSongs({
   setQueueOpen,
 }: {
   setQueueOpen?: Dispatch<SetStateAction<boolean>>;
 }) {
-  const {
-    queueSongs,
-    toggleLike,
-    currentSong,
-    updateQueueSongPosition,
-    currentIdx,
-  } = useQueue();
+  const queueSong = useQueueStore((s) => s.queueSong);
+  const currentSongId = useQueueStore((s) => s.queueSong[s.currentIdx]);
+  const currentIdx = useQueueStore((s) => s.currentIdx);
+  const updateQueueSongPosition = useQueueStore(
+    (s) => s.actions.updateQueueSongPosition,
+  );
+  const currentSong = useSongStore((s) => s.songs[currentSongId]);
   const { showModal } = useModal();
   return (
     <>
@@ -39,36 +40,25 @@ export function QueueSongs({
             />
           </div>
         </div>
-        {queueSongs.length === 0 ? (
+        {queueSong.length === 0 ? (
           <div className=" ">
             <h1 className="text-lg   ">Nothing To Plays</h1>
           </div>
         ) : (
           <div className=" pt-4 border-t-[0.5px] border-card-border">
             {currentSong && (
-              <QueueCards
-                key={currentSong.id}
-                song={currentSong}
-                updateState={(id: string) => {
-                  toggleLike(id);
-                }}
-              />
+              <QueueCards key={currentSong.id} id={currentSong.id} />
             )}
             <div>
               <Reorder.Group
                 axis="y"
-                values={queueSongs}
+                values={queueSong}
                 onReorder={updateQueueSongPosition}
                 className="  overflow-y-auto h-[20rem]   flex flex-col gap-4 py-2 "
               >
-                {queueSongs.slice(currentIdx + 1).map((song) => (
-                  <Reorder.Item key={song.id} value={song}>
-                    <QueueCards
-                      song={song}
-                      updateState={(id: string) => {
-                        toggleLike(id);
-                      }}
-                    />
+                {queueSong.slice(currentIdx + 1).map((song, idx) => (
+                  <Reorder.Item key={idx} value={currentSongId}>
+                    <QueueCards id={song} />
                   </Reorder.Item>
                 ))}
               </Reorder.Group>

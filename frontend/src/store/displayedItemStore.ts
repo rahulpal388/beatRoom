@@ -1,7 +1,7 @@
 import { create } from "zustand"
 
 type DisplayedItem = { type: "song", id: string }
-    | { type: "playlist", id: string }
+    | { type: "playlist" | "userPlaylist", id: string }
     | { type: "album", id: string }
 
 export type DisplayedItemType = {

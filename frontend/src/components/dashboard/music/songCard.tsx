@@ -2,33 +2,35 @@
 import Image from "next/image";
 import { decodeHTML } from "@/lib/decodeHtml";
 import Link from "next/link";
-import { useQueue } from "@/context/queueContext";
 import { getSong } from "@/lib/getSong";
 import { PlayBotton } from "@/ui/play";
-import { INewReleaseSong, ISong } from "@/types/songType";
-import { IPlaylist } from "@/types/playlistType";
-import { IAlbum } from "@/types/albumType";
-import { IArtistAlbum } from "@/types/artistType";
 import { getForwardPageUrl } from "../getForwardPageUrl";
 import { SaveItemHeart } from "../saveItemHeart";
 import { AddQueueIcon } from "../addQueueIcon";
-import { useState } from "react";
 import { useSongStore } from "@/store/songStore";
 import { usePlaylistStore } from "@/store/playlistStore";
 import { useAlbumStore } from "@/store/albumStore";
+import { useQueueStore } from "@/store/queueStore";
 
 export function SongCards({
-  type, id
+  type,
+  id,
+  className,
 }: {
   type: "song" | "playlist" | "album" | "userPlaylist";
   id: string;
+  className?: string;
 }) {
-  const song = useSongStore(s => type === "song" ? s.songs[id] : null);
-  const playlist = usePlaylistStore(s => (type === "playlist" || type === "userPlaylist") ? s.playlist[id] : null);
-  const album = useAlbumStore(s => type === "album" ? s.album[id] : null);
-  const { addQueueAndSetCurrent } = useQueue();
-
-  const items = song || playlist || album
+  const song = useSongStore((s) => (type === "song" ? s.songs[id] : null));
+  const playlist = usePlaylistStore((s) =>
+    type === "playlist" || type === "userPlaylist" ? s.playlist[id] : null,
+  );
+  const album = useAlbumStore((s) => (type === "album" ? s.album[id] : null));
+  const addQueueSongAndSetCurrent = useQueueStore(
+    (s) => s.actions.addQueueSongAndSetCurrent,
+  );
+  const addSongs = useSongStore((s) => s.actions.addSongs);
+  const items = song || playlist || album;
 
   if (!items) {
     return null;
@@ -38,7 +40,7 @@ export function SongCards({
     <>
       <Link
         href={getForwardPageUrl(items)}
-        className={`relative shadow-xl    group px-4 py-4 w-[13rem] sm:w-[11rem] md:w-[13rem]  lg:w-[14.3rem]  rounded  hover:bg-card-hover`}
+        className={`relative shadow-xl    group px-4 py-4 w-full  rounded  hover:bg-card-hover ${className}`}
       >
         <div
           className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full  flex`}
@@ -56,7 +58,7 @@ export function SongCards({
             alt="image"
             height={100}
             width={100}
-            className="w-full h-full group-hover:opacity-30 "
+            className="min-w-full min-h-full max-w-[8rem] max-h-[14rem] group-hover:opacity-30 "
           />
 
           <PlayBotton
@@ -65,7 +67,8 @@ export function SongCards({
               e.preventDefault();
               e.stopPropagation();
               const song = await getSong(items);
-              addQueueAndSetCurrent(song);
+              addSongs(song);
+              addQueueSongAndSetCurrent(song);
             }}
           />
         </div>
@@ -79,8 +82,8 @@ export function SongCards({
                 ? items.subtitle
                 : items.type === "song"
                   ? items.more_info.artistMap.artists
-                    .map((x) => x.name)
-                    .join(", ")
+                      .map((x) => x.name)
+                      .join(", ")
                   : "",
             )}
           </p>

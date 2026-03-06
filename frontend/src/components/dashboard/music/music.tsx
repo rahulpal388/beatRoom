@@ -5,7 +5,6 @@ import { INewReleaseSong, ISong } from "@/types/songType";
 import { IArtists } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
 import { ArtistCard, ArtistCardContaier } from "./artistCard";
-import { MoreSkeletonCard } from "@/ui/cardSkeleton";
 import { MoreArtistCardSkeleton } from "@/ui/artistCardSkeleton";
 import { getNewReleasedSong } from "@/api/song/newReleasedSong";
 import { getTrendingSong } from "@/api/song/trendingSong";
@@ -24,8 +23,7 @@ export function Music() {
         getNewReleasedSong(14, 1),
         getTrendingSong(10, 1, "hindi"),
         getTopPlaylist(10, 1),
-        getTopArtist(10, 0)
-
+        getTopArtist(10, 0),
       ]);
 
       setNewReleased(newReleased);
@@ -54,8 +52,8 @@ export function Music() {
                 updateState={(id: string) => {
                   setNewReleased((prev) =>
                     prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x,
+                    ),
                   );
                 }}
               />
@@ -73,8 +71,8 @@ export function Music() {
                 updateState={(id: string) => {
                   setTrending((prev) =>
                     prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x,
+                    ),
                   );
                 }}
               />
@@ -92,8 +90,8 @@ export function Music() {
                 updateState={(id: string) => {
                   setTopPlaylist((prev) =>
                     prev.map((x) =>
-                      x.id === id ? { ...x, isLiked: !x.isLiked } : x
-                    )
+                      x.id === id ? { ...x, isLiked: !x.isLiked } : x,
+                    ),
                   );
                 }}
               />

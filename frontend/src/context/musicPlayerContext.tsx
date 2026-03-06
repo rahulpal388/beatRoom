@@ -8,8 +8,9 @@ import {
   useRef,
   useState,
 } from "react";
-import { useQueue } from "./queueContext";
 import { getSongUrl } from "@/api/song/getSongUrl";
+import { useQueueStore } from "@/store/queueStore";
+import { useSongStore } from "@/store/songStore";
 
 type TMusicPlayer = {
   play: () => void;
@@ -26,12 +27,13 @@ const musicPlayerContext = createContext<TMusicPlayer | null>(null);
 export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { currentSong, nextSong } = useQueue();
+  const currentSongId = useQueueStore((s) => s.queueSong[s.currentIdx]);
+  const { moveForward } = useQueueStore((s) => s.actions);
+  const currentSong = useSongStore((s) => s.songs[currentSongId]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
-
   const [url, setUrl] = useState<string | undefined>(undefined);
 
   const play = useCallback(() => {
@@ -65,10 +67,13 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
     if (audioRef.current.src !== url) {
       audioRef.current.src = url;
       play();
+      setIsBuffering(false);
     }
   }, [url, play]);
 
   useEffect(() => {
+    console.log(`currentSongId is  ${currentSongId}`);
+    console.log(`currentSong is  ${currentSong}`);
     const fetchUrl = async () => {
       if (!currentSong) {
         setProgress(0);
@@ -77,6 +82,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
         pause();
         return;
       }
+      setIsBuffering(true);
       const responseUrl = await getSongUrl(
         currentSong.more_info.encrypted_media_url,
       );
@@ -85,7 +91,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
       }
     };
     fetchUrl();
-  }, [currentSong, pause, setCurrentTime]);
+  }, [currentSong, pause]);
 
   return (
     <musicPlayerContext.Provider
@@ -121,7 +127,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
         onEnded={() => {
           setProgress(0);
           setIsBuffering(false);
-          nextSong();
+          moveForward();
         }}
         onTimeUpdate={(e) => {
           setProgress(

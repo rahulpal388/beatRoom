@@ -1,6 +1,8 @@
 import { IPlaylist } from "@/types/playlistType"
 import { create } from "zustand"
 import { flattenRecord } from "./flattendRecordHelper";
+import { removeEntity } from "@/api/removeEntity";
+import { savePlaylist } from "@/api/playlist/savePlaylist";
 
 
 
@@ -32,13 +34,14 @@ type PlaylistStoreActionType = {
     addPlaylist: (playlists: IPlaylist[]) => void;
     addTopPlaylist: (playlists: IPlaylist[]) => void;
     addPlaylistReco: (playlists: IPlaylist[]) => void;
+    likePlaylist: (playlist: IPlaylist) => Promise<{ success: boolean; message: string }>;
     addTrendingPlaylist: (playlists: IPlaylist[]) => void;
 }
 
 
 
 
-export const usePlaylistStore = create<PlaylistStoreType>((set) => ({
+export const usePlaylistStore = create<PlaylistStoreType>((set, get) => ({
     playlist: {},
     topPlaylist: [],
     playlistReco: [],
@@ -57,6 +60,24 @@ export const usePlaylistStore = create<PlaylistStoreType>((set) => ({
                     playlist: flattenRecord(state.playlist, playlists)
                 }
             })
+        }),
+        likePlaylist: (async (playlist) => {
+            const p = get().playlist[playlist.id]
+            const { success, message } = p.isLiked
+                ? await removeEntity(p.id, p.type)
+                : await savePlaylist(p);
+
+            if (success) {
+                set(state => {
+                    return {
+                        playlist: {
+                            ...state.playlist,
+                            [p.id]: { ...p, isLiked: !p.isLiked }
+                        }
+                    }
+                })
+            }
+            return { success, message }
         }),
         addTopPlaylist: (playlists => {
             set(state => {

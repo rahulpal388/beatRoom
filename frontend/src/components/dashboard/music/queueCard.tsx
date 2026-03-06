@@ -1,32 +1,39 @@
 import { saveSong } from "@/api/song/saveSong";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
-import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
-import { ISong } from "@/types/songType";
+import { useQueueStore } from "@/store/queueStore";
+import { useSongStore } from "@/store/songStore";
 import { Ellipsis, Grip, Heart, X } from "lucide-react";
 import Image from "next/image";
+import { SaveItemHeart } from "../saveItemHeart";
 
-export function QueueCards({
-  song,
-  updateState,
-}: {
-  song: ISong;
-  updateState: (id: string) => void;
-}) {
+export function QueueCards({ id }: { id: string }) {
   const { toastMessage } = useToastNotification();
-  const { currentSong, removeQueueSong } = useQueue();
+  const removeQueueSong = useQueueStore((s) => s.actions.removeQueueSong);
+  const currentSongId = useQueueStore((s) => s.queueSong[s.currentIdx]);
+  const currentSong = useSongStore((s) => s.songs[currentSongId]);
+  const song = useSongStore((s) => s.songs[id]);
+  const likeSong = useSongStore((s) => s.actions.likeSong);
   const { isPlaying } = useMusicPlayer();
   return (
     <>
       <div className="  flex items-center  justify-between gap-4  hover:bg-card-hover rounded-lg py-1 px-2 font-body    shadow-md group ">
         <div className="flex items-center gap-2   ">
-          {
-            currentSong.id !== song.id &&
-            <Grip className=" cursor-grab max-w-[30px]  max-h-[30px]   " size={60} />
-          }
+          {currentSong.id !== song.id && (
+            <Grip
+              className=" cursor-grab max-w-[30px]  max-h-[30px]   "
+              size={60}
+            />
+          )}
           <Image
-            src={currentSong.id !== song.id ? song.image : isPlaying ? "/MusicPlaying.gif" : song.image}
+            src={
+              currentSong.id !== song.id
+                ? song.image
+                : isPlaying
+                  ? "/MusicPlaying.gif"
+                  : song.image
+            }
             alt="image"
             height={100}
             width={100}
@@ -43,35 +50,17 @@ export function QueueCards({
           </div>
         </div>
         <div className="flex items-center gap-8  ">
-          {
-            currentSong.id !== song.id && (
-              <div className=" size-[25px] ">
-                <X className=" h-full w-full cursor-pointer stroke-[1px] group-hover:block hidden "
-
-                  onClick={() => { removeQueueSong(song.id) }}
-                />
-              </div>
-            )
-          }
-          <Heart
-            className={`cursor-pointer max-md:hidden  ${song.isLiked ? "fill-red-700 stroke-0 " : "stroke-[1.5px]"
-              }`}
-            onClick={async () => {
-              const response = await saveSong(song);
-              if (response) {
-                toastMessage({
-                  message: "Song Saved",
-                  type: "success"
-                })
-                updateState(song.id);
-              } else {
-                toastMessage({
-                  message: "Failed to save song",
-                  type: "error"
-                })
-              }
-            }}
-          />
+          {currentSong.id !== song.id && (
+            <div className=" size-[25px] ">
+              <X
+                className=" h-full w-full cursor-pointer stroke-[1px] group-hover:block hidden "
+                onClick={() => {
+                  removeQueueSong(song.id);
+                }}
+              />
+            </div>
+          )}
+          <SaveItemHeart songs={song} showHeart={true} />
 
           <Ellipsis className=" cursor-pointer " />
         </div>

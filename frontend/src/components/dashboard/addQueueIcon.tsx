@@ -1,6 +1,8 @@
 "use client";
-import { useQueue } from "@/context/queueContext";
+import { useToastNotification } from "@/context/toastNotificationContext";
 import { getSong } from "@/lib/getSong";
+import { useQueueStore } from "@/store/queueStore";
+import { useSongStore } from "@/store/songStore";
 import { IAlbum } from "@/types/albumType";
 import { IArtistAlbum, IArtistInfo } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
@@ -18,7 +20,9 @@ export function AddQueueIcon({
     | INewReleaseSong
     | IArtistInfo;
 }) {
-  const { addQueueSong } = useQueue();
+  const addQueueSongs = useQueueStore((s) => s.actions.addQueueSongs);
+  const addSongs = useSongStore((s) => s.actions.addSongs);
+  const { toastMessage } = useToastNotification();
   return (
     <>
       <ListPlus
@@ -28,8 +32,12 @@ export function AddQueueIcon({
           e.preventDefault();
           e.stopPropagation();
           const songArr = await getSong(songs);
-          addQueueSong(songArr);
-          // add to the queue
+          addSongs(songArr);
+          addQueueSongs(songArr);
+          toastMessage({
+            message: "Song added to queue",
+            type: "success",
+          });
         }}
       />
     </>

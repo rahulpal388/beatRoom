@@ -6,7 +6,7 @@ import { INewReleaseSong, ISong } from "@/types/songType";
 import { Button } from "@/ui/button";
 import { Heart } from "lucide-react";
 import { AddQueueIcon } from "./addQueueIcon";
-import { useQueue } from "@/context/queueContext";
+import { useQueueStore } from "@/store/queueStore";
 
 export function ShowDetailPlay({
   items,
@@ -23,7 +23,7 @@ export function ShowDetailPlay({
   type: string;
   onSave: (id: string) => void;
 }) {
-  const { addQueueAndSetCurrent } = useQueue();
+  const { addQueueSongAndSetCurrent } = useQueueStore((s) => s.actions);
   return (
     <>
       <div className="sm:mt-4 mt-2 flex  items-center md:gap-12 gap-8 ">
@@ -34,7 +34,7 @@ export function ShowDetailPlay({
           className="  h-12 w-20 max-md:h-[2.5rem] max-md:w-[4rem] "
           onClick={async () => {
             const songArr = await getSong(items);
-            addQueueAndSetCurrent(songArr);
+            addQueueSongAndSetCurrent(songArr);
           }}
         />
         <div className=" hover:bg-card-hover border-[0.5px] border-card-border/30 hover:border-primary  rounded-full p-2 cursor-pointer ">

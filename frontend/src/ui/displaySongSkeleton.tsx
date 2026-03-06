@@ -1,69 +1,74 @@
 "use client";
-import { easeInOut, motion } from "motion/react";
+import { easeInOut, motion, useMotionValue, useTransform } from "motion/react";
 
 export function DisplaySongSkeleton() {
-  const skeletonVariant = {
-    initial: { opacity: 0.6 },
-    animate: { opacity: 1 },
-  };
-
-  const transition = {
-    duration: 1.5,
-    ease: easeInOut,
-    repeat: Infinity,
-  };
-
   return (
     <div className="w-full mt-8 px-4 sm:px-8 lg:px-20">
       <div className="flex flex-col lg:flex-row gap-8">
-
         {/* Image Skeleton */}
         <motion.div
-          variants={skeletonVariant}
-          initial="initial"
-          animate="animate"
-          transition={transition}
-          className="w-full lg:w-[15rem] h-[12rem] bg-neutral-700 rounded-2xl"
+          style={{
+            backgroundImage:
+              "linear-gradient(-45deg, transparent 40%, #f0f0f0 50%, transparent 60%)",
+            backgroundSize: "200% 100%",
+          }}
+          animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+          transition={{
+            repeat: Infinity,
+            duration: 3,
+            ease: "linear",
+          }}
+          className="w-full lg:w-[15rem] h-[12rem] bg-neutral-300 rounded-2xl"
         />
 
         {/* Text + Buttons */}
-        <div className="flex-1 mt-4">
-          <div className="flex flex-col gap-4">
-
+        <div className=" md:mt-4   flex flex-col ">
+          <div className="flex flex-col gap-4 max-md:items-center ">
             <motion.div
-              variants={skeletonVariant}
-              initial="initial"
-              animate="animate"
-              transition={transition}
-              className="w-full lg:w-[32rem] h-6 bg-neutral-700 rounded-2xl"
+              style={{
+                backgroundImage:
+                  "linear-gradient(-45deg, transparent 40%, #f0f0f0 50%, transparent 60%)",
+                backgroundSize: "200% 100%",
+              }}
+              animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+              transition={{
+                repeat: Infinity,
+                duration: 3,
+                ease: "linear",
+              }}
+              className="w-full lg:w-[32rem] h-6 bg-neutral-300 rounded-2xl"
             />
-
-            {/* <motion.div
-              variants={skeletonVariant}
-              initial="initial"
-              animate="animate"
-              transition={transition}
-              className="w-5/6 lg:w-[28rem] h-6 bg-neutral-700 rounded-2xl"
-            /> */}
-
             <motion.div
-              variants={skeletonVariant}
-              initial="initial"
-              animate="animate"
-              transition={transition}
-              className="w-4/6 lg:w-[24rem] h-6 bg-neutral-700 rounded-2xl"
+              style={{
+                backgroundImage:
+                  "linear-gradient(-45deg, transparent 40%, #f0f0f0 50%, transparent 60%)",
+                backgroundSize: "200% 100%",
+              }}
+              animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+              transition={{
+                repeat: Infinity,
+                duration: 3,
+                ease: "linear",
+              }}
+              className="w-4/6 lg:w-[24rem] h-6 bg-neutral-300 rounded-2xl"
             />
           </div>
-
-          <div className="flex flex-wrap gap-4 items-center mt-12">
+          <div className="flex  gap-4 items-center max-md:justify-center md:mt-8 mt-4  ">
             {[1, 2, 3].map((item) => (
               <motion.div
                 key={item}
-                variants={skeletonVariant}
-                initial="initial"
-                animate="animate"
-                transition={transition}
-                className="w-[3rem] h-[2rem] bg-neutral-700 rounded-2xl"
+                style={{
+                  backgroundImage:
+                    "linear-gradient(-45deg, transparent 40%, #f0f0f0 50%, transparent 60%)",
+                  backgroundSize: "200% 100%",
+                }}
+                animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 3,
+                  ease: "linear",
+                }}
+                className="w-[3rem] h-[2rem] bg-neutral-300 rounded-2xl"
               />
             ))}
           </div>

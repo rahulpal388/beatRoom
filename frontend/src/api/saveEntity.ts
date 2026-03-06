@@ -7,6 +7,9 @@ import { IPlaylist } from "@/types/playlistType";
 import { saveArtist } from "./artist/saveArtist";
 import { IArtists } from "@/types/artistType";
 import { saveUserPlaylist } from "./playlist/saveUserPlaylist";
+import { useSongStore } from "@/store/songStore";
+import { useAlbumStore } from "@/store/albumStore";
+import { usePlaylistStore } from "@/store/playlistStore";
 
 type IUserPlaylistType = {
     title: string;
@@ -26,41 +29,32 @@ export async function saveEntity<T extends ISaveEntity>(type: T, data: IEntityDa
     success: boolean;
     message: string;
 }> {
+    const { likeSong } = useSongStore.getState().actions
+    const { likeAlbum } = useAlbumStore.getState().actions
+    const { likePlaylist } = usePlaylistStore.getState().actions
 
-    try {
-        switch (type) {
-            case "song": {
-                await saveSong(data as ISong)
-                break;
-            }
-            case "album": {
-                await saveALbum(data as IAlbum);
-                break;
-            }
-
-            case "playlist": {
-                await savePlaylist(data as IPlaylist)
-                break;
-            }
-            case "artist": {
-                await saveArtist(data as IArtists)
-                break;
-            }
-            case "userPlaylist": {
-                const playlistData = data as IUserPlaylistType;
-                await saveUserPlaylist(playlistData.title, playlistData.subtitle, playlistData.songs)
-                break;
-            }
+    switch (type) {
+        case "song": {
+            return await likeSong(data as ISong)
         }
-        return {
-            success: true,
-            message: `${type} Saved`
-        }
-    } catch {
-        return {
-            success: false,
-            message: "Error Saving"
+        case "album": {
+            return await likeAlbum(data as IAlbum);
         }
 
+        case "playlist": {
+            return await likePlaylist(data as IPlaylist)
+        }
+        case "artist": {
+            // return await saveArtist(data as IArtists)
+            return {
+                success: false,
+                message: "saving artist is remeaning"
+            }
+        }
+        case "userPlaylist": {
+            const playlistData = data as IUserPlaylistType;
+            return await saveUserPlaylist(playlistData.title, playlistData.subtitle, playlistData.songs)
+        }
     }
+
 }

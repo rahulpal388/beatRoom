@@ -12,6 +12,7 @@ export default async function Songs({
 }) {
   const { songToken, albumToken } = await params;
   const songDetail = await getSongDetails(songToken);
+
   if (!songDetail) {
     notFound();
   }

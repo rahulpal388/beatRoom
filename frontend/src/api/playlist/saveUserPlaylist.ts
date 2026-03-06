@@ -1,9 +1,16 @@
 import { ISong } from "@/types/songType";
 import api from "../baseUrlAxios";
+import axios from "axios";
 
 
 
-export async function saveUserPlaylist(title: string, subtitle: string, songs: ISong[]): Promise<boolean> {
+export async function saveUserPlaylist(title: string, subtitle: string, songs: ISong[]): Promise<{
+    success: boolean
+    message: string
+}> {
+
+
+
 
     try {
         await api.post(`/playlist/saveUserPlaylist`, {
@@ -11,8 +18,23 @@ export async function saveUserPlaylist(title: string, subtitle: string, songs: I
             subtitle,
             songs
         })
-        return true;
-    } catch {
-        return false;
+        return {
+            success: true,
+            message: "Album saved"
+        };
+
+    } catch (error) {
+        if (axios.isAxiosError(error)) {
+            if (error.status === 401) {
+                return {
+                    success: false,
+                    message: "Login first"
+                }
+            }
+        }
+        return {
+            success: false,
+            message: "Error saving"
+        }
     }
 }

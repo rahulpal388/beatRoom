@@ -15,17 +15,20 @@ import { decodeHTML } from "@/lib/decodeHtml";
 import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
 
-import { useQueue } from "@/context/queueContext";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
 import { SaveItemHeart } from "../saveItemHeart";
+import { useQueueStore } from "@/store/queueStore";
+import { useSongStore } from "@/store/songStore";
 
 export function MusicBar() {
-  const { currentSong, isNext, isPrev, prevSong, nextSong, isCurrentSong } =
-    useQueue();
+  const { moveBackward, moveForward } = useQueueStore((s) => s.actions);
+  const { currentIdx, queueSong, isCurrentSong } = useQueueStore((s) => s);
+  const isNext = currentIdx < queueSong.length - 1;
+  const isPrev = currentIdx > 0;
+  const currentSong = useSongStore((s) => s.songs[queueSong[currentIdx]]);
   const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } =
     useMusicPlayer();
-  const { updateQueue } = useQueue();
   const [open, setOpen] = useState<boolean>(false);
   const parent = {
     initial: {
@@ -154,10 +157,11 @@ export function MusicBar() {
             <div className="flex  gap-4 items-center ">
               <SkipBack
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                  }  `}
+                className={` stroke-1  max-sm:size-6  ${
+                  isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                }  `}
                 onClick={() => {
-                  prevSong();
+                  moveBackward();
                 }}
               />
               {isPlaying ? (
@@ -192,10 +196,11 @@ export function MusicBar() {
 
               <SkipForward
                 size={30}
-                className={` stroke-1  max-sm:size-6  ${isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                  }  `}
+                className={` stroke-1  max-sm:size-6  ${
+                  isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+                }  `}
                 onClick={() => {
-                  nextSong();
+                  moveForward();
                 }}
               />
             </div>
@@ -205,10 +210,7 @@ export function MusicBar() {
                 <div></div>
               ) : (
                 <div className=" max-md:hidden ">
-                  <SaveItemHeart
-                    songs={currentSong}
-                    showHeart={true}
-                  />
+                  <SaveItemHeart songs={currentSong} showHeart={true} />
                 </div>
               )}
               <ViewQueueSongs />
@@ -242,7 +244,7 @@ export function MusicBar() {
 
 function ViewQueueSongs() {
   const [queueOpen, setQueueOpen] = useState<boolean>(false);
-  const { isCurrentSong } = useQueue();
+  const isCurrentSong = useQueueStore((s) => s.isCurrentSong);
 
   return (
     <>

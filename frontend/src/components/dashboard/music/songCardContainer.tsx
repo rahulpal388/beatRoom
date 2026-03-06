@@ -8,7 +8,7 @@ export function SongCardContaier({
   return (
     <>
       <div
-        className={`mt-2 mb-12 flex gap-2 md:gap-4  lg:gap-6 flex-wrap   ${className}`}
+        className={`mt-2 mb-12 gap-4 grid max-sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4  2xl:grid-cols-6   ${className}`}
       >
         {children}
       </div>

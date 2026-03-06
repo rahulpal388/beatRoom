@@ -31,10 +31,12 @@ export function ShowItemsDetails({
         </h1>
 
         <div className="md:mt-4 max-md:text-center mt-px text-text-body max-md:max-w-[20rem]  md:text-[16px] text-[14px] flex flex-col  ">
-          <p className=" line-clamp-2  ">{decodeHTML(items.subtitle)}</p>
+          <p className=" line-clamp-2 max-md:text-xs max-md:px-8 ">
+            {decodeHTML(items.subtitle)}
+          </p>
 
           {items.type !== "userPlaylist" && (
-            <p>
+            <p className="max-md:text-xs max-md:px-8">
               {items.language[0].toUpperCase() + items.language.slice(1)}{" "}
               &#8226; {items.type[0].toUpperCase() + items.type.slice(1)}
               {items.type === "song" && (

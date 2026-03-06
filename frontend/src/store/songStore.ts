@@ -1,6 +1,9 @@
 import { ISong } from "@/types/songType"
 import { create } from "zustand"
 import { flattenRecord } from "./flattendRecordHelper";
+import { removeEntity } from "@/api/removeEntity";
+import { saveEntity } from "@/api/saveEntity";
+import { saveSong } from "@/api/song/saveSong";
 
 
 
@@ -31,14 +34,15 @@ type SongStoreType = {
 
 type SongStoreActionsType = {
     addSongs: (songs: ISong[]) => void;
-    likeSong: (id: string) => void;
+    likeSong: (song: ISong) => Promise<{ success: boolean; message: string }>;
     addTrendingSong: (songs: ISong[]) => void;
     addListSong: (songs: ISong[]) => void
     addSongBySameArtist: (songs: ISong[]) => void;
 }
 
+const MAX_SONG_LIST = 50;
 
-export const useSongStore = create<SongStoreType>((set) => ({
+export const useSongStore = create<SongStoreType>((set, get) => ({
     songs: {},
     trendingSongs: [],
     songBySameArtist: [],
@@ -49,15 +53,24 @@ export const useSongStore = create<SongStoreType>((set) => ({
                 return { songs: flattenRecord(state.songs, songs) }
             })
         }),
-        likeSong: (id => {
-            set(state => {
-                const getSong = state.songs[id];
-                const updatedSong = {
-                    ...state.songs,
-                    [id]: { ...getSong, isLiked: !getSong.isLiked }
-                }
-                return { songs: updatedSong }
-            })
+        likeSong: (async (s) => {
+            const song = get().songs[s.id];
+            const { success, message } = song.isLiked
+                ? await removeEntity(song.id, song.type)
+                : await saveSong(song);
+
+            if (success) {
+                set((state => {
+                    return {
+                        songs: {
+                            ...state.songs,
+                            [song.id]: { ...song, isLiked: !song.isLiked }
+                        }
+                    }
+                }))
+
+            }
+            return { success, message }
         }),
         addTrendingSong: (songs => {
             set(state => {
@@ -80,10 +93,10 @@ export const useSongStore = create<SongStoreType>((set) => ({
         }),
         addListSong: (songs => {
             set(state => {
-                const songId = songs.map(song => song.id);
+                const songId = songs.slice(0, MAX_SONG_LIST).map(song => song.id);
                 return {
                     listSong: songId,
-                    songs: flattenRecord(state.songs, songs)
+                    songs: flattenRecord(state.songs, songs.slice(0, MAX_SONG_LIST))
                 }
             })
         })

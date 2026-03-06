@@ -1,6 +1,8 @@
 import { IAlbum } from "@/types/albumType"
 import { create } from "zustand"
 import { flattenRecord } from "./flattendRecordHelper";
+import { removeEntity } from "@/api/removeEntity";
+import { saveALbum } from "@/api/album/saveAlbum";
 
 
 /*
@@ -33,13 +35,14 @@ type AlbumStoreType = {
 type AlbumStoreActionType = {
     addAlbum: (albums: IAlbum[]) => void;
     addTopAlbum: (albums: IAlbum[]) => void;
+    likeAlbum: (album: IAlbum) => Promise<{ success: boolean; message: string }>;
     addTrendingAlbum: (albums: IAlbum[]) => void;
     addAlbumReco: (albums: IAlbum[]) => void;
 }
 
 
 
-export const useAlbumStore = create<AlbumStoreType>((set) => ({
+export const useAlbumStore = create<AlbumStoreType>((set, get) => ({
     album: {},
     topAlbum: [],
     trendingAlbum: [],
@@ -71,6 +74,21 @@ export const useAlbumStore = create<AlbumStoreType>((set) => ({
                 }
             })
         ]),
+        likeAlbum: (async (album) => {
+            const al = get().album[album.id];
+            const { success, message } = al.isLiked ? await removeEntity(al.id, al.type) : await saveALbum(al);
+            if (success) {
+                set(state => {
+                    return {
+                        album: {
+                            ...state.album,
+                            [al.id]: { ...al, isLiked: !al.isLiked }
+                        }
+                    }
+                })
+            }
+            return { success, message }
+        }),
         addTrendingAlbum: (albums => [
             set(state => {
                 const ids = albums.map(x => x.id);

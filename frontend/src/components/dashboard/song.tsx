@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { ISong } from "@/types/songType";
 import { SongCards, SongsSection } from "./music/songCard";
 import { SongHorizontalCard } from "./music/songHorizontalCard";
@@ -20,28 +20,27 @@ export function Song({
   trendingSongs: ISong[];
   songBySameArtist: ISong[];
 }) {
+  const addDisplayedItem = useDisplayedItemStore(
+    (state) => state.actions.addDisplayedItem,
+  );
+  const { addSongs, addListSong, addTrendingSong, addSongBySameArtist } =
+    useSongStore((s) => s.actions);
 
-  const isHydrated = useRef(false);
-  const addDisplayedItem = useDisplayedItemStore(state => state.actions.addDisplayedItem)
-  const { addSongs, addListSong, addTrendingSong, addSongBySameArtist } = useSongStore(s => s.actions)
-
-  if (!isHydrated.current) {
-
+  useEffect(() => {
     addSongs([songDetail]);
     if (albums) {
-      addListSong(albums.list)
+      addListSong(albums.list);
     }
     addTrendingSong(trendingSongs);
-    addSongBySameArtist(songBySameArtist)
+    addSongBySameArtist(songBySameArtist);
     addDisplayedItem({
       type: songDetail.type,
-      id: songDetail.id
-    })
-    isHydrated.current = true
-  }
+      id: songDetail.id,
+    });
+  }, []);
   return (
     <div className=" lg:pb-18 pb-32 md:px-4 ">
-      <ShowDetailsContainer id={songDetail.id} type={songDetail.type} />
+      <ShowDetailsContainer />
       <div className=" mt-8 flex flex-col gap-4  ">
         {albums && (
           <SongHorizontalContainer title={albums.title}>
@@ -57,12 +56,22 @@ export function Song({
 
         <SongsSection heading="Trending Songs">
           {trendingSongs.map((item, index) => (
-            <SongCards key={index} id={item.id} type={item.type} />
+            <SongCards
+              key={index}
+              id={item.id}
+              type={item.type}
+              className=" min-w-[12rem]"
+            />
           ))}
         </SongsSection>
         <SongsSection heading="Song By Same Artist">
           {songBySameArtist.map((item, index) => (
-            <SongCards key={index} id={item.id} type={item.type} />
+            <SongCards
+              key={index}
+              id={item.id}
+              type={item.type}
+              className=" min-w-[12rem]"
+            />
           ))}
         </SongsSection>
       </div>

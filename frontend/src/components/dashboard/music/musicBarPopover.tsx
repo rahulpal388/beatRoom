@@ -4,9 +4,10 @@ import { getSavePlaylist } from "@/api/playlist/getSavePlaylist";
 import { removeEntity } from "@/api/removeEntity";
 import { saveEntity } from "@/api/saveEntity";
 import { useModal } from "@/context/modalContext";
-import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { getItemsToken } from "@/lib/getItemsToken";
+import { useQueueStore } from "@/store/queueStore";
+import { useSongStore } from "@/store/songStore";
 
 import { ChevronLeft, ChevronRight, Ellipsis, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -15,7 +16,10 @@ import { useState } from "react";
 
 export function MusicBarPopover() {
   const [optionOpen, setOptionOpen] = useState<boolean>(false);
-  const { currentSong, isCurrentSong } = useQueue();
+  const currentSongId = useQueueStore((s) => s.queueSong[s.currentIdx]);
+  const isCurrentSong = useQueueStore((s) => s.isCurrentSong);
+  const currentSong = useSongStore((s) => s.songs[currentSongId]);
+  const likeSong = useSongStore((s) => s.actions.likeSong);
   const songToken = getItemsToken(currentSong ? currentSong.perma_url : "");
   const albumToken = getItemsToken(
     currentSong ? currentSong.more_info.album_url : "",
@@ -25,7 +29,6 @@ export function MusicBarPopover() {
     { title: string; id: string }[]
   >([]);
   const { toastMessage } = useToastNotification();
-  const { updateQueue } = useQueue();
   const { showModal } = useModal();
   return (
     <>
@@ -99,7 +102,7 @@ export function MusicBarPopover() {
                                   message: "Song added",
                                   type: "success",
                                 });
-                                updateQueue(currentSong.id);
+                                likeSong(currentSong.id);
                               }
                               setOptionOpen(false);
                             }}
@@ -125,16 +128,16 @@ export function MusicBarPopover() {
                         onClick={async () => {
                           const { success, message } = currentSong.isLiked
                             ? await removeEntity(
-                              currentSong.id,
-                              currentSong.type,
-                            )
+                                currentSong.id,
+                                currentSong.type,
+                              )
                             : await saveEntity(currentSong.type, currentSong);
                           toastMessage({
                             message,
                             type: success ? "success" : "error",
                           });
                           if (success) {
-                            updateQueue(currentSong.id);
+                            likeSong(currentSong.id);
                           }
                           setOptionOpen(false);
                         }}

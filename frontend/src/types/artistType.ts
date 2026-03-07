@@ -10,7 +10,7 @@ export type IArtists = {
   image: string;
   type: string;
   perma_url: string;
-  isLiked: string;
+  isLiked: boolean;
 };
 
 export type IArtistAlbum = {
@@ -20,6 +20,7 @@ export type IArtistAlbum = {
   type: "album";
   perma_url: string;
   image: string;
+  list_count: string;
   language: string
   isLiked: boolean
   more_info: {

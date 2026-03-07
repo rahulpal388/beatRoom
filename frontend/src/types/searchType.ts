@@ -1,7 +1,7 @@
 
 
 
-type ISearchSong = {
+export type ISearchSong = {
     id: string;
     title: string;
     image: string;
@@ -15,7 +15,7 @@ type ISearchSong = {
     };
 };
 
-type ISearchPlaylist = {
+export type ISearchPlaylist = {
     id: string;
     title: string;
     image: string;
@@ -24,7 +24,7 @@ type ISearchPlaylist = {
     type: string;
 }
 
-type ISearchAlbum = {
+export type ISearchAlbum = {
     id: string;
     title: string;
     image: string;
@@ -37,7 +37,7 @@ type ISearchAlbum = {
     }
 }
 
-type ISearchArtist = {
+export type ISearchArtist = {
     id: string;
     title: string;
     image: string;

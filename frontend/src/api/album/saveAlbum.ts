@@ -18,13 +18,13 @@ export async function saveALbum(album: IAlbum): Promise<{ success: boolean; mess
             if (error.status === 401) {
                 return {
                     success: false,
-                    message: "Login first"
+                    message: "Login first to save album"
                 }
             }
         }
         return {
             success: false,
-            message: "Error saving"
+            message: "Error saving album"
         }
     }
 }

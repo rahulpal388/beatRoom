@@ -22,13 +22,13 @@ export async function saveArtist(artist: IArtists): Promise<{
             if (error.status === 401) {
                 return {
                     success: false,
-                    message: "Login first"
+                    message: "Login first to save artist"
                 }
             }
         }
         return {
             success: false,
-            message: "Error saving"
+            message: "Error saving artist"
         }
     }
 }

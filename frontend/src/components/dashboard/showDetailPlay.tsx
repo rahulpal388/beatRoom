@@ -7,21 +7,15 @@ import { Button } from "@/ui/button";
 import { Heart } from "lucide-react";
 import { AddQueueIcon } from "./addQueueIcon";
 import { useQueueStore } from "@/store/queueStore";
+import { SaveItemHeart } from "./saveItemHeart";
 
 export function ShowDetailPlay({
   items,
   type,
-  onSave,
 }: {
-  items:
-    | ISong
-    | IPlaylist
-    | IAlbum
-    | IArtistAlbum
-    | INewReleaseSong
-    | IArtistInfo;
+  items: ISong | IPlaylist | IAlbum | IArtistAlbum;
+
   type: string;
-  onSave: (id: string) => void;
 }) {
   const { addQueueSongAndSetCurrent } = useQueueStore((s) => s.actions);
   return (
@@ -38,17 +32,7 @@ export function ShowDetailPlay({
           }}
         />
         <div className=" hover:bg-card-hover border-[0.5px] border-card-border/30 hover:border-primary  rounded-full p-2 cursor-pointer ">
-          <Heart
-            size={30}
-            className={`cursor-pointer    ${
-              items.isLiked
-                ? "fill-red-800 stroke-0 block "
-                : " stroke-[1.2px] "
-            } `}
-            onClick={() => {
-              onSave(items.type !== "artist" ? items.id : items.artistId);
-            }}
-          />
+          <SaveItemHeart songs={items} showHeart={true} />
         </div>
         {type !== "artist" && (
           <div className=" hover:bg-card-hover border-[0.5px] border-card-border/30 hover:border-primary rounded-full p-2 cursor-pointer ">

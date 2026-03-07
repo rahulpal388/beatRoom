@@ -21,12 +21,12 @@ export async function saveSong(song: ISong): Promise<{
             if (error.status == 401)
                 return {
                     success: false,
-                    message: "Login first"
+                    message: "Login first to save song"
                 }
         }
         return {
             success: false,
-            message: "Error saving"
+            message: "Error saving song"
         }
     }
 }

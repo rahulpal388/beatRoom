@@ -16,16 +16,15 @@ type IUserPlaylistType = {
     subtitle: string;
     songs: ISong[]
 }
-type IEntityDataMap = {
-    song: ISong;
-    album: IAlbum;
-    playlist: IPlaylist;
-    artist: IArtists;
-    userPlaylist: IUserPlaylistType
-}
+// type IEntityDataMap = {
+//     song: ISong;
+//     album: IAlbum;
+//     playlist: IPlaylist;
+//     artist: IArtists;
+//     userPlaylist: IUserPlaylistType
+// }
 
-type ISaveEntity = "song" | "album" | "playlist" | "artist" | "userPlaylist"
-export async function saveEntity<T extends ISaveEntity>(type: T, data: IEntityDataMap[T]): Promise<{
+export async function saveEntity(id: string, type: "song" | "playlist" | "album" | "userPlaylist" | "artist"): Promise<{
     success: boolean;
     message: string;
 }> {
@@ -35,14 +34,17 @@ export async function saveEntity<T extends ISaveEntity>(type: T, data: IEntityDa
 
     switch (type) {
         case "song": {
-            return await likeSong(data as ISong)
+            return await likeSong(id, type)
         }
         case "album": {
-            return await likeAlbum(data as IAlbum);
+            return await likeAlbum(id, type);
         }
 
         case "playlist": {
-            return await likePlaylist(data as IPlaylist)
+            return await likePlaylist(id, type)
+        }
+        case "userPlaylist": {
+            return await likePlaylist(id, type)
         }
         case "artist": {
             // return await saveArtist(data as IArtists)
@@ -51,10 +53,7 @@ export async function saveEntity<T extends ISaveEntity>(type: T, data: IEntityDa
                 message: "saving artist is remeaning"
             }
         }
-        case "userPlaylist": {
-            const playlistData = data as IUserPlaylistType;
-            return await saveUserPlaylist(playlistData.title, playlistData.subtitle, playlistData.songs)
-        }
+
     }
 
 }

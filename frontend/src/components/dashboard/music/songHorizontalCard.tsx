@@ -28,7 +28,7 @@ export function SongHorizontalCard({
   const album_token = getItemsToken(songs?.more_info.album_url);
 
   return (
-    <div className=" group hover:bg-card-hover px-4 max-sm:px-6 py-2 rounded flex gap-4 items-center  ">
+    <div className=" group hover:bg-card-hover px-4 pl-4  py-2 rounded flex justify-between gap-4 items-center  ">
       <div className=" relative ">
         <p className=" group-hover:opacity-0 ">{serialNumber}</p>
         <CirclePlay
@@ -47,7 +47,7 @@ export function SongHorizontalCard({
         className=" rounded max-md:hidden "
       />
       <div className=" flex items-center sm:justify-between flex-1 max-sm:pr-4  gap-2  ">
-        <div className=" xl:max-w-[40rem] md:max-w[32rem] sm:max-w-[20rem] xs:min-w-[12rem] min-ww[10rem] flex xl:gap-12 xl:items-center max-xl:flex-col  ">
+        <div className="w-full flex xl:gap-12 xl:items-center max-xl:flex-col  ">
           <Link
             href={`/song/${song_token}/${album_token}`}
             className=" max-md:hidden w-[16rem]  text-text-heading font-heading text-[1rem] truncate "
@@ -68,7 +68,7 @@ export function SongHorizontalCard({
             {songs.more_info.artistMap.artists.map((x) => x.name).join(", ")}
           </p>
         </div>
-        <div className=" flex items-center lg:gap-20 gap-12 ">
+        <div className=" flex items-center lg:gap-16 gap-8 ">
           <SaveItemHeart songs={songs} showHeart={true} />
           <p className=" max-sm:hidden ">
             {Math.floor(Number(songs.more_info.duration) / 60)}:

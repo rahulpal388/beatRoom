@@ -35,7 +35,7 @@ type AlbumStoreType = {
 type AlbumStoreActionType = {
     addAlbum: (albums: IAlbum[]) => void;
     addTopAlbum: (albums: IAlbum[]) => void;
-    likeAlbum: (album: IAlbum) => Promise<{ success: boolean; message: string }>;
+    likeAlbum: (id: string, type: "album") => Promise<{ success: boolean; message: string }>;
     addTrendingAlbum: (albums: IAlbum[]) => void;
     addAlbumReco: (albums: IAlbum[]) => void;
 }
@@ -74,8 +74,8 @@ export const useAlbumStore = create<AlbumStoreType>((set, get) => ({
                 }
             })
         ]),
-        likeAlbum: (async (album) => {
-            const al = get().album[album.id];
+        likeAlbum: (async (id) => {
+            const al = get().album[id];
             const { success, message } = al.isLiked ? await removeEntity(al.id, al.type) : await saveALbum(al);
             if (success) {
                 set(state => {

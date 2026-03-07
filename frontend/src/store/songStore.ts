@@ -34,7 +34,7 @@ type SongStoreType = {
 
 type SongStoreActionsType = {
     addSongs: (songs: ISong[]) => void;
-    likeSong: (song: ISong) => Promise<{ success: boolean; message: string }>;
+    likeSong: (id: string, type: "song") => Promise<{ success: boolean; message: string }>;
     addTrendingSong: (songs: ISong[]) => void;
     addListSong: (songs: ISong[]) => void
     addSongBySameArtist: (songs: ISong[]) => void;
@@ -53,8 +53,8 @@ export const useSongStore = create<SongStoreType>((set, get) => ({
                 return { songs: flattenRecord(state.songs, songs) }
             })
         }),
-        likeSong: (async (s) => {
-            const song = get().songs[s.id];
+        likeSong: (async (id) => {
+            const song = get().songs[id];
             const { success, message } = song.isLiked
                 ? await removeEntity(song.id, song.type)
                 : await saveSong(song);

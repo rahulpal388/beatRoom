@@ -30,16 +30,12 @@ export function AlbumComponent({
   );
   useEffect(() => {
     addSongs(album.list);
-    addDisplayedItem({
-      type: album.type,
-      id: album.id,
-    });
     addAlbum([
       {
         id: album.id,
         title: album.title,
         subtitle: album.subtitle,
-        language: album.language,
+        language: album.language ?? " ",
         list_count: album.list_count,
         type: album.type,
         perma_url: album.perma_url,
@@ -47,6 +43,10 @@ export function AlbumComponent({
         isLiked: album.isLiked,
       },
     ]);
+    addDisplayedItem({
+      type: album.type,
+      id: album.id,
+    });
     addAlbumReco(albumReco);
     addTrendingAlbum(trendingAlbum);
   }, []);

@@ -8,13 +8,16 @@ import { decodeHTML } from "@/lib/decodeHtml";
 import Link from "next/link";
 import { ISearchReco } from "@/types/searchType";
 import { searchReco } from "@/api/searchReco";
+import { useSearchStore } from "@/store/searchStore";
 
 export function SearchBar() {
   const [searchSuggestion, setSearchSuggestion] = useState<ISearchReco | null>(
     null,
   );
   const [open, setOpen] = useState<boolean>(true);
-
+  const { addAlbums, addArtists, addPlaylists, addSongs } = useSearchStore(
+    (s) => s.actions,
+  );
   const searchSuggestionFn = async (searchSuggestion: string) => {
     // reguest to the api for search suggestion
 
@@ -164,6 +167,21 @@ export function SearchBar() {
                     title={song.title}
                     image={song.image}
                     description={song.description}
+                  />
+                ))}
+              </div>
+            </div>
+            <div>
+              <h1 className=" text-lg font-medium max-lg:text-xl ">Playlist</h1>
+              <div className=" mt-2 flex flex-wrap gap-2  ">
+                {searchSuggestion.playlists.data.map((album, idx) => (
+                  <SearchedItems
+                    key={idx}
+                    type={album.type}
+                    url={album.url}
+                    title={album.title}
+                    image={album.image}
+                    description={""}
                   />
                 ))}
               </div>

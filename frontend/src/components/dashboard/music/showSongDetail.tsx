@@ -1,7 +1,7 @@
 "use client";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { formateTime } from "@/lib/formateTime";
-import { IAlbum, IAlbumSong } from "@/types/albumType";
+import { IAlbum } from "@/types/albumType";
 import { IPlaylist } from "@/types/playlistType";
 import { ISong } from "@/types/songType";
 import Image from "next/image";
@@ -15,6 +15,7 @@ export function ShowItemsDetails({
 }: {
   items: ISong | IPlaylist | IAlbum;
 }) {
+  console.log(items.language);
   const { toastMessage } = useToastNotification();
   return (
     <div className="mt-8 lg:px-20 flex md:gap-8 gap-2 justify-center max-md:flex-col  items-center ">
@@ -49,19 +50,7 @@ export function ShowItemsDetails({
             </p>
           )}
         </div>
-        <ShowDetailPlay
-          items={items}
-          type={items.type}
-          onSave={async () => {
-            const { success, message } = items.isLiked
-              ? await removeEntity(items.id, items.type)
-              : await saveEntity(items.type, items);
-            toastMessage({
-              message,
-              type: success ? "success" : "error",
-            });
-          }}
-        />
+        <ShowDetailPlay items={items} type={items.type} />
       </div>
     </div>
   );

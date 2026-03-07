@@ -40,17 +40,9 @@ export function SongCards({
     <>
       <Link
         href={getForwardPageUrl(items)}
-        className={`relative shadow-xl    group px-4 py-4 w-full  rounded  hover:bg-card-hover ${className}`}
+        className={`relative shadow-xl    group px-4 py-4 w-[12rem]  rounded  hover:bg-card-hover ${className}`}
       >
-        <div
-          className={`absolute top-4 px-4  left-1 z-20 items-center justify-between w-full  flex`}
-        >
-          <SaveItemHeart songs={items} showHeart={false} />
-          <div className={`relative pr-2  hidden group-hover:block `}>
-            <AddQueueIcon songs={items} />
-          </div>
-        </div>
-        <div className="  mb-2  w-full    ">
+        <div className="relative  mb-2  w-full     ">
           <Image
             src={
               items.image.length === 0 ? "/default_card_image.jpg" : items.image
@@ -58,11 +50,18 @@ export function SongCards({
             alt="image"
             height={100}
             width={100}
-            className="min-w-full min-h-full max-w-[8rem] max-h-[14rem] group-hover:opacity-30 "
+            className="w-full h-full group-hover:opacity-30 "
           />
-
+          <div
+            className={`absolute top-2 px-2   z-20 items-center justify-between w-full  flex`}
+          >
+            <SaveItemHeart songs={items} showHeart={false} />
+            <div className={`relative pr-2  hidden group-hover:block `}>
+              <AddQueueIcon songs={items} />
+            </div>
+          </div>
           <PlayBotton
-            className=" absolute top-[7rem] md:top-[9rem] lg:top-[10rem] right-[1.2rem]   opacity-0 group-hover:opacity-100 "
+            className=" absolute bottom-2 right-2   opacity-0 group-hover:opacity-100 "
             onClick={async (e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -76,7 +75,7 @@ export function SongCards({
         <div className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] ">
           {decodeHTML(items.title)}
 
-          <p className="  mt-1 text-[0.7rem] text-text-muted line-clamp-2  ">
+          <p className="  mt-1 text-[0.7rem]  text-text-muted line-clamp-2  ">
             {decodeHTML(
               items.type === "playlist" || items.type === "userPlaylist"
                 ? items.subtitle

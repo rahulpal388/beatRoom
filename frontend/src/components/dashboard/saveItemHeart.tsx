@@ -16,7 +16,6 @@ export function SaveItemHeart({
   showHeart: boolean;
 }) {
   const { toastMessage } = useToastNotification();
-  const likeSong = useSongStore((s) => s.actions.likeSong);
   return (
     <>
       <Heart
@@ -29,7 +28,7 @@ export function SaveItemHeart({
         onClick={async (e) => {
           e.stopPropagation();
           e.preventDefault();
-          const { success, message } = await saveEntity(songs.type, songs);
+          const { success, message } = await saveEntity(songs.id, songs.type);
           toastMessage({
             message,
             type: success ? "success" : "error",

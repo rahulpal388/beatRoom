@@ -20,13 +20,13 @@ export async function savePlaylist(playlist: IPlaylist): Promise<{
             if (error.status === 401) {
                 return {
                     success: false,
-                    message: "Login first"
+                    message: "Login first to save playlist"
                 }
             }
         }
         return {
             success: false,
-            message: 'Error saving'
+            message: 'Error saving playlist'
         };
 
     }

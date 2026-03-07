@@ -27,7 +27,7 @@ export function TopPlaylistComponent({
               key={idx}
               type={items.type}
               id={items.id}
-              //   className=" w-full   "
+              className=" w-full   "
             />
           ))}
         </SongCardContaier>

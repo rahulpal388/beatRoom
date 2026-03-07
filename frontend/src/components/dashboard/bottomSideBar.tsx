@@ -1,35 +1,51 @@
 import { Compass, House, Music4, Search } from "lucide-react";
 import Link from "next/link";
 
+type BottomSideBarItemType = {
+  title: string;
+  link: string;
+  icon: React.ReactNode;
+};
+
+const bottomSIdeBarItems: BottomSideBarItemType[] = [
+  {
+    title: "Home",
+    link: "/",
+    icon: <House className=" stroke-1 " />,
+  },
+  {
+    title: "Search",
+    link: "/search",
+    icon: <Search className=" stroke-1 " />,
+  },
+  {
+    title: "Browse",
+    link: "/browse",
+    icon: <Compass className=" stroke-1 " />,
+  },
+  {
+    title: "My Library",
+    link: "/my-library",
+    icon: <Music4 className=" stroke-1 " />,
+  },
+];
+
 export function BottomSideBar() {
   return (
     <>
       <div className="bg-card z-50 lg:hidden w-full h-12 fixed bottom-0 bg-bar flex border-t-[0.5px] border-card-border ">
         <div className="w-full flex items-center justify-between sm:px-20 px-8  ">
-          <div className=" flex flex-col items-center cursor-pointer ">
-            <Link href={""}>
-              <House className=" stroke-1 " />
-              <p className=" text-xs text-neutral-400 ">Home</p>
-            </Link>
-          </div>
-          <div className=" flex flex-col items-center  cursor-pointer">
-            <Link href={"/search"}>
-              <Search className=" stroke-1 " />
-              <p className=" text-xs text-neutral-400 ">Search</p>
-            </Link>
-          </div>
-          <div className=" flex flex-col items-center cursor-pointer ">
-            <Link href={"/browse"}>
-              <Compass className=" stroke-1 " />
-              <p className=" text-xs text-neutral-400 ">Browse</p>
-            </Link>
-          </div>
-          <div className=" flex flex-col items-center cursor-pointer ">
-            <Link href={"/my-library"}>
-              <Music4 className=" stroke-1 " />
-              <p className=" text-xs text-neutral-400 ">My Library</p>
-            </Link>
-          </div>
+          {bottomSIdeBarItems.map((x, idx) => (
+            <div
+              key={idx}
+              className=" flex flex-col items-center cursor-pointer "
+            >
+              <Link href={x.link}>
+                {x.icon}
+                <p className=" text-xs text-neutral-400 ">{x.title}</p>
+              </Link>
+            </div>
+          ))}
         </div>
       </div>
     </>

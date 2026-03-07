@@ -2,13 +2,15 @@
 import { Debounce } from "@/lib/debounce";
 import { CircleUserRound, Search } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { decodeHTML } from "@/lib/decodeHtml";
 import Link from "next/link";
 import { ISearchReco } from "@/types/searchType";
 import { searchReco } from "@/api/searchReco";
 import { useSearchStore } from "@/store/searchStore";
+import { SearchedItems, SearchedItemsContainer } from "./searchBarItem";
+import { ArtistCard } from "./artistCard";
 
 export function SearchBar() {
   const [searchSuggestion, setSearchSuggestion] = useState<ISearchReco | null>(
@@ -18,6 +20,7 @@ export function SearchBar() {
   const { addAlbums, addArtists, addPlaylists, addSongs } = useSearchStore(
     (s) => s.actions,
   );
+
   const searchSuggestionFn = async (searchSuggestion: string) => {
     // reguest to the api for search suggestion
 
@@ -25,6 +28,10 @@ export function SearchBar() {
 
     if (response) {
       setSearchSuggestion(response);
+      addAlbums(response.albums.data);
+      addSongs(response.songs.data);
+      addPlaylists(response.playlists.data);
+      addArtists(response.artists.data);
     }
   };
 
@@ -80,7 +87,7 @@ export function SearchBar() {
               }}
               className={`  ${
                 open ? "block" : " hidden"
-              }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-hidden grid grid-cols-3  gap-4 `}
+              }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-y-scroll grid grid-cols-3  gap-4 `}
               onFocus={() => {
                 setOpen(true);
               }}
@@ -96,11 +103,9 @@ export function SearchBar() {
                   {searchSuggestion.songs.data.slice(0, 4).map((song, idx) => (
                     <SearchedItems
                       key={idx}
-                      url={song.url}
+                      id={song.id}
                       type={song.type}
-                      title={song.title}
-                      image={song.image}
-                      description={song.description}
+                      className="  "
                     />
                   ))}
                 </div>
@@ -119,10 +124,7 @@ export function SearchBar() {
                       <SearchedItems
                         key={idx}
                         type={album.type}
-                        url={album.url}
-                        title={album.title}
-                        image={album.image}
-                        description={album.description}
+                        id={album.id}
                       />
                     ))}
                 </div>
@@ -135,18 +137,19 @@ export function SearchBar() {
                     setOpen(false);
                   }}
                 >
-                  {searchSuggestion.artists.data
-                    .slice(0, 4)
-                    .map((artist, idx) => (
-                      <SearchedItems
-                        key={idx}
-                        url={artist.url}
-                        type={artist.type}
-                        title={artist.title}
-                        image={artist.image}
-                        description={artist.type}
-                      />
-                    ))}
+                  <div className=" flex flex-col gap-2 ">
+                    {searchSuggestion.artists.data
+                      .slice(0, 2)
+                      .map((artist, idx) => (
+                        <ArtistCard
+                          key={idx}
+                          image={artist.image}
+                          name={artist.title}
+                          type={artist.type}
+                          url={artist.url}
+                        />
+                      ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
@@ -156,64 +159,33 @@ export function SearchBar() {
       <div className=" lg:hidden w-full max-sm:px-4 px-12 mt-8  pb-32">
         {searchSuggestion && (
           <div className=" flex flex-col gap-8">
-            <div>
-              <h1 className=" text-lg font-medium max-lg:text-xl ">Songs</h1>
-              <div className=" mt-2 flex flex-wrap gap-2   ">
-                {searchSuggestion.songs.data.map((song, idx) => (
-                  <SearchedItems
-                    key={idx}
-                    url={song.url}
-                    type={song.type}
-                    title={song.title}
-                    image={song.image}
-                    description={song.description}
-                  />
-                ))}
-              </div>
-            </div>
-            <div>
-              <h1 className=" text-lg font-medium max-lg:text-xl ">Playlist</h1>
-              <div className=" mt-2 flex flex-wrap gap-2  ">
-                {searchSuggestion.playlists.data.map((album, idx) => (
-                  <SearchedItems
-                    key={idx}
-                    type={album.type}
-                    url={album.url}
-                    title={album.title}
-                    image={album.image}
-                    description={""}
-                  />
-                ))}
-              </div>
-            </div>
-            <div>
-              <h1 className=" text-lg font-medium max-lg:text-xl ">Albums</h1>
-              <div className=" mt-2 flex flex-wrap gap-2  ">
-                {searchSuggestion.albums.data.map((album, idx) => (
-                  <SearchedItems
-                    key={idx}
-                    type={album.type}
-                    url={album.url}
-                    title={album.title}
-                    image={album.image}
-                    description={album.description}
-                  />
-                ))}
-              </div>
-            </div>
+            <SearchedItemsContainer heading="Song">
+              {searchSuggestion.songs.data.map((song, idx) => (
+                <SearchedItems key={idx} id={song.id} type={song.type} />
+              ))}
+            </SearchedItemsContainer>
+            <SearchedItemsContainer heading="Playlist">
+              {searchSuggestion.playlists.data.map((song, idx) => (
+                <SearchedItems key={idx} id={song.id} type={song.type} />
+              ))}
+            </SearchedItemsContainer>
+            <SearchedItemsContainer heading="Album">
+              {searchSuggestion.albums.data.map((song, idx) => (
+                <SearchedItems key={idx} id={song.id} type={song.type} />
+              ))}
+            </SearchedItemsContainer>
             <div>
               <h1 className=" text-lg font-medium max-lg:text-xl  ">Artists</h1>
-              <div className=" mt-2 flex flex-wrap gap-2   ">
+              <div className=" mt-6 flex flex-wrap sm:gap-2   ">
                 {searchSuggestion.artists.data
                   .slice(0, 4)
                   .map((artist, idx) => (
-                    <SearchedItems
+                    <ArtistCard
                       key={idx}
-                      url={artist.url}
-                      type={artist.type}
-                      title={artist.title}
                       image={artist.image}
-                      description={artist.type}
+                      name={artist.title}
+                      type={artist.type}
+                      url={artist.url}
                     />
                   ))}
               </div>
@@ -225,52 +197,52 @@ export function SearchBar() {
   );
 }
 
-function SearchedItems({
-  title,
-  description,
-  image,
-  type,
-  url,
-}: {
-  title: string;
-  description: string;
-  image: string;
-  type: string;
-  url: string;
-}) {
-  const token = url.split("/").at(-1);
-  const qualityImage = image.replace("50x50", "500x500");
-  return (
-    <div>
-      <Link
-        href={`${
-          type === "song" ? `/${type}/${token}/search` : `/${type}/${token}`
-        }`}
-        className="  px-2 py-2 rounded-sm hover:bg-card-hover   group  flex max-lg:flex-col md:items-center gap-4 hover:bg-bar overflow-hidden max-sm:w-[12rem] max-md:w-[11rem]  max-lg:w-[12rem] "
-      >
-        <div>
-          {image.length === 0 ? (
-            <CircleUserRound size={40} className="stroke-1" />
-          ) : (
-            <Image
-              src={qualityImage}
-              alt="image"
-              height={100}
-              width={100}
-              className="rounded-sm  max-lg:h-[12rem] max-lg:w-full  max-md:h-[10rem] max-md:w-full max-sm:h-[9rem] max-sm:w-full "
-            />
-          )}
-        </div>
-        <div>
-          <p className="text-lg  md:px-4 line-clamp-1 w-[13rem] max-md:w-[10rem] max-sm:w-[8rem]  ">
-            {" "}
-            {decodeHTML(title)}
-          </p>
-          <p className=" text-xs md:px-4 dark:group-hover:text-neutral-500 dark:text-neutral-400 line-clamp-1 w-[12rem] max-md:w-[10rem]  max-sm:w-[8rem] ">
-            {decodeHTML(description)}
-          </p>
-        </div>
-      </Link>
-    </div>
-  );
-}
+// function SearchedItems({
+//   title,
+//   description,
+//   image,
+//   type,
+//   url,
+// }: {
+//   title: string;
+//   description: string;
+//   image: string;
+//   type: string;
+//   url: string;
+// }) {
+//   const token = url.split("/").at(-1);
+//   const qualityImage = image.replace("50x50", "500x500");
+//   return (
+//     <div>
+//       <Link
+//         href={`${
+//           type === "song" ? `/${type}/${token}/search` : `/${type}/${token}`
+//         }`}
+//         className="  px-2 py-2 rounded-sm hover:bg-card-hover   group  flex max-lg:flex-col md:items-center gap-4 hover:bg-bar overflow-hidden w-full   "
+//       >
+//         <div className=" w-full ">
+//           {image.length === 0 ? (
+//             <CircleUserRound size={40} className="stroke-1" />
+//           ) : (
+//             <Image
+//               src={qualityImage}
+//               alt="image"
+//               height={100}
+//               width={100}
+//               className="rounded-lg  w-full h-full  "
+//             />
+//           )}
+//         </div>
+//         <div>
+//           <p className="text-xl  md:px-4 line-clamp-1 w-[10rem] max-md:w-[10rem] max-sm:w-[8rem]  ">
+//             {" "}
+//             {decodeHTML(title)}
+//           </p>
+//           <p className="  text-xs md:px-4 dark:group-hover:text-neutral-500 dark:text-neutral-400 line-clamp-1 w-[10rem] max-md:w-[10rem]  max-sm:w-[8rem] ">
+//             {decodeHTML(description)}
+//           </p>
+//         </div>
+//       </Link>
+//     </div>
+//   );
+// }

@@ -45,8 +45,10 @@ const artistItems: ArtistOptions[] = [
 
 export default function ArtistComponent({
   artistInfo,
+  token,
 }: {
   artistInfo: IArtistInfo;
+  token: string;
 }) {
   const [active, setActive] = useState<Active>("song");
   const [artist, setArtist] = useState<IArtistInfoOnly | null>(null);
@@ -153,10 +155,7 @@ export default function ArtistComponent({
                           type: artist.type,
                           role: "",
                           image: artist.image,
-                          perma_url:
-                            artistInfo.topSongs[0].more_info.artistMap.artists.filter(
-                              (x) => x.name === artistInfo.name,
-                            )[0].perma_url,
+                          perma_url: `/${token}`,
                           isLiked: artist.isLiked,
                         });
 

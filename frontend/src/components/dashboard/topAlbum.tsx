@@ -1,7 +1,6 @@
 "use client";
 import { SongCardContaier } from "./music/songCardContainer";
 import { useEffect } from "react";
-import { usePlaylistStore } from "@/store/playlistStore";
 import { SongCards } from "./music/songCard";
 import { IAlbum } from "@/types/albumType";
 import { useAlbumStore } from "@/store/albumStore";
@@ -20,7 +19,12 @@ export function TopAlbumComponent({ topAlbum }: { topAlbum: IAlbum[] }) {
         </h1>
         <SongCardContaier>
           {topAlbum.map((items, idx) => (
-            <SongCards key={idx} type={items.type} id={items.id} />
+            <SongCards
+              key={idx}
+              type={items.type}
+              id={items.id}
+              className="w-full"
+            />
           ))}
         </SongCardContaier>
       </div>

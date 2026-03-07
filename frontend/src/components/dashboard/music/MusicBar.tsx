@@ -3,7 +3,6 @@ import {
   SkipBack,
   SkipForward,
   Play,
-  ListMusic,
   Maximize2,
   Minimize2,
   Pause,
@@ -20,15 +19,11 @@ import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
 import { SaveItemHeart } from "../saveItemHeart";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
+import { ViewQueueSongs } from "./viewQueueSong";
 
 export function MusicBar() {
-  const { moveBackward, moveForward } = useQueueStore((s) => s.actions);
   const { currentIdx, queueSong, isCurrentSong } = useQueueStore((s) => s);
-  const isNext = currentIdx < queueSong.length - 1;
-  const isPrev = currentIdx > 0;
   const currentSong = useSongStore((s) => s.songs[queueSong[currentIdx]]);
-  const { progress, isPlaying, play, pause, isBuffering, setCurrentTime } =
-    useMusicPlayer();
   const [open, setOpen] = useState<boolean>(false);
   const parent = {
     initial: {
@@ -102,21 +97,7 @@ export function MusicBar() {
           )}
         </AnimatePresence>
         <div className="  h-18 absolute  lg:bottom-0 max-lg:fixed bottom-12   sm:gap-18 gap-6  z-50  w-full bg-card border-t-[1px] border-card-border  shadow-soft   ">
-          <div
-            className=" w-full h-2  cursor-pointer hover:border-[1px]  hover:border-neutral-600  flex items-center "
-            onClick={(e) => {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const progress = ((e.clientX - rect.left) / rect.width) * 100;
-              setCurrentTime(progress);
-            }}
-          >
-            <div
-              className="bg-primary  h-1   "
-              style={{
-                width: `${progress}%`,
-              }}
-            ></div>
-          </div>
+          <ProgressBar />
           <div className=" flex items-center justify-between gap-4 py-2 px-8 max-md:px-4 ">
             <motion.div
               initial={{
@@ -133,7 +114,7 @@ export function MusicBar() {
               className=" flex items-center gap-4  "
             >
               {!currentSong ? (
-                <div className="  h-[50px] w-[50px] bg-neutral-600 rounded-lg "></div>
+                <div className="  h-[50px] w-[50px] bg-neutral-300 rounded-lg "></div>
               ) : (
                 <Image
                   src={currentSong.image}
@@ -154,56 +135,7 @@ export function MusicBar() {
                 </p>
               </div>
             </motion.div>
-            <div className="flex  gap-4 items-center ">
-              <SkipBack
-                size={30}
-                className={` stroke-1  max-sm:size-6  ${
-                  isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                }  `}
-                onClick={() => {
-                  moveBackward();
-                }}
-              />
-              {isPlaying ? (
-                <div>
-                  {!isBuffering && (
-                    <Pause
-                      size={30}
-                      className=" stroke-1 cursor-pointer max-sm:size-6 "
-                      onClick={() => {
-                        if (isCurrentSong) {
-                          pause();
-                        }
-                      }}
-                    />
-                  )}
-                </div>
-              ) : (
-                <Play
-                  size={30}
-                  className={`stroke-1  max-sm:size-6 ${isCurrentSong ? "cursor-pointer " : "cursor-not-allowed opacity-40 "}`}
-                  onClick={() => {
-                    if (isCurrentSong) {
-                      play();
-                    }
-                  }}
-                />
-              )}
-
-              {isBuffering && isPlaying && (
-                <div className=" h-[30px] w-[30px] border-[2px] border-neutral-300 border-t-primary rounded-full animate-spin "></div>
-              )}
-
-              <SkipForward
-                size={30}
-                className={` stroke-1  max-sm:size-6  ${
-                  isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
-                }  `}
-                onClick={() => {
-                  moveForward();
-                }}
-              />
-            </div>
+            <PlayingButtons />
             <div className=" flex items-center sm:gap-8  ">
               <CurrentSongPlayingTime />
               {!currentSong ? (
@@ -242,59 +174,84 @@ export function MusicBar() {
   );
 }
 
-function ViewQueueSongs() {
-  const [queueOpen, setQueueOpen] = useState<boolean>(false);
-  const isCurrentSong = useQueueStore((s) => s.isCurrentSong);
-
+function ProgressBar() {
+  const { progress, setCurrentTime } = useMusicPlayer();
   return (
     <>
-      <div>
-        <AnimatePresence>
-          {queueOpen && (
-            <motion.div
-              initial={{
-                height: 0,
-              }}
-              animate={{
-                height: "24rem",
-              }}
-              exit={{
-                height: 0,
-              }}
-              transition={{
-                duration: 0.4,
-                ease: "easeInOut",
-              }}
-              className=" px-2 h-[24rem] w-[24rem] bg-card shadow-2xl  fixed   bottom-30 lg:bottom-20  right-4 lg:right-[4rem] max-md:hidden overflow-hidden rounded-xl
-               "
-            >
-              <motion.div
-                initial={{
-                  opacity: 0,
-                }}
-                animate={{
-                  opacity: 1,
-                }}
-                exit={{
-                  opacity: 0,
-                }}
-                transition={{
-                  duration: 0,
-                  ease: "easeInOut",
-                }}
-              >
-                <QueueSongs setQueueOpen={setQueueOpen} />
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        <ListMusic
+      <div
+        className=" w-full h-2  cursor-pointer hover:border-[1px]  hover:border-neutral-600  flex items-center "
+        onClick={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const progress = ((e.clientX - rect.left) / rect.width) * 100;
+          setCurrentTime(progress);
+        }}
+      >
+        <div
+          className="bg-primary  h-1   "
+          style={{
+            width: `${progress}%`,
+          }}
+        ></div>
+      </div>
+    </>
+  );
+}
+
+function PlayingButtons() {
+  const { moveBackward, moveForward } = useQueueStore((s) => s.actions);
+  const { currentIdx, queueSong, isCurrentSong } = useQueueStore((s) => s);
+  const isNext = currentIdx < queueSong.length - 1;
+  const isPrev = currentIdx > 0;
+  const { isPlaying, isBuffering, pause, play } = useMusicPlayer();
+  return (
+    <>
+      <div className="flex  gap-4 items-center ">
+        <SkipBack
           size={30}
-          className={`stroke-1 max-md:hidden ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
+          className={` stroke-1  max-sm:size-6  ${
+            isPrev ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+          }  `}
           onClick={() => {
-            if (isCurrentSong) {
-              setQueueOpen(!queueOpen);
-            }
+            moveBackward();
+          }}
+        />
+        {isPlaying ? (
+          <div>
+            {!isBuffering && (
+              <Pause
+                size={30}
+                className=" stroke-1 cursor-pointer max-sm:size-6 "
+                onClick={() => {
+                  if (isCurrentSong) {
+                    pause();
+                  }
+                }}
+              />
+            )}
+          </div>
+        ) : (
+          <Play
+            size={30}
+            className={`stroke-1  max-sm:size-6 ${isCurrentSong ? "cursor-pointer " : "cursor-not-allowed opacity-40 "}`}
+            onClick={() => {
+              if (isCurrentSong) {
+                play();
+              }
+            }}
+          />
+        )}
+
+        {isBuffering && isPlaying && (
+          <div className=" h-[30px] w-[30px] border-[2px] border-neutral-300 border-t-primary rounded-full animate-spin "></div>
+        )}
+
+        <SkipForward
+          size={30}
+          className={` stroke-1  max-sm:size-6  ${
+            isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
+          }  `}
+          onClick={() => {
+            moveForward();
           }}
         />
       </div>

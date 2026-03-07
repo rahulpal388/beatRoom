@@ -7,7 +7,7 @@ export type ISearchSong = {
     image: string;
     album: string;
     url: string;
-    type: string;
+    type: "song";
     description: string;
     more_info: {
         primary_artists: string;
@@ -21,7 +21,7 @@ export type ISearchPlaylist = {
     image: string;
     url: string;
     language: string;
-    type: string;
+    type: "playlist";
 }
 
 export type ISearchAlbum = {
@@ -29,7 +29,7 @@ export type ISearchAlbum = {
     title: string;
     image: string;
     url: string;
-    type: string;
+    type: "album";
     description: string;
     more_info: {
         language: string;
@@ -42,7 +42,7 @@ export type ISearchArtist = {
     title: string;
     image: string;
     url: string;
-    type: string
+    type: "artist"
 }
 
 export type ISearchReco = {

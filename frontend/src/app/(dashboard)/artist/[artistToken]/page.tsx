@@ -14,5 +14,5 @@ export default async function Artist({
     notFound();
   }
 
-  return <ArtistComponent artistInfo={artistInfo} />;
+  return <ArtistComponent token={artistToken} artistInfo={artistInfo} />;
 }

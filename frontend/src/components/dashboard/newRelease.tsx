@@ -28,7 +28,12 @@ export function NewReleasedComponent({
         </h1>
         <SongCardContaier>
           {newRelease.map((items, idx) => (
-            <SongCards key={idx} id={items.id} type={items.type} />
+            <SongCards
+              key={idx}
+              id={items.id}
+              type={items.type}
+              className="w-full"
+            />
           ))}
         </SongCardContaier>
       </div>

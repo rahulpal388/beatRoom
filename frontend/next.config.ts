@@ -13,6 +13,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "static.saavncdn.com"
+      },
+      {
+        protocol: "https",
         hostname: "c.sop.saavncdn.com"
       }
     ],

@@ -1,7 +1,7 @@
 "use client";
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm, UseFormRegisterReturn } from "react-hook-form";
 import { motion, AnimatePresence } from "motion/react";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../ui/input-otp";
 import { useRouter } from "next/navigation";
@@ -16,14 +16,12 @@ import Link from "next/link";
 
 export default function SingUp() {
   const [viewPassowrd, setViewPassword] = useState<boolean>(false);
-  const [isForm, setIsForm] = useState<boolean>(true);
-  const [loading, setLoading] = useState<boolean>(false);
   const [otp, setOtp] = useState<string>("");
   const [user, setUser] = useState<IAuthFormData | null>(null);
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isSubmitSuccessful },
   } = useForm<IAuthFormData>();
   const router = useRouter();
   const { authenticateUser } = useAuth();
@@ -31,78 +29,66 @@ export default function SingUp() {
 
   const onSubmit: SubmitHandler<IAuthFormData> = async (data) => {
     setUser(data);
-    setLoading(true);
 
     const response = await userSignUp(data);
+    if (response.success) {
+      toastMessage({
+        message: response.message,
+        type: "success",
+      });
+    }
+
     if (!response.success) {
       toastMessage({
         message: response.message,
         type: "error",
       });
-      setLoading(false);
       if (response.redirect) {
         router.push("/login");
       }
-      return;
     }
-
-    if (response.success) {
-      toastMessage({
-        message: "Otp Send",
-        type: "success",
-      });
-      setIsForm(false);
-    }
-
-    setLoading(false);
   };
 
   const optResend = async () => {
     if (user) {
       const isEmailSent = await resendOtp(user);
 
-      if (isEmailSent) {
-        toastMessage({
-          message: "OTP Resend",
-          type: "success",
-        });
-      }
-    } else {
       toastMessage({
-        message: "Error Sending OTP",
-        type: "error",
+        message: isEmailSent.message,
+        type: isEmailSent.success ? "success" : "error",
       });
     }
   };
 
   const verifyOtpFunction = async () => {
     if (otp.length === 6 && user) {
-      // task 1 : call the API to verify the user
-      if (!loading) {
-        setLoading(true);
+      if (!isSubmitting) {
         const response = await verifyOtp({ ...user, otp });
 
         if (response.success) {
           authenticateUser(response.user);
           router.push("/");
+          toastMessage({
+            message: "SignUp Successfull",
+            type: "success",
+          });
         } else {
           toastMessage({
             message: response.message,
             type: "error",
           });
-          setLoading(false);
         }
       }
     }
   };
   return (
     <>
-      <div className=" dark:bg-froground dark:text-background  h-screen ">
+      <div className=" dark:bg-froground dark:text-background  h-screen  ">
         <div className="  h-full flex items-center justify-center dark:shadow-accent-foreground ">
-          <div className=" max-xs:col-span-2  px-12  ">
-            <div className="overflow-hidden border-[1px]  border-card-border shadow-soft rounded p-4  w-[28rem]  flex items-center justify-center ">
+          <div className=" max-xs:col-span-2  px-2  ">
+            <div className="overflow-hidden border-[1px]  border-card-border/20 shadow-lg rounded-md p-4 max-sm:py-4 sm:p-8   max-w-[40rem]  flex items-center justify-center ">
               <AnimatePresence>
-                {isForm && (
+                {!isSubmitSuccessful && (
                   <motion.div
                     initial={{
                       opacity: 1,
@@ -118,12 +104,12 @@ export default function SingUp() {
                     }}
                     className=" min-w-full "
                   >
-                    <h1 className="text-center text-text-heading text-3xl font-semibold font-heading   ">
-                      Create an Account
+                    <h1 className="text-center text-text-heading text-xl sm:text-3xl font-semibold font-heading   ">
+                      Create Your <span className="text-primary">BeatRoom</span>{" "}
+                      Account
                     </h1>
-                    <p className=" mt-1 text-text-muted font-body text-center text-[14px] ">
-                      Enter username, email, password to create BeatRoom
-                      account.
+                    <p className=" mt-1 text-text-muted font-body text-center text-[10px] sm:text-[14px] ">
+                      Enter your username, email, and password to get started.
                     </p>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -136,7 +122,7 @@ export default function SingUp() {
                             Username
                           </label>
                           <input
-                            className="mt-1 text-black px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
+                            className="mt-1 text-black px-2 py-px rounded w-full border-[1px] border-card-border/20 focus:border-primary outline-none  h-8 "
                             type="text"
                             id="username"
                             placeholder="Enter username "
@@ -156,7 +142,6 @@ export default function SingUp() {
                             {errors.username?.message}
                           </p>
                         </div>
-
                         <div>
                           <label
                             htmlFor="email"
@@ -165,7 +150,7 @@ export default function SingUp() {
                             Email
                           </label>
                           <input
-                            className="mt-1 text-black px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
+                            className="mt-1 text-black px-2 py-px rounded w-full border-[1px] border-card-border/20 focus:border-primary outline-none  h-8 "
                             type="text"
                             id="email"
                             placeholder="Enter email "
@@ -184,7 +169,7 @@ export default function SingUp() {
                           >
                             Password
                           </label>
-                          <div className="flex gap-1 items-center border-[1px] border-card-border focus-within:border-primary px-2 rounded ">
+                          <div className="flex gap-1 items-center border-[1px] border-card-border/20 focus-within:border-primary px-2 rounded ">
                             <input
                               className="mt-1 text-black  py-px rounded w-full outline-none  h-8 "
                               type={viewPassowrd ? "text" : "password"}
@@ -196,7 +181,7 @@ export default function SingUp() {
                                   value:
                                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{6,10}$/,
                                   message:
-                                    "Password must be 6-10 characters and include uppercase, lowercase, number and special character",
+                                    "6–10 chars, include A–Z, a–z, 0–9, and a special character",
                                 },
                               })}
                             />
@@ -216,12 +201,12 @@ export default function SingUp() {
                               />
                             )}
                           </div>
-                          <p className=" text-red-600 text-xs ">
+                          <p className=" text-red-600  text-[8px] sm:text-xs ">
                             {errors.password?.message}
                           </p>
                         </div>
                         <Button
-                          name={`${!loading ? "Submit" : "Sending OTP.........."}`}
+                          name={`${!isSubmitting ? "Submit" : "Sending OTP.........."}`}
                           type="submit"
                           btnType="Primary"
                         />
@@ -236,7 +221,7 @@ export default function SingUp() {
                   </motion.div>
                 )}
               </AnimatePresence>
-              {!isForm && (
+              {isSubmitSuccessful && (
                 <motion.div
                   initial={{
                     x: 300,
@@ -302,20 +287,27 @@ export default function SingUp() {
                         </InputOTPGroup>
                       </InputOTP>
                     </div>
-                    <div className=" text-black flex justify-end items-center mt-2 ">
+                    <div className=" text-black flex justify-end items-center mt-4 ">
                       <span className=" text-sm pr-1 ">
                         Don&apos;t Receive OTP?
                       </span>
                       <button
                         className=" underline cursor-pointer "
-                        onClick={optResend}
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          optResend();
+                        }}
                       >
                         Resend
                       </button>
                     </div>
 
                     <Button
-                      name={!loading ? "Verify" : "Verifying OTP.........."}
+                      name={
+                        !isSubmitting ? "Verify" : "Verifying OTP.........."
+                      }
                       type="submit"
                       btnType="Primary"
                       className=" w-full mt-4 "

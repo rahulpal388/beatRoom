@@ -9,6 +9,8 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { logoutUser } from "@/api/auth/logoutUser";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { ThemeToggleComponent } from "../themeToggleComponent";
+import Image from "next/image";
 
 export function DashboardNavbar() {
   const { isAuthenticated, currentUser, removeAuthenticatedUser } = useAuth();
@@ -24,14 +26,14 @@ export function DashboardNavbar() {
             href={`/`}
             className=" text-xl  font-extralight italic cursor-pointer "
           >
-            beatRoom
+            {/* beatRoom */}
+            <Image src={"/logo.png"} alt="logo" height={100} width={100} />
           </Link>
         </div>
         <div className=" relative flex items-center gap-4 justify-end max-lg:hidden  ">
           <SearchBar />
         </div>
         <div className=" flex md:gap-12 gap-8 items-center  ">
-          <div></div>
           {isAuthenticated ? (
             <div className="flex gap-4 items-center">
               <div className=" flex flex-col items-center justify-end ">

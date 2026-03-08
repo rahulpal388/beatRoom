@@ -25,12 +25,15 @@ export async function saveUserSong(userId: string, song: ISong): Promise<boolean
     if (!saveSong?._id) {
         throw new Error("Song upsert failed")
     }
-
-    await userModel.updateOne(
+    console.log(song)
+    console.log(saveSong._id)
+    const a = await userModel.findOneAndUpdate(
         { userId },
-        { $addToSet: { "songs": saveSong._id } }
+        { $addToSet: { "songs": saveSong._id } },
+
     )
 
+    console.log(a)
     return true;
 
 

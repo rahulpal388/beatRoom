@@ -40,7 +40,7 @@ export function SongCards({
     <>
       <Link
         href={getForwardPageUrl(items)}
-        className={`relative shadow-xl    group px-4 py-4 w-[12rem]  rounded  hover:bg-card-hover ${className}`}
+        className={`relative shadow-xl   group px-4 py-4 w-[12rem]  rounded  hover:bg-card-hover ${className}`}
       >
         <div className="relative  mb-2  w-full     ">
           <Image
@@ -72,7 +72,7 @@ export function SongCards({
           />
         </div>
 
-        <div className="  text-[18px] text-text-heading line-clamp-2 leading-[1.4rem] ">
+        <div className="  text-[18px] text-text-heading dark:text-foreground line-clamp-2 leading-[1.4rem] ">
           {decodeHTML(items.title)}
 
           <p className="  mt-1 text-[0.7rem]  text-text-muted line-clamp-2  ">

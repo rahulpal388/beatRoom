@@ -4,5 +4,10 @@ import api from "../baseUrlAxios";
 
 
 export async function getSaveArtist(): Promise<IArtists[]> {
-    return (await api.get(`/artist/getSave`)).data
+    try {
+        return (await api.get(`/artist/getSave`)).data
+
+    } catch {
+        return []
+    }
 }

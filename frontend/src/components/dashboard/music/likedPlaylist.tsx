@@ -1,20 +1,12 @@
-import { IPlaylist } from "@/types/playlistType";
-import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
-import { getSavePlaylist } from "@/api/playlist/getSavePlaylist";
+import { usePlaylistStore } from "@/store/playlistStore";
+import { useLikedLibraryStore } from "@/store/likedLibraryStore";
 
 export function LikedPlaylist() {
-  const [playlist, setPlaylist] = useState<IPlaylist[]>([]);
-
-
-  useEffect(() => {
-    const fetchPlaylist = async () => {
-      const response = await getSavePlaylist();
-      setPlaylist(response);
-    };
-    fetchPlaylist();
-  }, []);
+  const playlistId = useLikedLibraryStore((s) => s.likedPlaylist);
+  const playlistStore = usePlaylistStore((s) => s.playlist);
+  const playlist = playlistId.map((x) => playlistStore[x]);
 
   return (
     <>
@@ -25,13 +17,7 @@ export function LikedPlaylist() {
       ) : (
         <SongCardContaier>
           {playlist.map((song, idx) => (
-            <SongCards
-              key={idx}
-              songs={song}
-              updateState={(id: string) => {
-                setPlaylist((prev) => prev.filter((x) => x.id !== id));
-              }}
-            />
+            <SongCards key={idx} id={song.id} type={song.type} />
           ))}
         </SongCardContaier>
       )}

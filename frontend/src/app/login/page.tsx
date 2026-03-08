@@ -11,19 +11,17 @@ import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export default function Login() {
-  const [loading, setLoading] = useState<boolean>(false);
   const [viewPassword, setViewPassword] = useState<boolean>(false);
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ILoginData>();
   const router = useRouter();
   const { isAuthenticated, authenticateUser } = useAuth();
   const { toastMessage } = useToastNotification();
 
   const onSubmit: SubmitHandler<ILoginData> = async (data) => {
-    setLoading(true);
     const response = await loginUser(data);
 
     if (response.success) {
@@ -31,7 +29,7 @@ export default function Login() {
         message: response.message,
         type: "success",
       });
-      authenticateUser(response.user!);
+      authenticateUser(response.user);
       router.push("/");
     } else {
       toastMessage({
@@ -39,7 +37,6 @@ export default function Login() {
         type: "error",
       });
     }
-    setLoading(false);
   };
   useEffect(() => {
     if (isAuthenticated) {
@@ -53,19 +50,19 @@ export default function Login() {
 
   return (
     <>
-      <div className="  h-screen flex items-center justify-center dark:shadow-accent-foreground ">
-        <div className=" max-xs:col-span-2  px-12 ">
-          <div className="overflow-hidden border-[1px]  border-card-border shadow-soft rounded p-4  w-[28rem]  flex items-center justify-center ">
+      <div className="  h-screen flex items-center justify-center  dark:shadow-accent-foreground ">
+        <div className=" max-xs:col-span-2 w-full flex items-center justify-center px-2 ">
+          <div className="overflow-hidden border-[1px]  border-card-border/20 shadow-lg rounded-md p-4 max-sm:py-4 sm:p-4    w-full max-w-[32rem] flex items-center  justify-center ">
             <div className=" min-w-full ">
-              <h1 className="text-center text-text-heading text-3xl font-semibold font-heading   ">
+              <h1 className="text-center text-text-heading  text-xl sm:text-3xl  font-semibold font-heading   ">
                 Login to Account
               </h1>
-              <p className=" mt-1 text-text-muted font-body text-center text-[14px] ">
+              <p className=" mt-1 text-text-muted font-body text-center text-[10px] sm:text-[14px] ">
                 Enter email and password to login to your account.
               </p>
 
               <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="mt-4  px-4 flex flex-col gap-2 ">
+                <div className="mt-4  px-4 flex flex-col gap-4 ">
                   <div>
                     <label
                       htmlFor="email"
@@ -74,7 +71,7 @@ export default function Login() {
                       Email
                     </label>
                     <input
-                      className="mt-1 text-black px-2 py-px rounded w-full border-[1px] border-card-border focus:border-primary outline-none  h-8 "
+                      className="mt-1 text-black px-2 py-px rounded w-full border-[1px] border-card-border/20 focus:border-primary outline-none  h-8 "
                       type="text"
                       id="email"
                       placeholder="Enter email "
@@ -93,7 +90,7 @@ export default function Login() {
                     >
                       Password
                     </label>
-                    <div className="flex gap-1 items-center border-[1px] border-card-border focus-within:border-primary px-2 rounded ">
+                    <div className="flex gap-1 items-center border-[1px] border-card-border/20 focus-within:border-primary px-2 rounded ">
                       <input
                         className="mt-1 text-black  py-px rounded w-full outline-none  h-8 "
                         type={viewPassword ? "text" : "password"}
@@ -123,7 +120,7 @@ export default function Login() {
                   </div>
 
                   <Button
-                    name={loading ? "Verifying......" : "Login"}
+                    name={isSubmitting ? "Verifying......" : "Login"}
                     type="submit"
                     btnType="Primary"
                   />

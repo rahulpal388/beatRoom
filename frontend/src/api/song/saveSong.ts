@@ -14,7 +14,7 @@ export async function saveSong(song: ISong): Promise<{
         await api.post("/song/save", song);
         return {
             success: true,
-            message: "Song aved"
+            message: "Song saved"
         };
     } catch (error) {
         if (axios.isAxiosError(error)) {

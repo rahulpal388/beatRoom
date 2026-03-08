@@ -1,3 +1,4 @@
+"use client";
 import { getSaveArtist } from "@/api/artist/getSavedArtist";
 import { IArtists } from "@/types/artistType";
 import { useEffect, useState } from "react";

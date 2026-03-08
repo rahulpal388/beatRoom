@@ -5,17 +5,20 @@ import axios from "axios";
 
 
 export async function loginUser(data: ILoginData): Promise<{
-    success: boolean;
-    message: string;
-    user: IAuthUser | null
+    success: true;
+    user: IAuthUser
+    message: string
+} | {
+    success: false,
+    message: string
 }> {
 
     try {
         const user = (await api.post('/auth/login', data)).data;
         return {
             success: true,
-            message: "Login Successfull",
-            user
+            user,
+            message: "Login Successfull"
         }
 
     } catch (error) {
@@ -23,14 +26,12 @@ export async function loginUser(data: ILoginData): Promise<{
 
             return {
                 success: false,
-                message: error.message,
-                user: null
+                message: error.response?.data.message,
             };
         }
         return {
             success: false,
-            message: "Error",
-            user: null
+            message: "Error Loging",
         };
     }
 

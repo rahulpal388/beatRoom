@@ -23,7 +23,7 @@ export const Login = async (req: Request, res: Response, next: NextFunction) => 
 
     if (!user) {
       return next(new apiError(401, "user already eixt", {
-        message: "Login User doesn't exits"
+        message: "SignUp User Not Found"
       }))
     }
 

@@ -1,7 +1,8 @@
 import { saveUserPlaylist } from "@/api/playlist/saveUserPlaylist";
 import { IValue, useModal } from "@/context/modalContext";
-import { useQueue } from "@/context/queueContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
+import { useQueueStore } from "@/store/queueStore";
+import { useSongStore } from "@/store/songStore";
 import { Button } from "@/ui/button";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -13,7 +14,13 @@ export type ICreatePlaylist = {
 
 export function CreateNewPlaylist({ value }: { value: IValue }) {
   const { register, handleSubmit } = useForm<ICreatePlaylist>();
-  const { currentSong, queueSongs } = useQueue();
+  // const { currentSong, queueSongs } = useQueue();
+  const queueSongId = useQueueStore((s) => s.queueSong);
+  const currentIdx = useQueueStore((s) => s.currentIdx);
+  const songs = useSongStore((s) => s.songs);
+  const currentSong = songs[queueSongId[currentIdx]];
+  const queueSongs = queueSongId.map((x) => songs[x]);
+  // const currentSong
   const { removeModal } = useModal();
   const { toastMessage } = useToastNotification();
   const [isLoading, setIsLoading] = useState(false);

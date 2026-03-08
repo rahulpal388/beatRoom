@@ -14,7 +14,7 @@ export async function verifyOtp(data: IAuthOtpVerifyData): Promise<{
 
 
     try {
-        const user = await api.post("/auth/verifyOtp", data);
+        const user = await api.post("/auth/verifyOtp", data)
 
         return {
             success: true,
@@ -23,17 +23,10 @@ export async function verifyOtp(data: IAuthOtpVerifyData): Promise<{
     } catch (error) {
 
         if (axios.isAxiosError(error)) {
-            if (error.status === 400) {
-                return {
-                    success: false,
-                    message: "Otp Expire"
-                }
-            }
-            if (error.status === 401) {
-                return {
-                    success: false,
-                    message: "Incorrect Otp"
-                }
+
+            return {
+                success: false,
+                message: error.response?.data.message || "Error Verifying OTP"
             }
 
 
@@ -41,9 +34,10 @@ export async function verifyOtp(data: IAuthOtpVerifyData): Promise<{
 
         return {
             success: false,
-            message: "Error"
+            message: "Error Verifying OTP"
         }
 
     }
+
 
 }

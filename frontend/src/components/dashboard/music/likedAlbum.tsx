@@ -1,26 +1,12 @@
-import { IAlbum } from "@/types/albumType";
-import { useEffect, useState } from "react";
 import { SongCardContaier } from "./songCardContainer";
 import { SongCards } from "./songCard";
-import { getSaveAlbum } from "@/api/album/getSaveAlbum";
-
+import { useLikedLibraryStore } from "@/store/likedLibraryStore";
+import { useAlbumStore } from "@/store/albumStore";
 
 export function LikedAlbum() {
-  const [album, setAlbum] = useState<IAlbum[]>([]);
-
-
-
-  useEffect(() => {
-    const fetchAlbum = async () => {
-      const response = await getSaveAlbum();
-      setAlbum(response);
-    };
-    fetchAlbum();
-  }, []);
-
-
-
-
+  const albumId = useLikedLibraryStore((s) => s.likedAlbum);
+  const albumStore = useAlbumStore((s) => s.album);
+  const album = albumId.map((x) => albumStore[x]);
   return (
     <>
       {album.length == 0 ? (
@@ -30,13 +16,7 @@ export function LikedAlbum() {
       ) : (
         <SongCardContaier>
           {album.map((song, idx) => (
-            <SongCards
-              key={idx}
-              songs={song}
-              updateState={(id: string) => {
-                setAlbum((prev) => prev.filter((x) => x.id !== id));
-              }}
-            />
+            <SongCards key={idx} id={song.id} type={song.type} />
           ))}
         </SongCardContaier>
       )}

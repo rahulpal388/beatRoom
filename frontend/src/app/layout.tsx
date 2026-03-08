@@ -19,8 +19,11 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Beatroom",
+  title: "Beatroom | Listen music with your friends",
   description: "Share playlists, like tracks, and connect through music.",
+  icons: {
+    icon: "/BLetterLogo.png",
+  },
 };
 
 export default function RootLayout({
@@ -31,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${poppins.variable} font-body antialiased  text-black  dark:bg-background bg-background  dark:text-foreground   `}
+        className={`${inter.variable} ${poppins.variable} font-body antialiased  text-black   dark:bg-background bg-background  dark:text-foreground   `}
       >
         <ThemeProvider
           attribute="class"

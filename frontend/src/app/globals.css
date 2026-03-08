@@ -36,12 +36,12 @@
 
 
 .dark{
-  /* --background:oklch(0.1831 0.004 285.99); */
+  /* --background:#141414; */
   /* --background:oklch(0.2002 0 0); */
-  /* --foreground:oklch(0.8593 0.1017 73.9); */
+  /* --foreground:#ffffff; */
 
     /* for cards */
-    /* --card:oklch(0.2147 0 0); */
+    /* --card:#282828; */
     /* --color-card-hover:oklch(0.9235 0.004 133.45); */
 }
 

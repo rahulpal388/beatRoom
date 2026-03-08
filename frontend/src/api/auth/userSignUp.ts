@@ -15,7 +15,7 @@ export async function userSignUp(data: IAuthFormData): Promise<{
 
         return {
             success: true,
-            message: response.data.message,
+            message: "Verification OTP Sent",
             redirect: false
         }
     } catch (error) {
@@ -32,7 +32,7 @@ export async function userSignUp(data: IAuthFormData): Promise<{
         return {
             success: false,
             redirect: false,
-            message: "Error Signup"
+            message: "Error Signing Up"
         }
 
     }

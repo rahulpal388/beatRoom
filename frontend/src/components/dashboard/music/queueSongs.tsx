@@ -17,6 +17,7 @@ export function QueueSongs({
   const updateQueueSongPosition = useQueueStore(
     (s) => s.actions.updateQueueSongPosition,
   );
+
   const currentSong = useSongStore((s) => s.songs[currentSongId]);
   const { showModal } = useModal();
   return (

@@ -1,7 +1,7 @@
-"use client";
+import { LibraryLikeAlbum } from "@/components/dashboard/libraryLikeAlbum";
 import { LikedAlbum } from "@/components/dashboard/music/likedAlbum";
 
-export default function MyLibraryAlbum() {
+export default async function MyLibraryAlbum() {
   return (
     <>
       <div>
@@ -9,7 +9,9 @@ export default function MyLibraryAlbum() {
           <h1 className=" text-xl font-medium  ">My Album Library</h1>
         </div>
         <div>
-          <LikedAlbum />
+          <LibraryLikeAlbum>
+            <LikedAlbum />
+          </LibraryLikeAlbum>
         </div>
       </div>
     </>

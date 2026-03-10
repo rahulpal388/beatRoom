@@ -1,5 +1,3 @@
-"use client";
-
 import { LikedArtist } from "@/components/dashboard/music/likedArtist";
 
 export default function MyLibraryArtist() {

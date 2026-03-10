@@ -80,8 +80,8 @@ export default function MyLibrary() {
           <div className=" mt-4 ">
             <ul className=" flex flex-col gap-2 ">
               {libraryItems.map((x, idx) => (
-                <Link href={x.link} key={idx}>
-                  <li className=" h-14 bg-card shadow-md  hover:bg-card-hover w-full text-xl px-4 flex items-center justify-between ">
+                <Link href={x.link} key={idx} className=" active:bg-primary ">
+                  <li className=" h-14 bg-card shadow-sm  hover:bg-card-hover w-full text-xl px-4 flex items-center justify-between ">
                     <p className=" flex gap-2 items-center justify-center ">
                       {x.icon}
                       {x.title}

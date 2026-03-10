@@ -1,33 +1,9 @@
-import { ISong } from "@/types/songType";
-import { saveSong } from "./song/saveSong"
-import { saveALbum } from "./album/saveAlbum";
-import { IAlbum } from "@/types/albumType";
-import { savePlaylist } from "./playlist/savePlaylist";
-import { IPlaylist } from "@/types/playlistType";
-import { saveArtist } from "./artist/saveArtist";
-import { IArtists } from "@/types/artistType";
-import { saveUserPlaylist } from "./playlist/saveUserPlaylist";
 import { useSongStore } from "@/store/songStore";
 import { useAlbumStore } from "@/store/albumStore";
 import { usePlaylistStore } from "@/store/playlistStore";
 import { useLikedLibraryStore } from "@/store/likedLibraryStore";
-import { removeAllListeners } from "process";
-import { s } from "motion/react-client";
 
-type IUserPlaylistType = {
-    title: string;
-    subtitle: string;
-    songs: ISong[]
-}
-// type IEntityDataMap = {
-//     song: ISong;
-//     album: IAlbum;
-//     playlist: IPlaylist;
-//     artist: IArtists;
-//     userPlaylist: IUserPlaylistType
-// }
-
-export async function saveEntity(id: string, type: "song" | "playlist" | "album" | "userPlaylist" | "artist"): Promise<{
+export async function saveEntity(id: string, type: "song" | "playlist" | "album" | "userPlaylist"): Promise<{
     success: boolean;
     message: string;
 }> {
@@ -61,15 +37,12 @@ export async function saveEntity(id: string, type: "song" | "playlist" | "album"
         }
         case "userPlaylist": {
             const { success, message, isPlaylistLike } = await likePlaylist(id, type)
+            if (success) {
+                isPlaylistLike ? addLikedPlaylist([id], false) : removeLikedPlaylist(id);
+            }
             return { success, message }
         }
-        case "artist": {
-            // return await saveArtist(data as IArtists)
-            return {
-                success: false,
-                message: "saving artist is remeaning"
-            }
-        }
+
 
     }
 

@@ -4,7 +4,13 @@ import { AnimatePresence } from "motion/react";
 import { createContext, useContext, useState } from "react";
 
 type IToastNotification = {
-  toastMessage: ({ message, type }: { message: string, type: "success" | "error" }) => void;
+  toastMessage: ({
+    message,
+    type,
+  }: {
+    message: string;
+    type: "success" | "error";
+  }) => void;
 };
 
 type IMessage = {
@@ -20,8 +26,13 @@ export const ToastNotificationProvider: React.FC<{
 }> = ({ children }) => {
   const [notification, setNotification] = useState<IMessage[]>([]);
 
-
-  const toastMessage = ({ message, type }: { message: string, type: "success" | "error" }) => {
+  const toastMessage = ({
+    message,
+    type,
+  }: {
+    message: string;
+    type: "success" | "error";
+  }) => {
     const newMessage: IMessage = {
       id: Date.now(),
       message,
@@ -30,7 +41,6 @@ export const ToastNotificationProvider: React.FC<{
     setNotification((prev) => [...prev, newMessage]);
     dismissNotification(newMessage.id);
   };
-
 
   const dismissNotification = (id: number) => {
     setTimeout(() => {
@@ -41,14 +51,18 @@ export const ToastNotificationProvider: React.FC<{
   return (
     <toastNotificationContext.Provider
       value={{
-        toastMessage
+        toastMessage,
       }}
     >
       <div className=" fixed top-2 right-2 flex flex-col gap-2  px-4 py-2 z-40 ">
         <AnimatePresence>
           {notification.length > 0 &&
             notification.map((x) => (
-              <ToastNotification key={x.id} type={x.type} name={x.message} />
+              <ToastNotification
+                key={x.id + Math.random()}
+                type={x.type}
+                name={x.message}
+              />
             ))}
         </AnimatePresence>
       </div>
@@ -61,7 +75,7 @@ export const useToastNotification = () => {
   const context = useContext(toastNotificationContext);
   if (!context) {
     throw new Error(
-      "useToastNotification must be use inside the ToastNotificationProvider"
+      "useToastNotification must be use inside the ToastNotificationProvider",
     );
   }
   return context;

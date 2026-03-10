@@ -1,11 +1,8 @@
 "use client";
 import { Debounce } from "@/lib/debounce";
-import { CircleUserRound, Search } from "lucide-react";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Search } from "lucide-react";
+import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { decodeHTML } from "@/lib/decodeHtml";
-import Link from "next/link";
 import { ISearchReco } from "@/types/searchType";
 import { searchReco } from "@/api/searchReco";
 import { useSearchStore } from "@/store/searchStore";
@@ -35,7 +32,7 @@ export function SearchBar() {
     }
   };
 
-  const onSearchInputChange = Debounce(searchSuggestionFn, 1000);
+  const onSearchInputChange = Debounce(searchSuggestionFn, 600);
 
   return (
     <div className="  overflow-hidden flex max-lg:flex-col gap-2 justify-center items-center   ">
@@ -196,53 +193,3 @@ export function SearchBar() {
     </div>
   );
 }
-
-// function SearchedItems({
-//   title,
-//   description,
-//   image,
-//   type,
-//   url,
-// }: {
-//   title: string;
-//   description: string;
-//   image: string;
-//   type: string;
-//   url: string;
-// }) {
-//   const token = url.split("/").at(-1);
-//   const qualityImage = image.replace("50x50", "500x500");
-//   return (
-//     <div>
-//       <Link
-//         href={`${
-//           type === "song" ? `/${type}/${token}/search` : `/${type}/${token}`
-//         }`}
-//         className="  px-2 py-2 rounded-sm hover:bg-card-hover   group  flex max-lg:flex-col md:items-center gap-4 hover:bg-bar overflow-hidden w-full   "
-//       >
-//         <div className=" w-full ">
-//           {image.length === 0 ? (
-//             <CircleUserRound size={40} className="stroke-1" />
-//           ) : (
-//             <Image
-//               src={qualityImage}
-//               alt="image"
-//               height={100}
-//               width={100}
-//               className="rounded-lg  w-full h-full  "
-//             />
-//           )}
-//         </div>
-//         <div>
-//           <p className="text-xl  md:px-4 line-clamp-1 w-[10rem] max-md:w-[10rem] max-sm:w-[8rem]  ">
-//             {" "}
-//             {decodeHTML(title)}
-//           </p>
-//           <p className="  text-xs md:px-4 dark:group-hover:text-neutral-500 dark:text-neutral-400 line-clamp-1 w-[10rem] max-md:w-[10rem]  max-sm:w-[8rem] ">
-//             {decodeHTML(description)}
-//           </p>
-//         </div>
-//       </Link>
-//     </div>
-//   );
-// }

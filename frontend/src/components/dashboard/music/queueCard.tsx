@@ -1,21 +1,21 @@
-import { saveSong } from "@/api/song/saveSong";
 import { useMusicPlayer } from "@/context/musicPlayerContext";
-import { useToastNotification } from "@/context/toastNotificationContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
-import { Ellipsis, Grip, Heart, X } from "lucide-react";
+import { Delete, Ellipsis, Grip, Heart, Trash, X } from "lucide-react";
 import Image from "next/image";
 import { SaveItemHeart } from "../saveItemHeart";
 
 export function QueueCards({ id }: { id: string }) {
-  const { toastMessage } = useToastNotification();
   const removeQueueSong = useQueueStore((s) => s.actions.removeQueueSong);
   const currentSongId = useQueueStore((s) => s.queueSong[s.currentIdx]);
   const currentSong = useSongStore((s) => s.songs[currentSongId]);
   const song = useSongStore((s) => s.songs[id]);
-  const likeSong = useSongStore((s) => s.actions.likeSong);
+  console.log(song);
   const { isPlaying } = useMusicPlayer();
+  if (!song) {
+    return null;
+  }
   return (
     <>
       <div className="  flex items-center  justify-between gap-4  hover:bg-card-hover rounded-lg py-1 px-2 font-body    shadow-md group ">
@@ -50,19 +50,17 @@ export function QueueCards({ id }: { id: string }) {
           </div>
         </div>
         <div className="flex items-center gap-8  ">
-          {currentSong.id !== song.id && (
-            <div className=" size-[25px] ">
-              <X
-                className=" h-full w-full cursor-pointer stroke-[1px] group-hover:block hidden "
-                onClick={() => {
-                  removeQueueSong(song.id);
-                }}
-              />
-            </div>
-          )}
           <SaveItemHeart songs={song} showHeart={true} />
-
-          <Ellipsis className=" cursor-pointer " />
+          {currentSong.id !== song.id && (
+            <Trash
+              className=" cursor-pointer stroke-red-400  "
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                removeQueueSong(song.id);
+              }}
+            />
+          )}
         </div>
       </div>
     </>

@@ -11,6 +11,7 @@ import {
 import { getSongUrl } from "@/api/song/getSongUrl";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
+import { useToastNotification } from "./toastNotificationContext";
 
 type TMusicPlayer = {
   play: () => void;
@@ -28,6 +29,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const currentSongId = useQueueStore((s) => s.queueSong[s.currentIdx]);
+  const moveBackward = useQueueStore((s) => s.actions.moveBackward);
   const { moveForward } = useQueueStore((s) => s.actions);
   const currentSong = useSongStore((s) => s.songs[currentSongId]);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -35,7 +37,7 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
   const [isBuffering, setIsBuffering] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
   const [url, setUrl] = useState<string | undefined>(undefined);
-
+  const { toastMessage } = useToastNotification();
   const play = useCallback(() => {
     if (audioRef.current && currentSong) {
       audioRef.current.play();
@@ -81,11 +83,23 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
         pause();
         return;
       }
-      const responseUrl = await getSongUrl(
+      const response = await getSongUrl(
         currentSong.more_info.encrypted_media_url,
       );
-      if (responseUrl) {
-        setUrl(responseUrl);
+      if (response.success) {
+        setUrl(response.url);
+      }
+      if (!response.success) {
+        toastMessage({
+          message: response.messsage,
+          type: "error",
+        });
+        moveBackward();
+        setUrl(undefined);
+        toastMessage({
+          message: "Playing Next Song",
+          type: "success",
+        });
       }
     };
     fetchUrl();

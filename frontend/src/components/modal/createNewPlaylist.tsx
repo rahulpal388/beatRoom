@@ -20,7 +20,6 @@ export function CreateNewPlaylist({ value }: { value: IValue }) {
   const songs = useSongStore((s) => s.songs);
   const currentSong = songs[queueSongId[currentIdx]];
   const queueSongs = queueSongId.map((x) => songs[x]);
-  // const currentSong
   const { removeModal } = useModal();
   const { toastMessage } = useToastNotification();
   const [isLoading, setIsLoading] = useState(false);

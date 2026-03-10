@@ -26,8 +26,10 @@ export function SearchedItems({
     return null;
   }
   const token = items.url.split("/").at(-1);
-  const qualityImage = items.image.replace("50x50", "500x500");
-
+  const qualityImage = items.image.includes("50x50")
+    ? items.image.replace("50x50", "500x500")
+    : "";
+  // console.log(items.image);
   return (
     <div>
       <Link

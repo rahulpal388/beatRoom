@@ -35,6 +35,7 @@ export default function Playlist({
     usePlaylistStore((s) => s.actions);
   const { addListSong } = useSongStore((s) => s.actions);
 
+  console.log(playlist);
   useEffect(() => {
     addPlaylist([
       {

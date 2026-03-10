@@ -1,4 +1,6 @@
 "use client";
+import serverApiFunction from "@/api/baseServerUrlAxios";
+import clientAPI from "@/api/baseUrlAxios";
 import { addSongToPlaylist } from "@/api/playlist/addSongToPlaylist";
 import { getSavePlaylist } from "@/api/playlist/getSavePlaylist";
 import { removeEntity } from "@/api/removeEntity";
@@ -8,6 +10,7 @@ import { useToastNotification } from "@/context/toastNotificationContext";
 import { getItemsToken } from "@/lib/getItemsToken";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
+import { ISong } from "@/types/songType";
 
 import { ChevronLeft, ChevronRight, Ellipsis, Plus } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -24,6 +27,7 @@ export function MusicBarPopover() {
   const albumToken = getItemsToken(
     currentSong ? currentSong.more_info.album_url : "",
   );
+
   const [showPlaylist, setShowPlaylist] = useState<boolean>(true);
   const [playlistName, setPlaylistName] = useState<
     { title: string; id: string }[]
@@ -102,7 +106,6 @@ export function MusicBarPopover() {
                                   message: "Song added",
                                   type: "success",
                                 });
-                                likeSong(currentSong.id);
                               }
                               setOptionOpen(false);
                             }}
@@ -131,13 +134,16 @@ export function MusicBarPopover() {
                                 currentSong.id,
                                 currentSong.type,
                               )
-                            : await saveEntity(currentSong.type, currentSong);
+                            : await saveEntity(
+                                currentSong.id,
+                                currentSong.type,
+                              );
                           toastMessage({
                             message,
                             type: success ? "success" : "error",
                           });
                           if (success) {
-                            likeSong(currentSong.id);
+                            likeSong(currentSong.id, currentSong.type);
                           }
                           setOptionOpen(false);
                         }}
@@ -152,7 +158,7 @@ export function MusicBarPopover() {
                         className="hover:bg-card-hover w-full cursor-pointer  text-start px-4 py-2 flex justify-between items-center "
                         onClick={async () => {
                           setShowPlaylist(true);
-                          const playlists = await getSavePlaylist();
+                          const playlists = await getSavePlaylist(clientAPI);
                           const titleAndId = playlists.map((x) => {
                             return { title: x.title, id: x.id };
                           });

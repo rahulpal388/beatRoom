@@ -1,4 +1,4 @@
-"use client";
+import { LibraryLikePlaylist } from "@/components/dashboard/libraryLikePlaylist";
 import { LikedPlaylist } from "@/components/dashboard/music/likedPlaylist";
 
 export default function MyLibraryPlaylist() {
@@ -9,7 +9,9 @@ export default function MyLibraryPlaylist() {
           <h1 className=" text-xl font-medium  ">My Playlist Library</h1>
         </div>
         <div>
-          <LikedPlaylist />
+          <LibraryLikePlaylist>
+            <LikedPlaylist />
+          </LibraryLikePlaylist>
         </div>
       </div>
     </>

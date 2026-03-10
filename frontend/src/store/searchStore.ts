@@ -36,9 +36,9 @@ export const useSearchStore = create<SearchStoreType>(set => ({
                 }
             })
         }),
-        addSongs: (album => {
+        addSongs: (song => {
             set(state => {
-                const songRecord = album.reduce<Record<string, ISearchSong>>((al, x) => {
+                const songRecord = song.reduce<Record<string, ISearchSong>>((al, x) => {
                     al[x.id] = x
                     return al
                 }, {})
@@ -48,9 +48,9 @@ export const useSearchStore = create<SearchStoreType>(set => ({
                 }
             })
         }),
-        addArtists: (album => {
+        addArtists: (aritst => {
             set(state => {
-                const artistRecord = album.reduce<Record<string, ISearchArtist>>((al, x) => {
+                const artistRecord = aritst.reduce<Record<string, ISearchArtist>>((al, x) => {
                     al[x.id] = x
                     return al
                 }, {})
@@ -60,17 +60,15 @@ export const useSearchStore = create<SearchStoreType>(set => ({
                 }
             })
         }),
-        addPlaylists: (album => {
-            set(state => {
-                const playlistRecord = album.reduce<Record<string, ISearchPlaylist>>((al, x) => {
-                    al[x.id] = x
-                    return al
-                }, {})
-
-                return {
-                    artists: playlistRecord
-                }
-            })
+        addPlaylists: (playlist => {
+            const playlistRecord = playlist.reduce<Record<string, ISearchPlaylist>>((al, x) => {
+                al[x.id] = x
+                return al
+            }, {})
+            set({
+                playlists: playlistRecord
+            }
+            )
         })
     }
 }))

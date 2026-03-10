@@ -34,7 +34,7 @@ type SongStoreType = {
 
 type SongStoreActionsType = {
     addSongs: (songs: ISong[]) => void;
-    likeSong: (id: string, type: "song") => Promise<{ success: boolean; message: string }>;
+    likeSong: (id: string, type: "song") => Promise<{ success: boolean; message: string; isSongLiked: boolean }>;
     addTrendingSong: (songs: ISong[]) => void;
     addListSong: (songs: ISong[]) => void
     addSongBySameArtist: (songs: ISong[]) => void;
@@ -70,7 +70,7 @@ export const useSongStore = create<SongStoreType>((set, get) => ({
                 }))
 
             }
-            return { success, message }
+            return { success, message, isSongLiked: !song.isLiked }
         }),
         addTrendingSong: (songs => {
             set(state => {

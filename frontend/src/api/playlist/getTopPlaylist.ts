@@ -1,9 +1,9 @@
 import { IPlaylist } from "@/types/playlistType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
-export async function getTopPlaylist(limit: number, page: number): Promise<IPlaylist[]> {
+export async function getTopPlaylist(api: AxiosInstance, limit: number, page: number): Promise<IPlaylist[]> {
 
     return (await api.get(`/playlist?limit=${limit}&page=${page}`)).data
 

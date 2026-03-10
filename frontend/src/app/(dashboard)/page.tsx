@@ -1,15 +1,17 @@
 import { getTopArtist } from "@/api/artist/getTopArtist";
+import serverApiFunction from "@/api/baseServerUrlAxios";
 import { getTopPlaylist } from "@/api/playlist/getTopPlaylist";
 import { getNewReleasedSong } from "@/api/song/newReleasedSong";
 import { getTrendingSong } from "@/api/song/trendingSong";
 import { Music } from "@/components/dashboard/music/music";
 
 export default async function MainPage() {
+  const serverAPI = await serverApiFunction();
   const [newReleased, trendingSong, topPlaylist, topArtist] = await Promise.all(
     [
-      getNewReleasedSong(14, 1),
-      getTrendingSong(10, 1, "hindi"),
-      getTopPlaylist(10, 1),
+      getNewReleasedSong(serverAPI, 14, 1),
+      getTrendingSong(serverAPI, 10, 1, "hindi"),
+      getTopPlaylist(serverAPI, 10, 1),
       getTopArtist(10, 0),
     ],
   );

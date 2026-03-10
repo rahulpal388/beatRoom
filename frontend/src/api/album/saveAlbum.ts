@@ -1,13 +1,13 @@
 import { IAlbum } from "@/types/albumType";
-import api from "../baseUrlAxios";
 import axios from "axios";
+import clientAPI from "../baseUrlAxios";
 
 
 
 export async function saveALbum(album: IAlbum): Promise<{ success: boolean; message: string }> {
 
     try {
-        await api.post(`/album/save`, album);
+        await clientAPI.post(`/album/save`, album);
         return {
             success: true,
             message: "Album saved"

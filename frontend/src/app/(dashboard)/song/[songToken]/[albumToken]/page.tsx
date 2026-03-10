@@ -1,4 +1,5 @@
 import { getAlbumSong } from "@/api/album/getAlbumSong";
+import serverApiFunction from "@/api/baseServerUrlAxios";
 import { getSongBySameArtist } from "@/api/song/getSongBySameArtist";
 import { getSongDetails } from "@/api/song/getSongDetail";
 import { getTrendingSong } from "@/api/song/trendingSong";
@@ -10,17 +11,19 @@ export default async function Songs({
 }: {
   params: Promise<{ songToken: string; albumToken: string }>;
 }) {
+  const serverAPI = await serverApiFunction();
   const { songToken, albumToken } = await params;
-  const songDetail = await getSongDetails(songToken);
+  const songDetail = await getSongDetails(serverAPI, songToken);
 
   if (!songDetail) {
     notFound();
   }
 
   const [albums, trendingSongs, songBySameArtist] = await Promise.all([
-    getAlbumSong(albumToken),
-    getTrendingSong(10, 1, songDetail.language),
+    getAlbumSong(serverAPI, albumToken),
+    getTrendingSong(serverAPI, 10, 1, songDetail.language),
     getSongBySameArtist(
+      serverAPI,
       songDetail.more_info.artistMap.artists.map((x) => x.id).join(","),
     ),
   ]);

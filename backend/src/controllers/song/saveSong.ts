@@ -10,6 +10,7 @@ import { formatValidationError } from "../../utils/formatZodValidationError.js";
 export const saveSong = async (req: Request, res: Response, next: NextFunction) => {
   const { success, data, error } = saveSongType.safeParse(req.body);
   const userId = req.user.userId;
+  console.log(userId, "come to save the song")
   if (!success) {
     return next(new apiError(401, "Invalid input ", {
       message: formatValidationError(error)

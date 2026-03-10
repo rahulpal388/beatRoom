@@ -24,6 +24,7 @@ export const saveAlbum = async (req: Request, res: Response, next: NextFunction)
   try {
     await saveUserAlbum(userId, data as IAlbum)
 
+
     res.status(200).json({
       message: "album saved",
     });

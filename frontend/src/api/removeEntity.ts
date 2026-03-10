@@ -1,5 +1,5 @@
 import axios from "axios";
-import api from "./baseUrlAxios"
+import clientAPI from "./baseUrlAxios"
 
 type Itype = "song" | "playlist" | "album" | "artist" | "userPlaylist"
 export async function removeEntity(id: string, type: Itype): Promise<{
@@ -8,7 +8,7 @@ export async function removeEntity(id: string, type: Itype): Promise<{
 }> {
 
     try {
-        await api.post(`/entity/remove`, {
+        await clientAPI.post(`/entity/remove`, {
             id,
             type
         })

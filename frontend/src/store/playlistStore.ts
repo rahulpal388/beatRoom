@@ -37,7 +37,7 @@ type PlaylistStoreActionType = {
     addPlaylist: (playlists: IPlaylist[]) => void;
     addTopPlaylist: (playlists: IPlaylist[]) => void;
     addPlaylistReco: (playlists: IPlaylist[]) => void;
-    likePlaylist: (id: string, type: "playlist" | "userPlaylist") => Promise<{ success: boolean; message: string }>;
+    likePlaylist: (id: string, type: "playlist" | "userPlaylist") => Promise<{ success: boolean; message: string; isPlaylistLike: boolean }>;
     addTrendingPlaylist: (playlists: IPlaylist[]) => void;
     addDedicatedArtistPlaylist: (artistPlaylist: IArtistPlaylist[]) => void
     addFeaturedArtistPlaylist: (artistPlaylist: IArtistPlaylist[]) => void
@@ -73,7 +73,8 @@ export const usePlaylistStore = create<PlaylistStoreType>((set, get) => ({
 
                 return {
                     success: false,
-                    message: "complete the userPlaylist saving"
+                    message: "complete the userPlaylist saving",
+                    isPlaylistLike: false
                 }
             }
             const p = get().playlist[id]
@@ -91,7 +92,7 @@ export const usePlaylistStore = create<PlaylistStoreType>((set, get) => ({
                     }
                 })
             }
-            return { success, message }
+            return { success, message, isPlaylistLike: !p.isLiked }
         }),
         addTopPlaylist: (playlists => {
             set(state => {

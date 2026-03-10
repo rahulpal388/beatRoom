@@ -1,5 +1,5 @@
 import { IPlaylist } from "@/types/playlistType";
-import api from "../baseUrlAxios";
+import clientAPI from "../baseUrlAxios";
 import axios from "axios";
 
 
@@ -10,7 +10,7 @@ export async function savePlaylist(playlist: IPlaylist): Promise<{
 }> {
 
     try {
-        await api.post(`/playlist/save`, playlist);
+        await clientAPI.post(`/playlist/save`, playlist);
         return {
             success: true,
             message: "playlist saved"

@@ -3,12 +3,13 @@ import { getSaveArtist } from "@/api/artist/getSavedArtist";
 import { IArtists } from "@/types/artistType";
 import { useEffect, useState } from "react";
 import { ArtistCard, ArtistCardContaier } from "./artistCard";
+import clientAPI from "@/api/baseUrlAxios";
 
 export function LikedArtist() {
   const [artist, setArtist] = useState<IArtists[]>([]);
   useEffect(() => {
     const fetchArtist = async () => {
-      const response = await getSaveArtist();
+      const response = await getSaveArtist(clientAPI);
       setArtist(response);
     };
     fetchArtist();

@@ -5,6 +5,7 @@ import { IPlaylist } from "@/types/playlistType";
 import { IAlbum } from "@/types/albumType";
 import { IArtistAlbum, IArtistInfo } from "@/types/artistType";
 import { getUserSavedPlaylistInfo } from "@/api/playlist/getUserSavedPlaylist";
+import clientAPI from "@/api/baseUrlAxios";
 
 
 export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum | INewReleaseSong | IArtistInfo
@@ -13,7 +14,7 @@ export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum |
   switch (songs.type) {
     case "song": {
       const token = songs.more_info.album_url.split("/").at(-1) || "";
-      const albumSongs = await getAlbumSong(token);
+      const albumSongs = await getAlbumSong(clientAPI, token);
       if (!albumSongs) {
         return [songs] as ISong[];
       } else {
@@ -23,7 +24,7 @@ export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum |
     }
     case "playlist": {
       const token = songs.perma_url.split("/").at(-1) || "";
-      const playlistSong = await getPlaylistSong(token);
+      const playlistSong = await getPlaylistSong(clientAPI, token);
       if (!playlistSong) {
         return [];
       }
@@ -31,14 +32,14 @@ export const getSong = async (songs: ISong | IPlaylist | IAlbum | IArtistAlbum |
       return playlistSong.list
     }
     case "userPlaylist": {
-      const userPlaylistSong = await getUserSavedPlaylistInfo(songs.id);
+      const userPlaylistSong = await getUserSavedPlaylistInfo(clientAPI, songs.id);
       return userPlaylistSong.list;
     }
 
     case "album": {
       const token = songs.perma_url.split("/").at(-1) || "";
 
-      const albumSong = await getAlbumSong(token);
+      const albumSong = await getAlbumSong(clientAPI, token);
       if (!albumSong) {
         return [];
       }

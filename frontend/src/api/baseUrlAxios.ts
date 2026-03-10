@@ -1,9 +1,9 @@
 import axios from "axios";
 
 
-const api = axios.create({
+const clientAPI = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true
 })
 
-export default api;
+export default clientAPI;

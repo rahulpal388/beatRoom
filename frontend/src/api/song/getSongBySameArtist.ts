@@ -1,10 +1,10 @@
 import { ISong } from "@/types/songType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
 
-export async function getSongBySameArtist(artistId: string): Promise<ISong[]> {
+export async function getSongBySameArtist(api: AxiosInstance, artistId: string): Promise<ISong[]> {
     return (await api.get(`/song/getTopSongByArtist/${artistId}`)).data;
 
 }

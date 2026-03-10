@@ -1,5 +1,5 @@
 import { IAuthUser, ILoginData } from "@/types/authType";
-import api from "../baseUrlAxios";
+import clientAPI from "../baseUrlAxios";
 import axios from "axios";
 
 
@@ -14,7 +14,7 @@ export async function loginUser(data: ILoginData): Promise<{
 }> {
 
     try {
-        const user = (await api.post('/auth/login', data)).data;
+        const user = (await clientAPI.post('/auth/login', data)).data;
         return {
             success: true,
             user,

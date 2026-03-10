@@ -62,9 +62,9 @@ export function LikePageComponent({
     addSongs(song);
     addAlbum(albums);
     addPlaylist(playlist);
-    addLikedAlbum(albums);
-    addLikedPlaylist(playlist);
-    addLikedSong(song);
+    addLikedAlbum(albums, true);
+    addLikedPlaylist(playlist, true);
+    addLikedSong(song, true);
   }, []);
 
   return (

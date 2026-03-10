@@ -1,9 +1,9 @@
 import { IArtists } from "@/types/artistType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
-export async function getSaveArtist(): Promise<IArtists[]> {
+export async function getSaveArtist(api: AxiosInstance): Promise<IArtists[]> {
     try {
         return (await api.get(`/artist/getSave`)).data
 

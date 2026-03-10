@@ -1,9 +1,9 @@
 import { IArtists } from "@/types/artistType";
-import api from "../baseUrlAxios";
+import cleintAPI from "../baseUrlAxios";
 
 
 
 
 export async function getTopArtist(limit: number, page: number): Promise<IArtists[]> {
-    return (await api.get(`/artist/topArtist?limit=${limit}&page=${page}`)).data;
+    return (await cleintAPI.get(`/artist/topArtist?limit=${limit}&page=${page}`)).data;
 }

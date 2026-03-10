@@ -1,8 +1,8 @@
 import { IPlaylistSong } from "@/types/playlistType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
-export async function getUserSavedPlaylistInfo(id: string): Promise<IPlaylistSong> {
+export async function getUserSavedPlaylistInfo(api: AxiosInstance, id: string): Promise<IPlaylistSong> {
     return (await api.get(`/playlist/userPlaylist/${id}`)).data;
 }

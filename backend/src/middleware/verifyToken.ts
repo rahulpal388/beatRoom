@@ -13,11 +13,14 @@ const verifyTokenMiddleware = async (
   const { ref, ac } = req.cookies;
 
 
+
+
   if (ac) {
     const { userId, sessionId, _id } = verifyJwtToken(ac, "ac");
     req.user.userId = userId
     req.user._id = _id
     req.session.sessionId = sessionId
+
   } else {
     if (ref) {
       // verify token
@@ -31,10 +34,12 @@ const verifyTokenMiddleware = async (
       req.session.sessionId = sessionId;
 
 
+
     } else {
       req.user.userId = null;
       req.user._id = null;
       req.session.sessionId = null;
+
     }
 
 

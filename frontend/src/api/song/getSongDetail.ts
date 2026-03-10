@@ -1,9 +1,9 @@
 import { ISong } from "@/types/songType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
-export async function getSongDetails(token: string): Promise<ISong | null> {
+export async function getSongDetails(api: AxiosInstance, token: string): Promise<ISong | null> {
     try {
 
         return (await api.get(`/song/songDetail/${token}`)).data;

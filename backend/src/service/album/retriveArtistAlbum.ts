@@ -14,6 +14,7 @@ export function retriveArtistAlbum(
             type: album.type,
             perma_url: album.perma_url,
             image: album.image.replace("150x150", "500x500"),
+            list_count: "",
             language: album.language,
             isLiked: likedAlbum.has(album.id),
             more_info: {

@@ -1,10 +1,10 @@
 import { IAlbumSong } from "@/types/albumType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
 
-export async function getAlbumSong(albumToken: string): Promise<IAlbumSong | null> {
+export async function getAlbumSong(api: AxiosInstance, albumToken: string): Promise<IAlbumSong | null> {
 
     try {
 

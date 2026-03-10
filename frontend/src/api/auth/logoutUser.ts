@@ -1,11 +1,11 @@
-import api from "../baseUrlAxios";
+import clientAPI from "../baseUrlAxios";
 
 
 
 export async function logoutUser(): Promise<boolean> {
 
     try {
-        await api.get(`/auth/logout`);
+        await clientAPI.get(`/auth/logout`);
 
         return true;
     } catch {

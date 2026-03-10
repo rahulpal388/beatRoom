@@ -1,6 +1,6 @@
 import { IArtists } from "@/types/artistType";
-import api from "../baseUrlAxios";
 import axios from "axios";
+import clientAPI from "../baseUrlAxios";
 
 
 export async function saveArtist(artist: IArtists): Promise<{
@@ -11,7 +11,7 @@ export async function saveArtist(artist: IArtists): Promise<{
 
 
     try {
-        await api.post(`/artist/save`, artist);
+        await clientAPI.post(`/artist/save`, artist);
         return {
             success: true,
             message: "Album saved"

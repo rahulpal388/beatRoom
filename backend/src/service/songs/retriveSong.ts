@@ -32,7 +32,7 @@ export const retriveSong = (songs: ApiSong[], likeSong: Set<string>): ISong[] =>
                         };
                     }),
                 },
-                release_date: item.more_info.release_date,
+                release_date: item.more_info.release_date ?? "",
             },
         }
     ));

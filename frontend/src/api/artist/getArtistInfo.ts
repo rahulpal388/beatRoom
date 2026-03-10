@@ -1,8 +1,8 @@
 import { IArtistInfo } from "@/types/artistType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
-export async function getArtistInfo(artistToken: string): Promise<IArtistInfo> {
+export async function getArtistInfo(api: AxiosInstance, artistToken: string): Promise<IArtistInfo> {
     return (await api.get(`/artist/?artistToken=${artistToken}`)).data
 }

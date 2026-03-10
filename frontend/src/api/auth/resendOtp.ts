@@ -1,5 +1,5 @@
 import { IAuthFormData } from "@/types/authType";
-import api from "../baseUrlAxios";
+import clientAPI from "../baseUrlAxios";
 
 
 
@@ -10,7 +10,7 @@ export async function resendOtp(data: IAuthFormData): Promise<{
 }> {
 
     try {
-        await api.post(`/auth/resendOtp`, data);
+        await clientAPI.post(`/auth/resendOtp`, data);
 
         return {
             success: true,

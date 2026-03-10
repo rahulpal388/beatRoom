@@ -1,6 +1,6 @@
 import { IAuthOtpVerifyData, IAuthUser } from "@/types/authType";
 import axios from "axios";
-import api from "../baseUrlAxios";
+import clientAPI from "../baseUrlAxios";
 
 
 
@@ -14,7 +14,7 @@ export async function verifyOtp(data: IAuthOtpVerifyData): Promise<{
 
 
     try {
-        const user = await api.post("/auth/verifyOtp", data)
+        const user = await clientAPI.post("/auth/verifyOtp", data)
 
         return {
             success: true,

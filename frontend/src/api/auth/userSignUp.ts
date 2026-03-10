@@ -1,5 +1,5 @@
 import { IAuthFormData } from "@/types/authType";
-import api from "../baseUrlAxios";
+import clientAPI from "../baseUrlAxios";
 import axios from "axios";
 
 
@@ -11,7 +11,7 @@ export async function userSignUp(data: IAuthFormData): Promise<{
 }> {
 
     try {
-        const response = await api.post(`/auth/signup`, data);
+        const response = await clientAPI.post(`/auth/signup`, data);
 
         return {
             success: true,

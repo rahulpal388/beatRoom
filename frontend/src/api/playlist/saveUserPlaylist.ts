@@ -1,5 +1,5 @@
 import { ISong } from "@/types/songType";
-import api from "../baseUrlAxios";
+import clientAPI from "../baseUrlAxios";
 import axios from "axios";
 
 
@@ -13,7 +13,7 @@ export async function saveUserPlaylist(title: string, subtitle: string, songs: I
 
 
     try {
-        await api.post(`/playlist/saveUserPlaylist`, {
+        await clientAPI.post(`/playlist/saveUserPlaylist`, {
             title,
             subtitle,
             songs

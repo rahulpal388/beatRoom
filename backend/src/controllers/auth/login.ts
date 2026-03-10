@@ -11,7 +11,9 @@ import { apiError } from "../../utils/apiError.js";
 
 export const Login = async (req: Request, res: Response, next: NextFunction) => {
   const { data, success, error } = signinType.safeParse(req.body);
+  console.log("login request come")
   if (!success) {
+
     return next(new apiError(401, "Invalid Input", {
       message: formatValidationError(error)
     }))

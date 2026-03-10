@@ -1,9 +1,9 @@
 import { IAlbum } from "@/types/albumType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
-export async function getSaveAlbum(): Promise<IAlbum[]> {
+export async function getSaveAlbum(api: AxiosInstance): Promise<IAlbum[]> {
     try {
 
         return (await api.get(`/album/getSave`)).data;

@@ -67,7 +67,6 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
     if (audioRef.current.src !== url) {
       audioRef.current.src = url;
       play();
-      setIsBuffering(false);
     }
   }, [url, play]);
 
@@ -82,7 +81,6 @@ export const MusicPlayerProvider: FC<{ children: React.ReactNode }> = ({
         pause();
         return;
       }
-      setIsBuffering(true);
       const responseUrl = await getSongUrl(
         currentSong.more_info.encrypted_media_url,
       );

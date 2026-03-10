@@ -1,9 +1,9 @@
 import { ISong } from "@/types/songType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
-export async function getTrendingSong(limit: number, page: number, language: string): Promise<ISong[]> {
+export async function getTrendingSong(api:AxiosInstance,limit: number, page: number, language: string): Promise<ISong[]> {
 
     return (await api.get(
         `/song/trendingSong?limit=${limit}&page=${page}&language=${language}`

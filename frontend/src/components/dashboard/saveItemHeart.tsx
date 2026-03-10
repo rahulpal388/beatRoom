@@ -1,5 +1,6 @@
 import { removeEntity } from "@/api/removeEntity";
 import { saveEntity } from "@/api/saveEntity";
+import { useAuth } from "@/context/authContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import { useSongStore } from "@/store/songStore";
 import { IAlbum } from "@/types/albumType";
@@ -16,6 +17,7 @@ export function SaveItemHeart({
   showHeart: boolean;
 }) {
   const { toastMessage } = useToastNotification();
+  const { isAuthenticated, currentUser } = useAuth();
   return (
     <>
       <Heart
@@ -28,6 +30,8 @@ export function SaveItemHeart({
         onClick={async (e) => {
           e.stopPropagation();
           e.preventDefault();
+          console.log(isAuthenticated);
+          console.log(currentUser);
           const { success, message } = await saveEntity(songs.id, songs.type);
           toastMessage({
             message,

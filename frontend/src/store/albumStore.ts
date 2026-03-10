@@ -35,7 +35,7 @@ type AlbumStoreType = {
 type AlbumStoreActionType = {
     addAlbum: (albums: IAlbum[]) => void;
     addTopAlbum: (albums: IAlbum[]) => void;
-    likeAlbum: (id: string, type: "album") => Promise<{ success: boolean; message: string }>;
+    likeAlbum: (id: string, type: "album") => Promise<{ success: boolean; message: string; isAlbumLiked: boolean }>;
     addTrendingAlbum: (albums: IAlbum[]) => void;
     addAlbumReco: (albums: IAlbum[]) => void;
 }
@@ -87,7 +87,7 @@ export const useAlbumStore = create<AlbumStoreType>((set, get) => ({
                     }
                 })
             }
-            return { success, message }
+            return { success, message, isAlbumLiked: !al.isLiked }
         }),
         addTrendingAlbum: (albums => [
             set(state => {

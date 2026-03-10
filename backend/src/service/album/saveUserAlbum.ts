@@ -5,13 +5,11 @@ import { IAlbum } from "../../types/album.js";
 
 
 export async function saveUserAlbum(userId: string, album: IAlbum): Promise<boolean> {
-
     const saveAlbum = await albumModel.findOneAndUpdate(
         { id: album.id },
         { $set: { ...album, isLiked: true } },
         { upsert: true, new: true }
-    );
-
+    )
     if (!saveAlbum) {
         throw new Error("Error while saving album")
     }

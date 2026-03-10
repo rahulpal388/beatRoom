@@ -1,10 +1,10 @@
 import { ISong } from "@/types/songType";
-import api from "../baseUrlAxios";
+import { AxiosInstance } from "axios";
 
 
 
 
-export async function getSongReco(id: string, language: string): Promise<ISong[]> {
+export async function getSongReco(api: AxiosInstance, id: string, language: string): Promise<ISong[]> {
 
     return (await api.post(`/song/reco`, {
         id: id,

@@ -1,8 +1,8 @@
 import { INewReleaseSong } from "@/types/songType"
-import api from "../baseUrlAxios"
+import { AxiosInstance } from "axios"
 
 
 
-export async function getNewReleasedSong(limit: number, page: number): Promise<INewReleaseSong[]> {
+export async function getNewReleasedSong(api: AxiosInstance, limit: number, page: number): Promise<INewReleaseSong[]> {
     return (await api.get(`/song/newReleased?limit=${limit}&page=${page}`)).data
 }

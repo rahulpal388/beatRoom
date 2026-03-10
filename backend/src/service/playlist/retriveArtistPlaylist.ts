@@ -13,6 +13,8 @@ export const retriveArtistPlaylist = (
             type: playlist.type,
             image: playlist.image.replace("150x150", "500x500"),
             perma_url: playlist.perma_url,
+            list_count: "",
+            language: "",
             isLiked: likedPlaylist.has(playlist.id),
             more_info: {
                 entity_type: playlist.more_info.entity_type,

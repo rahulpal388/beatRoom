@@ -1,9 +1,8 @@
 import { ISong } from "@/types/songType";
-import api from "../baseUrlAxios";
-import axios from "axios";
+import { AxiosInstance } from "axios";
 
 
-export async function getSaveSong(): Promise<ISong[]> {
+export async function getSaveSong(api: AxiosInstance): Promise<ISong[]> {
 
     try {
         return (await api.get("/song/save")).data

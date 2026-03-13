@@ -68,7 +68,7 @@ export const useQueueStore = create<QueueStoreType>((set, get) => ({
         }),
         moveForward: () => {
             const { currentIdx, queueSong } = get();
-            const newCurrentIdx = currentIdx < queueSong.length ? currentIdx + 1 : currentIdx;
+            const newCurrentIdx = currentIdx < queueSong.length - 1 ? currentIdx + 1 : currentIdx;
             set({
                 currentIdx: newCurrentIdx
             })

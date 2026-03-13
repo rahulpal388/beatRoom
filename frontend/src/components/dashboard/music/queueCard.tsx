@@ -1,10 +1,10 @@
-import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { decodeHTML } from "@/lib/decodeHtml";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
 import { Delete, Ellipsis, Grip, Heart, Trash, X } from "lucide-react";
 import Image from "next/image";
 import { SaveItemHeart } from "../saveItemHeart";
+import { useMusicPlayerStore } from "@/store/musicPlayerStore";
 
 export function QueueCards({ id }: { id: string }) {
   const removeQueueSong = useQueueStore((s) => s.actions.removeQueueSong);
@@ -12,7 +12,7 @@ export function QueueCards({ id }: { id: string }) {
   const currentSong = useSongStore((s) => s.songs[currentSongId]);
   const song = useSongStore((s) => s.songs[id]);
   console.log(song);
-  const { isPlaying } = useMusicPlayer();
+  const isPlaying = useMusicPlayerStore((s) => s.isPlaying);
   if (!song) {
     return null;
   }

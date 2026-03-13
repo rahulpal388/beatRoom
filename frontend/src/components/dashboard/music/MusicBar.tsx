@@ -14,12 +14,13 @@ import { decodeHTML } from "@/lib/decodeHtml";
 import { QueueSongs } from "./queueSongs";
 import { MusicBarPopover } from "./musicBarPopover";
 
-import { useMusicPlayer } from "@/context/musicPlayerContext";
+// import { useMusicPlayer } from "@/context/musicPlayerContext";
 import { CurrentSongPlayingTime } from "./currentSongPlayingTime";
 import { SaveItemHeart } from "../saveItemHeart";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
 import { ViewQueueSongs } from "./viewQueueSong";
+import { useMusicPlayerStore } from "@/store/musicPlayerStore";
 
 export function MusicBar() {
   const { currentIdx, queueSong, isCurrentSong } = useQueueStore((s) => s);
@@ -175,7 +176,9 @@ export function MusicBar() {
 }
 
 function ProgressBar() {
-  const { progress, setCurrentTime } = useMusicPlayer();
+  // const { progress, setCurrentTime } = useMusicPlayer();
+  const progress = useMusicPlayerStore((s) => s.progress);
+  const setCurrentTime = useMusicPlayerStore((s) => s.action.setCurrentTime);
   return (
     <>
       <div
@@ -202,7 +205,10 @@ function PlayingButtons() {
   const { currentIdx, queueSong, isCurrentSong } = useQueueStore((s) => s);
   const isNext = currentIdx < queueSong.length - 1;
   const isPrev = currentIdx > 0;
-  const { isPlaying, isBuffering, pause, play } = useMusicPlayer();
+  // const { isPlaying, isBuffering, pause, play } = useMusicPlayer();
+  const isBuffering = useMusicPlayerStore((s) => s.isBuffering);
+  const isPlaying = useMusicPlayerStore((s) => s.isPlaying);
+  const { pause, play, setCurrentTime } = useMusicPlayerStore((s) => s.action);
   return (
     <>
       <div className="flex  gap-4 items-center ">
@@ -213,6 +219,7 @@ function PlayingButtons() {
           }  `}
           onClick={() => {
             moveBackward();
+            setCurrentTime(0);
           }}
         />
         {isPlaying ? (
@@ -251,6 +258,7 @@ function PlayingButtons() {
             isNext ? "cursor-pointer" : "cursor-not-allowed opacity-40 "
           }  `}
           onClick={() => {
+            setCurrentTime(0);
             moveForward();
           }}
         />

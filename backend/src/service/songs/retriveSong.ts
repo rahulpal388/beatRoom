@@ -3,7 +3,7 @@ import { ApiSong, ISong } from "../../types/songType.js";
 export const retriveSong = (songs: ApiSong[], likeSong: Set<string>): ISong[] => {
 
     return songs
-        .filter((item) => !item.id.startsWith("owfa"))
+        .filter((item) => item.more_info.encrypted_media_url.length !== 0)
         .map((item) => (
             {
                 id: item.id,

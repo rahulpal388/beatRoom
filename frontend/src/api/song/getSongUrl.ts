@@ -1,14 +1,14 @@
 import api from "../baseUrlAxios";
 
-
-
-export async function getSongUrl(encrypted_media_url: string): Promise<{
+export type SongUrlResponseType = {
     success: true;
     url: string;
 } | {
     success: false;
     messsage: string
-}> {
+}
+
+export async function getSongUrl(encrypted_media_url: string): Promise<SongUrlResponseType> {
 
     try {
 

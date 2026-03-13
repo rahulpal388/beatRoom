@@ -1,12 +1,9 @@
-import { removeEntity } from "@/api/removeEntity";
 import { saveEntity } from "@/api/saveEntity";
 import { useAuth } from "@/context/authContext";
 import { useToastNotification } from "@/context/toastNotificationContext";
-import { useSongStore } from "@/store/songStore";
 import { IAlbum } from "@/types/albumType";
-import { IArtistAlbum } from "@/types/artistType";
 import { IPlaylist } from "@/types/playlistType";
-import { INewReleaseSong, ISong } from "@/types/songType";
+import { ISong } from "@/types/songType";
 import { Heart } from "lucide-react";
 
 export function SaveItemHeart({

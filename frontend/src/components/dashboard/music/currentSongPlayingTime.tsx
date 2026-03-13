@@ -1,40 +1,16 @@
-"use client"
-import { useMusicPlayer } from "@/context/musicPlayerContext";
+"use client";
 import { formateTime, formateTimePading } from "@/lib/formateTime";
-import { useEffect, useState } from "react";
+import { useMusicPlayerStore } from "@/store/musicPlayerStore";
 
 export function CurrentSongPlayingTime() {
-    const [currentTime, setCurrentTime] = useState(0);
-    const { audioRef } = useMusicPlayer()
-
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
-
-        const onTimeUpdate = () => {
-            setCurrentTime(audio.currentTime);
-        }
-        audio.addEventListener("timeupdate", onTimeUpdate);
-        return () => {
-            return audio.removeEventListener("timeupdate", onTimeUpdate);
-        }
-    }, [audioRef])
-
-    return <>
-        <p className="w-24 max-sm:hidden ">
-            {formateTimePading(
-                Math.trunc(currentTime)
-            )} / {formateTime(
-                `${!audioRef.current ?
-                    (
-                        "0"
-                    )
-                    : (
-                        Math.round(audioRef.current.duration) || "0"
-                    )
-                }`
-            )}
-        </p>
+  const currentPlayedTime = useMusicPlayerStore((s) => s.currentPlayedTime);
+  const songDuration = useMusicPlayerStore((s) => s.songDuration);
+  return (
+    <>
+      <p className="w-24 max-sm:hidden ">
+        {formateTimePading(Math.trunc(currentPlayedTime))} /{" "}
+        {formateTime(`${songDuration}`)}
+      </p>
     </>
-
+  );
 }

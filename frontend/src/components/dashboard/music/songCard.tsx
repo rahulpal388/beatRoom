@@ -2,8 +2,7 @@
 import Image from "next/image";
 import { decodeHTML } from "@/lib/decodeHtml";
 import Link from "next/link";
-import { getSong } from "@/lib/getSong";
-import { PlayBotton } from "@/ui/play";
+import { PlayButton } from "@/ui/play";
 import { getForwardPageUrl } from "../getForwardPageUrl";
 import { SaveItemHeart } from "../saveItemHeart";
 import { AddQueueIcon } from "../addQueueIcon";
@@ -11,7 +10,7 @@ import { useSongStore } from "@/store/songStore";
 import { usePlaylistStore } from "@/store/playlistStore";
 import { useAlbumStore } from "@/store/albumStore";
 import { useQueueStore } from "@/store/queueStore";
-
+import { it } from "node:test";
 export function SongCards({
   type,
   id,
@@ -26,10 +25,6 @@ export function SongCards({
     type === "playlist" || type === "userPlaylist" ? s.playlist[id] : null,
   );
   const album = useAlbumStore((s) => (type === "album" ? s.album[id] : null));
-  const addQueueSongAndSetCurrent = useQueueStore(
-    (s) => s.actions.addQueueSongAndSetCurrent,
-  );
-  const addSongs = useSongStore((s) => s.actions.addSongs);
   const items = song || playlist || album;
 
   if (!items) {
@@ -60,16 +55,7 @@ export function SongCards({
               <AddQueueIcon songs={items} />
             </div>
           </div>
-          <PlayBotton
-            className=" absolute bottom-2 right-2   opacity-0 group-hover:opacity-100 "
-            onClick={async (e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              const song = await getSong(items);
-              addSongs(song);
-              addQueueSongAndSetCurrent(song);
-            }}
-          />
+          <PlayButton items={items} />
         </div>
 
         <div className="  text-[18px] text-text-heading dark:text-foreground line-clamp-2 leading-[1.4rem] ">

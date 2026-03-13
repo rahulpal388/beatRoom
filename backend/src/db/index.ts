@@ -7,5 +7,6 @@ export const DBConnect = async () => {
     });
   } catch (error) {
     console.error("mongoose Db connection error" + error);
+    process.exit(1)
   }
 };

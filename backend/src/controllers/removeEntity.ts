@@ -52,7 +52,7 @@ export const removeEntity = async (req: Request, res: Response, next: NextFuncti
         res.status(200).json({
             messae: "items removed"
         })
-    } catch (error) {
+    } catch {
         return next(new apiError(500, "Error removing entity", {
             message: "Server Error"
         }))

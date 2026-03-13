@@ -11,21 +11,14 @@ export function QueueCards({ id }: { id: string }) {
   const currentSongId = useQueueStore((s) => s.queueSong[s.currentIdx]);
   const currentSong = useSongStore((s) => s.songs[currentSongId]);
   const song = useSongStore((s) => s.songs[id]);
-  console.log(song);
   const isPlaying = useMusicPlayerStore((s) => s.isPlaying);
   if (!song) {
     return null;
   }
   return (
     <>
-      <div className="  flex items-center  justify-between gap-4  hover:bg-card-hover rounded-lg py-1 px-2 font-body    shadow-md group ">
+      <div className="  flex items-center  justify-between gap-4    group ">
         <div className="flex items-center gap-2   ">
-          {currentSong.id !== song.id && (
-            <Grip
-              className=" cursor-grab max-w-[30px]  max-h-[30px]   "
-              size={60}
-            />
-          )}
           <Image
             src={
               currentSong.id !== song.id

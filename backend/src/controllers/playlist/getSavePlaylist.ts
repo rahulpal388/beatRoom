@@ -1,7 +1,6 @@
 import { apiError } from "../../utils/apiError.js";
 import { userModel } from "../../db/schema/user.js";
 import { NextFunction, Request, Response } from "express";
-import { formatValidationError } from "../../utils/formatZodValidationError.js";
 export const getSavePlaylist = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.user.userId;
 

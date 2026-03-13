@@ -30,7 +30,7 @@ export const saveSong = async (req: Request, res: Response, next: NextFunction) 
     res.status(200).json({
       message: "song saved"
     })
-  } catch (error) {
+  } catch {
     return next(new apiError(500, "Error saving sogn", {
       message: "server error"
     }))

@@ -2,7 +2,7 @@ import { useMusicPlayerStore } from "@/store/musicPlayerStore";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
 import { useEffect, useRef } from "react";
-import { useToastNotification } from "./toastNotificationContext";
+import { useToastNotification } from "../../context/toastNotificationContext";
 
 export function AudioCompoenent() {
   return <AudioPlayer />;

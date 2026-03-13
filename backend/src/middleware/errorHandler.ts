@@ -1,9 +1,9 @@
 import { apiError } from "../utils/apiError.js";
-import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
+import { ErrorRequestHandler, Request, Response } from "express";
 
 
 
-export const errorHandler: ErrorRequestHandler = (err: apiError, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler: ErrorRequestHandler = (err: apiError, req: Request, res: Response) => {
     if (err.statusCode === 500) {
         console.log(err.message);
 

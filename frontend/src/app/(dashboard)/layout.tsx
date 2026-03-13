@@ -4,7 +4,7 @@ import { BottomSideBar } from "@/components/dashboard/bottomSideBar";
 import { DashboardNavbar } from "@/components/dashboard/dashboardNavbar";
 import { MusicBar } from "@/components/dashboard/music/MusicBar";
 import { SideBar } from "@/components/dashboard/sideBar";
-import { AudioCompoenent, AudioPlayer } from "@/context/musicPlayerContext";
+import { AudioCompoenent } from "@/components/dashboard/musicPlayerContext";
 import React from "react";
 
 export default function DashBoardLayout({
@@ -20,7 +20,6 @@ export default function DashBoardLayout({
           <MusicBar />
           <BottomSideBar />
           <SideBar />
-          {/* <AudioPlayer /> */}
           <AudioCompoenent />
           <div className=" flex-1 overflow-y-auto   ">{children}</div>
         </div>

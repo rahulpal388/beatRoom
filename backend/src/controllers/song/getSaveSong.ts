@@ -18,7 +18,7 @@ export const getSaveSong = async (req: Request, res: Response, next: NextFunctio
     });
 
     res.status(200).json(user!.songs);
-  } catch (error) {
+  } catch {
     return next(new apiError(500, "Error getting save song", {
       message: "Server Error"
     }))

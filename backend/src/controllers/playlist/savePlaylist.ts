@@ -27,7 +27,7 @@ export const savePlaylist = async (req: Request, res: Response, next: NextFuncti
     res.status(200).json({
       message: "playlist saved",
     });
-  } catch (error) {
+  } catch {
     return next(new apiError(500, "Error getting save playlist", {
       message: "Server Error"
     }))

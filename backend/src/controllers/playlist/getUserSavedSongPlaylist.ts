@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { retriveUserSongPlaylist } from "../../service/playlist/retriveUserSongPlaylist.js";
 import { apiError } from "../../utils/apiError.js";
-import { formatValidationError } from "../../utils/formatZodValidationError.js";
 
 export const getUserSavedSongPlaylist = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.user

@@ -1,8 +1,10 @@
 "use client";
 import { CreateNewPlaylist } from "@/components/modal/createNewPlaylist";
+import { CreateNewRoom } from "@/components/rooms/createNewRoom";
+import { RoomInfo } from "@/components/rooms/roomInfo";
 import { createContext, useContext, useState } from "react";
 
-export type IValue = "saveCurrent" | "saveQueue";
+export type IValue = "saveCurrent" | "saveQueue" | "roomInfo" | "createNewRoom";
 
 type IModalType = {
   showModal: (value: IValue) => void;
@@ -34,8 +36,12 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({
           />
 
           {/* Modal Content */}
-          <div className="relative bg-white p-8 rounded-xl shadow-lg">
-            <CreateNewPlaylist value={type} />
+          <div className="relative bg-card p-8 rounded-xl shadow-lg">
+            {(type === "saveCurrent" || type === "saveQueue") && (
+              <CreateNewPlaylist value={type} />
+            )}
+            {type === "roomInfo" && <RoomInfo />}
+            {type === "createNewRoom" && <CreateNewRoom />}
           </div>
         </div>
       )}

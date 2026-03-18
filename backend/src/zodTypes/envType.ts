@@ -7,10 +7,12 @@ export const envSchema = z.object({
     CROSS_ORIGIN_URL: z.string().optional(),
     DATABASE_URL: z.string().min(1, "database url is required"),
     PORT: z.coerce.number().default(8080),
+    WSS_PORT: z.coerce.number().default(8082),
     OTP_SECRET: z.string().min(1, "OTP_SECRET is required"),
     Ac_SECRET: z.string().min(1, "Ac_SECRET is require"),
     Ref_SECRET: z.string().min(1, "Ref_SECRET is require"),
     UINQUE_USERID_SECRET: z.string().min(1, "UINQUE_USERID_SECRET is required"),
+    UINQUE_ROOM_SECRET: z.string().min(1, "UINQUE_ROOM_SECRET is required"),
     RESEND_API_KEY: z.string().min(1, "Sendgrid api key require")
 
 

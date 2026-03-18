@@ -24,7 +24,7 @@ export const Login = async (req: Request, res: Response, next: NextFunction) => 
     const user = await userModel.findOne({ email: data.email }, { password: 1, userId: 1, _id: 1, username: 1, profile_image: 1 });
 
     if (!user) {
-      return next(new apiError(401, "user already eixt", {
+      return next(new apiError(401, "user doesn't eixt", {
         message: "SignUp User Not Found"
       }))
     }

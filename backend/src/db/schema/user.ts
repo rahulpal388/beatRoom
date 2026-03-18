@@ -11,7 +11,8 @@ const UserSchema = new mongoose.Schema({
   artists: [{ type: mongoose.Schema.ObjectId, ref: "Artists" }],
   albums: [{ type: mongoose.Schema.ObjectId, ref: "Albums" }],
   playlists: [{ type: mongoose.Schema.ObjectId, ref: "Playlists" }],
-  user_playlist: [{ type: mongoose.Schema.ObjectId, ref: "UserPlaylists" }]
+  user_playlist: [{ type: mongoose.Schema.ObjectId, ref: "UserPlaylists" }],
+  rooms: [{ type: mongoose.Schema.ObjectId, ref: "Rooms" }]
 }, { timestamps: true });
 
 export const userModel = mongoose.model("Users", UserSchema);

@@ -30,7 +30,7 @@ export function RoomInfo() {
   return (
     <>
       <div className=" w-[42rem] h-[22rem]   ">
-        <div className=" flex gap-4 items-center border-b-[1px] border-primary/20  ">
+        <div className="  h-6 flex gap-8 items-center border-b-[1px] border-primary/20  ">
           {roomItems.map((items, idx) => (
             <h1
               key={idx}

@@ -1,56 +1,23 @@
 import { Button } from "@/ui/button";
 import { ChevronDown, ChevronUp, Plus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useModal } from "@/context/modalContext";
-
-type RoomListType = {
-  roomid: string;
-  name: string;
-  members: string[];
-};
-
-const roomList: RoomListType[] = [
-  {
-    roomid: "2NIhwe8",
-    name: "room 1dds skdsj",
-    members: ["Rahul", "Ritesh", "Niraj", "Sundram", "Bharti"],
-  },
-  {
-    roomid: "2NI1we8",
-    name: "room 1",
-    members: ["Rahul", "Ritesh", "Niraj", "Sundram", "Bharti"],
-  },
-  {
-    roomid: "2NIhwe8",
-    name: "room 1",
-    members: ["Rahul", "Ritesh", "Niraj", "Sundram", "Bharti"],
-  },
-  {
-    roomid: "2NIhwe8",
-    name: "room 1",
-    members: ["Rahul", "Ritesh", "Niraj", "Sundram", "Bharti"],
-  },
-  {
-    roomid: "2NIhwe8",
-    name: "room 1",
-    members: ["Rahul", "Ritesh", "Niraj", "Sundram", "Bharti"],
-  },
-  {
-    roomid: "2NIhwe8",
-    name: "room 1",
-    members: ["Rahul", "Ritesh", "Niraj", "Sundram", "Bharti"],
-  },
-  {
-    roomid: "2NIhwe8",
-    name: "room 1",
-    members: ["Rahul", "Ritesh", "Niraj", "Sundram", "Bharti"],
-  },
-];
+import { RoomListType } from "@/types/roomTypes";
+import { getRooms } from "@/api/room/getRooms";
 
 export function RoomComponent() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { showModal } = useModal();
+  const [rooms, setRooms] = useState<RoomListType[]>([]);
+  useEffect(() => {
+    const fetchRoom = async () => {
+      const rooms = await getRooms();
+      setRooms(rooms);
+    };
+    fetchRoom();
+  }, []);
+
   return (
     <>
       <div className=" w-[12rem] max-lg:hidden">
@@ -71,17 +38,19 @@ export function RoomComponent() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="absolute top-px pb-2 bg-card z-50 shadow-2xl h-[14rem] w-full overflow-y-scroll  "
+                className="absolute top-px pb-2 bg-card z-50 shadow-2xl max-h-[14rem] w-full overflow-y-scroll  "
               >
-                {roomList.map((room, idx) => (
+                {rooms.map((room, idx) => (
                   <li
                     key={idx}
-                    className=" flex gap-2 justify-between hover:bg-card-hover p-2 w-full "
+                    className=" flex gap-2 justify-between hover:bg-card-hover p-2 w-full overflow-hidden "
                   >
                     <div>
-                      <h1 className=" text-lg line-clamp-1 ">{room.name}</h1>
+                      <h1 className=" text-lg max-w-18  line-clamp-1 truncate ">
+                        {room.roomName}
+                      </h1>
                       <p className="  text-[10px] line-clamp-1 ">
-                        {room.roomid}
+                        {room.roomId}
                       </p>
                     </div>
                     <div className=" flex gap-2 items-center justify-center ">

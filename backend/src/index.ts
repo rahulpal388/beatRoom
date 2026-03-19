@@ -59,7 +59,7 @@ app.use("/api/v1/playlist", verifyTokenMiddleware, usePlaylist);
 app.post("/api/v1/entity/remove", verifyTokenMiddleware, removeEntity);
 
 
-app.use((req, res, next) => {
+app.use((req, _, next) => {
   next(new apiError(400, "Route not found", {
     message: `Cannot find ${req.originalUrl} url`
   }))
@@ -70,3 +70,5 @@ app.use(errorHandler)
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+

@@ -6,6 +6,7 @@ import mongoose, { InferSchemaType } from "mongoose";
 
 
 const MessageSchema = new mongoose.Schema({
+    senderId: { type: String, required: true, trim: true },
     sender: { type: String, required: true, trim: true },
     roomId: { type: String, required: true, trim: true },
     message: { type: String, required: true, trim: true },

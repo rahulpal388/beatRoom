@@ -29,6 +29,7 @@ export async function addMessage(req: Request, res: Response, next: NextFunction
 
     try {
         const message = await messageModal.create({
+            senderId: user.userId,
             sender: data.sender,
             roomId: data.roomId,
             message: data.message,

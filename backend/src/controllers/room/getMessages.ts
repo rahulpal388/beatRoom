@@ -3,6 +3,7 @@ import { MessageSchemaType } from "db/schema/message.js";
 import { RoomSchemaType } from "db/schema/rooms.js";
 import { userModel } from "db/schema/user.js";
 import { NextFunction, Request, Response } from "express";
+import { setFlagsFromString } from "v8";
 import z from "zod";
 
 export const GetMessageType = z.object({
@@ -29,27 +30,37 @@ export async function getMessages(req: Request, res: Response, next: NextFunctio
         }))
     }
 
-    const findUser = await userModel.findOne({ _id: user._id }).populate<{ rooms: RoomMessages[] }>({
-        path: "rooms",
-        match: { roomId: data.roomId },
-        populate: {
-            path: "message"
-        }
-    })
+    try {
 
-    if (!findUser) {
-        return next(new apiError(404, "Error finding user message", {
-            message: "Error"
+
+        const findUser = await userModel.findOne({ _id: user._id }).populate<{ rooms: RoomMessages[] }>({
+            path: "rooms",
+            match: { roomId: data.roomId },
+            populate: {
+                path: "message"
+            }
+        })
+
+        if (!findUser) {
+            return next(new apiError(404, "Error finding user message", {
+                message: "Error"
+            }))
+        }
+
+
+        const messages: MessageSchemaType[] = findUser.rooms[0].message.map(msg => ({
+            senderId: msg.senderId,
+            sender: msg.sender,
+            roomId: msg.roomId,
+            message: msg.message,
+            createdAt: msg.createdAt
+        }))
+        res.status(200).json(messages)
+    } catch (error) {
+        console.log(error)
+        next(new apiError(500, "Error getting message", {
+            message: "Server Error "
         }))
     }
-
-
-    const messages: MessageSchemaType[] = findUser.rooms[0].message.map(msg => ({
-        sender: msg.sender,
-        roomId: msg.roomId,
-        message: msg.message,
-        createdAt: msg.createdAt
-    }))
-    res.status(200).json(messages)
 
 }

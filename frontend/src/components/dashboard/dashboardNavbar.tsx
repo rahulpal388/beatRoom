@@ -9,7 +9,6 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { logoutUser } from "@/api/auth/logoutUser";
 import { useToastNotification } from "@/context/toastNotificationContext";
-import { ThemeToggleComponent } from "../themeToggleComponent";
 import Image from "next/image";
 import { RoomComponent } from "../rooms/roomComponent";
 import { Message } from "../message/message";
@@ -22,7 +21,7 @@ export function DashboardNavbar() {
 
   return (
     <>
-      <div className=" bg-background dark:bg-background h-14 border-b-[0.5px] border-muted/70  shadow-xl  flex justify-between items-center gap-4 px-8  ">
+      <div className=" bg-background dark:bg-background h-14 border-b-[0.5px] border-muted/70  shadow-md  flex justify-between items-center gap-4 px-8  ">
         <div>
           <Link
             href={`/`}
@@ -39,7 +38,6 @@ export function DashboardNavbar() {
           <RoomComponent />
         </div>
         <div className=" flex md:gap-12 gap-8 items-center  ">
-          <Message />
           {isAuthenticated ? (
             <div className="flex gap-4 items-center">
               <div className=" flex flex-col items-center justify-end ">

@@ -7,7 +7,8 @@ import { ISearchReco } from "@/types/searchType";
 import { searchReco } from "@/api/searchReco";
 import { useSearchStore } from "@/store/searchStore";
 import { SearchedItems, SearchedItemsContainer } from "./searchBarItem";
-import { ArtistCard } from "./artistCard";
+import { ArtistCard, ArtistCardContaier } from "./artistCard";
+import { SongsSection } from "./songCard";
 
 export function SearchBar() {
   const [searchSuggestion, setSearchSuggestion] = useState<ISearchReco | null>(
@@ -36,7 +37,7 @@ export function SearchBar() {
 
   return (
     <div className="  overflow-hidden flex max-lg:flex-col gap-2 justify-center items-center   ">
-      <div className=" bg-bar h-10 rounded-3xl flex justify-center  items-center border-[1px]  border-card-border focus-within:border-primary overflow-hidden ">
+      <div className=" bg-bar h-10 rounded-lg flex justify-center  items-center border-[1px]  border-card-border focus-within:border-primary overflow-hidden ">
         <input
           type="text"
           id="search"
@@ -63,92 +64,57 @@ export function SearchBar() {
         <AnimatePresence>
           {searchSuggestion && open && (
             <motion.div
-              initial={{
-                height: 0,
-                width: 0,
-                opacity: 0,
-              }}
-              animate={{
-                height: "",
-                width: "",
-                opacity: 1,
-              }}
-              exit={{
-                height: 0,
-                width: 0,
-                opacity: 0,
-              }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
               transition={{
                 duration: 0.3,
                 ease: "easeInOut",
               }}
               className={`  ${
                 open ? "block" : " hidden"
-              }  absolute top-12 -left-32 z-50 w-[60rem]  px-4 py-4 rounded-sm bg-card shadow-xl overflow-y-scroll grid grid-cols-3  gap-4 `}
+              }  absolute top-12 -left-16 z-50 min-w-[50rem] h-[28rem]  px-4 py-4  rounded-sm bg-card shadow-lg shadow-black overflow-y-scroll  `}
               onFocus={() => {
                 setOpen(true);
               }}
             >
-              <div>
-                <h1 className=" text-lg ">Songs</h1>
-                <div
-                  className=" mt-2  "
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  {searchSuggestion.songs.data.slice(0, 4).map((song, idx) => (
-                    <SearchedItems
+              <SearchedItemsContainer heading="Songs">
+                {searchSuggestion.songs.data.slice(0, 4).map((song, idx) => (
+                  <SearchedItems
+                    key={idx}
+                    id={song.id}
+                    type={song.type}
+                    closeSearch={() => {
+                      setOpen(false);
+                    }}
+                  />
+                ))}
+              </SearchedItemsContainer>
+              <SearchedItemsContainer heading="Albums">
+                {searchSuggestion.albums.data.slice(0, 4).map((album, idx) => (
+                  <SearchedItems
+                    key={idx}
+                    type={album.type}
+                    id={album.id}
+                    closeSearch={() => {
+                      setOpen(false);
+                    }}
+                  />
+                ))}
+              </SearchedItemsContainer>
+              <ArtistCardContaier heading="Artists">
+                {searchSuggestion.artists.data
+                  .slice(0, 2)
+                  .map((artist, idx) => (
+                    <ArtistCard
                       key={idx}
-                      id={song.id}
-                      type={song.type}
-                      className="  "
+                      image={artist.image}
+                      name={artist.title}
+                      type={artist.type}
+                      url={artist.url.replace("50x50", "500x500")}
                     />
                   ))}
-                </div>
-              </div>
-              <div>
-                <h1 className=" text-lg ">Albums</h1>
-                <div
-                  className=" mt-2  "
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  {searchSuggestion.albums.data
-                    .slice(0, 4)
-                    .map((album, idx) => (
-                      <SearchedItems
-                        key={idx}
-                        type={album.type}
-                        id={album.id}
-                      />
-                    ))}
-                </div>
-              </div>
-              <div>
-                <h1 className=" text-lg  ">Artists</h1>
-                <div
-                  className=" mt-2  "
-                  onClick={() => {
-                    setOpen(false);
-                  }}
-                >
-                  <div className=" flex flex-col gap-2 ">
-                    {searchSuggestion.artists.data
-                      .slice(0, 2)
-                      .map((artist, idx) => (
-                        <ArtistCard
-                          key={idx}
-                          image={artist.image}
-                          name={artist.title}
-                          type={artist.type}
-                          url={artist.url}
-                        />
-                      ))}
-                  </div>
-                </div>
-              </div>
+              </ArtistCardContaier>
             </motion.div>
           )}
         </AnimatePresence>

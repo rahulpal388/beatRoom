@@ -31,7 +31,7 @@ export function Music({
 
   return (
     <>
-      <div className=" pt-4 flex flex-col gap-4  w-full lg:pb-20 pb-32   ">
+      <div className=" pt-4 flex flex-col gap-4  w-full lg:pb-20 pb-32  ">
         {/* {newReleased.length > 0 && (
           <MusicBanner song={newReleased.slice(0, 5)} />
         )} */}
@@ -65,19 +65,17 @@ export function Music({
             />
           ))}
         </SongsSection>
-        <SongsSection heading="Top Artists">
-          <ArtistCardContaier>
-            {topArtist.map((item) => (
-              <ArtistCard
-                key={item.id}
-                name={item.name}
-                url={item.perma_url}
-                image={item.image}
-                type={"artist"}
-              />
-            ))}
-          </ArtistCardContaier>
-        </SongsSection>
+        <ArtistCardContaier heading="Top Artists">
+          {topArtist.map((item) => (
+            <ArtistCard
+              key={item.id}
+              name={item.name}
+              url={item.perma_url}
+              image={item.image}
+              type={"artist"}
+            />
+          ))}
+        </ArtistCardContaier>
       </div>
     </>
   );

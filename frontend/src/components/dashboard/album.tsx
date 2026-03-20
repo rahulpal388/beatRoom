@@ -92,19 +92,17 @@ export function AlbumComponent({
           ))}
         </SongsSection>
 
-        <SongsSection heading="Artists">
-          <ArtistCardContaier>
-            {album.more_info.artistMap.primary_artists.map((artist, index) => (
-              <ArtistCard
-                key={index}
-                name={artist.name}
-                url={artist.perma_url}
-                type={artist.type}
-                image={artist.image}
-              />
-            ))}
-          </ArtistCardContaier>
-        </SongsSection>
+        <ArtistCardContaier heading="Artists">
+          {album.more_info.artistMap.primary_artists.map((artist, index) => (
+            <ArtistCard
+              key={index}
+              name={artist.name}
+              url={artist.perma_url}
+              type={artist.type}
+              image={artist.image}
+            />
+          ))}
+        </ArtistCardContaier>
       </div>
     </div>
   );

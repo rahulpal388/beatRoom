@@ -10,13 +10,13 @@ export function RoomComponent() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { showModal } = useModal();
   const [rooms, setRooms] = useState<RoomListType[]>([]);
-  useEffect(() => {
-    const fetchRoom = async () => {
-      const rooms = await getRooms();
-      setRooms(rooms);
-    };
-    fetchRoom();
-  }, []);
+  // useEffect(() => {
+  //   const fetchRoom = async () => {
+  //     const rooms = await getRooms();
+  //     setRooms(rooms);
+  //   };
+  //   fetchRoom();
+  // }, []);
 
   return (
     <>

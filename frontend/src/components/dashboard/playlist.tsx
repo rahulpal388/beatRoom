@@ -97,23 +97,21 @@ export default function Playlist({
           </SongsSection>
         </div>
 
-        <SongsSection heading="Artists">
-          <ArtistCardContaier>
-            {!playlist ? (
-              <MoreArtistCardSkeleton count={6} />
-            ) : (
-              playlist.more_info.artists.map((artist, index) => (
-                <ArtistCard
-                  key={index}
-                  name={artist.name}
-                  url={artist.perma_url}
-                  type={artist.type}
-                  image={artist.image}
-                />
-              ))
-            )}
-          </ArtistCardContaier>
-        </SongsSection>
+        <ArtistCardContaier heading="Artists">
+          {!playlist ? (
+            <MoreArtistCardSkeleton count={6} />
+          ) : (
+            playlist.more_info.artists.map((artist, index) => (
+              <ArtistCard
+                key={index}
+                name={artist.name}
+                url={artist.perma_url}
+                type={artist.type}
+                image={artist.image}
+              />
+            ))
+          )}
+        </ArtistCardContaier>
       </div>
     </Container>
   );

@@ -40,7 +40,7 @@ export function PlayButton({
         {loading ? (
           <div className="animate-spin h-10 w-10 border-2 border-white border-t-transparent rounded-full"></div>
         ) : (
-          <Play className="stroke-card" />
+          <Play className="stroke-card  " />
         )}
       </button>
     </>

@@ -227,7 +227,7 @@ export default function ArtistComponent({
             {active === "playlist" && (
               <div>
                 <div>
-                  <h1 className=" text-2xl px-4  border-b-[1px] border-primary/30 ">
+                  <h1 className=" text-2xl text-text-heading font-semibold font-heading    ">
                     Featured In
                   </h1>
                   <SongCardContaier>
@@ -242,7 +242,7 @@ export default function ArtistComponent({
                   </SongCardContaier>
                 </div>
                 <div className=" mt-4 ">
-                  <h1 className=" text-2xl px-4 border-b-[1px] border-primary/30 ">
+                  <h1 className="  text-2xl text-text-heading font-semibold font-heading     ">
                     Just {artistInfo.name}
                   </h1>
                   <div className="  mt-8  ">

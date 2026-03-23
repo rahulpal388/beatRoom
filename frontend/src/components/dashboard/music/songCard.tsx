@@ -9,8 +9,6 @@ import { AddQueueIcon } from "../addQueueIcon";
 import { useSongStore } from "@/store/songStore";
 import { usePlaylistStore } from "@/store/playlistStore";
 import { useAlbumStore } from "@/store/albumStore";
-import { useQueueStore } from "@/store/queueStore";
-import { it } from "node:test";
 export function SongCards({
   type,
   id,
@@ -35,7 +33,7 @@ export function SongCards({
     <>
       <Link
         href={getForwardPageUrl(items)}
-        className={`relative shadow-xl   group px-4 py-4 w-[12rem]  rounded  hover:bg-card-hover ${className}`}
+        className={`relative    group px-4 py-4  w-full  rounded   ${className}`}
       >
         <div className="relative  mb-2  w-full     ">
           <Image
@@ -45,7 +43,7 @@ export function SongCards({
             alt="image"
             height={100}
             width={100}
-            className="w-full h-full group-hover:opacity-30 "
+            className="w-full h-full group-hover:opacity-30 rounded-lg "
           />
           <div
             className={`absolute top-2 px-2   z-20 items-center justify-between w-full  flex`}
@@ -55,23 +53,13 @@ export function SongCards({
               <AddQueueIcon songs={items} />
             </div>
           </div>
-          <PlayButton items={items} />
+          <div className=" hidden group-hover:block ">
+            <PlayButton items={items} />
+          </div>
         </div>
 
-        <div className="  text-[18px] text-text-heading dark:text-foreground line-clamp-2 leading-[1.4rem] ">
+        <div className="  text-[16px] font-medium  text-text-heading dark:text-foreground line-clamp-2 leading-[1.4rem] ">
           {decodeHTML(items.title)}
-
-          <p className="  mt-1 text-[0.7rem]  text-text-muted line-clamp-2  ">
-            {decodeHTML(
-              items.type === "playlist" || items.type === "userPlaylist"
-                ? items.subtitle
-                : items.type === "song"
-                  ? items.more_info.artistMap.artists
-                      .map((x) => x.name)
-                      .join(", ")
-                  : "",
-            )}
-          </p>
         </div>
       </Link>
     </>
@@ -91,11 +79,11 @@ export function SongsSection({
 
   return (
     <>
-      <div className=" rounded-lg w-[99%]  px-4 py-2 shadow-soft bg-card  border  border-transparent   ">
-        <h1 className=" text-xl text-text-heading font-semibold font-heading ">
+      <div className="  rounded-lg w-full  sm:px-4 py-2   ">
+        <h1 className=" text-2xl text-text-heading font-semibold font-heading   ">
           {heading}
         </h1>
-        <div className="mt-4   grid grid-flow-col max-sm:grid-rows-1 gap-4  overflow-x-auto  ">
+        <div className="mt-4 grid gap-4  lg:grid-cols-5 md:grid-cols-4 sm:grid-cols-3 grid-cols-2   overflow-hidden   ">
           {children}
         </div>
       </div>

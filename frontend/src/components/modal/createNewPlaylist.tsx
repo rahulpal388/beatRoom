@@ -14,7 +14,6 @@ export type ICreatePlaylist = {
 
 export function CreateNewPlaylist({ value }: { value: IValue }) {
   const { register, handleSubmit } = useForm<ICreatePlaylist>();
-  // const { currentSong, queueSongs } = useQueue();
   const queueSongId = useQueueStore((s) => s.queueSong);
   const currentIdx = useQueueStore((s) => s.currentIdx);
   const songs = useSongStore((s) => s.songs);

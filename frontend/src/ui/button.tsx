@@ -33,7 +33,7 @@ export function Button({
   return (
     <button
       type={type}
-      className={`${buttonStyle[btnType]} ${className} text-text-heading font-heading flex items-center justify-center gap-2`}
+      className={`${buttonStyle[btnType]} text-text-heading font-heading flex items-center justify-center gap-2 hover:opacity-90  ${className}`}
       {...props}
     >
       {icon}

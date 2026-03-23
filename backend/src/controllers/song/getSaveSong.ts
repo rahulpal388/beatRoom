@@ -14,6 +14,7 @@ export const getSaveSong = async (req: Request, res: Response, next: NextFunctio
   try {
     const user = await userModel.findOne({ userId }).populate({
       path: "songs",
+      match: { isLiked: true },
       select: "-_id -__v -isPlaylist",
     });
 

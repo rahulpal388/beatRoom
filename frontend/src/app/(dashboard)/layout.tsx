@@ -20,7 +20,6 @@ export default function DashBoardLayout({
           <MusicBar />
           <BottomSideBar />
           <SideBar />
-          <AudioCompoenent />
           <div className=" flex-1 overflow-y-auto   ">{children}</div>
         </div>
       </div>

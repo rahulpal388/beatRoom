@@ -1,10 +1,21 @@
 import { decodeHTML } from "@/lib/decodeHtml";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
-import { Delete, Ellipsis, Grip, Heart, Trash, X } from "lucide-react";
+import {
+  CircleX,
+  Delete,
+  Ellipsis,
+  EllipsisVertical,
+  Grip,
+  Heart,
+  Minus,
+  Trash,
+  X,
+} from "lucide-react";
 import Image from "next/image";
 import { SaveItemHeart } from "../saveItemHeart";
 import { useMusicPlayerStore } from "@/store/musicPlayerStore";
+import { DragControls } from "motion/react";
 
 export function QueueCards({ id }: { id: string }) {
   const removeQueueSong = useQueueStore((s) => s.actions.removeQueueSong);
@@ -17,7 +28,7 @@ export function QueueCards({ id }: { id: string }) {
   }
   return (
     <>
-      <div className="  flex items-center  justify-between gap-4    group ">
+      <div className="  w-full flex items-center  justify-between gap-4    group ">
         <div className="flex items-center gap-2   ">
           <Image
             src={
@@ -45,7 +56,7 @@ export function QueueCards({ id }: { id: string }) {
         <div className="flex items-center gap-8  ">
           <SaveItemHeart songs={song} showHeart={true} />
           {currentSong.id !== song.id && (
-            <Trash
+            <CircleX
               className=" cursor-pointer stroke-red-400  "
               onClick={(e) => {
                 e.preventDefault();

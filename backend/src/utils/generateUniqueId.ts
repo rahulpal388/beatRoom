@@ -9,3 +9,9 @@ export const generateUniqueUserId = (email: string): string => {
 
 
 }
+
+export const generateUniqueRoomId = (roomName: string): string => {
+    const id = crypto.createHmac("sha256", process.env.UINQUE_ROOM_SECRET!).update(roomName.trim().toLocaleLowerCase() + `${Date.now()}`);
+
+    return id.digest("base64url").slice(0, 8)
+}

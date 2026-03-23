@@ -2,7 +2,7 @@ import { useQueueStore } from "@/store/queueStore";
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { QueueSongs } from "./queueSongs";
-import { ListMusic } from "lucide-react";
+import { ListMusic, ListOrdered } from "lucide-react";
 
 export function ViewQueueSongs() {
   const [queueOpen, setQueueOpen] = useState<boolean>(false);
@@ -50,7 +50,7 @@ export function ViewQueueSongs() {
             </motion.div>
           )}
         </AnimatePresence>
-        <ListMusic
+        <ListOrdered
           size={30}
           className={`stroke-1 max-md:hidden ${isCurrentSong ? "cursor-pointer" : "cursor-not-allowed opacity-40"}`}
           onClick={() => {

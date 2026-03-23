@@ -1,73 +1,90 @@
-import {
-  createContext,
-  FC,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+// import {
+//   createContext,
+//   FC,
+//   SetStateAction,
+//   useContext,
+//   useEffect,
+//   useRef,
+//   useState,
+// } from "react";
 
-type IDimension = { left: number; top: number };
+// // type IDimension = { left: number; top: number };
 
-type IPopvoerContext = {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  popoverRef: React.RefObject<SVGSVGElement | null>;
-  updateDimension: () => void;
-  dimension: IDimension;
-  setDimension: React.Dispatch<SetStateAction<IDimension>>;
+// type OpenMenuType = {
+//   open: boolean;
+//   position: {
+//     x: number;
+//     y: number;
+//   };
+//   item: string | null;
+// };
+// type IPopvoerContext = {
+//   update: (event: React.MouseEvent<Element>, item: string) => void;
+//   setContainerElement: (element: HTMLDivElement) => void;
+// };
 
-  cardType: string | null;
-  openPopover: boolean;
-  setCardType: React.Dispatch<SetStateAction<string | null>>;
-  setOpenPopover: React.Dispatch<SetStateAction<boolean>>;
-};
+// const popoverContext = createContext<IPopvoerContext | null>(null);
 
-const popoverContext = createContext<IPopvoerContext | null>(null);
+// export const PopoverContextProvider: FC<{ children: React.ReactNode }> = ({
+//   children,
+// }) => {
+//   const containerRef = useRef<HTMLDivElement | null>(null);
+//   const [menu, setMenu] = useState<OpenMenuType>({
+//     open: false,
+//     position: {
+//       x: 0,
+//       y: 0,
+//     },
+//     item: null,
+//   });
 
-export const PopoverContextProvider: FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [cardType, setCardType] = useState<string | null>(null);
-  const [openPopover, setOpenPopover] = useState<boolean>(false);
-  const [dimension, setDimension] = useState<IDimension>({ left: 0, top: 0 });
-  const popoverRef = useRef<SVGSVGElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
+//   const setContainerElement = (element: HTMLDivElement) => {
+//     containerRef.current = element;
+//   };
 
-  const updateDimension = () => {
-    if (popoverRef.current) {
-      const rect = popoverRef.current.getBoundingClientRect();
-      setDimension({ top: rect.bottom, left: rect.left });
-    }
-  };
+//   const update = (event: React.MouseEvent<Element>, item: string) => {
+//     const rect = event.currentTarget.getBoundingClientRect();
 
-  useEffect(() => {
-  }, [openPopover]);
-  return (
-    <popoverContext.Provider
-      value={{
-        containerRef,
-        dimension,
-        setDimension,
-        updateDimension,
-        openPopover,
-        setOpenPopover,
-        popoverRef,
-        cardType,
-        setCardType,
-      }}
-    >
-      {children}
-    </popoverContext.Provider>
-  );
-};
+//     setMenu((prev) => ({
+//       open: prev.item === item ? !prev.open : true,
+//       position: {
+//         x: rect.right,
+//         y: rect.bottom,
+//       },
+//       item,
+//     }));
+//   };
 
-export const usePopoverCard = (): IPopvoerContext => {
-  const context = useContext(popoverContext);
+//   return (
+//     <popoverContext.Provider
+//       value={{
+//         update,
+//         setContainerElement,
+//       }}
+//     >
+//       {children}
+//       {menu.open && (
+//         <div
+//           className="z-50 p-4 bg-card shadow-lg shadow-primary  "
+//           style={{
+//             position: "fixed",
+//             top: menu.position.y,
+//             left: menu.position.x,
+//           }}
+//         >
+//           Remove
+//         </div>
+//       )}
+//     </popoverContext.Provider>
+//   );
+// };
 
-  if (!context) {
-    throw new Error("use option context inside the porivder");
-  } else {
-    return context;
-  }
-};
+// export const usePopoverCard = (): IPopvoerContext => {
+//   const context = useContext(popoverContext);
+
+//   if (!context) {
+//     throw new Error("use option context inside the porivder");
+//   } else {
+//     return context;
+//   }
+// };

@@ -9,7 +9,7 @@ export class apiError extends Error {
         this.statusCode = statusCode;
         this.details = details
 
-        Error.captureStackTrace(this);
+        // Error.captureStackTrace(this);
     }
 
 

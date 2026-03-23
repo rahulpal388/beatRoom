@@ -61,6 +61,7 @@ jobs:
             echo "OTP_SECRET=${{ secrets.OTP_SECRET }}" >> .env
             echo "Ac_SECRET=${{ secrets.Ac_SECRET }}" >> .env
             echo "Ref_SECRET=${{ secrets.Ref_SECRET }}" >> .env
+            echo "UINQUE_ROOM_SECRET=${{ secrets.UINQUE_ROOM_SECRET }}" >> .env
             echo "UINQUE_USERID_SECRET=${{ secrets.UINQUE_USERID_SECRET }}" >> .env
             echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
 

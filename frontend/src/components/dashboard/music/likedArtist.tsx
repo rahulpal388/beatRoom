@@ -23,7 +23,7 @@ export function LikedArtist() {
             <h1 className=" text-lg "> Artist is empty!</h1>
           </div>
         ) : (
-          <ArtistCardContaier>
+          <ArtistCardContaier heading="">
             {artist.map((item) => (
               <ArtistCard
                 key={item.id}

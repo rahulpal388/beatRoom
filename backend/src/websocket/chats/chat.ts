@@ -1,4 +1,4 @@
-import { broadcast } from "websocket/broadCast.js";
+import { broadcast } from "../broadCast.js";
 import z from "zod";
 
 

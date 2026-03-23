@@ -1,7 +1,7 @@
-import { addMessage } from "@controllers/room/addMessage.js";
-import { createRoom } from "@controllers/room/createRoom.js";
-import { getMessages } from "@controllers/room/getMessages.js";
-import { getRooms } from "@controllers/room/getRooms.js";
+import { addMessage } from "../controllers/room/addMessage.js";
+import { createRoom } from "../controllers/room/createRoom.js";
+import { getMessages } from "../controllers/room/getMessages.js";
+import { getRooms } from "../controllers/room/getRooms.js";
 import { Router } from "express";
 
 

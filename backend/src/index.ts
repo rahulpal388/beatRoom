@@ -18,7 +18,7 @@ import { errorHandler } from "./middleware/errorHandler.js";
 import { apiError } from "./utils/apiError.js";
 import helmet from "helmet";
 import { StartWebSocketServer } from "./websocket/webSocket.js";
-import { roomRouter } from "@routes/room.js";
+import { roomRouter } from "./routes/room.js";
 dns.setDefaultResultOrder("ipv4first");
 
 const PORT = env.PORT || 8081;

@@ -1,7 +1,7 @@
-import { apiError } from "@utils/apiError.js";
-import { generateUniqueRoomId } from "@utils/generateUniqueId.js";
-import { roomModel } from "db/schema/rooms.js";
-import { userModel } from "db/schema/user.js";
+import { apiError } from "../../utils/apiError.js";
+import { generateUniqueRoomId } from "../../utils/generateUniqueId.js";
+import { roomModel } from "../../db/schema/rooms.js";
+import { userModel } from "../../db/schema/user.js";
 import { NextFunction, Request, Response } from "express";
 import z from "zod";
 import { _discriminatedUnion } from "zod/v4/core";

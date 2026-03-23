@@ -1,6 +1,6 @@
-import { apiError } from "@utils/apiError.js";
-import { messageModal } from "db/schema/message.js";
-import { roomModel } from "db/schema/rooms.js";
+import { apiError } from "../../utils/apiError.js";
+import { messageModal } from "../../db/schema/message.js";
+import { roomModel } from "../../db/schema/rooms.js";
 import { NextFunction, Request, Response } from "express";
 import z from "zod";
 

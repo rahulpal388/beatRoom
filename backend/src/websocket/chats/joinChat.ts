@@ -1,4 +1,4 @@
-import { allConnection } from "websocket/listenConnectionFn.js";
+import { allConnection } from "../listenConnectionFn.js";
 import z from "zod";
 import WebSocket from "ws";
 

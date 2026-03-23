@@ -1,7 +1,7 @@
-import { apiError } from "@utils/apiError.js";
-import { MessageSchemaType } from "db/schema/message.js";
-import { RoomSchemaType } from "db/schema/rooms.js";
-import { userModel } from "db/schema/user.js";
+import { apiError } from "../../utils/apiError.js";
+import { MessageSchemaType } from "../../db/schema/message.js";
+import { RoomSchemaType } from "../../db/schema/rooms.js";
+import { userModel } from "../../db/schema/user.js";
 import { NextFunction, Request, Response } from "express";
 import { setFlagsFromString } from "v8";
 import z from "zod";

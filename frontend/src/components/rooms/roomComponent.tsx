@@ -1,5 +1,5 @@
 import { Button } from "@/ui/button";
-import { ChevronDown, ChevronUp, Plus } from "lucide-react";
+import { ChevronDown, ChevronsUpDown, ChevronUp, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useModal } from "@/context/modalContext";
@@ -9,7 +9,20 @@ import { getRooms } from "@/api/room/getRooms";
 export function RoomComponent() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { showModal } = useModal();
-  const [rooms, setRooms] = useState<RoomListType[]>([]);
+  const [rooms, setRooms] = useState<RoomListType[]>([
+    {
+      roomId: "uqP8_-YO",
+      roomName: "Rahul",
+    },
+    {
+      roomId: "uqP8_-YO",
+      roomName: "Rahul",
+    },
+    {
+      roomId: "uqP8_-YO",
+      roomName: "Rahul",
+    },
+  ]);
   // useEffect(() => {
   //   const fetchRoom = async () => {
   //     const rooms = await getRooms();
@@ -29,7 +42,7 @@ export function RoomComponent() {
           }}
         >
           Rooms
-          {isOpen ? <ChevronUp /> : <ChevronDown />}
+          <ChevronsUpDown size={16} />
         </Button>
         <div className="relative w-full">
           {isOpen && (

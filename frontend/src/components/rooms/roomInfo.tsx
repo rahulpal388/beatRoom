@@ -1,52 +1,24 @@
-import { useState } from "react";
-import { RoomMembers } from "./roomMembers";
-import { RoomQueueSongs } from "./roomQueueSong";
-import { RoomChats } from "./roomChats";
-
-type RoomItems = "members" | "queueSong" | "chats";
-
-type RoomItemsType = {
-  title: string;
-  active: RoomItems;
-};
-
-const roomItems: RoomItemsType[] = [
-  {
-    title: "Members",
-    active: "members",
-  },
-  {
-    title: "QueueSongs",
-    active: "queueSong",
-  },
-  {
-    title: "Chats",
-    active: "chats",
-  },
-];
+import { RoomInfoCard } from "./roomMembers";
+import { Button } from "@/ui/button";
 
 export function RoomInfo() {
-  const [activeItem, setActiveItem] = useState<RoomItems>("members");
   return (
     <>
-      <div className=" w-[42rem] h-[22rem]   ">
-        <div className="  h-6 flex gap-8 items-center border-b-[1px] border-primary/20  ">
-          {roomItems.map((items, idx) => (
-            <h1
-              key={idx}
-              className={`cursor-pointer ${activeItem === items.active ? "border-b-[1.5px] " : "hover:border-b-[1.5px] "} border-primary`}
-              onClick={() => {
-                setActiveItem(items.active);
-              }}
-            >
-              {items.title}
-            </h1>
-          ))}
+      <div className=" w-[42rem] h-[24rem] overflow-hidden rounded-lg  ">
+        <div className=" flex gap-4 items-center justify-between bg-neutral-300 px-4 py-2 ">
+          <div>
+            <h1 className=" text-2xl ">Rahul</h1>
+            <p className=" text-xs ">dUiw-ew</p>
+          </div>
+          <Button
+            btnType="Secondary"
+            className=" text-sm bg-red-500/90 h-8 w-fit "
+          >
+            Delete Group
+          </Button>
         </div>
-        <div className=" mt-4 ">
-          {activeItem === "members" && <RoomMembers />}
-          {activeItem === "queueSong" && <RoomQueueSongs />}
-          {activeItem === "chats" && <RoomChats />}
+        <div className=" mt-4 py-2 px-4 ">
+          <RoomInfoCard />
         </div>
       </div>
     </>

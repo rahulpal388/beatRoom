@@ -226,28 +226,13 @@ export default function ArtistComponent({
           <div>
             {active === "playlist" && (
               <div>
-                <div>
-                  <h1 className=" text-2xl text-text-heading font-semibold font-heading    ">
-                    Featured In
-                  </h1>
-                  <SongCardContaier>
-                    {artistInfo.featured_artist_playlist.map((song, idx) => (
-                      <SongCards
-                        key={idx}
-                        id={song.id}
-                        type={song.type}
-                        className="w-full"
-                      />
-                    ))}
-                  </SongCardContaier>
-                </div>
-                <div className=" mt-4 ">
-                  <h1 className="  text-2xl text-text-heading font-semibold font-heading     ">
-                    Just {artistInfo.name}
-                  </h1>
-                  <div className="  mt-8  ">
+                {artistInfo.featured_artist_playlist.length !== 0 && (
+                  <div>
+                    <h1 className=" text-2xl text-text-heading font-semibold font-heading    ">
+                      Featured In
+                    </h1>
                     <SongCardContaier>
-                      {artistInfo.dedicated_artist_playlist.map((song, idx) => (
+                      {artistInfo.featured_artist_playlist.map((song, idx) => (
                         <SongCards
                           key={idx}
                           id={song.id}
@@ -257,7 +242,29 @@ export default function ArtistComponent({
                       ))}
                     </SongCardContaier>
                   </div>
-                </div>
+                )}
+
+                {artistInfo.dedicated_artist_playlist.length !== 0 && (
+                  <div className=" mt-4 ">
+                    <h1 className="  text-2xl text-text-heading font-semibold font-heading     ">
+                      Just {artistInfo.name}
+                    </h1>
+                    <div className="  mt-8  ">
+                      <SongCardContaier>
+                        {artistInfo.dedicated_artist_playlist.map(
+                          (song, idx) => (
+                            <SongCards
+                              key={idx}
+                              id={song.id}
+                              type={song.type}
+                              className="w-full"
+                            />
+                          ),
+                        )}
+                      </SongCardContaier>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
           </div>

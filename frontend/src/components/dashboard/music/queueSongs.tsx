@@ -2,10 +2,10 @@ import { Button } from "@/ui/button";
 import { Reorder, useDragControls } from "motion/react";
 import { QueueCards } from "./queueCard";
 import { useModal } from "@/context/modalContext";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { useQueueStore } from "@/store/queueStore";
 import { useSongStore } from "@/store/songStore";
-import { Grip } from "lucide-react";
+import { Grip, Save } from "lucide-react";
 
 export function QueueSongs({
   setQueueOpen,
@@ -21,6 +21,10 @@ export function QueueSongs({
   const controls = useDragControls();
   const currentSong = useSongStore((s) => s.songs[currentSongId]);
   const { showModal } = useModal();
+  const draggableQueueSongs = useMemo(
+    () => queueSong.slice(currentIdx + 1),
+    [queueSong, currentIdx],
+  );
   return (
     <>
       <div className="  ">
@@ -31,7 +35,6 @@ export function QueueSongs({
           <div className=" flex items-center gap-4   ">
             <Button
               type="button"
-              name="Save"
               btnType="Primary"
               onClick={() => {
                 if (setQueueOpen) {
@@ -39,7 +42,10 @@ export function QueueSongs({
                 }
                 showModal("saveQueue");
               }}
-            />
+            >
+              <Save size={16} />
+              Save
+            </Button>
           </div>
         </div>
         {queueSong.length === 0 ? (
@@ -54,30 +60,16 @@ export function QueueSongs({
             <div>
               <Reorder.Group
                 axis="y"
-                values={queueSong}
+                values={draggableQueueSongs}
                 onReorder={updateQueueSongPosition}
                 className="  overflow-y-auto h-[20rem]   flex flex-col gap-4 py-2 "
               >
-                {queueSong.slice(currentIdx + 1).map((song, idx) => (
-                  <Reorder.Item
+                {draggableQueueSongs.map((song) => (
+                  <QueueItem
                     key={song}
-                    value={song}
-                    dragListener={false}
-                    dragControls={controls}
-                  >
-                    <div className="hover:bg-card-hover flex gap-2 items-center justify-center rounded-lg py-1 px-2 font-body    shadow-md ">
-                      {currentSong.id !== song && (
-                        <Grip
-                          className="  cursor-grab max-w-[30px]  max-h-[30px]   "
-                          size={60}
-                          onPointerDown={(e) => {
-                            controls.start(e);
-                          }}
-                        />
-                      )}
-                      <QueueCards id={song} />
-                    </div>
-                  </Reorder.Item>
+                    songId={song}
+                    currentSongId={currentSongId}
+                  />
                 ))}
               </Reorder.Group>
             </div>
@@ -85,5 +77,32 @@ export function QueueSongs({
         )}
       </div>
     </>
+  );
+}
+
+export function QueueItem({
+  songId,
+  currentSongId,
+}: {
+  songId: string;
+  currentSongId: string;
+}) {
+  const controls = useDragControls();
+
+  return (
+    <Reorder.Item value={songId} dragListener={false} dragControls={controls}>
+      <div className="hover:bg-card-hover flex gap-2 items-center justify-center rounded-lg py-1 px-2 font-body    shadow-md ">
+        {currentSongId !== songId && (
+          <Grip
+            className="  cursor-grab max-w-[30px]  max-h-[30px]   "
+            size={60}
+            onPointerDown={(e) => {
+              controls.start(e);
+            }}
+          />
+        )}
+        <QueueCards id={songId} />
+      </div>
+    </Reorder.Item>
   );
 }

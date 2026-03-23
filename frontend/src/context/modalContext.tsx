@@ -36,7 +36,7 @@ export const ModalContextProvider: React.FC<{ children: React.ReactNode }> = ({
           />
 
           {/* Modal Content */}
-          <div className="relative bg-card p-8 rounded-xl shadow-lg">
+          <div className="relative bg-card  rounded-xl shadow-lg">
             {(type === "saveCurrent" || type === "saveQueue") && (
               <CreateNewPlaylist value={type} />
             )}

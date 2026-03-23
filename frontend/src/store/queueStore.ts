@@ -51,7 +51,7 @@ export const useQueueStore = create<QueueStoreType>((set, get) => ({
         },
         updateQueueSongPosition: (ids) => {
             set(state => {
-                const prevQueueSong = state.queueSong.slice(0, get().currentIdx + 1)
+                const prevQueueSong = state.queueSong.slice(0, state.currentIdx + 1)
                 return {
                     queueSong: [...prevQueueSong, ...ids],
                 }

@@ -3,8 +3,8 @@ import z from "zod";
 import WebSocket from "ws";
 
 
-export const JoinChatType = z.object({
-    type: z.literal("JOIN_CHAT"),
+export const JoinRoomType = z.object({
+    type: z.literal("JOIN_ROOM"),
     payload: z.object({
         roomId: z.string(),
         roomName: z.string(),
@@ -12,25 +12,24 @@ export const JoinChatType = z.object({
     })
 })
 
-export type IJoinChat = z.infer<typeof JoinChatType>;
+export type IJoinRoom = z.infer<typeof JoinRoomType>;
 
-export function joinChat(data: IJoinChat, socket: WebSocket) {
+export function joinRoom(data: IJoinRoom, socket: WebSocket) {
+    console.log(data)
     if (!allConnection.has(data.payload.roomId)) {
         allConnection.set(data.payload.roomId, {
-            members: [],
-            curr_song: [],
+            members: new Map(),
+            currSong: null,
             queueSong: []
         })
     }
 
     const room = allConnection.get(data.payload.roomId);
     if (room) {
-        room.members.push({
-            userId: data.payload.userId,
-            socket
-        })
+        room.members.set(data.payload.userId, socket)
         socket.send(JSON.stringify({
             message: `Joined ${data.payload.roomName}`
         }))
     }
+    console.log(allConnection)
 }

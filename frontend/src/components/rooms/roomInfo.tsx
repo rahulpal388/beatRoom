@@ -6,9 +6,12 @@ export function RoomInfo() {
     <>
       <div className=" w-[42rem] h-[24rem] overflow-hidden rounded-lg  ">
         <div className=" flex gap-4 items-center justify-between bg-neutral-300 px-4 py-2 ">
-          <div>
-            <h1 className=" text-2xl ">Rahul</h1>
-            <p className=" text-xs ">dUiw-ew</p>
+          <div className=" flex gap-2 items-center ">
+            <div className=" size-10 rounded-full bg-neutral-600  "></div>
+            <div>
+              <h1 className=" text-2xl ">Rahul</h1>
+              <p className=" text-xs ">dUiw-ew</p>
+            </div>
           </div>
           <Button
             btnType="Secondary"

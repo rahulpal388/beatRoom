@@ -5,45 +5,45 @@ import { motion, AnimatePresence } from "motion/react";
 import { useModal } from "@/context/modalContext";
 import { RoomListType } from "@/types/roomTypes";
 import { getRooms } from "@/api/room/getRooms";
+import { useWebSocketStore } from "@/store/webSocketStore";
+import { useAuth } from "@/context/authContext";
 
 export function RoomComponent() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { showModal } = useModal();
-  const [rooms, setRooms] = useState<RoomListType[]>([
-    {
-      roomId: "uqP8_-YO",
-      roomName: "Rahul",
-    },
-    {
-      roomId: "uqP8_-YO",
-      roomName: "Rahul",
-    },
-    {
-      roomId: "uqP8_-YO",
-      roomName: "Rahul",
-    },
-  ]);
-  // useEffect(() => {
-  //   const fetchRoom = async () => {
-  //     const rooms = await getRooms();
-  //     setRooms(rooms);
-  //   };
-  //   fetchRoom();
-  // }, []);
+  const [rooms, setRooms] = useState<RoomListType[]>([]);
+  const connect = useWebSocketStore((s) => s.actions.connect);
+  const currentRoomId = useWebSocketStore((s) => s.currentRoomId);
+  const { currentUser } = useAuth();
+  useEffect(() => {
+    const fetchRoom = async () => {
+      const rooms = await getRooms();
+      setRooms(rooms);
+    };
+    fetchRoom();
+  }, []);
 
   return (
     <>
-      <div className=" w-[12rem] max-lg:hidden">
-        <Button
-          btnType="Secondary"
-          className="w-full justify-between  "
-          onClick={() => {
-            setIsOpen((prev) => !prev);
-          }}
-        >
-          Rooms
-          <ChevronsUpDown size={16} />
-        </Button>
+      <div className=" w-[16rem] max-lg:hidden">
+        <div className=" relative ">
+          {currentRoomId && (
+            <div className=" absolute -top-1 bg-green-700 rounded-full size-4 z-40 ">
+              <div className="  bg-green-700 rounded-full size-4 animate-ping "></div>
+            </div>
+          )}
+          <Button
+            btnType="Secondary"
+            className="w-full justify-between  "
+            onClick={() => {
+              setIsOpen((prev) => !prev);
+            }}
+          >
+            {!currentRoomId ? "Rooms" : currentRoomId}
+
+            <ChevronsUpDown size={16} />
+          </Button>
+        </div>
         <div className="relative w-full">
           {isOpen && (
             <AnimatePresence>
@@ -58,16 +58,29 @@ export function RoomComponent() {
                     key={idx}
                     className=" flex gap-2 justify-between hover:bg-card-hover p-2 w-full overflow-hidden "
                   >
-                    <div>
-                      <h1 className=" text-lg max-w-18  line-clamp-1 truncate ">
-                        {room.roomName}
-                      </h1>
-                      <p className="  text-[10px] line-clamp-1 ">
-                        {room.roomId}
-                      </p>
+                    <div className=" flex gap-2 ">
+                      <div className=" size-10 rounded-full bg-neutral-300  "></div>
+                      <div>
+                        <h1 className=" text-lg max-w-18  line-clamp-1 truncate ">
+                          {room.roomName}
+                        </h1>
+                        <p className="  text-[10px] line-clamp-1 ">
+                          {room.roomId}
+                        </p>
+                      </div>
                     </div>
                     <div className=" flex gap-2 items-center justify-center ">
-                      <Button btnType="Primary" className=" w-10 h-6 text-xs  ">
+                      <Button
+                        btnType="Primary"
+                        className=" w-10 h-6 text-xs  "
+                        onClick={() => {
+                          connect({
+                            roomId: room.roomId,
+                            roomName: room.roomName,
+                            userId: currentUser?.userId || "",
+                          });
+                        }}
+                      >
                         Join
                       </Button>
                       <Button

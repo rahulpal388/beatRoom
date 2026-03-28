@@ -3,29 +3,20 @@ import { ChevronDown, ChevronsUpDown, ChevronUp, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useModal } from "@/context/modalContext";
-import { RoomListType } from "@/types/roomTypes";
-import { getRooms } from "@/api/room/getRooms";
 import { useWebSocketStore } from "@/store/webSocketStore";
 import { useAuth } from "@/context/authContext";
+import { useRoomStore } from "@/store/roomStore";
 
 export function RoomComponent() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { showModal } = useModal();
-  const [rooms, setRooms] = useState<RoomListType[]>([]);
+  const rooms = useRoomStore((s) => s.room);
   const connect = useWebSocketStore((s) => s.actions.connect);
   const currentRoomId = useWebSocketStore((s) => s.currentRoomId);
   const { currentUser } = useAuth();
-  useEffect(() => {
-    const fetchRoom = async () => {
-      const rooms = await getRooms();
-      setRooms(rooms);
-    };
-    fetchRoom();
-  }, []);
-
   return (
     <>
-      <div className=" w-[16rem] max-lg:hidden">
+      <div className=" w-[12.8rem] max-lg:hidden">
         <div className=" relative ">
           {currentRoomId && (
             <div className=" absolute -top-1 bg-green-700 rounded-full size-4 z-40 ">
@@ -59,7 +50,7 @@ export function RoomComponent() {
                     className=" flex gap-2 justify-between hover:bg-card-hover p-2 w-full overflow-hidden "
                   >
                     <div className=" flex gap-2 ">
-                      <div className=" size-10 rounded-full bg-neutral-300  "></div>
+                      {/* <div className=" size-10 rounded-full bg-neutral-300  "></div> */}
                       <div>
                         <h1 className=" text-lg max-w-18  line-clamp-1 truncate ">
                           {room.roomName}

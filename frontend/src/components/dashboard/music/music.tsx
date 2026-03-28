@@ -9,24 +9,29 @@ import { ArtistCard, ArtistCardContaier } from "./artistCard";
 import { useSongStore } from "@/store/songStore";
 import { usePlaylistStore } from "@/store/playlistStore";
 import { putNewReleaseSongStore } from "@/lib/putNewReleaseSongStore";
+import { IRoom, useRoomStore } from "@/store/roomStore";
 
 export function Music({
   newReleased,
   trendingSong,
   topPlaylist,
   topArtist,
+  rooms,
 }: {
   newReleased: INewReleaseSong[];
   trendingSong: ISong[];
   topPlaylist: IPlaylist[];
   topArtist: IArtists[];
+  rooms: IRoom[];
 }) {
   const addTrendingSong = useSongStore((s) => s.actions.addTrendingSong);
   const addTopPlaylist = usePlaylistStore((s) => s.actions.addTopPlaylist);
+  const addRooms = useRoomStore((s) => s.actions.addRooms);
   useEffect(() => {
     putNewReleaseSongStore(newReleased);
     addTrendingSong(trendingSong);
     addTopPlaylist(topPlaylist);
+    addRooms(rooms);
   }, []);
 
   return (

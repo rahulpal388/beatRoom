@@ -1,4 +1,7 @@
+import { createRoom } from "@/api/room/createRoom";
+import { useAuth } from "@/context/authContext";
 import { useModal } from "@/context/modalContext";
+import { useToastNotification } from "@/context/toastNotificationContext";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { CloudUpload } from "lucide-react";
@@ -6,20 +9,37 @@ import { SubmitHandler, useForm } from "react-hook-form";
 
 type FormDataType = {
   name: string;
-  profile: string;
 };
 
 export function CreateNewRoom() {
   const { removeModal } = useModal();
+  const { currentUser } = useAuth();
+  const { toastMessage } = useToastNotification();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<FormDataType>();
 
-  const onSubmit: SubmitHandler<FormDataType> = (data) => {
-    console.log(data.name);
-    console.log(data.profile);
+  const onSubmit: SubmitHandler<FormDataType> = async (data) => {
+    if (currentUser) {
+      const response = await createRoom({
+        roomName: data.name,
+        userId: currentUser.userId,
+      });
+
+      if (response) {
+        toastMessage({
+          message: "Room created",
+          type: "success",
+        });
+      } else {
+        toastMessage({
+          message: "Error Creating room",
+          type: "error",
+        });
+      }
+    }
     removeModal();
   };
   return (
@@ -48,33 +68,9 @@ export function CreateNewRoom() {
             />
             <p className="text-red-500 text-xs">{errors.name?.message}</p>
           </div>
-          <div className=" h-20 w-full  ">
-            <h2 className="text-xl font-heading text-text-heading">
-              Room Image
-            </h2>
-            <label
-              htmlFor="profile"
-              className="  w-full h-full cursor-pointer "
-            >
-              <div className="mt-2 flex flex-col items-center justify-center w-full h-full border-[1px] border-primary rounded-lg">
-                <Input
-                  type="file"
-                  accept="image/*"
-                  id="profile"
-                  className="hidden"
-                  {...register("profile")}
-                />
-
-                <CloudUpload className=" stroke-[1px] size-8 " />
-                <p>Upload profile image of room</p>
-              </div>
-            </label>
-          </div>
-          <div className=" mt-6 ">
-            <Button btnType="Primary" type="submit" className=" mt-4 w-full ">
-              Create
-            </Button>
-          </div>
+          <Button btnType="Primary" type="submit" className=" mt-4 w-full ">
+            {isSubmitting ? "Creating........." : "Create"}
+          </Button>
         </form>
       </div>
     </>

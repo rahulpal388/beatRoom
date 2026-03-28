@@ -8,7 +8,6 @@ const roomSchema = new mongoose.Schema({
     admin: { type: mongoose.Schema.ObjectId, ref: "Users", required: true },
     members: [{ type: mongoose.Schema.ObjectId, ref: "Users" }],
     queueSongs: [{ type: mongoose.Schema.ObjectId, ref: "Songs" }],
-    message: [{ type: mongoose.Schema.ObjectId, ref: "Messages" }],
 }, { timestamps: true })
 
 export type RoomSchemaType = InferSchemaType<typeof roomSchema>

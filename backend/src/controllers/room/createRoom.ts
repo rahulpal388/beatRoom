@@ -38,7 +38,6 @@ export async function createRoom(req: Request, res: Response, next: NextFunction
             admin: user._id,
             members: [user._id],
             queueSongs: [],
-            message: []
         })
 
         await userModel.findOneAndUpdate({ _id: user._id }, {

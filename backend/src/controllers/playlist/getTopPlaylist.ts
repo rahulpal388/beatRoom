@@ -27,11 +27,14 @@ const getTopPlaylist = async (req: Request, res: Response, next: NextFunction) =
       getLikedPlaylist(userId),
     ]);
 
+
+
     const playlist = response.data.data as ApiPlaylist[];
     const result = retrivePlaylist(playlist, likedPlaylist);
 
     res.status(200).json(result);
-  } catch {
+  } catch (error) {
+    console.log(error)
     return next(new apiError(500, "Error getting top playlist", {
       message: "Server error"
     }))

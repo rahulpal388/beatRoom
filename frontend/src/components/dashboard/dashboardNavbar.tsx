@@ -10,8 +10,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { logoutUser } from "@/api/auth/logoutUser";
 import { useToastNotification } from "@/context/toastNotificationContext";
 import Image from "next/image";
-import { RoomComponent } from "../rooms/roomComponent";
-import { Message } from "../message/message";
 
 export function DashboardNavbar() {
   const { isAuthenticated, currentUser, removeAuthenticatedUser } = useAuth();
@@ -33,9 +31,6 @@ export function DashboardNavbar() {
         </div>
         <div className=" relative flex items-center gap-4 justify-end max-lg:hidden  ">
           <SearchBar />
-        </div>
-        <div>
-          <RoomComponent />
         </div>
         <div className=" flex md:gap-12 gap-8 items-center  ">
           {isAuthenticated ? (

@@ -4,14 +4,16 @@ import { CookieOptions, Response } from "express"
 const refCookieOptions: CookieOptions = {
     secure: env.NODE_ENV !== "development",
     httpOnly: true,
-    sameSite: env.NODE_ENV === "development" ? "lax" : "strict",
+    sameSite: "lax",
+    domain: ".beatroom.space",
     maxAge: 1000 * 60 * 60 * 24 * 15
 }
 
 const acCookieOptions: CookieOptions = {
     secure: env.NODE_ENV !== "development",
     httpOnly: true,
-    sameSite: env.NODE_ENV === "development" ? "lax" : "strict",
+    sameSite: "lax",
+    domain: ".beatroom.space",
     maxAge: 1000 * 60 * 15
 }
 

@@ -39,11 +39,11 @@ const sideBarBrowseItems: ItemsType[] = [
 ];
 
 const sideBarLibraryItems: ItemsType[] = [
-  {
-    heading: "Histroy",
-    href: "history",
-    icon: <History size={20} strokeWidth={1} />,
-  },
+  // {
+  //   heading: "Histroy",
+  //   href: "history",
+  //   icon: <History size={20} strokeWidth={1} />,
+  // },
   {
     heading: "Liked Song",
     href: "liked-song",

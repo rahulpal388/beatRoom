@@ -17,7 +17,6 @@ import { removeEntity } from "./controllers/removeEntity.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { apiError } from "./utils/apiError.js";
 import helmet from "helmet";
-import { StartWebSocketServer } from "./websocket/webSocket.js";
 import { roomRouter } from "./routes/room.js";
 dns.setDefaultResultOrder("ipv4first");
 
@@ -48,7 +47,6 @@ app.use(
 );
 
 await DBConnect();
-export const wss = StartWebSocketServer();
 app.use(express.json());
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/room", verifyTokenMiddleware, roomRouter);

@@ -103,6 +103,7 @@ export default function MyLibrary() {
                         type: "success",
                       });
                       removeAuthenticatedUser();
+                      router.push("/");
                     } else {
                       toastMessage({
                         message: "Error Logout",

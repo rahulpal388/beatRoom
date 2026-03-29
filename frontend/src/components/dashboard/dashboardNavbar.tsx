@@ -76,6 +76,7 @@ export function DashboardNavbar() {
                             message: "Logout successfully",
                             type: "success",
                           });
+                          router.push("/");
                         } else {
                           toastMessage({
                             message: "Error logout",

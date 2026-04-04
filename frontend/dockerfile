@@ -31,7 +31,13 @@ COPY --from=builder /frontend/.next/ ./.next
 COPY --from=builder /frontend/node_modules ./node_modules
 COPY --from=builder /frontend/public ./public
 
+RUN addgroup -S app && adduser -S app -G app
 
+
+RUN chown -R app:app /backend
+
+
+USER app
 
 
 CMD ["npm","run","start"]

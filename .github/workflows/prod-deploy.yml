@@ -1,4 +1,4 @@
-name: Deploy to production
+name: Deploy application to production
 
 on:
   push:

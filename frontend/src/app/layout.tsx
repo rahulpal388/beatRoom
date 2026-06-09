@@ -21,9 +21,6 @@ const poppins = Poppins({
 export const metadata: Metadata = {
   title: "Beatroom | Listen music with your friends",
   description: "Share playlists, like tracks, and connect through music.",
-  icons: {
-    icon: "/BLetterLogo.png",
-  },
 };
 
 export default function RootLayout({

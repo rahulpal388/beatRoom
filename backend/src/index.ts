@@ -55,7 +55,9 @@ app.use("/api/v1/artist", verifyTokenMiddleware, useArtist);
 app.use("/api/v1/album", verifyTokenMiddleware, useAlbum);
 app.use("/api/v1/playlist", verifyTokenMiddleware, usePlaylist);
 app.post("/api/v1/entity/remove", verifyTokenMiddleware, removeEntity);
-
+app.get("/health", (_, res) => {
+  res.status(200).json({ status: "OK" });
+});
 
 app.use((req, _, next) => {
   next(new apiError(400, "Route not found", {

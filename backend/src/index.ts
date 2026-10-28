@@ -20,8 +20,9 @@ import helmet from "helmet";
 import { roomRouter } from "./routes/room.js";
 dns.setDefaultResultOrder("ipv4first");
 
+const PORT = env.PORT || 8081;
 
-const app = express();
+export const app = express();
 
 app.use(helmet());
 
@@ -66,5 +67,8 @@ app.use((req, _, next) => {
 
 app.use(errorHandler)
 
-export {app}
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
+
 

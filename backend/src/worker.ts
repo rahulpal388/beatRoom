@@ -1,15 +1,10 @@
-import { createServer } from "node:http";
+
 import { httpServerHandler } from "cloudflare:node";
-import { app } from "./index.js";
-import {env} from "./zodTypes/envType.ts"
+import { app } from "./app.js";
 
-const PORT = env.PORT || 8081;
+const PORT = 8080;
 
-
-const server = createServer(app);
-server.listen(PORT);
+app.listen(PORT);
 
 export default httpServerHandler({ port: PORT });
-
-
 

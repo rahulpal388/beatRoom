@@ -1,74 +1,17 @@
+
 import "dotenv/config";
-
-import express from "express";
-import authRouter from "./routes/auth.js";
-import cors from "cors";
-import useSong from "./routes/songs.js";
-import cookieParser from "cookie-parser";
-
-import dns from "dns";
-import { useArtist } from "./routes/artist.js";
-import { usePlaylist } from "./routes/playlist.js";
-import useAlbum from "./routes/album.js";
+import dns from "node:dns";
+import { app } from "./app.js";
 import { DBConnect } from "./db/index.js";
-import verifyTokenMiddleware from "./middleware/verifyToken.js";
 import { env } from "./zodTypes/envType.js";
-import { removeEntity } from "./controllers/removeEntity.js";
-import { errorHandler } from "./middleware/errorHandler.js";
-import { apiError } from "./utils/apiError.js";
-import helmet from "helmet";
-import { roomRouter } from "./routes/room.js";
+
 dns.setDefaultResultOrder("ipv4first");
 
-const PORT = env.PORT || 8081;
-
-export const app = express();
-
-app.use(helmet());
-
-app.use(cookieParser());
-
-
-// cors configuration
-const allowedOrigins = env.CROSS_ORIGIN_URL?.split(",").map(x => x.trim()) || []
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins?.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Origin not allowed"))
-      }
-    },
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  })
-);
-
 await DBConnect();
-app.use(express.json());
-app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/room", verifyTokenMiddleware, roomRouter);
-app.use("/api/v1/song", verifyTokenMiddleware, useSong);
-app.use("/api/v1/artist", verifyTokenMiddleware, useArtist);
-app.use("/api/v1/album", verifyTokenMiddleware, useAlbum);
-app.use("/api/v1/playlist", verifyTokenMiddleware, usePlaylist);
-app.post("/api/v1/entity/remove", verifyTokenMiddleware, removeEntity);
-app.get("/health", (_, res) => {
-  res.status(200).json({ status: "OK" });
-});
 
-app.use((req, _, next) => {
-  next(new apiError(400, "Route not found", {
-    message: `Cannot find ${req.originalUrl} url`
-  }))
-})
+const PORT = env.PORT;
 
-app.use(errorHandler)
-
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server is running on port ${PORT}`);
 });
-
 

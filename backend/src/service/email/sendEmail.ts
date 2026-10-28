@@ -1,29 +1,38 @@
 
-
 import { Resend } from "resend";
 
-const resendMailProvider = new Resend(process.env.RESEND_API_KEY);
+export const sendEmail = async (
+  subject: string,
+  email: string,
+  text: string,
+  html: string
+): Promise<boolean> => {
+  try {
+    const apiKey = process.env.RESEND_API_KEY;
 
-
-export const sendEmail = async (subject: string, email: string, text: string, html: string): Promise<boolean> => {
-    try {
-
-        const msg = {
-            to: email,
-            from: "no-reply@beatroom.space",
-            subject: subject,
-            text,
-            html
-        }
-
-        await resendMailProvider.emails.send(msg);
-
-
-        return true;
-    } catch (error) {
-        console.log(JSON.stringify(error));
-        return false;
-
+    if (!apiKey) {
+      throw new Error("RESEND_API_KEY is missing");
     }
 
-}
+    const resendMailProvider = new Resend(apiKey);
+
+    const { error } = await resendMailProvider.emails.send({
+      to: email,
+      from: "no-reply@beatroom.space",
+      subject,
+      text,
+      html,
+    });
+
+    if (error) {
+      console.error("Resend error:", error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error("Email sending failed:", error);
+    return false;
+  }
+};
+

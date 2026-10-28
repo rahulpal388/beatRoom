@@ -20,7 +20,6 @@ import helmet from "helmet";
 import { roomRouter } from "./routes/room.js";
 dns.setDefaultResultOrder("ipv4first");
 
-const PORT = env.PORT || 8081;
 
 const app = express();
 

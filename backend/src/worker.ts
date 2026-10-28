@@ -1,4 +1,6 @@
 import { app } from "./index.js";
 import { httpServerHandler } from "cloudflare:node";
+import { env } from "@zodTypes/envType.js";
 
-export default httpServerHandler({ port: 3000 });
+const PORT = env.PORT || 8081;
+export default httpServerHandler({ port: PORT });
